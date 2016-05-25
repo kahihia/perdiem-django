@@ -82,6 +82,8 @@ p.welcome-text {
 .icons {
     text-align: center;
     margin: 20px;
+    display: inline-block;
+    float: center;
 }
 
 #sign-up {
@@ -90,4 +92,20 @@ p.welcome-text {
 
 .bottom-how {
     padding-top: 10%;
+}
+
+.how-extra {
+    max-width: 200px;
+    min-height: 100px;
+    vertical-align: center;
+    display: table-cell;
+}
+
+#artist-image {
+    width: auto; 
+    max-height: 300px;
+}
+
+.icon-padding {
+    padding: 20px;
 }
