@@ -14,6 +14,7 @@ from django.db import models
 from django.http import (
     HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 )
+from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -163,7 +164,7 @@ class ArtistDetailView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         self.slug = kwargs['slug']
-        self.artist = Artist.objects.get(slug=self.slug)
+        self.artist = get_object_or_404(Artist, slug=self.slug)
         return super(ArtistDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
