@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <ul class="menu vertical nested is-active">
     {% for update in updates %}
         <li>
@@ -8,7 +10,9 @@
             {% endfor %}
             {% for image in update.updateimage_set.all %}
                 {% if not forloop.first %}<br />{% endif %}
-                <img src="{{ image.img.url }}" alt="{{ update.title }}" />
+                {% thumbnail image.img "500x300" crop="center" as thumb %}
+                    <img src="{{ thumb.url }}" alt="{{ update.title }}" />
+                {% endthumbnail %}
             {% endfor %}
             <p><small>[{{ update.created_datetime }}]</small></p>
             <p>{{ update.text }}</p>
