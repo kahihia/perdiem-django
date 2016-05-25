@@ -11,15 +11,19 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.http import HttpResponseBadRequest, JsonResponse
-from django.views.generic import View, DetailView
+from django.http import (
+    HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+)
+from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from geopy.geocoders import Nominatim
 
-from artist.forms import CoordinatesFromAddressForm, ArtistApplyForm
-from artist.models import Genre, Artist
+from artist.forms import (
+    CoordinatesFromAddressForm, ArtistApplyForm, ArtistUpdateForm
+)
+from artist.models import Genre, Artist, Update, UpdateImage, UpdateMediaURL
 from emails.messages import ArtistApplyEmail
 
 
@@ -146,18 +150,30 @@ class ArtistListView(ListView):
         return ordered_artists
 
 
-class ArtistDetailView(DetailView):
+class ArtistDetailView(FormView):
 
-    model = Artist
-    context_object_name = 'artist'
+    template_name = 'artist/artist_detail.html'
+    form_class = ArtistUpdateForm
+
+    def get_success_url(self):
+        return reverse('artist', kwargs={'slug': self.slug,})
+
+    def has_permission_to_submit_update(self, user):
+        return user.is_superuser
+
+    def dispatch(self, request, *args, **kwargs):
+        self.slug = kwargs['slug']
+        self.artist = Artist.objects.get(slug=self.slug)
+        return super(ArtistDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
         context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
+        context['has_permission_to_submit_update'] = self.has_permission_to_submit_update(self.request.user)
 
-        artist = context['artist']
-        campaign = artist.active_campaign()
+        context['artist'] = self.artist
+        campaign = self.artist.active_campaign()
 
         if campaign:
             context['campaign'] = campaign
@@ -171,9 +187,32 @@ class ArtistDetailView(DetailView):
                     context['fans_percentage'] -= user_investor['percentage']
                     context['user_investor'] = user_investor
 
-        context['updates'] = artist.update_set.all().order_by('-created_datetime')
+        context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
 
         return context
+
+    def form_valid(self, form):
+        d = form.cleaned_data
+
+        # Verify that the user has permission
+        if not self.has_permission_to_submit_update(self.request.user):
+            return HttpResponseForbidden()
+
+        # Create the base update
+        update = Update.objects.create(artist=self.artist, title=d['title'], text=d['text'])
+
+        # Attach images/videos to the update
+        image = d['image']
+        if image:
+            UpdateImage.objects.create(update=update, img=image)
+        image_url = d['image_url']
+        if image_url:
+            UpdateMediaURL.objects.create(update=update, media_type=UpdateMediaURL.MEDIA_IMAGE, url=image_url)
+        youtube_url = d['youtube_url']
+        if youtube_url:
+            UpdateMediaURL.objects.create(update=update, media_type=UpdateMediaURL.MEDIA_YOUTUBE, url=youtube_url)
+
+        return super(ArtistDetailView, self).form_valid(form)
 
 
 class ArtistApplyFormView(FormView):

@@ -1,4 +1,15 @@
-<div class="tabs-panel" id="updates">
-    <h2>UPDATES</h2>
-    {% include "artist/includes/artist_updates.html" with updates=updates %}
+<div class="tabs-panel {% if form.errors %}is-active{% endif %}" id="updates">
+    {% if updates %}
+        <h2>UPDATES</h2>
+        {% include "artist/includes/artist_updates.html" with updates=updates %}
+    {% endif %}
+
+    {% if has_permission_to_submit_update %}
+        <h2>POST AN UPDATE</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    {% endif %}
 </div>

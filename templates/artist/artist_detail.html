@@ -20,7 +20,7 @@
 {% block content %}
     <h1 class="header-font">{{ artist.name }}</h1>
     <ul class="tabs" data-tabs id="artist-detail-tabs">
-        <li class="tabs-title is-active"><a href="#overview" aria-selected="true">Overview</a></li>
+        <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
         {% if campaign %}
             <li class="tabs-title"><a href="#roi">ROI</a></li>
         {% endif %}
@@ -30,8 +30,8 @@
         {% if artist.past_campaigns %}
             <li class="tabs-title"><a href="#past">Past Campaigns</a></li>
         {% endif %}
-        {% if updates %}
-            <li class="tabs-title"><a href="#updates">Updates</a></li>
+        {% if updates or has_permission_to_submit_update %}
+            <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates">Updates</a></li>
         {% endif %}
     </ul>
     <div class="tabs-content" data-tabs-content="artist-detail-tabs">
@@ -45,7 +45,7 @@
         {% if artist.past_campaigns %}
             {% include "artist/includes/artist_detail_past.html" %}
         {% endif %}
-        {% if updates %}
+        {% if updates or has_permission_to_submit_update %}
             {% include "artist/includes/artist_detail_updates.html" %}
         {% endif %}
     </div>
