@@ -76,6 +76,7 @@ p.welcome-text {
     margin: 10px;
     padding: 15px;
     width: 120px;
+    background-color: #4A96AD;
 }
 
 .icons {
@@ -85,4 +86,8 @@ p.welcome-text {
 
 #sign-up {
     margin: 30px;
+}
+
+.bottom-how {
+    padding-top: 10%;
 }
