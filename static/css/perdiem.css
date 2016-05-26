@@ -280,6 +280,15 @@ form > input[type=submit] {
     margin: 0 auto;
 }
 
+ul.tabs {
+    text-align: center;
+}
+
+ul.tabs li {
+    float: none;
+    display: inline-block;
+}
+
 .submit-button {
     width: 100px;
 }
