@@ -36,7 +36,7 @@ class UnsubscribeView(TemplateView):
 
 @csrf_exempt
 def unsubscribe_from_mailchimp(request):
-    if request.POST['data[list_id]'] == settings.MAILCHIMP_LIST_ID:
+    if request.method == 'POST' and request.POST['data[list_id]'] == settings.MAILCHIMP_LIST_ID:
         email = request.POST['data[email]']
         try:
             user = User.objects.get(email=email)
