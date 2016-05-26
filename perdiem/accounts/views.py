@@ -9,6 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
@@ -182,6 +183,8 @@ class PublicProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PublicProfileView, self).get_context_data(**kwargs)
         profile_user = get_object_or_404(User, username=kwargs['username'])
+        if profile_user.userprofile.invest_anonymously:
+            raise Http404("No User matches the given query.")
         context.update(profile_user.userprofile.profile_context())
         context.update({
             'profile_user': profile_user,
