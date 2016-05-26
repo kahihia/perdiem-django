@@ -10,7 +10,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
 
-from accounts.views import ContactFormView
+from accounts.views import ContactFormView, ProfileView, PublicProfileView
 from artist.views import CoordinatesFromAddressView, ArtistListView, \
     ArtistDetailView, ArtistApplyFormView
 from campaign.views import PaymentChargeView
@@ -21,6 +21,7 @@ urlpatterns = [
     url('', include(('social.apps.django_app.urls', 'social',))),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
+
     url(r'^unsubscribe/from-mailchimp/$', unsubscribe_from_mailchimp, name='unsubscribe_from_mailchimp'),
     url(r'^unsubscribe/(?P<user_id>\d+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
     url(r'^payments/charge/(?P<campaign_id>\d+)/?$', PaymentChargeView.as_view(), name='pinax_stripe_charge'),
@@ -31,6 +32,9 @@ urlpatterns = [
     url(r'^artist/apply/?$', ArtistApplyFormView.as_view(), name='artist_application'),
     url(r'^artist/apply/thanks/?$', TemplateView.as_view(template_name='artist/artist_application_thanks.html'), name='artist_application_thanks'),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
+
+    url(r'^profile/?$', ProfileView.as_view(), name='profile'),
+    url(r'^profile/(?P<username>[\w_-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
 
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
     url(r'^trust/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),

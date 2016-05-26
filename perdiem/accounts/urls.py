@@ -10,7 +10,7 @@ from django.contrib.auth.views import (
     password_reset_complete
 )
 
-from accounts.views import RegisterAccountView, ProfileView, PublicProfileView
+from accounts.views import RegisterAccountView
 
 
 urlpatterns = [
@@ -20,6 +20,4 @@ urlpatterns = [
     url(r'^password/reset/complete/?$', password_reset_complete, name='password_reset_complete'),
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z_-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/?$', password_reset_confirm, name='password_reset_confirm'),
     url(r'^password/reset/?$', password_reset, name='password_reset'),
-    url(r'^profile/?$', ProfileView.as_view(), name='profile'),
-    url(r'^profile/(?P<username>[\w_-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
 ]

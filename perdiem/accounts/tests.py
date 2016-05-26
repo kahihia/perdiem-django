@@ -21,8 +21,8 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/accounts/password/reset/',
             '/accounts/password/reset/0/0-0/',
             '/accounts/password/reset/complete/',
-            '/accounts/profile/',
-            '/accounts/profile/{username}/'.format(username=self.user.username),
+            '/profile/',
+            '/profile/{username}/'.format(username=self.user.username),
         ]
 
     def testHomePageUnauthenticated(self):
@@ -45,7 +45,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         self.client.logout()
         self.assertResponseRedirects(
             '/accounts/register/',
-            '/accounts/profile',
+            '/profile',
             method='POST',
             data={
                 'username': 'msmith',
@@ -57,7 +57,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
     def testEditName(self):
         self.assertResponseRenders(
-            '/accounts/profile/',
+            '/profile/',
             method='POST',
             data={
                 'action': 'edit_name',
@@ -70,7 +70,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
     def testEditAvatar(self):
         self.assertResponseRenders(
-            '/accounts/profile/',
+            '/profile/',
             method='POST',
             data={
                 'action': 'edit_avatar',
@@ -80,7 +80,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
     def testChangePassword(self):
         self.assertResponseRenders(
-            '/accounts/profile/',
+            '/profile/',
             method='POST',
             data={
                 'action': 'change_password',
@@ -92,7 +92,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
     def testUpdateEmailPreferences(self):
         self.assertResponseRenders(
-            '/accounts/profile/',
+            '/profile/',
             method='POST',
             data={
                 'action': 'email_preferences',
