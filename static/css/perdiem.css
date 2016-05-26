@@ -282,6 +282,6 @@ ul.tabs {
 }
 
 ul.tabs li {
-    float: none !important;
+    float: none;
     display: inline-block;
 }
