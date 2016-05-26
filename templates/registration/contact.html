@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Contact Form</h1>
+    <h3 class="extra-padding">Contact Form</h3>
     <div class="break">
         <hr>
     </div>
-    <div class="extra-padding">
+    <div class="form-input">
         <form action="" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Submit" />
+            <input class="button submit-button" type="submit" value="Submit" />
         </form>
     </div>
 {% endblock %}

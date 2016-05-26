@@ -134,7 +134,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
                 {{ request.login_form.as_p }}
-                <input type="submit" value="Login" />
+                <input type="submit" class="button submit-button" value="Login" />
             </form>
             <p><a class="white-color" href="{% url 'password_reset' %}">Forgot password?</a></p>
             <button class="close-button" data-close aria-label="Close modal" type="button">
