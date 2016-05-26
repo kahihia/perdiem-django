@@ -9,6 +9,7 @@
             background-size: auto 100%;
             background-repeat: no-repeat;
             background-position: center;
+            background-color: black;
         }
     </style>
 {% endblock %}
@@ -19,199 +20,81 @@
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
         {% if user.is_authenticated %}
-            <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
-            <div class="home-boxes">
-                <a class="button text-center box-margin" href={% url 'home' %}#how>Artist Details</a>
-                <a class="button text-center box-margin" href={% url 'home' %}#fan>Fan Details</a>
-            </div>
-        {% else %}
             <div class="home-boxes">
                 <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
                 <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
             </div>
+        {% else %}
+            <div class="home-boxes">
+                <a class="button text-center box-margin" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+                <a class="button text-center box-margin" data-open="login-modal">LOGIN</a>
+            </div>
         {% endif %}
+        <div class="bottom-how">
+            <h5><a class="white-color" href={% url 'home' %}#how>HOW IT WORKS<br/>
+            <i class="fa fa-chevron-down fa-1x" aria-hidden="true"></i></a></h5>
+        </div>
     </div>
     <!-- How it works for fans -->
-    <div id="fan-page" class="page">
-        <a id="fan" class="smooth"></a>
-        <h2 class="how-title">HOW IT WORKS FOR FANS</h2>
-        <div class="break">
-            <hr>
-        </div>
-        <h3>DISCOVER AN ARTIST THAT YOU WANT TO SUPPORT</h3>
-        <div class="icons">
-            <i class="fa fa-search fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>100% of your investment goes directly to the artist</p>
-        <p>You can earn money by supporting artists you believe in</p>
-        <h3>BUY SHARES IN AN ARTIST'S PROJECT</h3>
-        <div class="icons">
-            <i class="fa fa-money fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>You will get a % of the revenue from the project you invest in</p>
-        <h3>EARN MONEY BASED ON HOW SUCCESSFUL THE PROJECT IS</h3>
-        <div class="icons">
-            <i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>Get exclusive updates from the artists</p>
-        <p>Hear their music before anyone else</p>
-        <div id="sign-up">
-            <h5>Want to start investing in music?</h5>
-            <div class="apply-button">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'artists' %}" class="button">Discover Artists</a>
-                {% else %}
-                    <a href="{% url 'register' %}?next={% url 'artists' %}" class="button">Sign Up</a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <!-- How it works for artists -->
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
-        <h2 class="how-title">HOW IT WORKS FOR ARTISTS</h2>
+        
+        <h3 class="how-title">HOW IT WORKS FOR FANS</h3>
+        <div class="center">
+            <img id="artist-image" src="{% static "img/fans.png" %}">
+        </div>
+        <div class="center">
+            <div class="icons">
+                <i class="fa fa-search fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>DISCOVER</h3>
+                <p class="how-extra">DISCOVER AN ARTIST THAT YOU WANT TO SUPPORT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-money fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>BUY</h3>
+                <p class="how-extra">BUY SHARES IN AN ARTIST'S PROJECT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>EARN</h3>
+                <p class="how-extra">EARN MONEY BASED ON HOW SUCCESSFUL THE PROJECT IS</p>
+            </div>
+        </div>
+    <!-- How it works for artists -->
         <div class="break">
             <hr>
         </div>
-        <h3>RAISE MONEY TO CREATE YOUR MUSIC BY HAVING FANS INVEST IN YOUR PROJECT</h3>
-        <br />
-        <div id="canvas-box">
-            <canvas id="bar-canvas" height="450" width="600"></canvas>
+        <h3 class="how-title">HOW IT WORKS FOR ARTISTS</h3>
+        <div class="center">
+            <img id="artist-image" src="{% static "img/artist.png" %}">
+        </div>
+        <div class="center">
+            <div class="icons">
+                <i class="fa fa-music fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>RAISE</h3>
+                <p class="how-extra">RAISE MONEY TO CREATE YOUR MUSIC BY HAVING FANS INVEST IN YOUR PROJECT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-percent fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>GIVE</h3>
+                <p class="how-extra">GIVE A PERCENTAGE OF SALES BACK TO PEOPLE WHO INVEST IN YOUR MUSIC PROJECT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>EARN</h3>
+                <p class="how-extra">BUILD A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</p>
+            </div>
         </div>
 
-        <h4>Keep 100% ownership of your music</h4>
-        <p>We never take a cut of your investments or revenue. You always have 100% control over your music and can leave the platform at anytime. We created a system that is built on the integrity of our artists and community.</p>
-        <br />
-
-        <h3>GIVE A PERCENTAGE OF SALES BACK TO PEOPLE WHO INVEST IN YOUR MUSIC PROJECT</h3>
-        <br />
-
-        <div id="canvas-holder">
-            <canvas id="chart-area" width="500" height="500"></canvas>
+        <div class="break">
+            <hr>
         </div>
-
-        <h4>Take full control of your music revenue</h4>
-        <p>Gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. We take care of all the complicated stuff for you (distribution and liscensing, tracking, and managing funds). This allows you focus on doing what you do best... making music.</p>
-        <br />
-
-        <h3>BUILD A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</h3>
-        <div id="canvas-box">
-            <canvas id="line-canvas"></canvas>
-        </div>
-        <h4>GIVE PEOPLE AN INCENTIVE TO FUND AND PROMOTE YOUR MUSIC</h4>
-        <p>Since the success of the fans investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn. It's a win-win for everyone.</p>
-        <br />
-        <h5>Interested in being on PerDiem?</h5>
-        <div class="apply-button">
-            <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
-        </div>
+        <br/>
+        <h4>WANT TO LEARN EVEN MORE?</h4>
+        <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
     </div>
-    <div class="break">
-        <hr>
-    </div>
-    <h4>WANT TO LEARN EVEN MORE?</h4>
-    <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
 {% endblock %}
 
 {% block extrajs %}
     <script type="text/javascript" src="{% static "js/vendor/smooth-scroll.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
-    <script type="text/javascript">
-        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-
-        var barChartData = {
-            labels : ["January","February","March","April","May","June","July"],
-            datasets : [
-                {
-                    fillColor : "rgba(220,220,220,0.5)",
-                    strokeColor : "rgba(220,220,220,0.8)",
-                    highlightFill: "rgba(220,220,220,0.75)",
-                    highlightStroke: "rgba(220,220,220,1)",
-                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                },
-                {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,0.8)",
-                    highlightFill : "rgba(151,187,205,0.75)",
-                    highlightStroke : "rgba(151,187,205,1)",
-                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                }
-            ]
-        }
-
-        var doughnutData = [
-                {
-                    value: 300,
-                    color:"#F7464A",
-                    highlight: "#FF5A5E",
-                    label: "Red"
-                },
-                {
-                    value: 50,
-                    color: "#46BFBD",
-                    highlight: "#5AD3D1",
-                    label: "Green"
-                },
-                {
-                    value: 100,
-                    color: "#FDB45C",
-                    highlight: "#FFC870",
-                    label: "Yellow"
-                },
-                {
-                    value: 40,
-                    color: "#949FB1",
-                    highlight: "#A8B3C5",
-                    label: "Grey"
-                },
-                {
-                    value: 120,
-                    color: "#4D5360",
-                    highlight: "#616774",
-                    label: "Dark Grey"
-                }
-            ];
-
-        var lineChartData = {
-            labels : ["January","February","March","April","May","June","July"],
-            datasets : [
-                {
-                    label: "Artist Revenue",
-                    fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(220,220,220,1)",
-                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                },
-                {
-                    label: "Investor income",
-                    fillColor : "rgba(151,187,205,0.2)",
-                    strokeColor : "rgba(151,187,205,1)",
-                    pointColor : "rgba(151,187,205,1)",
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(151,187,205,1)",
-                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                }
-            ]
-
-        }
-
-        window.onload = function(){
-            var ctxbar = document.getElementById("bar-canvas").getContext("2d");
-            window.myBar = new Chart(ctxbar).Bar(barChartData, {
-                responsive : true
-            });
-            var ctxchart = document.getElementById("chart-area").getContext("2d");
-            window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
-                responsive : true
-            });
-            var ctxline = document.getElementById("line-canvas").getContext("2d");
-            window.myLine = new Chart(ctxline).Line(lineChartData, {
-                responsive: true
-            });
-        }
-    </script>
 {% endblock %}
