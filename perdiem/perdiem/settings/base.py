@@ -156,6 +156,7 @@ class BaseSettings(DjangoDefaults):
         'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)',]),
     }
     LOGIN_URL = '/'
+    LOGIN_REDIRECT_URL = '/profile/'
 
     # Sentry
     @property
