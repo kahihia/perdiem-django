@@ -1,6 +1,8 @@
 $(document).ready(function() {
     'use strict'
 
+    Foundation.Keyboard.handleKey = function(){};
+
     // Close location dropdown pane when clicking away
     $(document).click(function() {
         $('#location-dropdown').foundation('close');
