@@ -1,6 +1,7 @@
 {% load humanize %}
 {% load thumbnail %}
 {% load markdown_deux_tags %}
+{% load perdiem %}
 
 <div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
     {% thumbnail artist.photo.img "500" as thumb %}
@@ -126,13 +127,13 @@
             <canvas id="chart-area" width="500" height="500"></canvas>
         </div>
         <ul>
-            <li>{{ artist.name }}: {{ campaign.artist_percentage|floatformat:2 }}%</li>
+            <li>{{ artist.name }}: {{ campaign.artist_percentage|notrail_floatformat:2 }}%</li>
             <li>
                 {% if user_investor %}Other Investors:{% else %}Investors:{% endif %}
-                {{ fans_percentage|floatformat:2 }}%
+                {{ fans_percentage|notrail_floatformat:2 }}%
             </li>
             {% if user_investor %}
-                <li>Me: {{ user_investor.percentage|floatformat:2 }}%</li>
+                <li>Me: {{ user_investor.percentage|notrail_floatformat:2 }}%</li>
             {% endif %}
         </ul>
         <p>To raise the funds we are selling <strong>{{ campaign.num_shares|intcomma }}</strong> shares at <strong>${{ campaign.value_per_share }}</strong> per share.</p>
