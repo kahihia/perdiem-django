@@ -53,7 +53,7 @@ $(document).ready(function() {
     $('.invest-num-shares > input').change(function() {
         num_shares_updated();
     });
-    num_shares_updated();
+    if (typeof num_shares_remaining != 'undefined') num_shares_updated();
 
     // Press buttons to update shares
     $('.invest-num-shares > button').click(function() {
@@ -95,7 +95,7 @@ $(document).ready(function() {
     });
 
     // Sliders
-    $('.roi-return').text(10 * share_value * 2);
+    if (typeof share_value != 'undefined') $('.roi-return').text(10 * share_value * 2);
     $('#roi-num-shares-slider').slider({
         value: 10,
         stop: function (event, ui) {
