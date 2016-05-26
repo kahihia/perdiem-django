@@ -160,7 +160,7 @@ class ArtistDetailView(FormView):
         return reverse('artist', kwargs={'slug': self.slug,})
 
     def has_permission_to_submit_update(self, user):
-        return user.is_superuser
+        return user.is_superuser or self.artist.artistadmin_set.filter(user=user).exists()
 
     def dispatch(self, request, *args, **kwargs):
         self.slug = kwargs['slug']
