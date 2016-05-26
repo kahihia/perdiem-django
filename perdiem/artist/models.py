@@ -6,6 +6,7 @@
 
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.utils.html import escape
@@ -49,6 +50,22 @@ class Artist(models.Model):
 
     def past_campaigns(self):
         return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
+
+
+class ArtistAdmin(models.Model):
+
+    ROLE_CHOICES = (
+        ('musician', 'Musician',),
+        ('manager', 'Manager',),
+        ('producer', 'Producer',),
+    )
+
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(choices=ROLE_CHOICES, max_length=12, help_text='The relationship of this user to the artist')
+
+    def __unicode__(self):
+        return unicode(self.user)
 
 
 class Bio(models.Model):
