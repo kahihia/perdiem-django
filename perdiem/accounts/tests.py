@@ -55,6 +55,19 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
+    def testProfileDoesNotExistReturns404(self):
+        self.assertResponseRenders('/profile/does-not-exist/', status_code=404)
+
+    def testAnonymousProfileReturns404(self):
+        self.ordinary_user.userprofile.invest_anonymously = True
+        self.ordinary_user.userprofile.save()
+        self.assertResponseRenders(
+            '/profile/{anonymous_username}/'.format(
+                anonymous_username=self.ordinary_user.username
+            ),
+            status_code=404
+        )
+
     def testEditName(self):
         self.assertResponseRenders(
             '/profile/',
