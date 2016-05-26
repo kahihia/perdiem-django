@@ -55,18 +55,31 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
-    def testProfileDoesNotExistReturns404(self):
-        self.assertResponseRenders('/profile/does-not-exist/', status_code=404)
-
-    def testAnonymousProfileReturns404(self):
+    def testInvalidProfilesAndAnonymousProfilesLookIdentical(self):
+        # Set a user to invest anonymously
         self.ordinary_user.userprofile.invest_anonymously = True
         self.ordinary_user.userprofile.save()
-        self.assertResponseRenders(
-            '/profile/{anonymous_username}/'.format(
-                anonymous_username=self.ordinary_user.username
-            ),
+
+        # Get HTML from an invalid profile
+        invalid_profile_url = '/profile/does-not-exist/'
+        invalid_profile_response = self.assertResponseRenders(
+            invalid_profile_url,
             status_code=404
         )
+        invalid_profile_html = invalid_profile_response.content.replace(invalid_profile_url, '')
+
+        # Get HTML from an anonymous profile
+        anonymous_profile_url = '/profile/{anonymous_username}/'.format(
+            anonymous_username=self.ordinary_user.username
+        )
+        anonymous_profile_response = self.assertResponseRenders(
+            anonymous_profile_url,
+            status_code=404
+        )
+        anonymous_profile_html = anonymous_profile_response.content.replace(anonymous_profile_url, '')
+
+        # Verify that the HTML from these two different pages are identical
+        self.assertHTMLEqual(invalid_profile_html, anonymous_profile_html)
 
     def testEditName(self):
         self.assertResponseRenders(
