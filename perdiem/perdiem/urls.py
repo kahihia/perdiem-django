@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^profile/?$', ProfileView.as_view(), name='profile'),
     url(r'^profile/(?P<username>[\w_-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
 
+    url(r'^resources/?$', TemplateView.as_view(template_name='extra/resources.html'), name='resources'),
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
     url(r'^trust/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),
     url(r'^privacy/?$', TemplateView.as_view(template_name='extra/privacy.html'), name='privacy'),
