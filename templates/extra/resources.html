@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+
 {% load staticfiles %}
+
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/extra/resources.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
+
 {% block content %}
     <h2 class="extra-padding">Artists Resources</h2>
     <div class="break">
@@ -18,10 +21,10 @@
                             <li>
                                 <a class="content-header" href="overview-nested">Overview</a>
                                 <ul class="menu vertical nested">
-                                    <li><p class="content-sub"><a href=#overview-1>What is PerDiem</a></p></li>
-                                    <li><p class="content-sub"><a href=#overview-2>Why Investing</a></p></li>
-                                    <li><p class="content-sub"><a href=#overview-3>Why Trust PerDiem</a></p></li>
-                                    <li><p class="content-sub"><a href=#overview-4>How it Works</a></p></li>
+                                    <li><p class="content-sub"><a href="#overview-1">What is PerDiem</a></p></li>
+                                    <li><p class="content-sub"><a href="#overview-2">Why Investing</a></p></li>
+                                    <li><p class="content-sub"><a href="#overview-3">Why Trust PerDiem</a></p></li>
+                                    <li><p class="content-sub"><a href="#overview-4">How it Works</a></p></li>
                                 </ul>
                             </li>
                         </ul>
@@ -30,14 +33,14 @@
                             <li>
                                 <a class="content-header" href="overview-nested">Join</a>
                                 <ul class="menu vertical nested">
-                                    <li><p class="content-sub"><a href=#join-1>Apply To PerDiem</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-2>Amount to Raise</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-3>Giving Back</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-4>Valuation</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-5>Timeframes</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-6>Who Gets What %</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-7>How To get Paid</a></p></li>
-                                    <li><p class="content-sub"><a href=#join-7>Setup Profile</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-1">Apply To PerDiem</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-2">Amount to Raise</a></p></li>
+                                    <li><p class="content-sub"><a href=#join-3">Giving Back</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-4">Valuation</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-5">Timeframes</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-6">Who Gets What %</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-7">How To get Paid</a></p></li>
+                                    <li><p class="content-sub"><a href="#join-7">Setup Profile</a></p></li>
                                 </ul>
                             </li>
                         </ul>
@@ -46,11 +49,11 @@
                             <li>
                                 <a class="content-header" href="overview-nested">Launch</a>
                                 <ul class="menu vertical nested">
-                                    <li><p class="content-sub"><a href=#launch-1>Updating Investors</a></p></li>
-                                    <li><p class="content-sub"><a href=#launch-2>Sharing Campaign</a></p></li>
-                                    <li><p class="content-sub"><a href=#launch-3>Social Media</a></p></li>
-                                    <li><p class="content-sub"><a href=#launch-4>Blogs</a></p></li>
-                                    <li><p class="content-sub"><a href=#launch-4>Un-Successful</a></p></li>
+                                    <li><p class="content-sub"><a href="#launch-1">Updating Investors</a></p></li>
+                                    <li><p class="content-sub"><a href="#launch-2">Sharing Campaign</a></p></li>
+                                    <li><p class="content-sub"><a href="#launch-3">Social Media</a></p></li>
+                                    <li><p class="content-sub"><a href="#launch-4">Blogs</a></p></li>
+                                    <li><p class="content-sub"><a href="#launch-4">Un-Successful</a></p></li>
                                 </ul>
                             </li>
                         </ul>
@@ -59,12 +62,12 @@
                             <li>
                                 <a class="content-header" href="overview-nested">Success</a>
                                 <ul class="menu vertical nested">
-                                    <li><p class="content-sub"><a href=#success-1>Once Funded</a></p></li>
-                                    <li><p class="content-sub"><a href=#success-2>Recording music</a></p></li>
-                                    <li><p class="content-sub"><a href=#success-3>Copyrights</a></p></li>
-                                    <li><p class="content-sub"><a href=#success-4>Distribution</a></p></li>
-                                    <li><p class="content-sub"><a href=#success-5>Project Information</a></p></li>
-                                    <li><p class="content-sub"><a href=#success-6>Once project is live</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-1">Once Funded</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-2">Recording music</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-3">Copyrights</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-4">Distribution</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-5">Project Information</a></p></li>
+                                    <li><p class="content-sub"><a href="#success-6">Once project is live</a></p></li>
                                 </ul>
                             </li>
                         </ul>
@@ -73,10 +76,10 @@
                             <li>
                                 <a class="content-header" href="overview-nested">Next Steps</a>
                                 <ul class="menu vertical nested">
-                                    <li><p class="content-sub"><a href=#next-1>Engaging Investors</a></p></li>
-                                    <li><p class="content-sub"><a href=#next-2>Raising More</a></p></li>
-                                    <li><p class="content-sub"><a href=#next-3>Another Campaign</a></p></li>
-                                    <li><p class="content-sub"><a href=#next-4>Helping others</a></p></li>
+                                    <li><p class="content-sub"><a href="#next-1">Engaging Investors</a></p></li>
+                                    <li><p class="content-sub"><a href="#next-2">Raising More</a></p></li>
+                                    <li><p class="content-sub"><a href="#next-3">Another Campaign</a></p></li>
+                                    <li><p class="content-sub"><a href="#next-4">Helping others</a></p></li>
                                 </ul>
                             </li>
                         </ul>
@@ -285,5 +288,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
