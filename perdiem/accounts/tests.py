@@ -19,6 +19,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/terms/',
             '/privacy/',
             '/contact/',
+            '/resources/',
             '/accounts/register/',
             '/accounts/password/reset/',
             '/accounts/password/reset/0/0-0/',
