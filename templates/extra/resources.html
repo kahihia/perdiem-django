@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/extra/resources.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
 {% block content %}
     <h2 class="extra-padding">Artists Resources</h2>
     <div class="break">
@@ -80,7 +83,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="columns small-9 float-right" id="example1" data-something>
+            <div class="columns small-9 float-right" id="example1">
                 <div id="overview">
                     <h3>overview</h3>
                     <div class="break">
