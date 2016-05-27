@@ -4,6 +4,8 @@
 
 """
 
+from django.contrib.auth.models import User
+
 from perdiem.tests import PerDiemTestCase
 
 
@@ -80,6 +82,33 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
         # Verify that the HTML from these two different pages are identical
         self.assertHTMLEqual(invalid_profile_html, anonymous_profile_html)
+
+    def testRedirectToProfile(self):
+        # Redirect to artist details
+        self.assertResponseRedirects(
+            '/{artist_slug}/'.format(artist_slug=self.artist.slug),
+            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+        )
+
+        # Redirect to user's public profile
+        self.assertResponseRedirects(
+            '/{username}/'.format(username=self.user.username),
+            '/profile/{username}'.format(username=self.user.username)
+        )
+
+        # Change username to match artist slug
+        self.user.username = self.artist.slug
+        self.user.save()
+
+        # We still redirect to the artist details
+        self.user = User.objects.get(username=self.artist.slug)
+        self.assertResponseRedirects(
+            '/{username}/'.format(username=self.user.username),
+            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+        )
+
+    def testRedirectToProfileDoesNotExistReturns404(self):
+        self.assertResponseRenders('/does-not-exist/', status_code=404)
 
     def testEditName(self):
         self.assertResponseRenders(

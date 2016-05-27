@@ -9,7 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
@@ -19,7 +19,7 @@ from accounts.forms import (
     ContactForm
 )
 from accounts.models import UserAvatar, UserAvatarImage
-from artist.models import Update
+from artist.models import Artist, Update
 from emails.messages import WelcomeEmail, ContactEmail
 from emails.models import EmailSubscription
 from perdiem.views import ConstituentFormView, MultipleFormView
@@ -220,3 +220,21 @@ class ContactFormView(FormView):
         ContactEmail().send_to_email(email='support@investperdiem.com', context=context)
 
         return super(ContactFormView, self).form_valid(form)
+
+
+def redirect_to_profile(request, slug):
+    # Try matching the slug to an artists
+    try:
+        artist = Artist.objects.get(slug=slug)
+    except Artist.DoesNotExist:
+        pass
+    else:
+        return HttpResponseRedirect(reverse('artist', kwargs={'slug': artist.slug,}))
+
+    # Try matching the slug to a public profile
+    try:
+        user = User.objects.exclude(userprofile__invest_anonymously=True).get(username=slug)
+    except User.DoesNotExist:
+        raise Http404
+    else:
+        return HttpResponseRedirect(reverse('public_profile', kwargs={'username': user.username,}))

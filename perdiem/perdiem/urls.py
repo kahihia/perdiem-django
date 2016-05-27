@@ -10,9 +10,13 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
 
-from accounts.views import ContactFormView, ProfileView, PublicProfileView
-from artist.views import CoordinatesFromAddressView, ArtistListView, \
-    ArtistDetailView, ArtistApplyFormView
+from accounts.views import (
+    ContactFormView, ProfileView, PublicProfileView, redirect_to_profile
+)
+from artist.views import (
+    CoordinatesFromAddressView, ArtistListView, ArtistDetailView,
+    ArtistApplyFormView
+)
 from campaign.views import PaymentChargeView
 from emails.views import UnsubscribeView, unsubscribe_from_mailchimp
 
@@ -43,6 +47,8 @@ urlpatterns = [
     url(r'^contact/thanks/?$', TemplateView.as_view(template_name='registration/contact_thanks.html'), name='contact_thanks'),
     url(r'^contact/?$', ContactFormView.as_view(), name='contact'),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+
+    url(r'^(?P<slug>[\w_-]+)/?$', redirect_to_profile),
 ]
 
 # Add media folder to urls when DEBUG = True
