@@ -9,23 +9,15 @@ from django.contrib.auth.models import User
 from perdiem.tests import PerDiemTestCase
 
 
-class PerDiemHomeWebTestCase(PerDiemTestCase):
+class AuthWebTestCase(PerDiemTestCase):
 
     def get200s(self):
         return [
             '/',
-            '/faq/',
-            '/trust/',
-            '/terms/',
-            '/privacy/',
-            '/contact/',
-            '/resources/',
             '/accounts/register/',
             '/accounts/password/reset/',
             '/accounts/password/reset/0/0-0/',
             '/accounts/password/reset/complete/',
-            '/profile/',
-            '/profile/{username}/'.format(username=self.user.username),
         ]
 
     def testHomePageUnauthenticated(self):
@@ -57,6 +49,24 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
                 'password2': self.USER_PASSWORD,
             }
         )
+
+    def testPasswordReset(self):
+        self.client.logout()
+        self.assertResponseRedirects(
+            '/accounts/password/reset/',
+            '/accounts/password/reset/sent',
+            method='POST',
+            data={'email': self.user.email,}
+        )
+
+
+class ProfileWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/profile/',
+            '/profile/{username}/'.format(username=self.user.username),
+        ]
 
     def testInvalidProfilesAndAnonymousProfilesLookIdentical(self):
         # Set a user to invest anonymously
@@ -155,21 +165,4 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
                 'subscription_all': True,
                 'subscription_news': False
             }
-        )
-
-    def testPasswordReset(self):
-        self.client.logout()
-        self.assertResponseRedirects(
-            '/accounts/password/reset/',
-            '/accounts/password/reset/sent',
-            method='POST',
-            data={'email': self.user.email,}
-        )
-
-    def testContact(self):
-        self.assertResponseRedirects(
-            '/contact/',
-            '/contact/thanks',
-            method='POST',
-            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!',}
         )

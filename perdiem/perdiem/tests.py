@@ -166,3 +166,24 @@ class AdminWebTestCase(PerDiemTestCase):
     def testAdminLoginPageRenders(self):
         self.client.logout()
         self.assertResponseRedirects('/admin/', '/admin/login/')
+
+
+class ExtrasWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/faq/',
+            '/trust/',
+            '/terms/',
+            '/privacy/',
+            '/contact/',
+            '/resources/',
+        ]
+
+    def testContact(self):
+        self.assertResponseRedirects(
+            '/contact/',
+            '/contact/thanks',
+            method='POST',
+            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!',}
+        )
