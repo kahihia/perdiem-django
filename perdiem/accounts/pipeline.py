@@ -4,22 +4,23 @@
 
 """
 
-from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 from accounts.models import UserAvatar, UserAvatarURL
 
 
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
     if not details.get('email'):
-        return render_to_response('registration/error_email_required.html')
+        return HttpResponseRedirect(reverse('error_email_required'))
 
 
 def verify_auth_operation(strategy, details, user=None, is_new=False, *args, **kwargs):
     auth_operation = kwargs['backend'].auth_operation
     if user and auth_operation == 'register':
-        return render_to_response('registration/error_account_exists.html')
+        return HttpResponseRedirect(reverse('error_account_exists'))
     elif not user and auth_operation == 'login':
-        return render_to_response('registration/error_account_does_not_exist.html')
+        return HttpResponseRedirect(reverse('error_account_does_not_exist'))
 
 
 def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
