@@ -21,7 +21,7 @@
     <body>
         <div class="off-canvas-wrapper">
             <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-                <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+                <div class="off-canvas position-right" id="offCanvas" data-off-canvas data-position="right">
                     <!-- Close button -->
                     <button class="close-button" aria-label="Close menu" type="button" data-close>
                         <span aria-hidden="true">&times;</span>
@@ -43,10 +43,10 @@
                 <div class="off-canvas-content" data-off-canvas-content>
                     <div class="full-page">
                         <!-- Nav -->
-                        <div class="show-for-small-only">
-                            <ul class="nav-small">
-                                <li class="small-menu"><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
-                            </ul>
+                        <div class="show-for-small-only title-bar">
+                            <div class="title-bar-right">
+                                <button type="button" class="menu-icon" data-toggle="offCanvas"></button>
+                            </div>
                         </div>
                         <div class="hide-for-small-only top-bar nav">
                             <div class="top-bar-left">
