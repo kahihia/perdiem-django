@@ -148,6 +148,14 @@ class PerDiemTestCase(TestCase):
             self.assertResponseRenders(url)
 
 
+class HealthCheckWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/health-check/',
+        ]
+
+
 class AdminWebTestCase(PerDiemTestCase):
 
     def get200s(self):

@@ -7,6 +7,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.views.static import serve
 
@@ -22,6 +23,8 @@ from emails.views import UnsubscribeView, unsubscribe_from_mailchimp
 
 
 urlpatterns = [
+    url(r'^health-check/?$', lambda r: HttpResponse(""), name='health_check'),
+
     url('', include(('social.apps.django_app.urls', 'social',))),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
