@@ -73,7 +73,7 @@ In the production environment, you'll need to create a different dev settings co
 
     class ProdSettings(DevSettings):
         DEBUG = False
-        ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
+        ACCEPTABLE_HOSTS = ['127.0.0.1', 'localhost',]
         RAVEN_PUBLIC_KEY = 'xyz'
         RAVEN_SECRET_KEY = 'abc123'
         RAVEN_PROJECT_ID = '1234'

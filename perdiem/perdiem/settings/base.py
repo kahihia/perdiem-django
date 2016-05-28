@@ -8,6 +8,7 @@ import os
 
 from cbsettings import DjangoDefaults
 import raven
+import requests
 
 
 class BaseSettings(DjangoDefaults):
@@ -16,7 +17,28 @@ class BaseSettings(DjangoDefaults):
     TOP_DIR = os.path.dirname(BASE_DIR)
 
     DEBUG = True
-    ALLOWED_HOSTS = []
+
+    @property
+    def ALLOWED_HOSTS(self):
+        # Get cached ALLOWED_HOSTS setting, if available
+        if hasattr(self, '_ALLOWED_HOSTS'):
+            return self._ALLOWED_HOSTS
+
+        # When DEBUG == True, ALLOWED_HOSTS is just []
+        if not hasattr(self, 'ACCEPTABLE_HOSTS'):
+            self._ALLOWED_HOSTS = []
+            return []
+
+        # Otherwise, add EC2 IP to ACCEPTABLE_HOSTS
+        hosts = self.ACCEPTABLE_HOSTS
+        try:
+            ec2_ip = requests.get('http://169.254.169.254/latest/meta-data/local-ipv4', timeout=0.01).text
+        except requests.exceptions.RequestException:
+            pass
+        else:
+            hosts.append(ec2_ip)
+            self._ALLOWED_HOSTS = hosts
+        return hosts
 
     # Application definition
     INSTALLED_APPS = (
