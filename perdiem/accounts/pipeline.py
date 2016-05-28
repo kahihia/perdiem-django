@@ -14,6 +14,14 @@ def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
         return render_to_response('registration/error_email_required.html')
 
 
+def verify_auth_operation(strategy, details, user=None, is_new=False, *args, **kwargs):
+    auth_operation = kwargs['backend'].auth_operation
+    if user and auth_operation == 'register':
+        return render_to_response('registration/error_account_exists.html')
+    elif not user and auth_operation == 'login':
+        return render_to_response('registration/error_account_does_not_exist.html')
+
+
 def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     # Skip if we don't have the user yet
     if not user:

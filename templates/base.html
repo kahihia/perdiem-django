@@ -128,8 +128,8 @@
         <!-- Login Modal -->
         <div class="reveal center" id="login-modal" data-reveal>
             <h2 class="white-color">Login</h2>
-            <a href="{% url 'social:begin' backend='facebook' %}"><img class="oauth-icon" src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a><br/>
-            <a href="{% url 'social:begin' backend='google-oauth2' %}"><img class="oauth-icon" src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
+            <a href="{% url 'social:begin' backend='facebook-login' %}"><img class="oauth-icon" src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a><br/>
+            <a href="{% url 'social:begin' backend='google-oauth2-login' %}"><img class="oauth-icon" src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
             <form class="login-module" action="" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />

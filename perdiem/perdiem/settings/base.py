@@ -155,8 +155,10 @@ class BaseSettings(DjangoDefaults):
 
     # Authentication
     AUTHENTICATION_BACKENDS = (
-        'social.backends.google.GoogleOAuth2',
-        'social.backends.facebook.FacebookOAuth2',
+        'accounts.backends.GoogleOAuth2Login',
+        'accounts.backends.GoogleOAuth2Register',
+        'accounts.backends.FacebookOAuth2Login',
+        'accounts.backends.FacebookOAuth2Register',
         'django.contrib.auth.backends.ModelBackend',
     )
     SOCIAL_AUTH_PIPELINE = (
@@ -167,6 +169,7 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.user.get_username',
         'social.pipeline.social_auth.associate_by_email',
         'accounts.pipeline.require_email',
+        'accounts.pipeline.verify_auth_operation',
         'social.pipeline.user.create_user',
         'accounts.pipeline.save_avatar',
         'social.pipeline.social_auth.associate_user',
