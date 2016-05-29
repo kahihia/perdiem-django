@@ -12,7 +12,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
 
-from artist.models import Genre, Artist, Update
+from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Campaign, Investment, RevenueReport
 
 
@@ -25,6 +25,8 @@ class PerDiemTestCase(TestCase):
     USER_PASSWORD = 'abc123'
     ORDINARY_USER_USERNAME = 'jdoe'
     ORDINARY_USER_EMAIL = 'jdoe@example.com'
+    MANAGER_USER_USERNAME = 'manager'
+    MANAGER_USER_EMAIL = 'manager@example.com'
 
     GENRE_NAME = 'Progressive Rock'
     ARTIST_NAME = 'Rush'
@@ -96,6 +98,11 @@ class PerDiemTestCase(TestCase):
             email=self.ORDINARY_USER_EMAIL,
             password=self.USER_PASSWORD
         )
+        self.manager_user = User.objects.create_user(
+            self.MANAGER_USER_USERNAME,
+            email=self.MANAGER_USER_EMAIL,
+            password=self.USER_PASSWORD
+        )
 
     def create_first_instances(self):
         self.genre = Genre.objects.create(name=self.GENRE_NAME)
@@ -107,6 +114,7 @@ class PerDiemTestCase(TestCase):
             location=self.ARTIST_LOCATION
         )
         self.artist.genres.add(self.genre)
+        ArtistAdmin.objects.create(artist=self.artist, user=self.manager_user, role=ArtistAdmin.ROLE_MANAGER)
         self.update = Update.objects.create(artist=self.artist, text=self.ARTIST_UPDATE)
 
         self.campaign = Campaign.objects.create(

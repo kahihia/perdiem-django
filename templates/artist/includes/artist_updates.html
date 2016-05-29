@@ -1,9 +1,14 @@
 {% load thumbnail %}
 
-<ul class="menu vertical nested is-active">
+<ul class="menu vertical nested is-active updates">
     {% for update in updates %}
-        <li>
-            <h3>{{ update.title }}</h3>
+        <li id="update-{{ update.id }}">
+            <h3>
+                {{ update.title }}
+                {% if has_permission_to_submit_update %}
+                    <button id="update-{{ update.id }}" class="button delete-update"><i class="fa fa-trash"></i></button>
+                {% endif %}
+            </h3>
             {% for media_url in update.updatemediaurl_set.all %}
                 {% if not forloop.first %}<br />{% endif %}
                 {{ media_url.html|safe }}

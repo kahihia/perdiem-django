@@ -132,9 +132,6 @@ class ArtistDetailView(FormView):
     def get_success_url(self):
         return reverse('artist', kwargs={'slug': self.slug,})
 
-    def has_permission_to_submit_update(self, user):
-        return user.is_authenticated() and (user.is_superuser or self.artist.artistadmin_set.filter(user=user).exists())
-
     def dispatch(self, request, *args, **kwargs):
         self.slug = kwargs['slug']
         self.artist = get_object_or_404(Artist, slug=self.slug)
@@ -144,7 +141,7 @@ class ArtistDetailView(FormView):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
         context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
-        context['has_permission_to_submit_update'] = self.has_permission_to_submit_update(self.request.user)
+        context['has_permission_to_submit_update'] = self.artist.has_permission_to_submit_update(self.request.user)
 
         context['artist'] = self.artist
         campaign = self.artist.active_campaign()
@@ -169,7 +166,7 @@ class ArtistDetailView(FormView):
         d = form.cleaned_data
 
         # Verify that the user has permission
-        if not self.has_permission_to_submit_update(self.request.user):
+        if not self.artist.has_permission_to_submit_update(self.request.user):
             return HttpResponseForbidden()
 
         # Create the base update

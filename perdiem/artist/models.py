@@ -51,13 +51,19 @@ class Artist(models.Model):
     def past_campaigns(self):
         return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
 
+    def has_permission_to_submit_update(self, user):
+        return user.is_authenticated() and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
+
 
 class ArtistAdmin(models.Model):
 
+    ROLE_MUSICIAN = 'musician'
+    ROLE_MANAGER = 'manager'
+    ROLE_PRODUCER = 'producer'
     ROLE_CHOICES = (
-        ('musician', 'Musician',),
-        ('manager', 'Manager',),
-        ('producer', 'Producer',),
+        (ROLE_MUSICIAN, 'Musician',),
+        (ROLE_MANAGER, 'Manager',),
+        (ROLE_PRODUCER, 'Producer',),
     )
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)

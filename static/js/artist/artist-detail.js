@@ -104,4 +104,18 @@ $(document).ready(function() {
             $('.roi-return').text(value * share_value * 2);
         }
     });
+
+    // Delete Update
+    $('button.delete-update').click(function() {
+        var selectorId = $(this).attr('id');
+        var update_id = parseInt(selectorId.split("-")[1]);
+        var url = "/api/update/" + update_id + "/";
+        $.ajax({
+            url: url,
+            type: 'DELETE'
+        }).done(function() {
+            // Delete update
+            $('ul.updates > li#' + selectorId).remove();
+        });
+    });
 });
