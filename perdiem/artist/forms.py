@@ -7,11 +7,6 @@
 from django import forms
 
 
-class CoordinatesFromAddressForm(forms.Form):
-
-    address = forms.CharField()
-
-
 class ArtistApplyForm(forms.Form):
 
     artist_name = forms.CharField(label='Artist / Band Name')

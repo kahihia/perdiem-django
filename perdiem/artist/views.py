@@ -7,46 +7,19 @@
 import datetime
 
 from django.conf import settings
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.http import (
-    HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
-)
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
-from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from geopy.geocoders import Nominatim
 
-from artist.forms import (
-    CoordinatesFromAddressForm, ArtistApplyForm, ArtistUpdateForm
-)
+from artist.forms import ArtistApplyForm, ArtistUpdateForm
 from artist.models import Genre, Artist, Update, UpdateImage, UpdateMediaURL
 from emails.messages import ArtistApplyEmail
-
-
-class CoordinatesFromAddressView(PermissionRequiredMixin, View):
-
-    permission_required = 'artist.add_artist'
-    raise_exception = True
-
-    def get(self, request, *args, **kwargs):
-        # Validate request
-        form = CoordinatesFromAddressForm(request.GET)
-        if not form.is_valid():
-            return HttpResponseBadRequest(form.errors)
-        address = form.cleaned_data['address']
-
-        # Return lat/lon for address
-        geolocator = Nominatim()
-        location = geolocator.geocode(address)
-        return JsonResponse({
-            'latitude': float("{0:.4f}".format(location.latitude)),
-            'longitude': float("{0:.4f}".format(location.longitude)),
-        })
 
 
 class ArtistListView(ListView):

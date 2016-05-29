@@ -59,6 +59,7 @@ class BaseSettings(DjangoDefaults):
         'markdown_deux',
         'pagedown',
         'accounts.apps.AccountsConfig',
+        'api.apps.ApiConfig',
         'artist.apps.ArtistConfig',
         'campaign.apps.CampaignConfig',
         'emails.apps.EmailsConfig',
