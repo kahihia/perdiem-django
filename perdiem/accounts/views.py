@@ -148,9 +148,9 @@ class EmailPreferencesFormView(ConstituentFormView):
             )
 
 
-class ProfileView(LoginRequiredMixin, MultipleFormView):
+class SettingsView(LoginRequiredMixin, MultipleFormView):
 
-    template_name = 'registration/profile.html'
+    template_name = 'registration/settings.html'
     constituent_form_views = {
         'edit_name': EditNameFormView,
         'edit_avatar': EditAvatarFormView,
@@ -159,11 +159,7 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
-
-        # Update context with profile information
-        context.update(self.request.user.userprofile.profile_context())
-        context['updates'] = Update.objects.filter(artist__in=context['artists']).order_by('-created_datetime')
+        context = super(SettingsView, self).get_context_data(**kwargs)
 
         # Update context with available avatars
         user_avatars = UserAvatar.objects.filter(user=self.request.user)
@@ -172,6 +168,20 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         }
         avatars.update({avatar.get_provider_display(): avatar.avatar_url() for avatar in user_avatars})
         context['avatars'] = avatars
+
+        return context
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+
+    template_name = 'registration/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+
+        # Update context with profile information
+        context.update(self.request.user.userprofile.profile_context())
+        context['updates'] = Update.objects.filter(artist__in=context['artists']).order_by('-created_datetime')
 
         return context
 

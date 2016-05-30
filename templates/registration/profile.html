@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load humanize %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
@@ -9,21 +10,44 @@
     <h1>Profile</h1>
     <h2 class="profile-header">Welcome, {% firstof user.get_full_name user.get_username %}!</h2>
     {% if user.userprofile.invest_anonymously %}<p><small>(displays publicly as Anonymous)</small></p>{% endif %}
-    <ul class="tabs nav-profile" data-tabs id="profile-tabs">
-        <li class="tabs-title {% if not forms_with_errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
-        <li class="tabs-title {% if 'edit_name' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
-        <li class="tabs-title {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
-        <li class="tabs-title {% if 'change_password' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
-        <li class="tabs-title {% if 'email_preferences' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
-    </ul>
     <div class="break">
         <hr>
     </div>
-    <div class="tabs-content" data-tabs-content="profile-tabs">
-        {% include "registration/includes/profile_portfolio.html" with forms_with_errors=forms_with_errors artists=artists total_investments=total_investments total_earned=total_earned updates=updates %}
-        {% include "registration/includes/profile_form.html" with form_name='edit_name' tab_name='name' form=edit_name_form %}
-        {% include "registration/includes/profile_avatar_form.html" with form_name='edit_avatar' tab_name='avatar' includes_files=True form=edit_avatar_form %}
-        {% include "registration/includes/profile_form.html" with form_name='change_password' tab_name='password' form=change_password_form %}
-        {% include "registration/includes/profile_form.html" with form_name='email_preferences' tab_name='email-preferences' form=email_preferences_form %}
-    </div>
+    {% if artists %}
+        <div class="investments">
+            <h2>Portfolio</h2>
+            <p>Here are the artists that you have invested in:</p>
+            <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
+                {% for artist in artists.values %}
+                    <div class="column">
+                        {% include "artist/includes/artist_preview.html" with artist=artist %}
+                        <p>Total invested: ${{ artist.total_invested|floatformat:2|intcomma }}</p>
+                        {% if artist.total_earned %}
+                            <p>Total earned: ${{ artist.total_earned|floatformat:2|intcomma }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="break">
+                <hr>
+            </div>
+
+            {% if total_earned %}
+                <p class="profile-total">Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
+            {% else %}
+                <p class="profile-total">Your money is going towards making some sweet music!</p>
+            {% endif %}
+            <p>Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
+            {% if updates %}
+                <div class="break">
+                    <hr>
+                </div>
+                <!-- Updates -->
+                <h2>Updates</h2>
+                {% include "artist/includes/artist_updates.html" with updates=updates %}
+            {% endif %}
+        </div>
+    {% else %}
+        <p>You haven't invested in anything yet!</p>
+    {% endif %}
 {% endblock %}

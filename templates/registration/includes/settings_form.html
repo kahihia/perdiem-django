@@ -1,4 +1,4 @@
-<div class="tabs-panel {% if form_name in forms_with_errors %}is-active{% endif %}" id="{{ tab_name }}">
+<div class="tabs-panel {% if form_name in forms_with_errors or is_default_form %}is-active{% endif %}" id="{{ tab_name }}">
     <form action="" method="POST" {% if includes_files %}enctype="multipart/form-data"{% endif %}>
         {% csrf_token %}
         <input type="hidden" name="action" value="{{ form_name }}" />

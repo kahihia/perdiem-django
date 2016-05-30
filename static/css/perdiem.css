@@ -220,11 +220,11 @@ a.nav-color {
     border-radius: 15px;
 }
 
-.nav-profile {
+.nav-settings {
     padding: 0px;
 }
 
-.nav-profile > li {
+.nav-settings > li {
     display: inline;
     float: center;
 }

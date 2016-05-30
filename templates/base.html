@@ -33,6 +33,7 @@
                         <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
                         {% if user.is_authenticated %}
                             <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
+                            <li style="float: center;"><a class="nav-color" href="{% url 'settings' %}">SETTINGS</a></li>
                             <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
                         {% else %}
                             <li style="float: center;"><a class="nav-color" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
@@ -63,6 +64,7 @@
                                             <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
                                             <ul class="menu vertical is-dropdown-submenu">
                                                 <li class="nav"><a href="{% url 'profile' %}">PROFILE</a></li>
+                                                <li class="nav"><a href="{% url 'settings' %}">SETTINGS</a></li>
                                                 <li class="nav"><a href="{% url 'logout' %}">LOGOUT</a></li>
                                             </ul>
                                         </li>

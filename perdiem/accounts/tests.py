@@ -121,9 +121,17 @@ class ProfileWebTestCase(PerDiemTestCase):
     def testRedirectToProfileDoesNotExistReturns404(self):
         self.assertResponseRenders('/does-not-exist/', status_code=404)
 
+
+class SettingsWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/accounts/settings/',
+        ]
+
     def testEditName(self):
         self.assertResponseRenders(
-            '/profile/',
+            '/accounts/settings/',
             method='POST',
             data={
                 'action': 'edit_name',
@@ -136,7 +144,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testEditAvatar(self):
         self.assertResponseRenders(
-            '/profile/',
+            '/accounts/settings/',
             method='POST',
             data={
                 'action': 'edit_avatar',
@@ -146,7 +154,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testChangePassword(self):
         self.assertResponseRenders(
-            '/profile/',
+            '/accounts/settings/',
             method='POST',
             data={
                 'action': 'change_password',
@@ -158,7 +166,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testUpdateEmailPreferences(self):
         self.assertResponseRenders(
-            '/profile/',
+            '/accounts/settings/',
             method='POST',
             data={
                 'action': 'email_preferences',
