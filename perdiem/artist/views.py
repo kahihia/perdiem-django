@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
@@ -38,6 +39,7 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
+        self.campaign_status = request.GET.get('campaign-status', 'Active')
         self.active_genre = request.GET.get('genre', 'All Genres')
         self.distance = request.GET.get('distance')
         self.location = request.GET.get('location')
@@ -58,7 +60,8 @@ class ArtistListView(ListView):
         context = super(ArtistListView, self).get_context_data(**kwargs)
         sort_options = [{'slug': s, 'name': n,} for s, n in self.ORDER_BY_NAME.iteritems()]
         context.update({
-            'now': datetime.datetime.now(),
+            'campaign_statuses': ('Active', 'Funded', 'All',),
+            'campaign_status': self.campaign_status,
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,
             'distance': self.distance if (self.lat and self.lon) or self.location else None,
@@ -76,6 +79,26 @@ class ArtistListView(ListView):
         # Filter by genre
         if self.active_genre != 'All Genres':
             artists = artists.filter(genres__name=self.active_genre)
+
+        # Filter by campaign status
+        now = timezone.now()
+        if self.campaign_status == 'Active':
+            artists = artists.annotate(
+                ended=models.Case(
+                    models.When(
+                        campaign__end_datetime__isnull=True,
+                        then=False
+                    ),
+                    models.When(
+                        campaign__end_datetime__gte=now,
+                        then=False
+                    ),
+                    default=True,
+                    output_field=models.BooleanField()
+                )
+            ).filter(campaign__start_datetime__lte=now, ended=False).distinct()
+        elif self.campaign_status == 'Funded':
+            artists = artists.filter_by_funded()
 
         # Filter by location
         if self.distance and self.location:

@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     // Reset location
     $('.dropdown-pane button#location-reset-button').click(function() {
-        window.location.href = '?genre=' + active_genre + '&sort=' + order_by;
+        window.location.href = '?campaign-status=' + campaign_status + '&genre=' + active_genre + '&sort=' + order_by;
     });
 
     // Set my location
@@ -42,7 +42,7 @@ $(document).ready(function() {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
         }
-        var url = '?genre=' + active_genre + '&distance=' + $('.dropdown-pane input').val();
+        var url = '?campaign-status=' + campaign_status + '&genre=' + active_genre + '&distance=' + $('.dropdown-pane input').val();
         if (lat) url += '&lat=' + lat;
         if (lon) url += '&lon=' + lon;
         url += '&sort=' + order_by;
@@ -57,7 +57,7 @@ $(document).ready(function() {
                 get_order_by_location(null);
             }
         } else {
-            window.location.href = '?genre=' + active_genre + '&distance=' + $('.dropdown-pane input').val() + '&location=' + $('.dropdown-pane #text-location input').val() + '&sort=' + order_by;
+            window.location.href = '?campaign-status=' + campaign_status + '&genre=' + active_genre + '&distance=' + $('.dropdown-pane input').val() + '&location=' + $('.dropdown-pane #text-location input').val() + '&sort=' + order_by;
         }
     });
 });

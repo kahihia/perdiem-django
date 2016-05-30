@@ -14,17 +14,27 @@
     <div class="filter-sort-options center">
         <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
             <li><h5>Show me</h5></li>
+            <li class="is-dropdown-submenu-parent opens-right">
+                <a href="#"><h5>{{ campaign_status }}</h5></a>
+                <ul class="menu is-dropdown-submenu">
+                    {% for option in campaign_statuses %}
+                        {% if option != campaign_status %}
+                            <li><a href="?campaign-status={{ option }}&genre={{ active_genre }}&sort={{ order_by.slug }}"><h6>{{ option }}</h6></a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
             <li><h5>artists in</h5></li>
             {% if genres %}
                 <li class="is-dropdown-submenu-parent opens-right">
                     <a href="#"><h5>{{ active_genre }}</h5></a>
                     <ul class="menu is-dropdown-submenu">
                         {% if active_genre != 'All Genres' %}
-                            <li><a href="?genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
+                            <li><a href="?campaign-status={{ campaign_status }}&genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
                         {% endif %}
                         {% for genre in genres %}
                             {% if genre != active_genre %}
-                                <li><a href="?genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h6>{{ genre }}</h6></a></li>
+                                <li><a href="?campaign-status={{ campaign_status }}&genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h6>{{ genre }}</h6></a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -72,7 +82,7 @@
                 <ul class="menu is-dropdown-submenu">
                     {% for option in sort_options %}
                         {% if option.slug != order_by.slug %}
-                            <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}"><h6>{{ option.name }}</h6></a></li>
+                            <li><a href="?campaign-status={{ campaign_status }}&genre={{ active_genre }}&sort={{ option.slug }}"><h6>{{ option.name }}</h6></a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -139,8 +149,9 @@
 {% block extrajs %}
     <script type="text/javascript">
         var my_location = {% if lat and lon %}true{% else %}false{% endif %};
-        var order_by = '{{ order_by.slug|escapejs }}';
+        var campaign_status = '{{ campaign_status|escapejs }}';
         var active_genre = '{{ active_genre|escapejs }}';
+        var order_by = '{{ order_by.slug|escapejs }}';
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-list.js" %}"></script>
 {% endblock %}

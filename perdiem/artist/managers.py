@@ -56,6 +56,16 @@ class ArtistQuerySet(models.QuerySet):
         return self.filter(id__in=nearby_artist_ids)
 
     # TODO(lucas): Use annotations as much as possible to improve performance
+    def filter_by_funded(self):
+        funded_artist_ids = []
+        for artist in self:
+            campaign = artist.latest_campaign()
+            if campaign and campaign.percentage_funded() == '100':
+                funded_artist_ids.append(artist.id)
+
+        return self.filter(id__in=funded_artist_ids)
+
+    # TODO(lucas): Use annotations as much as possible to improve performance
     def order_by_percentage_funded(self):
         return sorted(self, key=self.percentage_funded, reverse=True)
 
