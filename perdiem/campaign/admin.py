@@ -46,16 +46,18 @@ class ArtistPercentageBreakdownFormset(forms.models.BaseInlineFormSet):
         super(ArtistPercentageBreakdownFormset, self).clean()
         total_artist_percentage = self.instance.artist_percentage()
         artist_percentage_so_far = 0
+        num_forms = 0
 
         # Verify that the artist percentage adds up
         for form in self.forms:
             if 'percentage' in form.cleaned_data and not form.cleaned_data['DELETE']:
+                num_forms += 1
                 percentage = form.cleaned_data['percentage']
                 if percentage < 0 or percentage > 100:
                     raise forms.ValidationError("Percentages must be between 0-100.")
                 artist_percentage_so_far += percentage
 
-        if artist_percentage_so_far != total_artist_percentage:
+        if num_forms > 0 and artist_percentage_so_far != total_artist_percentage:
             raise forms.ValidationError(
                 "Percentage breakdown does add up to total artist percentage of {total_artist_percentage}%.".format(
                     total_artist_percentage=total_artist_percentage
