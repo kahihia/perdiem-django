@@ -15,7 +15,6 @@ from accounts.views import (
     ContactFormView, ProfileView, PublicProfileView, redirect_to_profile
 )
 from artist.views import ArtistListView, ArtistDetailView, ArtistApplyFormView
-from campaign.views import PaymentChargeView
 from emails.views import UnsubscribeView, unsubscribe_from_mailchimp
 
 
@@ -29,7 +28,6 @@ urlpatterns = [
 
     url(r'^unsubscribe/from-mailchimp/$', unsubscribe_from_mailchimp, name='unsubscribe_from_mailchimp'),
     url(r'^unsubscribe/(?P<user_id>\d+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
-    url(r'^payments/charge/(?P<campaign_id>\d+)/?$', PaymentChargeView.as_view(), name='pinax_stripe_charge'),
     url(r'^payments/', include('pinax.stripe.urls')),
 
     url(r'^artists/?$', ArtistListView.as_view(), name='artists'),
