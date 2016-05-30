@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>LEADERBOARD</h1>
+    {% include "leaderboard/includes/list.html" with name='Highest ROI' investors=highest_roi %}
+{% endblock %}

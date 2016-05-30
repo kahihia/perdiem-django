@@ -25,3 +25,11 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
         self.campaign.amount = 0
         self.campaign.save()
         self.assertEquals(self.campaign.percentage_funded(), '100')
+
+
+class CampaignWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/leaderboard/',
+        ]

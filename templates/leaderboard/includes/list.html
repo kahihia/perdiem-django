@@ -1,0 +1,19 @@
+{% load humanize %}
+
+{% if investors %}
+    <div class="break">
+        <hr>
+    </div>
+    <h3>{{ name }}</h3>
+    <ul>
+        {% for investor, profile_context in investors %}
+            <li>
+                #{{ forloop.counter }}:
+                <a href="{{ investor.public_profile_url }}">
+                    <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
+                    {{ investor.get_display_name }} (${{ profile_context.total_earned|floatformat:2|intcomma }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

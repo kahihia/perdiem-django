@@ -15,6 +15,7 @@ from accounts.views import (
     ContactFormView, ProfileView, PublicProfileView, redirect_to_profile
 )
 from artist.views import ArtistListView, ArtistDetailView, ArtistApplyFormView
+from campaign.views import LeaderboardView
 from emails.views import UnsubscribeView, unsubscribe_from_mailchimp
 
 
@@ -36,7 +37,8 @@ urlpatterns = [
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
 
     url(r'^profile/?$', ProfileView.as_view(), name='profile'),
-    url(r'^profile/(?P<username>[\w_-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
+    url(r'^profile/(?P<username>[\w.@+-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
+    url(r'^leaderboard/?$', LeaderboardView.as_view(), name='leaderboard'),
 
     url(r'^resources/?$', TemplateView.as_view(template_name='extra/resources.html'), name='resources'),
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
@@ -47,7 +49,7 @@ urlpatterns = [
     url(r'^contact/?$', ContactFormView.as_view(), name='contact'),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
 
-    url(r'^(?P<slug>[\w_-]+)/?$', redirect_to_profile),
+    url(r'^(?P<slug>[\w.@+_-]+)/?$', redirect_to_profile),
 ]
 
 # Add media folder to urls when DEBUG = True
