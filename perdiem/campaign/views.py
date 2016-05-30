@@ -20,10 +20,10 @@ class LeaderboardView(TemplateView):
     # occasionally (once a day) and then have the whole page cached
     def calculate_leaderboard(self):
         all_users = [(userp, userp.profile_context()) for userp in UserProfile.objects.filter(invest_anonymously=False)]
-        highest_roi = filter(lambda (userp, pcontext): pcontext['total_earned'] > 0, all_users)
-        highest_roi = sorted(highest_roi, key=lambda (userp, pcontext): pcontext['total_earned'], reverse=True)[:5]
+        total_earned = filter(lambda (userp, pcontext): pcontext['total_earned'] > 0, all_users)
+        total_earned = sorted(total_earned, key=lambda (userp, pcontext): pcontext['total_earned'], reverse=True)[:5]
         return {
-            'highest_roi': highest_roi,
+            'total_earned': total_earned,
         }
 
     def get_context_data(self, **kwargs):
