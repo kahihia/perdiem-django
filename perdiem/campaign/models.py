@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from pinax.stripe.models import Charge
 
-from artist.models import Artist
+from artist.models import Artist, ArtistAdmin
 
 
 class Campaign(models.Model):
@@ -107,6 +107,21 @@ class Campaign(models.Model):
             investors[investor_id]['percentage'] = (float(investor['num_shares']) / self.num_shares()) * self.fans_percentage
 
         return investors
+
+
+class ArtistPercentageBreakdown(models.Model):
+
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+    artist_admin = models.ForeignKey(ArtistAdmin, on_delete=models.SET_NULL, null=True, blank=True)
+    displays_publicly_as = models.CharField(max_length=30, help_text='The name shown on the artist\'s detail page')
+    percentage = models.FloatField(help_text='The percentage of revenue that goes back to this group/individual (a value from 0-100)')
+
+    def __unicode__(self):
+        return u'{campaign}: {displays_publicly_as} - {percentage}%'.format(
+            campaign=unicode(self.campaign),
+            displays_publicly_as=self.displays_publicly_as,
+            percentage=self.percentage
+        )
 
 
 class Expense(models.Model):
