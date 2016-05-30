@@ -44,7 +44,7 @@ class ArtistPercentageBreakdownFormset(forms.models.BaseInlineFormSet):
 
     def clean(self):
         super(ArtistPercentageBreakdownFormset, self).clean()
-        total_artist_percentage = self.instance.artist_percentage()
+        total_artist_percentage = self.instance.total_artist_percentage()
         artist_percentage_so_far = 0
         num_forms = 0
 

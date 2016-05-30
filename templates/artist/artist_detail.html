@@ -75,13 +75,14 @@
                         highlight: "#5AD3D1",
                         label: "{% if user_investor %}Other Investors{% else %}Investors{% endif %}"
                     },
-                    {
-                        value: {{ campaign.artist_percentage|floatformat:2 }},
-                        color:"#F7464A",
-                        highlight: "#FF5A5E",
-                        label: "{{ artist.name|escapejs }}"
-                    }
-
+                    {% for percentage_breakdown in campaign.artist_percentage %}
+                        {
+                            value: {{ percentage_breakdown.percentage|floatformat:2 }},
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "{{ percentage_breakdown.name|escapejs }}"
+                        }{% if not forloop.last %},{% endif %}
+                    {% endfor %}
                 ];
 
             var lineChartData = {

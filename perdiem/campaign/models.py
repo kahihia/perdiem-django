@@ -9,7 +9,6 @@ import math
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Count, Sum
 from django.utils import timezone
 
 from pinax.stripe.models import Charge
@@ -47,7 +46,7 @@ class Campaign(models.Model):
         return self.amount / self.value_per_share
 
     def total_shares_purchased(self):
-        return self.investment_set.filter(charge__paid=True).aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
+        return self.investment_set.filter(charge__paid=True).aggregate(total_shares=models.Sum('num_shares'))['total_shares'] or 0
 
     def num_shares_remaining(self):
         return self.num_shares() - self.total_shares_purchased()
@@ -73,8 +72,14 @@ class Campaign(models.Model):
         ended = self.end_datetime and self.end_datetime < timezone.now()
         return started and not ended and self.amount_raised() < self.amount
 
-    def artist_percentage(self):
+    def total_artist_percentage(self):
         return 100 - self.fans_percentage
+
+    def artist_percentage(self):
+        percentage_breakdowns = self.artistpercentagebreakdown_set.annotate(name=models.F('displays_publicly_as')).values('name').annotate(percentage=models.Sum('percentage')).order_by('-percentage')
+        if not percentage_breakdowns:
+            percentage_breakdowns = [{'name': self.artist.name, 'percentage': self.total_artist_percentage(),},]
+        return percentage_breakdowns
 
     def generated_revenue(self):
         return self.revenuereport_set.all().aggregate(gr=models.Sum('amount'))['gr'] or 0
