@@ -38,7 +38,7 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
-        self.active_genre = request.GET.get('genre', 'All')
+        self.active_genre = request.GET.get('genre', 'All Genres')
         self.distance = request.GET.get('distance')
         self.location = request.GET.get('location')
         self.lat = request.GET.get('lat')
@@ -74,7 +74,7 @@ class ArtistListView(ListView):
         artists = Artist.objects.all()
 
         # Filter by genre
-        if self.active_genre != 'All':
+        if self.active_genre != 'All Genres':
             artists = artists.filter(genres__name=self.active_genre)
 
         # Filter by location

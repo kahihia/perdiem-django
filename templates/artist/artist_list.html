@@ -14,12 +14,13 @@
     <div class="filter-sort-options center">
         <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
             <li><h5>Show me</h5></li>
+            <li><h5>artists in</h5></li>
             {% if genres %}
                 <li class="is-dropdown-submenu-parent opens-right">
                     <a href="#"><h5>{{ active_genre }}</h5></a>
                     <ul class="menu is-dropdown-submenu">
-                        {% if active_genre != 'All' %}
-                            <li><a href="?genre=All&sort={{ order_by.slug }}"><h6>ALL</h6></a></li>
+                        {% if active_genre != 'All Genres' %}
+                            <li><a href="?genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
                         {% endif %}
                         {% for genre in genres %}
                             {% if genre != active_genre %}
@@ -29,7 +30,6 @@
                     </ul>
                 </li>
             {% endif %}
-            <li><h5>music</h5></li>
             <li>
                 <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
                     <h5>{% if distance %}within {{ distance }} miles{% endif %}
