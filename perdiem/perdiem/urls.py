@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
 
     url(r'^unsubscribe/from-mailchimp/$', unsubscribe_from_mailchimp, name='unsubscribe_from_mailchimp'),
-    url(r'^unsubscribe/(?P<user_id>\d+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
+    url(r'^unsubscribe/(?P<user_id>\d+)/(?P<subscription_type>\w+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
     url(r'^payments/', include('pinax.stripe.urls')),
 
     url(r'^artists/?$', ArtistListView.as_view(), name='artists'),
