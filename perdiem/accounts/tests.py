@@ -7,6 +7,7 @@
 from django.contrib.auth.models import User
 
 from accounts.models import UserAvatar
+from emails.models import VerifiedEmail
 from perdiem.tests import PerDiemTestCase
 
 
@@ -177,6 +178,26 @@ class SettingsWebTestCase(PerDiemTestCase):
                 'subscription_artist_update': True,
             }
         )
+
+    def testUpdateEmailAddress(self):
+        # Verify first email
+        verified_email = VerifiedEmail.objects.get_current_email(self.user)
+        verified_email.verified = True
+        verified_email.save()
+
+        # Update email address to something new
+        self.assertResponseRenders(
+            '/accounts/settings/',
+            method='POST',
+            data={
+                'action': 'email_preferences',
+                'email': 'newemail@example.com',
+            }
+        )
+
+        # Check that new email is not verified
+        self.user = User.objects.get(id=self.user.id)
+        self.assertFalse(VerifiedEmail.objects.is_current_email_verified(self.user))
 
     def testCannotChangeEmailToExistingAccount(self):
         self.assertResponseRenders(

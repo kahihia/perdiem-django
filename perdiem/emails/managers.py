@@ -7,6 +7,17 @@
 from django.db import models
 
 
+class VerifiedEmailManager(models.Manager):
+
+    def get_current_email(self, user):
+        verified_email, _ = self.get_or_create(user=user, email=user.email)
+        return verified_email
+
+    def is_current_email_verified(self, user):
+        verified_email = self.get_current_email(user)
+        return verified_email.verified
+
+
 class EmailSubscriptionManager(models.Manager):
 
     def is_subscribed(self, user, subscription_type=None):

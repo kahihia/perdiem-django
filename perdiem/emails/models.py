@@ -5,11 +5,29 @@
 """
 
 from __future__ import unicode_literals
+import uuid
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 
-from emails.managers import EmailSubscriptionManager
+from emails.managers import VerifiedEmailManager, EmailSubscriptionManager
+
+
+class VerifiedEmail(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    verified = models.BooleanField(default=False)
+    code = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True)
+
+    objects = VerifiedEmailManager()
+
+    def __unicode__(self):
+        return self.email
+
+    def url(self):
+        return reverse('verify_email', kwargs={'user_id': self.user.id, 'code': self.code,})
 
 
 class EmailSubscription(models.Model):

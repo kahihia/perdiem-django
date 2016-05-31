@@ -10,13 +10,14 @@ from django.contrib.sites.models import Site
 from templated_email import send_templated_mail
 
 from emails.exceptions import NoTemplateProvided
-from emails.models import EmailSubscription
+from emails.models import VerifiedEmail, EmailSubscription
 from emails.utils import create_unsubscribe_link
 
 
 class BaseEmail(object):
 
     ignore_unsubscribed = False
+    send_to_unverified_emails = False
     subscription_type = EmailSubscription.SUBSCRIPTION_ALL
 
     @staticmethod
@@ -53,6 +54,11 @@ class BaseEmail(object):
         return context
 
     def send_to_email(self, email, context={}):
+        """
+        This method is not meant to be called directly, except for
+        sending emails to email addresses that do not belong to a user.
+        Generally, this method should be called from the send() method.
+        """
         send_templated_mail(
             template_name=self.get_template_name(),
             from_email=settings.DEFAULT_FROM_EMAIL,
@@ -62,11 +68,24 @@ class BaseEmail(object):
 
     def send(self, user, context={}, **kwargs):
         context.update(self.get_context_data(user, **kwargs))
-        if self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type):
+        user_is_subscribed = self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
+        email_is_verified = self.send_to_unverified_emails or VerifiedEmail.objects.is_current_email_verified(user)
+        if user_is_subscribed and email_is_verified:
             self.send_to_email(user.email, context)
 
 
-class WelcomeEmail(BaseEmail):
+class EmailVerificationEmail(BaseEmail):
+
+    template_name = 'email_verification'
+    send_to_unverified_emails = True
+
+    def get_context_data(self, user, **kwargs):
+        context = super(EmailVerificationEmail, self).get_context_data(user, **kwargs)
+        context['verify_email_url'] = VerifiedEmail.objects.get_current_email(user).url()
+        return context
+
+
+class WelcomeEmail(EmailVerificationEmail):
 
     template_name = 'welcome'
 
