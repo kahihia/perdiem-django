@@ -1,0 +1,12 @@
+{% load thumbnail %}
+
+{% for media_url in update.updatemediaurl_set.all %}
+    {% if not forloop.first %}<br />{% endif %}
+    {{ media_url.html|safe }}
+{% endfor %}
+{% for image in update.updateimage_set.all %}
+    {% if not forloop.first %}<br />{% endif %}
+    {% thumbnail image.img "500x300" crop="center" as thumb %}
+        <img src="{{ thumb.url }}" alt="{{ update.title }}" />
+    {% endthumbnail %}
+{% endfor %}

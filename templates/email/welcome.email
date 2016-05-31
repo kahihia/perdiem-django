@@ -3,9 +3,10 @@
 {% block email_subject %}Welcome to PerDiem!{% endblock %}
 
 {% block plain_body %}
-    Thanks for joining PerDiem!
+    Thanks for joining PerDiem! Please go to the following link to verify your email address:
+    {{ host }}{{ verify_email_url }}
 {% endblock %}
 
 {% block html_body %}
-    <p>Thanks for joining PerDiem!</p>
+    <p>Thanks for joining PerDiem! Please <a href="{{ host }}{{ verify_email_url }}">click here</a> to verify your email address.</p>
 {% endblock %}

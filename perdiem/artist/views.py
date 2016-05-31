@@ -20,7 +20,7 @@ from geopy.geocoders import Nominatim
 
 from artist.forms import ArtistApplyForm, ArtistUpdateForm
 from artist.models import Genre, Artist, Update, UpdateImage, UpdateMediaURL
-from emails.messages import ArtistApplyEmail
+from emails.messages import ArtistApplyEmail, ArtistUpdateEmail
 
 
 class ArtistListView(ListView):
@@ -205,6 +205,14 @@ class ArtistDetailView(FormView):
         youtube_url = d['youtube_url']
         if youtube_url:
             UpdateMediaURL.objects.create(update=update, media_type=UpdateMediaURL.MEDIA_YOUTUBE, url=youtube_url)
+
+        # Send email to users following the artist's updates
+        investors = User.objects.filter(
+            customer__charges__paid=True,
+            customer__charges__investment__campaign__artist=self.artist
+        ).distinct()
+        for investor in investors:
+            ArtistUpdateEmail().send(user=investor, update=update)
 
         return super(ArtistDetailView, self).form_valid(form)
 

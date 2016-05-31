@@ -12,6 +12,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
 
+from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Campaign, Investment, RevenueReport
 
@@ -45,7 +46,7 @@ class PerDiemTestCase(TestCase):
     def strip_query_params(url):
         return url.split('?')[0]
 
-    def assertResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
+    def assertResponseRenders(self, url, status_code=200, method='GET', data={}, has_form_error=False, **kwargs):
         request_method = getattr(self.client, method.lower())
         follow = status_code == 302
         response = request_method(url, data=data, follow=follow, **kwargs)
@@ -63,6 +64,11 @@ class PerDiemTestCase(TestCase):
                 expected_status=status_code
             )
         )
+
+        # Check that forms submitted did not return errors (or did if it should have)
+        form_error_assertion_method = self.assertIn if has_form_error else self.assertNotIn
+        form_error_assertion_method('errorlist', response.content)
+
         return response
 
     def assertJsonResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
@@ -92,6 +98,11 @@ class PerDiemTestCase(TestCase):
             username=self.USER_USERNAME,
             password=self.USER_PASSWORD
         )
+        avatar = UserAvatar.objects.create(
+            user=self.user,
+            provider=UserAvatar.PROVIDER_GOOGLE
+        )
+        UserAvatarURL.objects.create(avatar=avatar, url='')
 
         self.ordinary_user = User.objects.create_user(
             self.ORDINARY_USER_USERNAME,

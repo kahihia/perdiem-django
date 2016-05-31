@@ -4,7 +4,7 @@
 
 """
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -20,8 +20,8 @@ from accounts.forms import (
 )
 from accounts.models import UserAvatar, UserAvatarImage
 from artist.models import Artist, Update
-from emails.messages import WelcomeEmail, ContactEmail
-from emails.models import EmailSubscription
+from emails.messages import EmailVerificationEmail, ContactEmail
+from emails.models import VerifiedEmail, EmailSubscription
 from perdiem.views import ConstituentFormView, MultipleFormView
 
 
@@ -47,10 +47,22 @@ class RegisterAccountView(CreateView):
         if d['subscribe_news']:
             EmailSubscription.objects.create(user=user, subscription=EmailSubscription.SUBSCRIPTION_NEWS)
 
-        # Send user welcome email
-        WelcomeEmail().send(user=user)
-
         return valid
+
+
+class VerifyEmailView(TemplateView):
+
+    template_name = 'registration/verify_email.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(VerifyEmailView, self).get_context_data(**kwargs)
+
+        verified_email = get_object_or_404(VerifiedEmail, user__id=kwargs['user_id'], code=kwargs['code'])
+        verified_email.verified = True
+        verified_email.save()
+        context['verified_email'] = verified_email
+
+        return context
 
 
 class EditNameFormView(ConstituentFormView):
@@ -122,14 +134,18 @@ class ChangePasswordFormView(ConstituentFormView):
         # Update user's password
         user.set_password(d['new_password1'])
         user.save()
+        update_session_auth_hash(self.request, user)
 
 
 class EmailPreferencesFormView(ConstituentFormView):
 
     form_class = EmailPreferencesForm
+    provide_user = True
 
     def get_initial(self):
-        initial = {}
+        initial = {
+            'email': self.request.user.email,
+        }
         for subscription_type, _ in EmailSubscription.SUBSCRIPTION_CHOICES:
             subscribed = EmailSubscription.objects.is_subscribed(user=self.request.user, subscription_type=subscription_type)
             initial['subscription_{stype}'.format(stype=subscription_type.lower())] = subscribed
@@ -137,15 +153,23 @@ class EmailPreferencesFormView(ConstituentFormView):
 
     def form_valid(self, form):
         user = self.request.user
+        d = form.cleaned_data
 
         # Update user's email subscriptions
-        email_subscriptions = {k: v for k, v in form.cleaned_data.iteritems() if k.startswith('subscription_')}
+        email_subscriptions = {k: v for k, v in d.iteritems() if k.startswith('subscription_')}
         for subscription_type, is_subscribed in email_subscriptions.iteritems():
             EmailSubscription.objects.update_or_create(
                 user=user,
                 subscription=getattr(EmailSubscription, subscription_type.upper()),
                 defaults={'subscribed': is_subscribed,}
             )
+
+        # Update user's email address
+        if d['email'] != user.email:
+            user.email = d['email']
+            user.save()
+            if not VerifiedEmail.objects.is_current_email_verified(user):
+                EmailVerificationEmail().send(user=user)
 
 
 class SettingsView(LoginRequiredMixin, MultipleFormView):

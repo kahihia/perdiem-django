@@ -25,12 +25,21 @@ class UnsubscribeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(UnsubscribeView, self).get_context_data(**kwargs)
-        if (self.request.user.is_authenticated() and self.request.user == self.user) or check_token(self.user, kwargs['token']):
-            EmailSubscription.objects.unsubscribe_user(self.user)
-            context['success'] = True
-            context['email'] = self.user.email
+
+        user_is_authenticated = ((self.request.user.is_authenticated() and self.request.user == self.user) or check_token(self.user, kwargs['token']))
+        subscription_type = kwargs['subscription_type']
+        subscription_choices = dict(EmailSubscription.SUBSCRIPTION_CHOICES)
+
+        if user_is_authenticated and subscription_type in subscription_choices:
+            EmailSubscription.objects.unsubscribe_user(self.user, subscription_type=subscription_type)
+            context.update({
+                'success': True,
+                'email': self.user.email,
+                'subscription_type_display': subscription_choices[subscription_type],
+            })
         else:
             context['success'] = False
+
         return context
 
 

@@ -9,12 +9,16 @@ from django.db import models
 from django.dispatch.dispatcher import receiver
 
 from accounts.models import UserProfile
+from emails.messages import WelcomeEmail
+from emails.models import VerifiedEmail
 
 
-@receiver(models.signals.post_save, sender=User, dispatch_uid="userprofile_autocreate_handler")
-def userprofile_autocreate_handler(sender, **kwargs):
+@receiver(models.signals.post_save, sender=User, dispatch_uid="post_user_create_handler")
+def post_user_create_handler(sender, **kwargs):
     user = kwargs['instance']
     created = kwargs['created']
 
     if created:
         UserProfile.objects.create(user=user)
+        VerifiedEmail.objects.create(user=user, email=user.email)
+        WelcomeEmail().send(user=user)

@@ -5,17 +5,39 @@
 """
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 from templated_email import send_templated_mail
 
 from emails.exceptions import NoTemplateProvided
-from emails.models import EmailSubscription
+from emails.models import VerifiedEmail, EmailSubscription
 from emails.utils import create_unsubscribe_link
 
 
 class BaseEmail(object):
 
     ignore_unsubscribed = False
+    send_to_unverified_emails = False
+    subscription_type = EmailSubscription.SUBSCRIPTION_ALL
+
+    @staticmethod
+    def get_host():
+        return '{proto}://{domain}'.format(
+            proto='http' if settings.DEBUG else 'https',
+            domain=Site.objects.get_current().domain
+        )
+
+    def unsubscribe_message(self, user):
+        host = self.get_host()
+        unsubscribe_url = create_unsubscribe_link(user, self.subscription_type)
+        if self.subscription_type == EmailSubscription.SUBSCRIPTION_ALL:
+            message = "To unsubscribe from all emails from PerDiem"
+        else:
+            message = "To unsubscribe from these types of emails from PerDiem"
+        return {
+            'plain': "{message}, go to: {host}{url}.".format(message=message, host=host, url=unsubscribe_url),
+            'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(message=message, host=host, url=unsubscribe_url),
+        }
 
     def get_template_name(self):
         if not hasattr(self, 'template_name'):
@@ -24,13 +46,19 @@ class BaseEmail(object):
 
     def get_context_data(self, user, **kwargs):
         context = {
+            'host': self.get_host(),
             'user': user,
         }
         if not self.ignore_unsubscribed:
-            context['unsubscribe_url'] = create_unsubscribe_link(user)
+            context['unsubscribe_message'] = self.unsubscribe_message(user)
         return context
 
     def send_to_email(self, email, context={}):
+        """
+        This method is not meant to be called directly, except for
+        sending emails to email addresses that do not belong to a user.
+        Generally, this method should be called from the send() method.
+        """
         send_templated_mail(
             template_name=self.get_template_name(),
             from_email=settings.DEFAULT_FROM_EMAIL,
@@ -40,11 +68,24 @@ class BaseEmail(object):
 
     def send(self, user, context={}, **kwargs):
         context.update(self.get_context_data(user, **kwargs))
-        if self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user):
+        user_is_subscribed = self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
+        email_is_verified = self.send_to_unverified_emails or VerifiedEmail.objects.is_current_email_verified(user)
+        if user_is_subscribed and email_is_verified:
             self.send_to_email(user.email, context)
 
 
-class WelcomeEmail(BaseEmail):
+class EmailVerificationEmail(BaseEmail):
+
+    template_name = 'email_verification'
+    send_to_unverified_emails = True
+
+    def get_context_data(self, user, **kwargs):
+        context = super(EmailVerificationEmail, self).get_context_data(user, **kwargs)
+        context['verify_email_url'] = VerifiedEmail.objects.get_current_email(user).url()
+        return context
+
+
+class WelcomeEmail(EmailVerificationEmail):
 
     template_name = 'welcome'
 
@@ -57,6 +98,23 @@ class ContactEmail(BaseEmail):
 class ArtistApplyEmail(BaseEmail):
 
     template_name = 'artist_apply'
+
+
+class ArtistUpdateEmail(BaseEmail):
+
+    template_name = 'artist_update'
+    subscription_type = EmailSubscription.SUBSCRIPTION_ARTUP
+
+    def get_context_data(self, user, **kwargs):
+        context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
+
+        update = kwargs['update']
+        context.update({
+            'artist': update.artist,
+            'update': update,
+        })
+
+        return context
 
 
 class InvestSuccessEmail(BaseEmail):

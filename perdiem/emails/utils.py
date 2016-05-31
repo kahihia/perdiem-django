@@ -4,20 +4,24 @@
 
 """
 
-from django.contrib.sites.models import Site
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.core.urlresolvers import reverse
+
+from emails.models import EmailSubscription
 
 
 def make_token(user):
     return TimestampSigner().sign(user.id)
 
-def create_unsubscribe_link(user):
+def create_unsubscribe_link(user, subscription_type=EmailSubscription.SUBSCRIPTION_ALL):
     user_id, token = make_token(user).split(":", 1)
-    unsubscribe_url = reverse('unsubscribe', kwargs={'user_id': user_id, 'token': token,})
-    return "http://{domain}{url}".format(
-        domain=Site.objects.get_current().domain,
-        url=unsubscribe_url
+    return reverse(
+        'unsubscribe',
+        kwargs={
+            'user_id': user_id,
+            'subscription_type': subscription_type,
+            'token': token,
+        }
     )
 
 def check_token(user_id, token):
