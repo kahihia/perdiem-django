@@ -6,6 +6,7 @@
 
 from django.contrib.auth.models import User
 
+from accounts.models import UserAvatar
 from perdiem.tests import PerDiemTestCase
 
 
@@ -148,7 +149,7 @@ class SettingsWebTestCase(PerDiemTestCase):
             method='POST',
             data={
                 'action': 'edit_avatar',
-                'avatar': self.user.userprofile.avatar,
+                'avatar': UserAvatar.objects.get(user=self.user).id,
             }
         )
 
@@ -170,7 +171,20 @@ class SettingsWebTestCase(PerDiemTestCase):
             method='POST',
             data={
                 'action': 'email_preferences',
+                'email': self.user.email,
                 'subscription_all': True,
-                'subscription_news': False
+                'subscription_news': False,
+                'subscription_artist_update': True,
             }
+        )
+
+    def testCannotChangeEmailToExistingAccount(self):
+        self.assertResponseRenders(
+            '/accounts/settings/',
+            method='POST',
+            data={
+                'action': 'email_preferences',
+                'email': self.ordinary_user.email,
+            },
+            has_form_error=True
         )

@@ -41,8 +41,6 @@ class MultipleFormView(TemplateView):
                 }
                 if form_view.provide_user:
                     form_args.append(self.request.user)
-                if self.request.method == 'POST' and self.request.POST.get('action') == form_name:
-                    form_kwargs['data'] = self.request.POST
                 context[form_context_name] = form_view.form_class(*form_args, **form_kwargs)
             elif context[form_context_name].errors:
                 context['forms_with_errors'].append(form_name)

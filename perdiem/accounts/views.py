@@ -4,7 +4,7 @@
 
 """
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -122,6 +122,7 @@ class ChangePasswordFormView(ConstituentFormView):
         # Update user's password
         user.set_password(d['new_password1'])
         user.save()
+        update_session_auth_hash(self.request, user)
 
 
 class EmailPreferencesFormView(ConstituentFormView):
