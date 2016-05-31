@@ -82,6 +82,7 @@ class EditAvatarForm(forms.Form):
 
 class EmailPreferencesForm(forms.Form):
 
+    email = forms.EmailField()
     subscription_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
     subscription_artist_update = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
     subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')

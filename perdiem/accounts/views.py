@@ -129,7 +129,9 @@ class EmailPreferencesFormView(ConstituentFormView):
     form_class = EmailPreferencesForm
 
     def get_initial(self):
-        initial = {}
+        initial = {
+            'email': self.request.user.email,
+        }
         for subscription_type, _ in EmailSubscription.SUBSCRIPTION_CHOICES:
             subscribed = EmailSubscription.objects.is_subscribed(user=self.request.user, subscription_type=subscription_type)
             initial['subscription_{stype}'.format(stype=subscription_type.lower())] = subscribed
@@ -137,15 +139,20 @@ class EmailPreferencesFormView(ConstituentFormView):
 
     def form_valid(self, form):
         user = self.request.user
+        d = form.cleaned_data
 
         # Update user's email subscriptions
-        email_subscriptions = {k: v for k, v in form.cleaned_data.iteritems() if k.startswith('subscription_')}
+        email_subscriptions = {k: v for k, v in d.iteritems() if k.startswith('subscription_')}
         for subscription_type, is_subscribed in email_subscriptions.iteritems():
             EmailSubscription.objects.update_or_create(
                 user=user,
                 subscription=getattr(EmailSubscription, subscription_type.upper()),
                 defaults={'subscribed': is_subscribed,}
             )
+
+        # Update user's email address
+        user.email = d['email']
+        user.save()
 
 
 class SettingsView(LoginRequiredMixin, MultipleFormView):
