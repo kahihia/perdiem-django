@@ -84,7 +84,7 @@ class EmailPreferencesForm(forms.Form):
 
     email = forms.EmailField()
     subscription_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
-    subscription_artist_update = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
+    subscription_artup = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
     subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')
 
     def __init__(self, user, *args, **kwargs):
@@ -102,7 +102,7 @@ class EmailPreferencesForm(forms.Form):
 
     def clean(self):
         d = self.cleaned_data
-        if (d['subscription_news'] or d['subscription_artist_update']) and not d['subscription_all']:
+        if (d['subscription_news'] or d['subscription_artup']) and not d['subscription_all']:
             raise forms.ValidationError("You cannot subscribe to general updates or artist updates if you are unsubscribed from all emails.")
         return d
 

@@ -84,7 +84,7 @@ class ArtistApplyEmail(BaseEmail):
 class ArtistUpdateEmail(BaseEmail):
 
     template_name = 'artist_update'
-    subscription_type = EmailSubscription.SUBSCRIPTION_ARTIST_UPDATE
+    subscription_type = EmailSubscription.SUBSCRIPTION_ARTUP
 
     def get_context_data(self, user, **kwargs):
         context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
