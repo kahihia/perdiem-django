@@ -5,6 +5,7 @@
 """
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 from templated_email import send_templated_mail
 
@@ -18,15 +19,23 @@ class BaseEmail(object):
     ignore_unsubscribed = False
     subscription_type = EmailSubscription.SUBSCRIPTION_ALL
 
+    @staticmethod
+    def get_host():
+        return '{proto}://{domain}'.format(
+            proto='http' if settings.DEBUG else 'https',
+            domain=Site.objects.get_current().domain
+        )
+
     def unsubscribe_message(self, user):
+        host = self.get_host()
         unsubscribe_url = create_unsubscribe_link(user, self.subscription_type)
         if self.subscription_type == EmailSubscription.SUBSCRIPTION_ALL:
             message = "To unsubscribe from all emails from PerDiem"
         else:
             message = "To unsubscribe from these types of emails from PerDiem"
         return {
-            'plain': "{message}, go to: {url}.".format(message=message, url=unsubscribe_url),
-            'html': "{message}, click <a href=\"{url}\">here</a>.".format(message=message, url=unsubscribe_url),
+            'plain': "{message}, go to: {host}{url}.".format(message=message, host=host, url=unsubscribe_url),
+            'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(message=message, host=host, url=unsubscribe_url),
         }
 
     def get_template_name(self):
@@ -36,6 +45,7 @@ class BaseEmail(object):
 
     def get_context_data(self, user, **kwargs):
         context = {
+            'host': self.get_host(),
             'user': user,
         }
         if not self.ignore_unsubscribed:
@@ -69,6 +79,23 @@ class ContactEmail(BaseEmail):
 class ArtistApplyEmail(BaseEmail):
 
     template_name = 'artist_apply'
+
+
+class ArtistUpdateEmail(BaseEmail):
+
+    template_name = 'artist_update'
+    subscription_type = EmailSubscription.SUBSCRIPTION_ARTIST_UPDATE
+
+    def get_context_data(self, user, **kwargs):
+        context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
+
+        update = kwargs['update']
+        context.update({
+            'artist': update.artist,
+            'update': update,
+        })
+
+        return context
 
 
 class InvestSuccessEmail(BaseEmail):

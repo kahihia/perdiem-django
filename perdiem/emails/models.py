@@ -16,9 +16,11 @@ class EmailSubscription(models.Model):
 
     SUBSCRIPTION_ALL = 'ALL'
     SUBSCRIPTION_NEWS = 'NEWS'
+    SUBSCRIPTION_ARTIST_UPDATE = 'ARTUP'
     SUBSCRIPTION_CHOICES = (
-        (SUBSCRIPTION_ALL, 'General'),
-        (SUBSCRIPTION_NEWS, 'Newsletter'),
+        (SUBSCRIPTION_ALL, 'General',),
+        (SUBSCRIPTION_NEWS, 'Newsletter',),
+        (SUBSCRIPTION_ARTIST_UPDATE, 'Artist Updates',),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

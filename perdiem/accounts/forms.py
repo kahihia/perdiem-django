@@ -83,12 +83,13 @@ class EditAvatarForm(forms.Form):
 class EmailPreferencesForm(forms.Form):
 
     subscription_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
+    subscription_artist_update = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
     subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')
 
     def clean(self):
         d = self.cleaned_data
-        if d['subscription_news'] and not d['subscription_all']:
-            raise forms.ValidationError("You cannot subscribe to general updates if you are unsubscribed from all emails.")
+        if (d['subscription_news'] or d['subscription_artist_update']) and not d['subscription_all']:
+            raise forms.ValidationError("You cannot subscribe to general updates or artist updates if you are unsubscribed from all emails.")
         return d
 
 

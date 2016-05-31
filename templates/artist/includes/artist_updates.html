@@ -1,5 +1,3 @@
-{% load thumbnail %}
-
 <ul class="menu vertical nested is-active updates">
     {% for update in updates %}
         <li id="update-{{ update.id }}">
@@ -9,16 +7,7 @@
                     <button id="update-{{ update.id }}" class="button delete-update"><i class="fa fa-trash"></i></button>
                 {% endif %}
             </h3>
-            {% for media_url in update.updatemediaurl_set.all %}
-                {% if not forloop.first %}<br />{% endif %}
-                {{ media_url.html|safe }}
-            {% endfor %}
-            {% for image in update.updateimage_set.all %}
-                {% if not forloop.first %}<br />{% endif %}
-                {% thumbnail image.img "500x300" crop="center" as thumb %}
-                    <img src="{{ thumb.url }}" alt="{{ update.title }}" />
-                {% endthumbnail %}
-            {% endfor %}
+            {% include "artist/includes/artist_update_media.html" with update=update %}
             <p><small>[{{ update.created_datetime }}]</small></p>
             <p>{{ update.text }}</p>
         </li>
