@@ -29,7 +29,7 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
         return
 
     # Get avatar from provider, skip if no avatar
-    provider = kwargs['backend'].name
+    provider = kwargs['backend'].name.replace('-login', '').replace('-register', '')
     try:
         if provider == 'google-oauth2':
             avatar = kwargs['response']['image']
