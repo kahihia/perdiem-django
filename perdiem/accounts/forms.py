@@ -87,6 +87,19 @@ class EmailPreferencesForm(forms.Form):
     subscription_artist_update = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
     subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')
 
+    def __init__(self, user, *args, **kwargs):
+        super(EmailPreferencesForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        # Verify that there are no other users already with this email address
+        if User.objects.exclude(id=self.user.id).filter(email=email).exists():
+            raise forms.ValidationError("The email address {email} already belongs to an existing user on PerDiem.".format(email=email))
+
+        return email
+
     def clean(self):
         d = self.cleaned_data
         if (d['subscription_news'] or d['subscription_artist_update']) and not d['subscription_all']:

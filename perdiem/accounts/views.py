@@ -127,6 +127,7 @@ class ChangePasswordFormView(ConstituentFormView):
 class EmailPreferencesFormView(ConstituentFormView):
 
     form_class = EmailPreferencesForm
+    provide_user = True
 
     def get_initial(self):
         initial = {
