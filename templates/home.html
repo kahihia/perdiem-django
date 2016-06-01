@@ -21,8 +21,7 @@
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
         {% if user.is_authenticated %}
             <div class="home-boxes">
-                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
-                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
+                <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>VIEW ARTISTS</a>
             </div>
         {% else %}
             <div class="home-boxes">
