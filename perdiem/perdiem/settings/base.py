@@ -74,6 +74,7 @@ class BaseSettings(DjangoDefaults):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
+        'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
         'accounts.middleware.LoginFormMiddleware',
     )
     ROOT_URLCONF = 'perdiem.urls'
@@ -177,6 +178,7 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.social_auth.load_extra_data',
         'social.pipeline.user.user_details',
     )
+    SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
     SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
         'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)',]),
