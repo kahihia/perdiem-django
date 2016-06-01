@@ -8,11 +8,14 @@
     <ul>
         {% for investor, profile_context in investors %}
             <li>
-                #{{ forloop.counter }}:
-                <a href="{{ investor.public_profile_url }}">
-                    <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
-                    {{ investor.get_display_name }} (${{ profile_context.total_earned|floatformat:2|intcomma }})
-                </a>
+                <div class="leaderboard-padding">
+                    #{{ forloop.counter }}:
+                    <a href="{{ investor.public_profile_url }}">
+                        <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
+                        <br/>
+                            {{ investor.get_display_name }} (${{ profile_context.total_earned|floatformat:2|intcomma }})
+                    </a>
+                </div>
             </li>
         {% endfor %}
     </ul>

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/extra/charts.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
+
 {% block content %}
-    <h1>INVESTOR LEADERBOARD</h1>
+    <h2>INVESTOR LEADERBOARD</h2>
     {% include "leaderboard/includes/list.html" with name='Total Earned' investors=total_earned %}
 {% endblock %}
