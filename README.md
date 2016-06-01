@@ -131,3 +131,11 @@ Then change the permissions on the file to be executable and symlink the project
     $ sudo ln -s /etc/sv/perdiem /etc/service/perdiem
 
 PerDiem should now automatically be running on the local machine.
+
+To configure your local machine to enable easier deployments, simply add comma-separated SSH-like "host strings" for all of the production instances to an environment variable called `PERDIEM_REMOTE_HOSTS`. You may want to add this in your `.bashrc` or similar. Here is an example of a line in `.bashrc` that defines two PerDiem production instances:
+
+    PERDIEM_REMOTE_HOSTS=user@host1.example.com,user@host2.example.com
+
+Then you will be able to deploy to all of your instances with Fabric, simply with:
+
+    $ fab deploy
