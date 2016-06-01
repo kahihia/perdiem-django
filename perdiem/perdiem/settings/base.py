@@ -177,6 +177,7 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.social_auth.associate_user',
         'social.pipeline.social_auth.load_extra_data',
         'social.pipeline.user.user_details',
+        'accounts.pipeline.send_welcome_email',
     )
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]

@@ -20,7 +20,7 @@ from accounts.forms import (
 )
 from accounts.models import UserAvatar, UserAvatarImage
 from artist.models import Artist, Update
-from emails.messages import EmailVerificationEmail, ContactEmail
+from emails.messages import EmailVerificationEmail, WelcomeEmail, ContactEmail
 from emails.models import VerifiedEmail, EmailSubscription
 from perdiem.views import ConstituentFormView, MultipleFormView
 
@@ -46,6 +46,10 @@ class RegisterAccountView(CreateView):
         # Create the user's newsletter subscription (if applicable)
         if d['subscribe_news']:
             EmailSubscription.objects.create(user=user, subscription=EmailSubscription.SUBSCRIPTION_NEWS)
+
+        # Send Welcome email
+        VerifiedEmail.objects.create(user=user, email=user.email)
+        WelcomeEmail().send(user=user)
 
         return valid
 

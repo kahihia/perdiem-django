@@ -3,10 +3,19 @@
 {% block email_subject %}Welcome to PerDiem!{% endblock %}
 
 {% block plain_body %}
-    Thanks for joining PerDiem! Please go to the following link to verify your email address:
-    {{ host }}{{ verify_email_url }}
+    Thanks for joining PerDiem!
+
+    {% if verify_email_url %}
+        Please go to the following link to verify your email address:
+        {{ host }}{{ verify_email_url }}
+    {% endif %}
 {% endblock %}
 
 {% block html_body %}
-    <p>Thanks for joining PerDiem! Please <a href="{{ host }}{{ verify_email_url }}">click here</a> to verify your email address.</p>
+    <p>Thanks for joining PerDiem!
+
+    {% if verify_email_url %}
+        Please <a href="{{ host }}{{ verify_email_url }}">click here</a> to verify your email address.
+    {% endif %}
+    </p>
 {% endblock %}

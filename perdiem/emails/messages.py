@@ -89,6 +89,13 @@ class WelcomeEmail(EmailVerificationEmail):
 
     template_name = 'welcome'
 
+    def get_context_data(self, user, **kwargs):
+        context = super(WelcomeEmail, self).get_context_data(user, **kwargs)
+        verified_email = VerifiedEmail.objects.get_current_email(user)
+        if verified_email.verified:
+            del context['verify_email_url']
+        return context
+
 
 class ContactEmail(BaseEmail):
 

@@ -4,10 +4,13 @@
 
 """
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from accounts.models import UserAvatar, UserAvatarURL
+from emails.messages import WelcomeEmail
+from emails.models import VerifiedEmail
 
 
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
@@ -64,3 +67,10 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     if created and not user.userprofile.avatar:
         user.userprofile.avatar = user_avatar
         user.userprofile.save()
+
+
+def send_welcome_email(strategy, details, user=None, is_new=False, *args, **kwargs):
+    if user and is_new:
+        VerifiedEmail.objects.create(user=user, email=details['email'], verified=True)
+        # user = User.objects.get(id=user.id)
+        WelcomeEmail().send(user=user)
