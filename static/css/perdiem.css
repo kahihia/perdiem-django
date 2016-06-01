@@ -44,6 +44,12 @@ h5 {
     text-align: center;
 }
 
+h6 {
+    font-size: 1em;
+    text-align: center;
+    font-weight: 200;
+}
+
 ul {
     list-style-type: none;
     text-align: center;
