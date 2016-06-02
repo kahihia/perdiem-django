@@ -25,12 +25,11 @@
             </div>
         {% else %}
             <div class="home-boxes">
-                <a class="button text-center box-margin" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
-                <a class="button text-center box-margin" data-open="login-modal">LOGIN</a>
+                <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>Discover Artists</a>
             </div>
         {% endif %}
         <div class="bottom-how">
-            <h5><a class="white-color" href={% url 'home' %}#how>HOW IT WORKS<br/>
+            <h5><a class="white-color" href={% url 'home' %}#how>LEARN MORE<br/>
             <i class="fa fa-chevron-down fa-1x" aria-hidden="true"></i></a></h5>
         </div>
     </div>
