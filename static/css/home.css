@@ -110,6 +110,13 @@ p.welcome-text {
     padding: 20px;
 }
 
+.view-artists-box {
+    width: 200px;
+    font-size: 1.5em;
+    font-family: dosis;
+    font-weight: 200
+}
+
 .videowrapper {
     float: none;
     clear: both;
