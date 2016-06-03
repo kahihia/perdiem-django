@@ -4,19 +4,39 @@
     <div class="break">
         <hr>
     </div>
-    <h3>{{ name }}</h3>
-    <ul>
-        {% for investor, profile_context in investors %}
-            <li>
-                <div class="leaderboard-padding button">
-                    #{{ forloop.counter }}:
+    <div class="charts-container">
+        <div id="chart1">
+            <h3>{{ name }}</h3>
+            <ul>
+                {% for investor, profile_context in investors %}
+                    <li>
                     <a href="{{ investor.public_profile_url }}">
+                    <div class="leaderboard-padding button">
                         <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
                         <br/>
-                            {{ investor.get_display_name }} (${{ profile_context.total_earned|floatformat:2|intcomma }})
+                        <h5 class="investor-name">#{{ forloop.counter }}: {{ investor.get_display_name }}</h5>${{ profile_context.total_earned|floatformat:2|intcomma }}
+                    </div>
                     </a>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="chart2">
+            <h3>{{ name }}</h3>
+            <ul>
+                {% for investor, profile_context in investors %}
+                    <li>
+                    <a href="{{ investor.public_profile_url }}">
+                    <div class="leaderboard-padding button">
+                        <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
+                        <br/>
+                        <h5 class="investor-name">#{{ forloop.counter }}: {{ investor.get_display_name }}</h5>${{ profile_context.total_earned|floatformat:2|intcomma }}
+                    </div>
+                    </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endif %}

@@ -6,3 +6,30 @@
     border-color: #000;
     border-width: 1px;
 }
+
+.investor-name {
+    padding: 0px;
+    margin: 0px;
+    color: black;
+    font-weight: 400;
+}
+
+.chart-column {
+    float: center;
+}
+
+.charts-container {
+    overflow: hidden;
+    width: auto;
+    margin: 0 auto;
+}
+
+#chart1 {
+    float: left;
+    padding: 40px 10%;
+}
+
+#chart2 {
+    float:right;
+    padding: 40px 10%;
+}
