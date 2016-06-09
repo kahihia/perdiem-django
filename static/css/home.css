@@ -135,9 +135,8 @@ p.welcome-text {
 }
 
 .total-box {
-    background-color: black;
+    background-color: #4D698E;
     text-align: center;
     padding: 5px;
     margin: 0 auto;
-    opacity: .7;
 }

@@ -65,7 +65,7 @@ p {
 }
 
 a {
-    color: #000;
+    color: #4A96AD;
     text-decoration: none;
 }
 
@@ -307,9 +307,4 @@ ul.tabs li {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
-}
-
-.home-icon {
-    width: 20px;
-    height: 20px;
 }
