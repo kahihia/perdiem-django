@@ -44,7 +44,7 @@
                 </div>
                 <!-- Updates -->
                 <h2>Updates</h2>
-                {% include "artist/includes/artist_updates.html" with updates=updates %}
+                {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
             {% endif %}
         </div>
     {% else %}
