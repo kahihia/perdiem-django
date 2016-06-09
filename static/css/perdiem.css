@@ -308,3 +308,8 @@ ul.tabs li {
     margin: 0 auto;
     padding: 20px;
 }
+
+.home-icon {
+    width: 20px;
+    height: 20px;
+}
