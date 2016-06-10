@@ -134,9 +134,7 @@ p.welcome-text {
     height: 100%;
 }
 
-.total-box {
-    background-color: #4D698E;
-    text-align: center;
-    padding: 5px;
+.video-padding {
     margin: 0 auto;
+    max-width: 800px;
 }
