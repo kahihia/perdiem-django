@@ -1,12 +1,11 @@
 <ul class="menu vertical nested is-active updates">
     {% for update in updates %}
         <li id="update-{{ update.id }}">
-            <h2>
-                {% if show_artist_name %}{{ update.artist.name }}
-            </h2>
-            <br/>
+            {% if show_artist_name %}
+                <h2>{{ update.artist.name }}</h2>
+            {% endif %}
             <h4>
-                {% endif %}{{ update.title }}
+                {{ update.title }}
                 {% if has_permission_to_submit_update %}
                     <button id="update-{{ update.id }}" class="button delete-update"><i class="fa fa-trash"></i></button>
                 {% endif %}

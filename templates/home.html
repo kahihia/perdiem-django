@@ -19,23 +19,19 @@
         <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
-        {% if user.is_authenticated %}
             <div class="home-boxes">
                 <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>START INVESTING</a>
             </div>
-        {% else %}
-            <div class="home-boxes">
-                <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>START INVESTING</a>
-            </div>
-        {% endif %}
         <div class="bottom-how">
             <h5><a class="white-color" href={% url 'home' %}#how>HOW IT WORKS<br/>
             <i class="fa fa-chevron-down fa-1x" aria-hidden="true"></i></a></h5>
         </div>
     </div>
-        <!-- How it works for fans -->
+
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
+
+        <!-- What is PerDiem -->
         <h3 class="extra-padding">WHAT IS PERDIEM?</h3>
         <div class="video-padding">
             <div class="videowrapper">
@@ -46,31 +42,8 @@
         <div class="break">
             <hr>
         </div>
-        <h3 class="how-title">HOW IT WORKS FOR ARTISTS</h3>
-        <div class="center">
-            <img id="artist-image" src="{% static "img/artist.png" %}">
-        </div>
-        <div class="center">
-            <div class="icons">
-                <i class="fa fa-music fa-4x icon-padding" aria-hidden="true"></i>
-                <h3>RAISE</h3>
-                <p class="how-extra">RAISE MONEY TO CREATE YOUR MUSIC BY HAVING FANS INVEST IN YOUR PROJECT</p>
-            </div>
-            <div class="icons">
-                <i class="fa fa-percent fa-4x icon-padding" aria-hidden="true"></i>
-                <h3>GIVE</h3>
-                <p class="how-extra">GIVE A PERCENTAGE OF SALES BACK TO PEOPLE WHO INVEST IN YOUR MUSIC PROJECT</p>
-            </div>
-            <div class="icons">
-                <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
-                <h3>EARN</h3>
-                <p class="how-extra">EARN MONEY BY BUILDING A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</p>
-            </div>
 
-    <!-- How it works for artists -->
-        <div class="break">
-            <hr>
-        </div>
+        <!-- How it works for fans -->
         <h3 class="how-title">HOW IT WORKS FOR FANS</h3>
         <div class="center">
             <img id="artist-image" src="{% static "img/fans.png" %}">
@@ -90,6 +63,33 @@
                 <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
                 <h3>EARN</h3>
                 <p class="how-extra">EARN MONEY BASED ON HOW SUCCESSFUL THE PROJECT IS</p>
+            </div>
+        </div>
+
+        <!-- How it works for artists -->
+        <div class="break">
+            <hr>
+        </div>
+
+        <h3 class="how-title">HOW IT WORKS FOR ARTISTS</h3>
+        <div class="center">
+            <img id="artist-image" src="{% static "img/artist.png" %}">
+        </div>
+        <div class="center">
+            <div class="icons">
+                <i class="fa fa-music fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>RAISE</h3>
+                <p class="how-extra">RAISE MONEY TO CREATE YOUR MUSIC BY HAVING FANS INVEST IN YOUR PROJECT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-percent fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>GIVE</h3>
+                <p class="how-extra">GIVE A PERCENTAGE OF SALES BACK TO PEOPLE WHO INVEST IN YOUR MUSIC PROJECT</p>
+            </div>
+            <div class="icons">
+                <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
+                <h3>EARN</h3>
+                <p class="how-extra">EARN MONEY BY BUILDING A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</p>
             </div>
         </div>
 

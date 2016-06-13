@@ -27,13 +27,13 @@
             <ul>
                 {% for investor, profile_context in investors %}
                     <li>
-                    <a href="{{ investor.public_profile_url }}">
-                    <div class="leaderboard-padding button">
-                        <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
-                        <br/>
-                        <h5 class="investor-name">#{{ forloop.counter }}: {{ investor.get_display_name }}</h5>${{ profile_context.total_earned|floatformat:2|intcomma }}
-                    </div>
-                    </a>
+                        <a href="{{ investor.public_profile_url }}">
+                        <div class="leaderboard-padding button">
+                            <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.get_display_name }}" />
+                            <br/>
+                            <h5 class="investor-name">#{{ forloop.counter }}: {{ investor.get_display_name }}</h5>${{ profile_context.total_earned|floatformat:2|intcomma }}
+                        </div>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
