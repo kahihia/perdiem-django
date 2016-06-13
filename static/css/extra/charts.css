@@ -14,9 +14,10 @@
     font-weight: 400;
 }
 
-.icons {
+.leaderboard-table {
     text-align: center;
     margin: 20px;
     display: inline-block;
     float: center;
+    vertical-align: top;
 }
