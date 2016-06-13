@@ -135,19 +135,24 @@
                 email: '{{ request.user.email|escapejs }}',
                 token: function(token) {
                     var num_shares = parseInt($('.invest-num-shares > input').val());
-                    $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id, num_shares: num_shares})
-                        .done(function(resp) {
-                            // Show success
-                            var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';
-                            $('#success-modal > p.success-message').text(success_message);
-                            $('#success-modal').foundation('open');
-                        })
-                        .fail(function(resp) {
-                            // Show error
-                            var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
-                            $('#error-modal > p.error-message').html(error_message);
-                            $('#error-modal').foundation('open');
-                        });
+                    $.ajax({
+                        url: "{% url 'pinax_stripe_charge' campaign_id=campaign.id %}",
+                        type: 'POST',
+                        data: {card: token.id, num_shares: num_shares},
+                        contentType: 'application/json'
+                    })
+                    .done(function(resp) {
+                        // Show success
+                        var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';
+                        $('#success-modal > p.success-message').text(success_message);
+                        $('#success-modal').foundation('open');
+                    })
+                    .fail(function(resp) {
+                        // Show error
+                        var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
+                        $('#error-modal > p.error-message').html(error_message);
+                        $('#error-modal').foundation('open');
+                    });
                 }
             });
         {% endif %}

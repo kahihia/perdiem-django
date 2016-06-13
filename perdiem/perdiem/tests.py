@@ -5,12 +5,16 @@
 """
 
 import datetime
+import json
+import urllib
+import urlparse
 
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
+
+from rest_framework import status
 
 from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
@@ -46,6 +50,14 @@ class PerDiemTestCase(TestCase):
     def strip_query_params(url):
         return url.split('?')[0]
 
+    @staticmethod
+    def add_params_to_url(url, params):
+        url_parts = list(urlparse.urlparse(url))
+        query = dict(urlparse.parse_qsl(url_parts[4]))
+        query.update(params)
+        url_parts[4] = urllib.urlencode(query)
+        return urlparse.urlunparse(url_parts)
+
     def assertResponseRenders(self, url, status_code=200, method='GET', data={}, has_form_error=False, **kwargs):
         request_method = getattr(self.client, method.lower())
         follow = status_code == 302
@@ -71,9 +83,13 @@ class PerDiemTestCase(TestCase):
 
         return response
 
-    def assertJsonResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
-        response = self.assertResponseRenders(url, status_code=status_code, method=method, data=data, **kwargs)
-        self.assertTrue(isinstance(response, JsonResponse))
+    def assertAPIResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
+        api_url = self.add_params_to_url(url, {'format': 'json',})
+        if data:
+            data = json.dumps(data)
+        response = self.assertResponseRenders(api_url, status_code=status_code, method=method, data=data, content_type='application/json', **kwargs)
+        if status_code in [status.HTTP_204_NO_CONTENT, status.HTTP_205_RESET_CONTENT,]:
+            return response
         return response.json()
 
     def assertResponseRedirects(self, url, redirect_url, method='GET', data={}, **kwargs):

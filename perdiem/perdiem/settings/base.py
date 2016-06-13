@@ -54,6 +54,7 @@ class BaseSettings(DjangoDefaults):
         'raven.contrib.django.raven_compat',
         'sorl.thumbnail',
         'storages',
+        'rest_framework',
         'social.apps.django_app.default',
         'pinax.stripe',
         'markdown_deux',

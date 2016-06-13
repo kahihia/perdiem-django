@@ -6,57 +6,78 @@
 
 import decimal
 
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
-)
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from django.views.generic import View
-
 from geopy.geocoders import Nominatim
 from pinax.stripe.actions import charges, customers
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from stripe import CardError
 
 from api.forms import CoordinatesFromAddressForm
-from artist.models import Update
+from artist.models import Artist, Update
 from campaign.forms import PaymentChargeForm
 from campaign.models import Campaign, Investment
 
 
-class CoordinatesFromAddressView(PermissionRequiredMixin, View):
+class AddArtistPermission(permissions.DjangoModelPermissions):
 
-    permission_required = 'artist.add_artist'
-    raise_exception = True
+    def get_required_permissions(self, method, model_cls):
+        return 'artist.add_artist'
+
+
+class ArtistAdminPermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        try:
+            update = Update.objects.select_related('artist').get(id=view.kwargs['update_id'])
+        except Update.DoesNotExist:
+            return False
+        return update.artist.has_permission_to_submit_update(user=request.user)
+
+
+class CoordinatesFromAddress(APIView):
+
+    permission_classes = (AddArtistPermission,)
+    queryset = Artist.objects.none()
 
     def get(self, request, *args, **kwargs):
         # Validate request
         form = CoordinatesFromAddressForm(request.GET)
         if not form.is_valid():
-            return HttpResponseBadRequest(form.errors)
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
         address = form.cleaned_data['address']
 
         # Return lat/lon for address
         geolocator = Nominatim()
         location = geolocator.geocode(address)
-        return JsonResponse({
+        return Response({
             'latitude': float("{0:.4f}".format(location.latitude)),
             'longitude': float("{0:.4f}".format(location.longitude)),
         })
 
 
-class PaymentChargeView(LoginRequiredMixin, View):
+class PaymentCharge(APIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, campaign_id, *args, **kwargs):
         # Validate request and campaign status
         try:
             campaign = Campaign.objects.get(id=campaign_id)
         except Campaign.DoesNotExist:
-            return HttpResponseBadRequest("Campaign with ID {campaign_id} does not exist.".format(campaign_id=campaign_id))
+            return Response(
+                "Campaign with ID {campaign_id} does not exist.".format(campaign_id=campaign_id),
+                status=status.HTTP_400_BAD_REQUEST
+            )
         else:
             if not campaign.open():
-                return HttpResponseBadRequest("This campaign is no longer accepting investments.")
-        form = PaymentChargeForm(request.POST, campaign=campaign)
+                return Response(
+                    "This campaign is no longer accepting investments.",
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        form = PaymentChargeForm(request.data, campaign=campaign)
         if not form.is_valid():
-            return HttpResponseBadRequest(unicode(form.errors))
+            return Response(unicode(form.errors), status=status.HTTP_400_BAD_REQUEST)
         d = form.cleaned_data
 
         # Get card and customer
@@ -71,22 +92,15 @@ class PaymentChargeView(LoginRequiredMixin, View):
         try:
             charge = charges.create(amount=amount, customer=customer.stripe_id)
         except CardError as e:
-            return HttpResponseBadRequest(e.message)
+            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
         Investment.objects.create(charge=charge, campaign=campaign, num_shares=num_shares)
-        return HttpResponse(status=205)
+        return Response(status=status.HTTP_205_RESET_CONTENT)
 
 
-class DeleteUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class DeleteUpdate(APIView):
 
-    raise_exception = True
-
-    def test_func(self, *args, **kwargs):
-        try:
-            update = Update.objects.select_related('artist').get(id=self.kwargs['update_id'])
-        except Update.DoesNotExist:
-            return False
-        return update.artist.has_permission_to_submit_update(user=self.request.user)
+    permission_classes = (permissions.IsAuthenticated, ArtistAdminPermission,)
 
     def delete(self, request, *args, **kwargs):
         Update.objects.get(id=self.kwargs['update_id']).delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)

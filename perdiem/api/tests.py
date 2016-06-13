@@ -17,14 +17,14 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
     valid_url = url.format(address='Willowdale%2C+Toronto%2C+Ontario%2C+Canada')
 
     def testCoordinatesFromAddress(self):
-        response = self.assertJsonResponseRenders(self.valid_url)
+        response = self.assertAPIResponseRenders(self.valid_url)
         lat, lon = response['latitude'], response['longitude']
         self.assertAlmostEquals(lat, 43.7689, places=2)
         self.assertAlmostEquals(lon, -79.4138, places=2)
 
     def testCoordinatesFromAddressRequiresAddress(self):
         for url in ['/api/coordinates/', self.url.format(address=''),]:
-            self.assertResponseRenders(url, status_code=400)
+            self.assertAPIResponseRenders(url, status_code=400)
 
     def testCoordinatesFromAddressFailsWithoutPermission(self):
         # Logout from being a superuser
@@ -248,7 +248,7 @@ class PaymentChargeTestCase(PerDiemTestCase):
 
         # User sends payment to Stripe
         self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
-        self.assertResponseRenders(
+        self.assertAPIResponseRenders(
             '/api/payments/charge/{campaign_id}/'.format(campaign_id=self.campaign.id),
             status_code=205,
             method='POST',
@@ -267,7 +267,7 @@ class DeleteUpdateTestCase(PerDiemTestCase):
         self.valid_url = self.url.format(update_id=self.update.id)
 
     def testDeleteUpdate(self):
-        response = self.assertResponseRenders(self.valid_url, status_code=204, method='DELETE')
+        response = self.assertAPIResponseRenders(self.valid_url, status_code=204, method='DELETE')
 
     def testDeleteUpdateRequiresValidUpdateId(self):
         response = self.assertResponseRenders(self.url.format(update_id=0), status_code=403)

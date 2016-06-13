@@ -112,7 +112,8 @@ $(document).ready(function() {
         var url = "/api/update/" + update_id + "/";
         $.ajax({
             url: url,
-            type: 'DELETE'
+            type: 'DELETE',
+            contentType: 'application/json'
         }).done(function() {
             // Delete update
             $('ul.updates > li#' + selectorId).remove();
