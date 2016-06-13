@@ -109,7 +109,7 @@ $(document).ready(function() {
     $('button.delete-update').click(function() {
         var selectorId = $(this).attr('id');
         var update_id = parseInt(selectorId.split("-")[1]);
-        var url = "/api/update/" + update_id + "/";
+        var url = "/api/update/" + update_id + "/?format=json";
         $.ajax({
             url: url,
             type: 'DELETE',

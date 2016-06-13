@@ -136,7 +136,7 @@
                 token: function(token) {
                     var num_shares = parseInt($('.invest-num-shares > input').val());
                     $.ajax({
-                        url: "{% url 'pinax_stripe_charge' campaign_id=campaign.id %}",
+                        url: "{% url 'pinax_stripe_charge' campaign_id=campaign.id %}?format=json",
                         type: 'POST',
                         data: {card: token.id, num_shares: num_shares},
                         contentType: 'application/json'
