@@ -13,9 +13,9 @@
     </div>
     <div class="filter-sort-options center">
         <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
-            <li><h5>Show me</h5></li>
+            <li><h6>Show me</h6></li>
             <li class="is-dropdown-submenu-parent opens-right">
-                <a href="#"><h5>{{ campaign_status }}</h5></a>
+                <a href="#"><h6>{{ campaign_status }}</h6></a>
                 <ul class="menu is-dropdown-submenu">
                     {% for option in campaign_statuses %}
                         {% if option != campaign_status %}
@@ -24,10 +24,10 @@
                     {% endfor %}
                 </ul>
             </li>
-            <li><h5>artists in</h5></li>
+            <li><h6>artists in</h6></li>
             {% if genres %}
                 <li class="is-dropdown-submenu-parent opens-right">
-                    <a href="#"><h5>{{ active_genre }}</h5></a>
+                    <a href="#"><h6>{{ active_genre }}</h6></a>
                     <ul class="menu is-dropdown-submenu">
                         {% if active_genre != 'All Genres' %}
                             <li><a href="?campaign-status={{ campaign_status }}&genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
@@ -42,8 +42,8 @@
             {% endif %}
             <li>
                 <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
-                    <h5>{% if distance %}within {{ distance }} miles{% endif %}
-                    FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h5>
+                    <h6>{% if distance %}within {{ distance }} miles{% endif %}
+                    FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h6>
                 </button>
                 <div class="dropdown-pane" id="location-dropdown" data-dropdown>
                     <h6>within</h6>
@@ -76,9 +76,9 @@
                     <button id="location-reset-button" class="button">Reset</button>
                 </div>
             </li>
-            <li><h5>sorted by</h5></li>
+            <li><h6>sorted by</h6></li>
             <li class="is-dropdown-submenu-parent opens-right">
-                <a href="#"><h5>{{ order_by.name }}</h5></a>
+                <a href="#"><h6>{{ order_by.name }}</h6></a>
                 <ul class="menu is-dropdown-submenu">
                     {% for option in sort_options %}
                         {% if option.slug != order_by.slug %}
@@ -87,7 +87,7 @@
                     {% endfor %}
                 </ul>
             </li>
-            <li><h5>.</h5></li>
+            <li><h6>.</h6></li>
         </ul>
     </div>
     <p class="getting-location">Getting your location...</p>
@@ -133,16 +133,6 @@
         {% empty %}
             <p>No results. Try expanding your search criteria.</p>
         {% endfor %}
-    </div>
-    <div class="break">
-        <hr>
-    </div>
-    <p>Are you an artist? Interested in being on PerDiem?</p>
-    <div class="apply-button">
-        <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
-        <div class="break">
-            <hr>
-        </div>
     </div>
 {% endblock %}
 

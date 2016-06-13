@@ -1,0 +1,23 @@
+.leaderboard-padding {
+    padding: 10px;
+    width: 250px;
+    background-color: #4A96AD;
+    border-style: solid;
+    border-color: #000;
+    border-width: 1px;
+}
+
+.leader-name {
+    padding: 0px;
+    margin: 0px;
+    color: black;
+    font-weight: 400;
+}
+
+.leaderboard-table {
+    text-align: center;
+    margin: 20px;
+    display: inline-block;
+    float: center;
+    vertical-align: top;
+}

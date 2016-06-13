@@ -33,8 +33,8 @@ h3 {
 
 h4 {
     text-align: center;
-    font-weight: 400;
-    font-size: 2em;
+    font-weight: 200;
+    font-size: 1.5em;
     text-transform: uppercase;
 }
 
@@ -42,6 +42,12 @@ h5 {
     font-weight: 200;
     font-size: 1em;
     text-align: center;
+}
+
+h6 {
+    font-size: 1em;
+    text-align: center;
+    font-weight: 200;
 }
 
 ul {
@@ -59,7 +65,7 @@ p {
 }
 
 a {
-    color: #000;
+    color: #4A96AD;
     text-decoration: none;
 }
 
@@ -194,7 +200,10 @@ a.nav-color {
 
 .extra-padding {
     padding: 20px;
-    margin-top: 20px;
+}
+
+.more-extra-padding {
+    padding: 40px;
 }
 
 .social-icons > li {
@@ -296,6 +305,13 @@ ul.tabs li {
 .form-input {
     text-align: center;
     max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.large-form-input {
+    text-align: center;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }

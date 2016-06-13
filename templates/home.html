@@ -19,26 +19,30 @@
         <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
-        {% if user.is_authenticated %}
-            <div class="home-boxes">
-                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
-                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
-            </div>
-        {% else %}
-            <div class="home-boxes">
-                <a class="button text-center box-margin" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
-                <a class="button text-center box-margin" data-open="login-modal">LOGIN</a>
-            </div>
-        {% endif %}
+        <div class="home-boxes">
+            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>START INVESTING</a>
+        </div>
         <div class="bottom-how">
             <h5><a class="white-color" href={% url 'home' %}#how>HOW IT WORKS<br/>
             <i class="fa fa-chevron-down fa-1x" aria-hidden="true"></i></a></h5>
         </div>
     </div>
-    <!-- How it works for fans -->
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
-        
+
+        <!-- What is PerDiem -->
+        <h3 class="extra-padding">WHAT IS PERDIEM?</h3>
+        <div class="video-padding">
+            <div class="videowrapper">
+                <iframe width="1280" height="720" src="https://www.youtube.com/embed/M78Ep_qcnpA" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <h4 class="more-extra-padding">WE HELP ARTISTS GET FUNDING BY HAVING FANS INVEST IN THEIR MUSIC</h4>
+        <div class="break">
+            <hr>
+        </div>
+
+        <!-- How it works for fans -->
         <h3 class="how-title">HOW IT WORKS FOR FANS</h3>
         <div class="center">
             <img id="artist-image" src="{% static "img/fans.png" %}">
@@ -60,10 +64,12 @@
                 <p class="how-extra">EARN MONEY BASED ON HOW SUCCESSFUL THE PROJECT IS</p>
             </div>
         </div>
-    <!-- How it works for artists -->
+
+        <!-- How it works for artists -->
         <div class="break">
             <hr>
         </div>
+
         <h3 class="how-title">HOW IT WORKS FOR ARTISTS</h3>
         <div class="center">
             <img id="artist-image" src="{% static "img/artist.png" %}">
@@ -82,7 +88,7 @@
             <div class="icons">
                 <i class="fa fa-dollar fa-4x icon-padding" aria-hidden="true"></i>
                 <h3>EARN</h3>
-                <p class="how-extra">BUILD A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</p>
+                <p class="how-extra">EARN MONEY BY BUILDING A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</p>
             </div>
         </div>
 
@@ -91,7 +97,7 @@
         </div>
         <br/>
         <h4>WANT TO LEARN EVEN MORE?</h4>
-        <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
+        <h5>CHECK OUT OUR <a href="{% url 'faq' %}">FAQ</a> AND <a href="{% url 'resources' %}">RESOURCES</a></h5>
     </div>
 {% endblock %}
 

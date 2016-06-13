@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/extra/charts.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
+
 {% block content %}
-    <h1>INVESTOR LEADERBOARD</h1>
-    {% include "leaderboard/includes/list.html" with name='Total Earned' investors=total_earned %}
+    <h2>EARNINGS</h2>
+    {% if artist_leaders or investor_leaders %}
+        <div class="break">
+            <hr>
+        </div>
+        <div class="center">
+            {% include "leaderboard/includes/list.html" with name='Top Artists' leaders=artist_leaders %}
+            {% include "leaderboard/includes/list.html" with name='Top Investors' leaders=investor_leaders %}
+        </div>
+    {% endif %}
 {% endblock %}
