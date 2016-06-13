@@ -8,13 +8,13 @@
 
 {% block content %}
     <h2>EARNINGS</h2>
-    {% if total_earned or revenue_generated %}
+    {% if artist_leaders or investor_leaders %}
         <div class="break">
             <hr>
         </div>
         <div class="center">
-            {% include "leaderboard/includes/list.html" with name='Top Artists' leaders=revenue_generated %}
-            {% include "leaderboard/includes/list.html" with name='Top Investors' leaders=total_earned %}
+            {% include "leaderboard/includes/list.html" with name='Top Artists' leaders=artist_leaders %}
+            {% include "leaderboard/includes/list.html" with name='Top Investors' leaders=investor_leaders %}
         </div>
     {% endif %}
 {% endblock %}

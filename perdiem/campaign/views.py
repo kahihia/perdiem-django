@@ -44,16 +44,16 @@ class LeaderboardView(TemplateView):
     def calculate_leaderboard(self):
         # Investor total earned
         user_profiles = UserProfile.objects.filter(invest_anonymously=False)
-        total_earned = [self.investor_context(user_profile) for user_profile in user_profiles]
-        total_earned = filter(lambda context: context['total_earned'] > 0, total_earned)
-        total_earned = sorted(total_earned, key=lambda context: context['total_earned'], reverse=True)[:5]
+        investor_leaders = [self.investor_context(user_profile) for user_profile in user_profiles]
+        investor_leaders = filter(lambda context: context['total_earned'] > 0, investor_leaders)
+        investor_leaders = sorted(investor_leaders, key=lambda context: context['total_earned'], reverse=True)[:5]
 
         # Artist total earned
         artists = Artist.objects.all().annotate(total_earned=models.Sum('campaign__revenuereport__amount')).filter(total_earned__isnull=False).order_by('-total_earned')[:5]
-        revenue_generated = [self.artist_context(artist) for artist in artists]
+        artist_leaders = [self.artist_context(artist) for artist in artists]
         return {
-            'total_earned': total_earned,
-            'revenue_generated': revenue_generated,
+            'investor_leaders': investor_leaders,
+            'artist_leaders': artist_leaders,
         }
 
     def get_context_data(self, **kwargs):
