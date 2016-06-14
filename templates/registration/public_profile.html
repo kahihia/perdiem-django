@@ -18,17 +18,7 @@
         <div class="investments">
             <h2>INVESTMENTS</h2>
             <p>Here are the artists that {{ profile_user.userprofile.get_display_name }} has invested in:</p>
-            <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
-                {% for artist in artists.values %}
-                    <div class="column">
-                        {% include "artist/includes/artist_preview.html" with artist=artist %}
-                        <p>Total invested: ${{ artist.total_invested|floatformat:2|intcomma }}</p>
-                        {% if artist.total_earned %}
-                            <p>Total earned: ${{ artist.total_earned|floatformat:2|intcomma }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
+            {% include "artist/includes/investor_profile_artist_list.html" with artists=artists %}
         </div>
         <div class="break">
             <hr>
@@ -36,8 +26,6 @@
 
         <p class="profile-total">Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
         <p>Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
-
-
     {% else %}
         <p>{{ profile_user.userprofile.get_display_name }} hasn't invested in anything yet!</p>
     {% endif %}
