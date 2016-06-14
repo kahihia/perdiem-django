@@ -1,5 +1,10 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load humanize %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
 
 {% block content %}
     <div class="center">
@@ -13,11 +18,7 @@
         <div class="investments">
             <h2>INVESTMENTS</h2>
             <p>Here are the artists that {{ profile_user.userprofile.get_display_name }} has invested in:</p>
-            <ul>
-                {% for artist in artists.values %}
-                    <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
-                {% endfor %}
-            </ul>
+            {% include "artist/includes/investor_profile_artist_list.html" with artists=artists %}
         </div>
         <div class="break">
             <hr>
@@ -25,8 +26,6 @@
 
         <p class="profile-total">Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
         <p>Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
-
-
     {% else %}
         <p>{{ profile_user.userprofile.get_display_name }} hasn't invested in anything yet!</p>
     {% endif %}
