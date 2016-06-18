@@ -21,9 +21,6 @@
     <h1 class="header-font">{{ artist.name }}</h1>
     <ul class="tabs" data-tabs id="artist-detail-tabs">
         <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
-        {% if campaign %}
-            <li class="tabs-title"><a href="#roi">ROI</a></li>
-        {% endif %}
         {% if investors %}
             <li class="tabs-title"><a href="#investors">Investors</a></li>
         {% endif %}
@@ -36,9 +33,6 @@
     </ul>
     <div class="tabs-content" data-tabs-content="artist-detail-tabs">
         {% include "artist/includes/artist_detail_overview.html" %}
-        {% if campaign %}
-            {% include "artist/includes/artist_detail_roi.html" %}
-        {% endif %}
         {% if investors %}
             {% include "artist/includes/artist_detail_investors.html" %}
         {% endif %}
@@ -85,34 +79,11 @@
                     {% endfor %}
                 ];
 
-            var lineChartData = {
-                labels : [".5x","1x","2x","5x","10x"],
-                datasets : [
-                    {
-                        label: "Artist Revenue",
-                        fillColor : "rgba(220,220,220,0.2)",
-                        strokeColor : "rgba(220,220,220,1)",
-                        pointColor : "rgba(220,220,220,1)",
-                        pointStrokeColor : "#fff",
-                        pointHighlightFill : "#fff",
-                        pointHighlightStroke : "rgba(220,220,220,1)",
-                        data : [{{ campaign|percentage_roi:50 }},{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:500 }},{{ campaign|percentage_roi:1000 }}]
-                    },
-                ]
-
-            }
-
             function draw_doughnut_chart() {
                 var ctxchart = document.getElementById("chart-area").getContext("2d");
                 window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
                     responsive: true,
                     tooltipTemplate: "<%= label %>: <%= value %>%"
-                });
-            }
-            function draw_line_chart() {
-                var ctxline = document.getElementById("canvas").getContext("2d");
-                window.myLine = new Chart(ctxline).Line(lineChartData, {
-                    responsive: true
                 });
             }
             window.onload = function() {
@@ -121,8 +92,6 @@
             $('#artist-detail-tabs').on('change.zf.tabs', function() {
                 if ($('#overview:visible').length) {
                     draw_doughnut_chart();
-                } else if ($('#roi:visible').length) {
-                    draw_line_chart();
                 }
             });
 

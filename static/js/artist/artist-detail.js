@@ -96,17 +96,6 @@ $(document).ready(function() {
         handler.close();
     });
 
-    // Sliders
-    if (typeof share_value != 'undefined') $('.roi-return').text(10 * share_value * 2);
-    $('#roi-num-shares-slider').slider({
-        value: 10,
-        stop: function (event, ui) {
-            var value = ui.value;
-            $('.roi-num-shares').text(value);
-            $('.roi-return').text(value * share_value * 2);
-        }
-    });
-
     // Delete Update
     $('button.delete-update').click(function() {
         var selectorId = $(this).attr('id');
