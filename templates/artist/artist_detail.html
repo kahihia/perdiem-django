@@ -72,8 +72,8 @@
                     {% for percentage_breakdown in campaign.artist_percentage %}
                         {
                             value: {{ percentage_breakdown.percentage|floatformat:2 }},
-                            color:"#F7464A",
-                            highlight: "#FF5A5E",
+                            color: "{% if percentage_breakdown.name == campaign.artist.name %}#F7464A{% else %}{% cycle '#0066ff' '#ff99ff' '#33cc33' '#ff6600' '#00ffff' %}{% endif %}",
+                            highlight: "{% if percentage_breakdown.name == campaign.artist.name %}#FF5A5E{% else %}{% cycle '#4d94ff' '#ffccff' '#85e085' '#ffa366' '#99ffff' %}{% endif %}",
                             label: "{{ percentage_breakdown.name|escapejs }}"
                         }{% if not forloop.last %},{% endif %}
                     {% endfor %}
