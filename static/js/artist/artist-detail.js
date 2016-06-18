@@ -46,9 +46,11 @@ $(document).ready(function() {
         // Update invest button text
         var button_text = "Buy " + num_shares + " Share";
         if (num_shares !== 1) button_text += "s";
-        var amount = parseFloat(get_total_cost_cents() / 100).toFixed(2);
-        button_text += " ($" + amount + ")*";
         $('button#invest-button').text(button_text);
+
+        // Update shares price
+        var shares_price = parseFloat(get_total_cost_cents() / 100).toFixed(2);
+        $('#shares-price').text(" = $" + shares_price);
     }
     $('.invest-num-shares > input').change(function() {
         num_shares_updated();
