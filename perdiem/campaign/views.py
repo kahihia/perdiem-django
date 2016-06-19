@@ -49,7 +49,7 @@ class LeaderboardView(TemplateView):
         investor_leaders = sorted(investor_leaders, key=lambda context: context['total_earned'], reverse=True)[:5]
 
         # Artist total earned
-        artists = Artist.objects.all().annotate(total_earned=models.Sum('campaign__revenuereport__amount')).filter(total_earned__isnull=False).order_by('-total_earned')[:5]
+        artists = Artist.objects.all().annotate(total_earned=models.Sum('project__revenuereport__amount')).filter(total_earned__isnull=False).order_by('-total_earned')[:5]
         artist_leaders = [self.artist_context(artist) for artist in artists]
         return {
             'investor_leaders': investor_leaders,

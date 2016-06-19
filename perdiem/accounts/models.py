@@ -122,8 +122,8 @@ class UserProfile(models.Model):
         # Get artists the user has invested in
         investments = Investment.objects.filter(charge__customer__user=self.user, charge__paid=True)
         campaign_ids = investments.values_list('campaign', flat=True).distinct()
-        campaigns = Campaign.objects.filter(id__in=campaign_ids)
-        artist_ids = campaigns.values_list('artist', flat=True).distinct()
+        campaigns = Campaign.objects.filter(id__in=campaign_ids).select_related('project')
+        artist_ids = campaigns.values_list('project__artist', flat=True).distinct()
         artists = Artist.objects.filter(id__in=artist_ids)
         context['artists'] = dict(map(self.prepare_artist_for_profile_context, artists))
 
@@ -136,13 +136,20 @@ class UserProfile(models.Model):
         )
         context.update(aggregate_context)
 
-        # Update context with total earned
+        # Update context with total invested and total earned
         total_earned = 0
         for campaign in campaigns:
-            artist = campaign.artist
-            num_shares_this_campaign = investments.filter(campaign=campaign).aggregate(ns=models.Sum('num_shares'))['ns']
-            generated_revenue_user = campaign.generated_revenue_fans_per_share() * num_shares_this_campaign
+            artist = campaign.project.artist
+
+            # Total invested
+            investments_this_campaign = investments.filter(campaign=campaign)
+            num_shares_this_campaign = investments_this_campaign.aggregate(ns=models.Sum('num_shares'))['ns']
             context['artists'][artist.id].total_invested += num_shares_this_campaign * campaign.value_per_share
+
+            # Total earned
+            generated_revenue_user = 0
+            for investment in investments_this_campaign:
+                generated_revenue_user += investment.generated_revenue()
             context['artists'][artist.id].total_earned += generated_revenue_user
             total_earned += generated_revenue_user
         context['total_earned'] = total_earned

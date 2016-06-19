@@ -18,7 +18,7 @@ from rest_framework import status
 
 from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
-from campaign.models import Campaign, Investment, RevenueReport
+from campaign.models import Project, Campaign, Investment, RevenueReport
 
 
 class PerDiemTestCase(TestCase):
@@ -41,10 +41,10 @@ class PerDiemTestCase(TestCase):
     ARTIST_UPDATE = 'North American Tour This Year!'
     ARTIST_NO_CAMPAIGN_NAME = 'Scale the Summit'
 
+    PROJECT_REASON = 'to record a new album'
     CAMPAIGN_AMOUNT = 10000
-    CAMPAIGN_REASON = 'to record a new album'
     CAMPAIGN_FANS_PERCENTAGE = 20
-    CAMPAIGN_REVENUE_REPORT_AMOUNT = 500
+    PROJECT_REVENUE_REPORT_AMOUNT = 500
 
     @staticmethod
     def strip_query_params(url):
@@ -144,16 +144,19 @@ class PerDiemTestCase(TestCase):
         ArtistAdmin.objects.create(artist=self.artist, user=self.manager_user, role=ArtistAdmin.ROLE_MANAGER)
         self.update = Update.objects.create(artist=self.artist, text=self.ARTIST_UPDATE)
 
-        self.campaign = Campaign.objects.create(
+        self.project = Project.objects.create(
             artist=self.artist,
+            reason=self.PROJECT_REASON
+        )
+        self.campaign = Campaign.objects.create(
+            project=self.project,
             amount=self.CAMPAIGN_AMOUNT,
-            reason=self.CAMPAIGN_REASON,
             fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE,
             end_datetime=timezone.now() + datetime.timedelta(days=14)
         )
         self.revenue_report = RevenueReport.objects.create(
-            campaign=self.campaign,
-            amount=self.CAMPAIGN_REVENUE_REPORT_AMOUNT
+            project=self.project,
+            amount=self.PROJECT_REVENUE_REPORT_AMOUNT
         )
 
         self.artist_no_campaign = Artist.objects.create(

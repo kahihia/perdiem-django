@@ -14,6 +14,7 @@ from django.utils.html import escape
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from artist.managers import ArtistQuerySet
+from campaign.models import Campaign
 
 
 class Genre(models.Model):
@@ -39,17 +40,24 @@ class Artist(models.Model):
         return self.name
 
     def latest_campaign(self):
-        campaigns = self.campaign_set.all().order_by('-start_datetime')
+        campaigns = Campaign.objects.filter(project__artist=self).order_by('-start_datetime')
         if campaigns:
             return campaigns[0]
 
     def active_campaign(self):
-        active_campaigns = self.campaign_set.filter(start_datetime__lt=timezone.now(), end_datetime__gte=timezone.now()).order_by('-start_datetime')
+        active_campaigns = Campaign.objects.filter(
+            project__artist=self,
+            start_datetime__lt=timezone.now(),
+            end_datetime__gte=timezone.now()
+        ).order_by('-start_datetime')
         if active_campaigns:
             return active_campaigns[0]
 
     def past_campaigns(self):
-        return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
+        return Campaign.objects.filter(
+            project__artist=self,
+            end_datetime__lt=timezone.now()
+        ).order_by('-end_datetime')
 
     def has_permission_to_submit_update(self, user):
         return user.is_authenticated() and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())

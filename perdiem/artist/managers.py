@@ -70,11 +70,11 @@ class ArtistQuerySet(models.QuerySet):
         return sorted(self, key=self.percentage_funded, reverse=True)
 
     def order_by_time_remaining(self):
-        artists = self.annotate(campaign_end_datetime=Max('campaign__end_datetime'))
+        artists = self.annotate(campaign_end_datetime=Max('project__campaign__end_datetime'))
         artists_current_campaign = artists.filter(campaign_end_datetime__gte=timezone.now()).order_by('campaign_end_datetime')
-        artists_current_campaign_no_end = artists.filter(campaign__isnull=False, campaign_end_datetime__isnull=True)
+        artists_current_campaign_no_end = artists.filter(project__campaign__isnull=False, campaign_end_datetime__isnull=True)
         artists_past_campaign = artists.filter(campaign_end_datetime__lt=timezone.now()).order_by('-campaign_end_datetime')
-        artists_no_campaign = artists.filter(campaign__isnull=True)
+        artists_no_campaign = artists.filter(project__campaign__isnull=True)
         return list(artists_current_campaign) + list(artists_current_campaign_no_end) + list(artists_past_campaign) + list(artists_no_campaign)
 
     def order_by_valuation(self):

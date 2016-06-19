@@ -86,17 +86,17 @@ class ArtistListView(ListView):
             artists = artists.annotate(
                 ended=models.Case(
                     models.When(
-                        campaign__end_datetime__isnull=True,
+                        project__campaign__end_datetime__isnull=True,
                         then=False
                     ),
                     models.When(
-                        campaign__end_datetime__gte=now,
+                        project__campaign__end_datetime__gte=now,
                         then=False
                     ),
                     default=True,
                     output_field=models.BooleanField()
                 )
-            ).filter(campaign__start_datetime__lte=now, ended=False).distinct()
+            ).filter(project__campaign__start_datetime__lte=now, ended=False).distinct()
         elif self.campaign_status == 'Funded':
             artists = artists.filter_by_funded()
 
@@ -119,8 +119,8 @@ class ArtistListView(ListView):
                 num_investors=models.Count(
                     models.Case(
                         models.When(
-                            campaign__investment__charge__paid=True,
-                            then='campaign__investment__charge__customer__user'
+                            project__campaign__investment__charge__paid=True,
+                            then='project__campaign__investment__charge__customer__user'
                         )
                     ),
                     distinct=True
@@ -131,8 +131,8 @@ class ArtistListView(ListView):
                 amount_raised=models.Sum(
                     models.Case(
                         models.When(
-                            campaign__investment__charge__paid=True,
-                            then=models.F('campaign__investment__num_shares') * models.F('campaign__value_per_share'),
+                            project__campaign__investment__charge__paid=True,
+                            then=models.F('project__campaign__investment__num_shares') * models.F('project__campaign__value_per_share'),
                         ),
                         default=0,
                         output_field=models.IntegerField()
@@ -172,7 +172,7 @@ class ArtistDetailView(FormView):
         if campaign:
             context['campaign'] = campaign
             context['fans_percentage'] = campaign.fans_percentage
-            investors = campaign.investors()
+            investors = campaign.project.investors()
             context['investors'] = investors.values()
 
             if self.request.user.is_authenticated():
@@ -209,7 +209,7 @@ class ArtistDetailView(FormView):
         # Send email to users following the artist's updates
         investors = User.objects.filter(
             customer__charges__paid=True,
-            customer__charges__investment__campaign__artist=self.artist
+            customer__charges__investment__campaign__project__artist=self.artist
         ).distinct()
         for investor in investors:
             ArtistUpdateEmail().send(user=investor, update=update)

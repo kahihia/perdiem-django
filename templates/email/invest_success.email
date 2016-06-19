@@ -3,9 +3,9 @@
 {% block email_subject %}Thank You for investing in {{ artist.name }}!{% endblock %}
 
 {% block plain_body %}
-    Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.reason }}.
+    Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.project.reason }}.
 {% endblock %}
 
 {% block html_body %}
-    <p>Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.reason }}.</p>
+    <p>Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.project.reason }}.</p>
 {% endblock %}

@@ -13,7 +13,8 @@ from pinax.stripe.models import (
 
 from artist.models import ArtistAdmin
 from campaign.models import (
-    Campaign, ArtistPercentageBreakdown, Expense, Investment, RevenueReport
+    Project, Campaign, ArtistPercentageBreakdown, Expense, Investment,
+    RevenueReport
 )
 
 
@@ -30,7 +31,7 @@ class CampaignAdminForm(forms.ModelForm):
 
     class Meta:
         model = Campaign
-        fields = ('artist', 'amount', 'reason', 'value_per_share', 'start_datetime', 'end_datetime', 'use_of_funds', 'fans_percentage',)
+        fields = ('project', 'amount', 'value_per_share', 'start_datetime', 'end_datetime', 'use_of_funds', 'fans_percentage',)
 
     def clean(self):
         cleaned_data = super(CampaignAdminForm, self).clean()
@@ -83,10 +84,7 @@ class ExpenseInline(admin.TabularInline):
     model = Expense
 
 
-class CampaignAdmin(admin.ModelAdmin):
-
-    form = CampaignAdminForm
-    inlines = (ExpenseInline,)
+class ProjectAdmin(admin.ModelAdmin):
 
     def get_inline_instances(self, request, obj=None, **kwargs):
         inline_instances = []
@@ -98,6 +96,13 @@ class CampaignAdmin(admin.ModelAdmin):
         for inline in self.inlines:
             inline_instances.append(inline(self.model, self.admin_site))
         return inline_instances
+
+
+class CampaignAdmin(admin.ModelAdmin):
+
+    form = CampaignAdminForm
+    raw_id_fields = ('project',)
+    inlines = (ExpenseInline,)
 
 
 class InvestmentAdmin(admin.ModelAdmin):
@@ -112,6 +117,7 @@ class InvestmentAdmin(admin.ModelAdmin):
         return False
 
 
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Campaign, CampaignAdmin)
 admin.site.register(Investment, InvestmentAdmin)
 admin.site.register(RevenueReport)
