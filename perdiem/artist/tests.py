@@ -26,10 +26,15 @@ class ArtistWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/artists/',
+            '/artists/?campaign-status=Funded',
             '/artists/?distance=50&lat=43.7689&lon=-79.4138',
             '/artists/?distance=50&location=Toronto,%20ON',
             '/artists/?sort=recent',
             '/artists/?sort=funded',
+            '/artists/?sort=time-remaining',
+            '/artists/?sort=investors',
+            '/artists/?sort=raised',
+            '/artists/?sort=valuation',
             '/artist/apply/',
             '/artist/{slug}/'.format(slug=self.artist.slug),
             '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
