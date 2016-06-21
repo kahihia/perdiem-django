@@ -69,7 +69,7 @@
                         highlight: "#5AD3D1",
                         label: "{% if user_investor %}Other Investors{% else %}Investors{% endif %}"
                     },
-                    {% for percentage_breakdown in campaign.artist_percentage %}
+                    {% for percentage_breakdown in campaign.project.artist_percentage %}
                         {
                             value: {{ percentage_breakdown.percentage|floatformat:2 }},
                             color: "{% if percentage_breakdown.name == campaign.artist.name %}#F7464A{% else %}{% cycle '#0066ff' '#ff99ff' '#33cc33' '#ff6600' '#00ffff' %}{% endif %}",
