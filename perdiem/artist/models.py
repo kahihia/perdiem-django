@@ -68,10 +68,12 @@ class ArtistAdmin(models.Model):
     ROLE_MUSICIAN = 'musician'
     ROLE_MANAGER = 'manager'
     ROLE_PRODUCER = 'producer'
+    ROLE_SONGWRITER = 'songwriter'
     ROLE_CHOICES = (
         (ROLE_MUSICIAN, 'Musician',),
         (ROLE_MANAGER, 'Manager',),
         (ROLE_PRODUCER, 'Producer',),
+        (ROLE_SONGWRITER, 'Songwriter'),
     )
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
