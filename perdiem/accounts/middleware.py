@@ -5,8 +5,9 @@
 """
 
 from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
+
+from accounts.forms import LoginAccountForm
 
 
 class LoginFormMiddleware(object):
@@ -15,7 +16,7 @@ class LoginFormMiddleware(object):
         if request.method == 'POST' and 'login-username' in request.POST:
             # Process the request as a login request
             # if login-username is in the POST data
-            form = AuthenticationForm(data=request.POST, prefix='login')
+            form = LoginAccountForm(data=request.POST, prefix='login')
             if form.is_valid():
                 login(request, form.get_user())
 
@@ -23,7 +24,7 @@ class LoginFormMiddleware(object):
             # the page the user is currently on might not support POST
             request.method = 'GET'
         else:
-            form = AuthenticationForm(request, prefix='login')
+            form = LoginAccountForm(request, prefix='login')
 
         # Add the login form to the request (accessible in context)
         request.login_form = form

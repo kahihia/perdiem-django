@@ -6,15 +6,32 @@
 
 from django import forms
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.core import validators
 
 from accounts.models import UserAvatar
 
 
+class LoginAccountForm(AuthenticationForm):
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        return username.lower()
+
+
 class RegisterAccountForm(UserCreationForm):
 
+    username = forms.CharField(
+        max_length=150,
+        validators=[
+            validators.RegexValidator(
+                r'^[a-z0-9.@+_-]+$',
+                ('Enter a valid username. This value may contain only '
+                  'lowercase letters, numbers and @/./+/-/_ characters.')
+            ),
+        ]
+    )
     email = forms.EmailField(required=True)
     subscribe_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
 
@@ -35,9 +52,9 @@ class EditNameForm(forms.Form):
         max_length=150,
         validators=[
             validators.RegexValidator(
-                r'^[\w.@+-]+$',
+                r'^[a-z0-9.@+_-]+$',
                 ('Enter a valid username. This value may contain only '
-                  'letters, numbers ' 'and @/./+/-/_ characters.')
+                  'lowercase letters, numbers and @/./+/-/_ characters.')
             ),
         ]
     )

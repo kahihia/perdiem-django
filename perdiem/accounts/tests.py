@@ -38,6 +38,15 @@ class AuthWebTestCase(PerDiemTestCase):
         response = self.assertResponseRenders('/', method='POST', data=login_data)
         self.assertIn('LOGOUT', response.content)
 
+    def testLoginWithUppercaseUsername(self):
+        self.client.logout()
+        login_data = {
+            'login-username': self.USER_USERNAME.upper(),
+            'login-password': self.USER_PASSWORD,
+        }
+        response = self.assertResponseRenders('/', method='POST', data=login_data)
+        self.assertIn('LOGOUT', response.content)
+
     def testRegister(self):
         self.client.logout()
         self.assertResponseRedirects(
@@ -50,6 +59,20 @@ class AuthWebTestCase(PerDiemTestCase):
                 'password1': self.USER_PASSWORD,
                 'password2': self.USER_PASSWORD,
             }
+        )
+
+    def testRegisterUsernameMustBeLowercase(self):
+        self.client.logout()
+        self.assertResponseRenders(
+            '/accounts/register/',
+            method='POST',
+            data={
+                'username': 'Msmith',
+                'email': 'msmith@example.com',
+                'password1': self.USER_PASSWORD,
+                'password2': self.USER_PASSWORD,
+            },
+            has_form_error=True
         )
 
     def testPasswordReset(self):
@@ -130,6 +153,18 @@ class SettingsWebTestCase(PerDiemTestCase):
         return [
             '/accounts/settings/',
         ]
+
+    def testEditUsernameMustBeLowercase(self):
+        self.assertResponseRenders(
+            '/accounts/settings/',
+            method='POST',
+            data={
+                'action': 'edit_name',
+                'username': self.USER_USERNAME.upper(),
+                'invest_anonymously': False,
+            },
+            has_form_error=True
+        )
 
     def testEditName(self):
         self.assertResponseRenders(
