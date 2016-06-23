@@ -51,20 +51,8 @@ class Project(models.Model):
 
     def investors(self):
         investors = {}
-        investments = Investment.objects.filter(campaign__project=self, charge__paid=True).select_related('charge', 'charge__customer', 'charge__customer__user')
-
-        for investment in investments:
-            investor = investment.investor()
-            if investor.id not in investors:
-                investors[investor.id] = {
-                    'name': investor.userprofile.get_display_name(),
-                    'avatar_url': investor.userprofile.display_avatar_url(),
-                    'public_profile_url': investor.userprofile.public_profile_url(),
-                    'num_shares': 0,
-                    'total_investment': 0,
-                }
-            investors[investor.id]['num_shares'] += investment.num_shares
-            investors[investor.id]['total_investment'] += investment.num_shares * investment.campaign.value_per_share
+        for campaign in self.campaign_set.all():
+            investors.update(campaign.investors())
 
         # Calculate percentage ownership for each investor
         for investor_id, investor in investors.iteritems():
@@ -127,6 +115,25 @@ class Campaign(models.Model):
         started = self.start_datetime is None or self.start_datetime < timezone.now()
         ended = self.end_datetime and self.end_datetime < timezone.now()
         return started and not ended and self.amount_raised() < self.amount
+
+    def investors(self):
+        investors = {}
+        investments = self.investment_set.filter(charge__paid=True).select_related('charge', 'charge__customer', 'charge__customer__user')
+
+        for investment in investments:
+            investor = investment.investor()
+            if investor.id not in investors:
+                investors[investor.id] = {
+                    'name': investor.userprofile.get_display_name(),
+                    'avatar_url': investor.userprofile.display_avatar_url(),
+                    'public_profile_url': investor.userprofile.public_profile_url(),
+                    'num_shares': 0,
+                    'total_investment': 0,
+                }
+            investors[investor.id]['num_shares'] += investment.num_shares
+            investors[investor.id]['total_investment'] += investment.num_shares * investment.campaign.value_per_share
+
+        return investors
 
 
 class ArtistPercentageBreakdown(models.Model):
