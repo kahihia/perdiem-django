@@ -47,7 +47,7 @@ class Project(models.Model):
         return self.revenuereport_set.all().aggregate(gr=models.Sum('amount'))['gr'] or 0
 
     def generated_revenue_fans(self):
-        return self.generated_revenue() * (float(self.total_fans_percentage() / 100))
+        return self.generated_revenue() * (float(self.total_fans_percentage()) / 100)
 
     def investors(self):
         investors = {}
