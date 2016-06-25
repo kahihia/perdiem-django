@@ -6,6 +6,8 @@
 
 import mock
 
+from django.test import override_settings
+
 from emails.models import EmailSubscription
 from emails.utils import create_unsubscribe_link
 from perdiem.tests import PerDiemTestCase
@@ -14,6 +16,7 @@ from perdiem.tests import PerDiemTestCase
 class SubscribeTestCase(PerDiemTestCase):
 
     @mock.patch('emails.mailchimp.requests.put')
+    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
     def testSubscribeToNewsletterSuccess(self, mock_mailchimp_request):
         mock_mailchimp_request.return_value = mock.Mock(status_code=200)
 
