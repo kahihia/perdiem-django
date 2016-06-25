@@ -59,3 +59,17 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
         )
         response = self.assertResponseRenders(unsubscribe_url)
         self.assertIn("This link is invalid", response.content)
+
+    @override_settings(MAILCHIMP_LIST_ID='FAKE_LIST_ID')
+    def testUnsubscribeFromMailChimp(self):
+        self.client.logout()
+
+        # Simulate POST request received from MailChimp
+        self.assertResponseRenders(
+            '/unsubscribe/from-mailchimp/',
+            method='POST',
+            data={
+                'data[list_id]': 'FAKE_LIST_ID',
+                'data[email]': self.user.email,
+            }
+        )
