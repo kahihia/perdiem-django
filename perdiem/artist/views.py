@@ -39,7 +39,7 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
-        self.campaign_status = request.GET.get('campaign-status', 'Active')
+        self.campaign_status = request.GET.get('campaign-status', 'All')
         self.active_genre = request.GET.get('genre', 'All Genres')
         self.distance = request.GET.get('distance')
         self.location = request.GET.get('location')
