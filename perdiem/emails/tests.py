@@ -6,11 +6,19 @@
 
 import mock
 
+from emails.models import EmailSubscription
 from emails.utils import create_unsubscribe_link
 from perdiem.tests import PerDiemTestCase
 
 
 class UnsubscribeWebTestCase(PerDiemTestCase):
+
+    def setUp(self):
+        super(UnsubscribeWebTestCase, self).setUp()
+        EmailSubscription.objects.create(
+            user=self.user,
+            subscription=EmailSubscription.SUBSCRIPTION_ARTUP
+        )
 
     def testUnsubscribe(self):
         unsubscribe_url = create_unsubscribe_link(self.user)
