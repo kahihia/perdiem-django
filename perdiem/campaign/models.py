@@ -25,6 +25,9 @@ class Project(models.Model):
             reason=self.reason
         )
 
+    def active(self):
+        return self.campaign_set.filter(start_datetime__lte=timezone.now()).exclude(end_datetime__lte=timezone.now()).exists()
+
     def total_num_shares(self):
         total_num_shares = 0
         for campaign in self.campaign_set.all():
@@ -49,14 +52,14 @@ class Project(models.Model):
     def generated_revenue_fans(self):
         return float(self.generated_revenue()) * (float(self.total_fans_percentage()) / 100)
 
-    def project_investors(self):
-        investors = {}
+    def project_investors(self, investors={}):
         for campaign in self.campaign_set.all():
             investors = campaign.campaign_investors(investors=investors)
 
-        # Calculate percentage ownership for each investor
-        for investor_id, investor in investors.iteritems():
-            investors[investor_id]['percentage'] = (float(investor['num_shares']) / self.total_num_shares()) * self.total_fans_percentage()
+        # Calculate percentage ownership for each investor (if project is active)
+        if self.active():
+            for investor_id, investor in investors.iteritems():
+                investors[investor_id]['percentage'] = (float(investor['num_shares']) / self.total_num_shares()) * self.total_fans_percentage()
 
         return investors
 

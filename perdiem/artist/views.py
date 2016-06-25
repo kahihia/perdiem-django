@@ -167,17 +167,17 @@ class ArtistDetailView(FormView):
         context['has_permission_to_submit_update'] = self.artist.has_permission_to_submit_update(self.request.user)
 
         context['artist'] = self.artist
-        campaign = self.artist.active_campaign()
+        investors = self.artist.investors()
+        context['investors'] = investors.values()
 
+        campaign = self.artist.active_campaign()
         if campaign:
             context['campaign'] = campaign
             context['fans_percentage'] = campaign.fans_percentage
-            investors = campaign.project.project_investors()
-            context['investors'] = investors.values()
 
             if self.request.user.is_authenticated():
                 user_investor = investors.get(self.request.user.id)
-                if user_investor and user_investor['percentage'] >= 0.5:
+                if user_investor and user_investor.get('percentage', 0) >= 0.5:
                     context['fans_percentage'] -= user_investor['percentage']
                     context['user_investor'] = user_investor
 

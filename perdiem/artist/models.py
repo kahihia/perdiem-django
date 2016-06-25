@@ -62,6 +62,12 @@ class Artist(models.Model):
     def has_permission_to_submit_update(self, user):
         return user.is_authenticated() and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
 
+    def investors(self):
+        investors = {}
+        for project in self.project_set.all():
+            investors = project.project_investors(investors=investors)
+        return investors
+
 
 class ArtistAdmin(models.Model):
 
