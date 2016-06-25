@@ -1,10 +1,10 @@
 server {
-    server_name www.investperdiem.com;
-    return 301 https://investperdiem.com$request_uri;
+    server_name investperdiem.com;
+    return 301 https://www.investperdiem.com$request_uri;
 }
 
 server {
-    server_name investperdiem.com;
+    server_name www.investperdiem.com;
 
     access_log off;
     client_max_body_size 5M;
