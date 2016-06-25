@@ -47,7 +47,7 @@ class Project(models.Model):
         return self.revenuereport_set.all().aggregate(gr=models.Sum('amount'))['gr'] or 0
 
     def generated_revenue_fans(self):
-        return self.generated_revenue() * (float(self.total_fans_percentage()) / 100)
+        return float(self.generated_revenue()) * (float(self.total_fans_percentage()) / 100)
 
     def investors(self):
         investors = {}
@@ -189,13 +189,13 @@ class Investment(models.Model):
             reported_datetime__gt=self.transaction_datetime
         )
         total_relevant_revenue = relevant_revenue_reports.aggregate(total_revenue=models.Sum('amount'))['total_revenue'] or 0
-        return total_relevant_revenue * (float(self.campaign.fans_percentage) / 100) * (float(self.num_shares) / self.campaign.num_shares())
+        return float(total_relevant_revenue) * (float(self.campaign.fans_percentage) / 100) * (float(self.num_shares) / self.campaign.num_shares())
 
 
 class RevenueReport(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField(help_text='The amount of revenue generated (in dollars) being reported (since last report)')
+    amount = models.DecimalField(max_digits=9, decimal_places=2, help_text='The amount of revenue generated (in dollars) being reported (since last report)')
     reported_datetime = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

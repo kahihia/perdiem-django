@@ -52,7 +52,7 @@
             <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
         {% endif %}
         {% if campaign.project.generated_revenue %}
-            <p>${{ campaign.project.generated_revenue|floatformat:0|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|floatformat:0|intcomma }} for fans).</p>
+            <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
         {% endif %}
         <!-- Countdown Widget -->
         </ul>
