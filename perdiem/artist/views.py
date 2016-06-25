@@ -172,7 +172,7 @@ class ArtistDetailView(FormView):
         if campaign:
             context['campaign'] = campaign
             context['fans_percentage'] = campaign.fans_percentage
-            investors = campaign.project.investors()
+            investors = campaign.project.project_investors()
             context['investors'] = investors.values()
 
             if self.request.user.is_authenticated():

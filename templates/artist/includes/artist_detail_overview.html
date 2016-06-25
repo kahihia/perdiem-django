@@ -41,7 +41,7 @@
                     <span class="goal-label">Days Remaining</span>
                 </div>
                 <div class="goal-stat">
-                    {% with num_investors=campaign.investors|length %}
+                    {% with num_investors=campaign.campaign_investors|length %}
                         <span class="goal-number">{{ num_investors }}</span>
                         <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
                     {% endwith %}
