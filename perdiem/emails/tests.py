@@ -4,6 +4,8 @@
 
 """
 
+import mock
+
 from emails.utils import create_unsubscribe_link
 from perdiem.tests import PerDiemTestCase
 
@@ -27,3 +29,19 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
         )
         response = self.assertResponseRenders(unsubscribe_url)
         self.assertIn("This link is invalid", response.content)
+
+    @mock.patch('emails.mailchimp.requests.put')
+    def testSubscribeToNewsletterSuccess(self, mock_mailchimp_request):
+        mock_mailchimp_request.return_value = mock.Mock(status_code=200)
+
+        self.assertResponseRenders(
+            '/accounts/settings/',
+            method='POST',
+            data={
+                'action': 'email_preferences',
+                'email': self.user.email,
+                'subscription_all': True,
+                'subscription_news': True,
+                'subscription_artist_update': False,
+            }
+        )
