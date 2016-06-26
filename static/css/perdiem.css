@@ -178,7 +178,26 @@ h2.profile-header {
 
 p.profile-total {
     text-align: center;
-    font-size: 25px;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: Dosis, sans-serif;
+}
+
+h5.profile-total {
+    text-align: center;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+h5.profile-total-header {
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+    font-weight: 400;
 }
 
 .break {
@@ -227,6 +246,13 @@ a.nav-color {
     height: 30px;
     width: 30px;
     border-radius: 15px;
+}
+
+.profile-crop-list {
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    margin: 5px;
 }
 
 .nav-settings {
@@ -314,4 +340,11 @@ ul.tabs li {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.tabs-title {
+    background-color: #e6e6e6;
+    margin: 2px;
+    width: 150px;
+    height: 50px;
 }

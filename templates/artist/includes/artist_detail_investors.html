@@ -5,13 +5,16 @@
             <li id="investor-block">
                 {% if investor.public_profile_url %}
                     <a href="{{ investor.public_profile_url }}">
-                        <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
-                        {{ investor.name }}
-                    </a>
+                        <img class="profile-crop-list" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
+                        <br/>{{ investor.name }}:
+                    
                 {% else %}
                     {{ investor.name }}
                 {% endif %}
                 ${{ investor.total_investment }}
+                {% if investor.public_profile_url %}
+                    </a>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
