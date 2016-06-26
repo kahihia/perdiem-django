@@ -3,10 +3,10 @@
 {% block content %}
     <h1>Settings</h1>
     <ul class="tabs nav-settings" data-tabs id="settings-tabs">
-        <li class="tabs-title {% if 'edit_name' in forms_with_errors or not forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
-        <li class="tabs-title {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
-        <li class="tabs-title {% if 'change_password' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
-        <li class="tabs-title {% if 'email_preferences' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
+        <li class="tabs-title tab-formatting {% if 'edit_name' in forms_with_errors or not forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
+        <li class="tabs-title tab-formatting {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
+        <li class="tabs-title tab-formatting {% if 'change_password' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
+        <li class="tabs-title tab-formatting {% if 'email_preferences' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
     </ul>
     <div class="break">
         <hr>

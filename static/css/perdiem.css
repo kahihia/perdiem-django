@@ -334,3 +334,11 @@ ul.tabs li {
     margin: 0 auto;
     padding: 20px;
 }
+
+.tab-formatting {
+    background-color: #e6e6e6;
+    margin: 2px;
+    width: 150px;
+    height: 50px;
+
+}
