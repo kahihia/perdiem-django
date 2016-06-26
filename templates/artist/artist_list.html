@@ -14,17 +14,17 @@
     <div class="list-nav">
         <div class="filter-sort-options center">
             <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
-                    <li class="nav-float"><h6>Show me</h6></li>
-                    <li class="is-dropdown-submenu-parent opens-right nav-float">
-                        <a href="#"><h6>{{ campaign_status }}</h6></a>
-                        <ul class="menu is-dropdown-submenu">
-                            {% for option in campaign_statuses %}
-                                {% if option != campaign_status %}
-                                    <li><a href="?campaign-status={{ option }}&genre={{ active_genre }}&sort={{ order_by.slug }}"><h6>{{ option }}</h6></a></li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
+                <li class="nav-float"><h6>Show me</h6></li>
+                <li class="is-dropdown-submenu-parent opens-right nav-float">
+                    <a href="#"><h6>{{ campaign_status }}</h6></a>
+                    <ul class="menu is-dropdown-submenu">
+                        {% for option in campaign_statuses %}
+                            {% if option != campaign_status %}
+                                <li><a href="?campaign-status={{ option }}&genre={{ active_genre }}&sort={{ order_by.slug }}"><h6>{{ option }}</h6></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
                 <li class="nav-float"><h6>artists in</h6></li>
                 {% if genres %}
                     <li class="is-dropdown-submenu-parent opens-right nav-float">
@@ -43,9 +43,9 @@
                 {% endif %}
                 <li class="nav-float">
                     <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
-                    <h6>{% if distance %}within {{ distance }} miles{% endif %}
-                    FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h6>
-                </button>
+                        <h6>{% if distance %}within {{ distance }} miles{% endif %}
+                        FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h6>
+                    </button>
                     <div class="dropdown-pane" id="location-dropdown" data-dropdown>
                         <h6>within</h6>
                         <div class="row">
@@ -89,8 +89,8 @@
                     </ul>
                 </li>
             </ul>
+            <p class="getting-location">Getting your location...</p>
         </div>
-        <p class="getting-location">Getting your location...</p>
     </div>
     <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
         {% for artist in artists %}
