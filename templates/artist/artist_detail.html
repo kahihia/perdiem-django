@@ -20,15 +20,15 @@
 {% block content %}
     <h1 class="header-font">{{ artist.name }}</h1>
     <ul class="tabs" data-tabs id="artist-detail-tabs">
-        <li class="tabs-title tab-formatting {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
+        <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
         {% if investors %}
-            <li class="tabs-title tab-formatting"><a href="#investors">Investors</a></li>
+            <li class="tabs-title"><a href="#investors">Investors</a></li>
         {% endif %}
         {% if artist.past_campaigns %}
-            <li class="tabs-title tab-formatting"><a href="#past">Past Campaigns</a></li>
+            <li class="tabs-title"><a href="#past">Past Campaigns</a></li>
         {% endif %}
         {% if updates or has_permission_to_submit_update %}
-            <li class="tabs-title tab-formatting {% if form.errors %}is-active{% endif %}"><a href="#updates">Updates</a></li>
+            <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates">Updates</a></li>
         {% endif %}
     </ul>
     <div class="tabs-content" data-tabs-content="artist-detail-tabs">
