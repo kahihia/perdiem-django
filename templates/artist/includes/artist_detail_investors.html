@@ -12,7 +12,9 @@
                     {{ investor.name }}
                 {% endif %}
                 ${{ investor.total_investment }}
+                {% if investor.public_profile_url %}
                     </a>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
