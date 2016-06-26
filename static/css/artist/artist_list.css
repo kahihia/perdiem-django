@@ -60,3 +60,13 @@
 .column {
     color: #ffffff;
 }
+
+.list-nav {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 5px;
+}
+
+.nav-float {
+    float: left;
+}
