@@ -21,15 +21,13 @@
             <div class="break">
                 <hr>
             </div>
-
+                <h5 class="profile-total-header">TOTAL EARNED:</h5>
             {% if total_earned %}
-                <h5 class="profile-total-header">TOTAL EARNED:</h5>
-                <h5 class="profile-total"> ${{ total_earned|floatformat:2|intcomma }}</h5>
+                <h5 class="profile-total">${{ total_earned|floatformat:2|intcomma }}</h5>
             {% else %}
-                <h5 class="profile-total-header">TOTAL EARNED:</h5>
-                <h5 class="profile-total">Your money is going toward creating some amazing music!
+                <p class="profile-total">Your money is going toward creating some amazing music!
                     <br/>It usually takes a few weeks from the time the music is finished to when revenue is reported...
-                </h5>
+                </p>
             {% endif %}
             <h5 class="profile-total-header">TOTAL INVESTED:</h5>
             <h5 class="profile-total">${{ total_investments|floatformat:2|intcomma }}</h5>
