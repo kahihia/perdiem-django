@@ -185,7 +185,7 @@ p.profile-total {
     font-family: Dosis, sans-serif;
 }
 
-h5.profile-total {
+h5.profile-total-header {
     text-align: center;
     font-size: 25px;
     padding-top: 5px;
@@ -193,7 +193,7 @@ h5.profile-total {
     padding-right: 20px;
 }
 
-h5.profile-total-header {
+h5.profile-total {
     text-align: center;
     font-size: 25px;
     padding: 0px;
