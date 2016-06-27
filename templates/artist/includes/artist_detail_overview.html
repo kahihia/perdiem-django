@@ -75,10 +75,12 @@
             </div>
             <button id="invest-button" class="button" type="button">Buy 1 Share</button>
             <br />
-            <small>
-                ${{ campaign.value_per_share }} per share + ${{ PERDIEM_FEE }} PerDiem fee + 2.9%+$0.30 credit card fee
-                <span id="shares-price"></span>
-            </small>
+            <div class="total-cost">
+                <small>
+                <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
+                <h4 id="shares-price"></h4></span>
+                </small>
+            </div>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}

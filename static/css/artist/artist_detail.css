@@ -47,3 +47,7 @@ h1, h2, li, p, a {
 .past-campaign {
     background-color: #ecf0f1;
 }
+
+.total-cost {
+    font-size: 20px;
+}
