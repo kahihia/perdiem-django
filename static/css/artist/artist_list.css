@@ -80,22 +80,22 @@
     margin: 0px;
 }
 
-.name {
+.artist-name {
     padding-top: 5px;
     padding-bottom: 0px;
 }
 
-.location {
+.artist-location {
     padding-top: 5px;
     padding-bottom: 10px;
 }
 
-.invested {
+.artist-invested {
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-.earned {
+.artist-earned {
     padding-top: 0px;
     padding-bottom: 10px;
     font-weight: 400;
