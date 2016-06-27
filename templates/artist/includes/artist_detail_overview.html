@@ -76,10 +76,11 @@
             <button id="invest-button" class="button" type="button">Buy 1 Share</button>
             <br />
             <div class="total-cost">
-                <small>
-                    <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
-                    <h4 id="shares-price"></h4></span>
-                </small>
+                <h4 id="subtotal-shares-price"></h4>
+                <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
+                    <h4 id="fees-price"></h4>
+                </span>
+                <h4 id="shares-price"></h4>
             </div>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>

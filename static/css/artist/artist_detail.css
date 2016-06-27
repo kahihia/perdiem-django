@@ -49,5 +49,8 @@ h1, h2, li, p, a {
 }
 
 .total-cost {
-    font-size: 20px;
+    font-size: 16px;
+}
+.total-cost h4 {
+    display: inline-block;
 }

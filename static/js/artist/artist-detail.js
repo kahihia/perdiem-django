@@ -52,9 +52,11 @@ $(document).ready(function() {
         var subtotal_cost_cents = get_subtotal_cost_cents();
         var fees_cost_cents = get_fees_cost_cents();
         var subtotal_shares_price = parseFloat(subtotal_cost_cents / 100).toFixed(2);
+        $('#subtotal-shares-price').text("$" + subtotal_shares_price + " + ");
         var fees_price = parseFloat(fees_cost_cents / 100).toFixed(2);
+        $('#fees-price').text("$" + fees_price);
         var total_shares_price = parseFloat((subtotal_cost_cents + fees_cost_cents) / 100).toFixed(2);
-        $('#shares-price').text("$" + subtotal_shares_price + " + $" + fees_price + " = $" + total_shares_price);
+        $('#shares-price').text(" = $" + total_shares_price);
     }
     $('.invest-num-shares > input').change(function() {
         num_shares_updated();
