@@ -35,3 +35,7 @@ h1, h2, li, p, a {
     margin: 0 auto;
     padding: 20px;
 }
+
+.social-padding {
+    padding: 20px;
+}
