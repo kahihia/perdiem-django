@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <!-- What is the money being used for? -->
-                <h4>WHAT WAS THE MONEY BEING USED FOR?</h4>
+                <h4>WHAT WAS THE MONEY USED FOR?</h4>
                 <p>{{ campaign.use_of_funds }}</p>
                 <ul>
                     {% for expense in campaign.expense_set.all %}
@@ -49,8 +49,8 @@
                     <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
                 </ul>
                 <!-- What do you get for investing? -->
-                <h4>WHAT DID YOU GET FOR INVESTING?</h4>
-                <p>Raising ${{ campaign.amount|intcomma }} {{ campaign.project.reason }} and giving {{ campaign.fans_percentage }}% of the sales back</p>
+                <h4>WHAT DID INVESTORS GET FOR INVESTING?</h4>
+                <p>Raised ${{ campaign.amount|intcomma }} {{ campaign.project.reason }} and giving {{ campaign.fans_percentage }}% of the sales back</p>
                 <div class="break">
                     <hr>
                 </div>
