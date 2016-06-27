@@ -23,28 +23,30 @@
         <h2>GOAL</h2>
         <h4>${{ campaign.amount|intcomma }} {{ campaign.project.reason }}</h4>
         <!-- Countdown Widget -->
-        <div id="countdown-wrap">
-            <div id="glass">
-                <div id="progress"></div>
-            </div>
-            <div id="countdown-stats">
-                <div class="goal-stat">
-                    <span class="goal-number">{{ campaign.percentage_funded }}%</span>
-                    <span class="goal-label">Funded</span>
+        <div class="artist-detail-padding">
+            <div id="countdown-wrap">
+                <div id="glass">
+                    <div id="progress"></div>
                 </div>
-                <div class="goal-stat">
-                    <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
-                    <span class="goal-label">Raised</span>
-                </div>
-                <div class="goal-stat">
-                    <span class="goal-number">{{ campaign.days_remaining }}</span>
-                    <span class="goal-label">Days Remaining</span>
-                </div>
-                <div class="goal-stat">
-                    {% with num_investors=campaign.campaign_investors|length %}
-                        <span class="goal-number">{{ num_investors }}</span>
-                        <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
-                    {% endwith %}
+                <div id="countdown-stats">
+                    <div class="goal-stat">
+                        <span class="goal-number">{{ campaign.percentage_funded }}%</span>
+                        <span class="goal-label">Funded</span>
+                    </div>
+                    <div class="goal-stat">
+                        <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
+                        <span class="goal-label">Raised</span>
+                    </div>
+                    <div class="goal-stat">
+                        <span class="goal-number">{{ campaign.days_remaining }}</span>
+                        <span class="goal-label">Days Remaining</span>
+                    </div>
+                    <div class="goal-stat">
+                        {% with num_investors=campaign.campaign_investors|length %}
+                            <span class="goal-number">{{ num_investors }}</span>
+                            <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
+                        {% endwith %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,7 +87,9 @@
         </div>
         <!-- Artist Bio -->
         <h2>OUR STORY</h2>
-        {{ artist.bio.bio|markdown }}
+        <div class="artist-detail-padding">
+            {{ artist.bio.bio|markdown }}
+        </div>
     {% endif %}
 
     {% if artist.soundcloudplaylist_set.exists %}
@@ -94,7 +98,7 @@
         </div>
         <!-- Music -->
         <h2>MUSIC</h2>
-        <div class="extra-padding">
+        <div class="artist-detail-padding">
             {% for playlist in artist.soundcloudplaylist_set.all %}
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
             {% endfor %}

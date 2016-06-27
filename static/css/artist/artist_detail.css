@@ -29,3 +29,9 @@ h1, h2, li, p, a {
 #investor-block {
     padding: 5px;
 }
+
+.artist-detail-padding {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
