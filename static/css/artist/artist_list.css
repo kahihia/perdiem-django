@@ -8,7 +8,10 @@
 }
 
 .artist-list-name {
-    color: #fff;
+    color: #000;
+    padding-top: 10px;
+    text-transform: uppercase;
+    font-family: Dosis, sans-serif;
 }
 
 .filter-sort-options .menu > li {
@@ -41,15 +44,15 @@
 } 
 
 .artistlist.row > .column {
-    background: #000;
+    background: #fff;
     padding: 20px;
-    opacity: 0.8;
-    border: 1px solid #ffffff;
+    border: 1px solid #fff;
     text-align: center;
 }
 
 .artistlist.row > .column > p {
-    color: #fff;
+    color: #000;
+    text-transform: uppercase;
 }
 
 .break {
@@ -69,4 +72,36 @@
 
 .nav-float {
     float: left;
+}
+
+.artist-name {
+    padding-top: 5px;
+    padding-bottom: 0px;
+    font-family: Dosis, sans-serif;
+    background-color: #ecf0f1;
+}
+
+.artist-location {
+    padding-top: 5px;
+    padding-bottom: 10px;
+    font-family: Dosis, sans-serif;
+    background-color: #ecf0f1;
+    margin: 0px;
+}
+
+.artist-invested {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: Dosis, sans-serif;
+    background-color: #ecf0f1;
+    margin: 0px;
+}
+
+.artist-earned {
+    padding-top: 0px;
+    padding-bottom: 10px;
+    font-family: Dosis, sans-serif;
+    background-color: #ecf0f1;
+    margin: 0px;
+    font-weight: 400;
 }

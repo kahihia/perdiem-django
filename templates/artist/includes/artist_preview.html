@@ -4,5 +4,7 @@
     {% thumbnail artist.photo.img "250x250" crop="center" as thumb %}
         <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
-    <br />{{ artist.name }}
+    <div class="artist-name">
+        {{ artist.name }}
+    </div>
 </a>
