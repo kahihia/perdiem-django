@@ -27,7 +27,11 @@ h1, h2, li, p, a {
 }
 
 #investor-block {
-    padding: 5px;
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: #ecf0f1;
+    text-align: center;
 }
 
 .artist-detail-padding {
