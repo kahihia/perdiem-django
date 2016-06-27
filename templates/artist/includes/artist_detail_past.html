@@ -12,33 +12,7 @@
                 <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}: {{ past_campaign.percentage_funded }}% funded</h3>
                 <h4>[ended {{ past_campaign.end_datetime|timesince }} ago]</h4>
                 <!-- Countdown Widget -->
-                <div class="artist-detail-padding">
-                    <div id="countdown-wrap">
-                        <div id="glass">
-                            <div id="progress"></div>
-                        </div>
-                        <div id="countdown-stats">
-                            <div class="goal-stat">
-                                <span class="goal-number">{{ campaign.percentage_funded }}%</span>
-                                <span class="goal-label">Funded</span>
-                            </div>
-                            <div class="goal-stat">
-                                <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
-                                <span class="goal-label">Raised</span>
-                            </div>
-                            <div class="goal-stat">
-                                <span class="goal-number">{{ campaign.days_remaining }}</span>
-                                <span class="goal-label">Days Remaining</span>
-                            </div>
-                            <div class="goal-stat">
-                                {% with num_investors=campaign.campaign_investors|length %}
-                                    <span class="goal-number">{{ num_investors }}</span>
-                                    <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
-                                {% endwith %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include "artist/includes/artist_detail_countdown.html" %}
                 <!-- What is the money being used for? -->
                 <h4>WHAT WAS THE MONEY USED FOR?</h4>
                 <p>{{ campaign.use_of_funds }}</p>
