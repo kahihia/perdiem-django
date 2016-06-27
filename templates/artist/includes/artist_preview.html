@@ -1,10 +1,10 @@
 {% load thumbnail %}
 
-<a class="artist-list-name" href="{% url 'artist' slug=artist.slug %}">
+<a class="artist-details name" href="{% url 'artist' slug=artist.slug %}">
     {% thumbnail artist.photo.img "250x250" crop="center" as thumb %}
         <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
-    <div class="artist-name">
+    <div class="artist-details name">
         {{ artist.name }}
     </div>
 </a>

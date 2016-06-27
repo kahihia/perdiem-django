@@ -9,9 +9,9 @@
     {% for artist in artists.values %}
         <div class="column">
             {% include "artist/includes/artist_preview.html" with artist=artist %}
-            <p class="artist-invested">Total invested: ${{ artist.total_invested|floatformat:2|intcomma }}</p>
+            <p class="artist-details invested">Total invested: ${{ artist.total_invested|floatformat:2|intcomma }}</p>
             {% if artist.total_earned %}
-                <p class="artist-earned">Total earned: ${{ artist.total_earned|floatformat:2|intcomma }}</p>
+                <p class="artist-details earned">Total earned: ${{ artist.total_earned|floatformat:2|intcomma }}</p>
             {% endif %}
         </div>
     {% endfor %}
