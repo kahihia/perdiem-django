@@ -49,8 +49,12 @@ $(document).ready(function() {
         $('button#invest-button').text(button_text);
 
         // Update shares price
-        var shares_price = parseFloat(get_total_cost_cents() / 100).toFixed(2);
-        $('#shares-price').text(" = $" + shares_price);
+        var subtotal_cost_cents = get_subtotal_cost_cents();
+        var fees_cost_cents = get_fees_cost_cents();
+        var subtotal_shares_price = parseFloat(subtotal_cost_cents / 100).toFixed(2);
+        var fees_price = parseFloat(fees_cost_cents / 100).toFixed(2);
+        var total_shares_price = parseFloat((subtotal_cost_cents + fees_cost_cents) / 100).toFixed(2);
+        $('#shares-price').text("$" + subtotal_shares_price + " + $" + fees_price + " = $" + total_shares_price);
     }
     $('.invest-num-shares > input').change(function() {
         num_shares_updated();
@@ -75,11 +79,14 @@ $(document).ready(function() {
     });
 
     // Cost for shares
-    function get_total_cost_cents() {
+    function get_subtotal_cost_cents() {
+        return get_num_shares() * share_value_cents;
+    }
+    function get_fees_cost_cents() {
         var subtotal = get_num_shares() * share_value_cents;
         var perdiem_fee_cents = perdiem_fee * 100;
-        var total = (perdiem_fee_cents + subtotal) * 1.029 + 30; // Stripe 2.9% + $0.30 fee
-        return Math.ceil(total);
+        var credit_card_fees = (perdiem_fee_cents + subtotal) * 0.029 + 30; // Stripe 2.9% + $0.30 fee
+        return Math.ceil(perdiem_fee_cents + credit_card_fees);
     }
 
     // Click Invest button
