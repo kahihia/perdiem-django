@@ -342,6 +342,13 @@ ul.tabs li {
     padding: 20px;
 }
 
+.small-form-input {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .tabs-title {
     background-color: #e6e6e6;
     margin: 2px;
