@@ -4,6 +4,10 @@
 {% load perdiem %}
 
 <div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
+    <h2>OVERVIEW</h2>
+    <div class="break">
+        <hr>
+    </div>
     {% thumbnail artist.photo.img "500" as thumb %}
         <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
