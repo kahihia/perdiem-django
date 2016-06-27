@@ -5,15 +5,15 @@
     <div class="break">
         <hr>
     </div>
-    <div class="page-padding">
         <p>Want to be on PerDiem? Apply here.</p>
         <div class="break">
             <hr>
         </div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit" />
-        </form>
-    </div>
+        <div class="large-form-input">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
 {% endblock %}
