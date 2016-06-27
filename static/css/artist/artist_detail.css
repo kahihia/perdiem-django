@@ -43,3 +43,7 @@ h1, h2, li, p, a {
 .social-padding {
     padding: 20px;
 }
+
+.past-campaign {
+    background-color: #ecf0f1;
+}
