@@ -5,7 +5,7 @@
     <ul>
         {% for past_campaign in artist.past_campaigns %}
             <li>
-                ${{ past_campaign.amount|intcomma }} {{ past_campaign.reason }}: {{ past_campaign.percentage_funded }}% funded [ended {{ past_campaign.end_datetime|timesince }} ago]
+                ${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}: {{ past_campaign.percentage_funded }}% funded [ended {{ past_campaign.end_datetime|timesince }} ago]
             </li>
         {% endfor %}
     </ul>
