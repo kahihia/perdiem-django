@@ -1,0 +1,37 @@
+{% load humanize %}
+{% load perdiem %}
+
+<!-- Countdown Widget -->
+<div class="artist-detail-padding">
+    <div id="countdown-wrap">
+        <div id="glass">
+            <div id="progress"></div>
+        </div>
+        <div id="countdown-stats">
+            <div class="goal-stat">
+                <span class="goal-number">{{ campaign.percentage_funded }}%</span>
+                <span class="goal-label">Funded</span>
+            </div>
+            <div class="goal-stat">
+                <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
+                <span class="goal-label">Raised</span>
+            </div>
+            <div class="goal-stat">
+                <span class="goal-number">{{ campaign.days_remaining }}</span>
+                <span class="goal-label">Days Remaining</span>
+            </div>
+            <div class="goal-stat">
+                {% with num_investors=campaign.campaign_investors|length %}
+                    <span class="goal-number">{{ num_investors }}</span>
+                    <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+    {% if campaign.days_remaining == 0 %}
+        <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
+    {% endif %}
+    {% if campaign.project.generated_revenue %}
+        <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+    {% endif %}
+</div>

@@ -27,5 +27,30 @@ h1, h2, li, p, a {
 }
 
 #investor-block {
-    padding: 5px;
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: #ecf0f1;
+    text-align: center;
+}
+
+.artist-detail-padding {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.social-padding {
+    padding: 20px;
+}
+
+.past-campaign {
+    background-color: #ecf0f1;
+}
+
+.total-cost {
+    font-size: 16px;
+}
+.total-cost h4 {
+    display: inline-block;
 }

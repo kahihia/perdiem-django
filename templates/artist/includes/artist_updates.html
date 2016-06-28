@@ -1,8 +1,11 @@
 <ul class="menu vertical nested is-active updates">
     {% for update in updates %}
         <li id="update-{{ update.id }}">
+            <div class="break">
+                <hr>
+            </div>
             {% if show_artist_name %}
-                <h2>{{ update.artist.name }}</h2>
+                <h3>{{ update.artist.name }}</h3>
             {% endif %}
             <h4>
                 {{ update.title }}

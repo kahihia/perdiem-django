@@ -96,9 +96,9 @@
         {% for artist in artists %}
             <div class="column">
                 {% include "artist/includes/artist_preview.html" with artist=artist %}
-                <p>Location: {{ artist.location|truncatechars:30 }}</p>
+                <p class="artist-details artist-location">Location: {{ artist.location|truncatechars:30 }}</p>
                 {% if order_by.slug == 'funded' %}
-                    <p>
+                    <p class="artist-details artist-location">
                         {% if artist.funded %}
                             % Funded: {{ artist.funded }}
                         {% else %}
@@ -106,7 +106,7 @@
                         {% endif %}
                     </p>
                 {% elif order_by.slug == 'time-remaining' %}
-                    <p>
+                    <p class="artist-details artist-location">
                         {% if artist.campaign_end_datetime|timesince >= "1 min" %}
                             Time since: {{ artist.campaign_end_datetime|timesince }}
                         {% elif artist.campaign_end_datetime|timeuntil >= "1 min" %}
@@ -118,11 +118,11 @@
                         {% endif %}
                     </p>
                 {% elif order_by.slug == 'investors' %}
-                    <p># Investors: {{ artist.num_investors }}</p>
+                    <p class="artist-details artist-location"># Investors: {{ artist.num_investors }}</p>
                 {% elif order_by.slug == 'raised' %}
-                    <p>Amount raised: ${{ artist.amount_raised|intcomma }}</p>
+                    <p class="artist-details artist-location">Amount raised: ${{ artist.amount_raised|intcomma }}</p>
                 {% elif order_by.slug == 'valuation' %}
-                    <p>
+                    <p class="artist-details artist-location">
                         {% if artist.valuation %}
                             Valuation: ${{ artist.valuation|intcomma }}
                         {% else %}

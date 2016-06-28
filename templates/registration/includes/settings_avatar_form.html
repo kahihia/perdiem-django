@@ -5,7 +5,7 @@
     <p>Select one of your existing avatars:</p>
     {{ form.avatar.errors }}
     {% for radio in form.avatar %}
-        <label for="{{ radio.id_for_label }}">
+        <label class="extra-padding" for="{{ radio.id_for_label }}">
             {% with label=radio.choice_label %}
                 {% for k, avatar in avatars.items %}
                     {% if k == label %}

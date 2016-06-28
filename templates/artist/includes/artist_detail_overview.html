@@ -4,6 +4,10 @@
 {% load perdiem %}
 
 <div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
+    <h2>OVERVIEW</h2>
+    <div class="break">
+        <hr>
+    </div>
     {% thumbnail artist.photo.img "500" as thumb %}
         <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
@@ -23,39 +27,7 @@
         <h2>GOAL</h2>
         <h4>${{ campaign.amount|intcomma }} {{ campaign.project.reason }}</h4>
         <!-- Countdown Widget -->
-        <div id="countdown-wrap">
-            <div id="glass">
-                <div id="progress"></div>
-            </div>
-            <div id="countdown-stats">
-                <div class="goal-stat">
-                    <span class="goal-number">{{ campaign.percentage_funded }}%</span>
-                    <span class="goal-label">Funded</span>
-                </div>
-                <div class="goal-stat">
-                    <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
-                    <span class="goal-label">Raised</span>
-                </div>
-                <div class="goal-stat">
-                    <span class="goal-number">{{ campaign.days_remaining }}</span>
-                    <span class="goal-label">Days Remaining</span>
-                </div>
-                <div class="goal-stat">
-                    {% with num_investors=campaign.campaign_investors|length %}
-                        <span class="goal-number">{{ num_investors }}</span>
-                        <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
-                    {% endwith %}
-                </div>
-            </div>
-        </div>
-        {% if campaign.days_remaining == 0 %}
-            <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
-        {% endif %}
-        {% if campaign.project.generated_revenue %}
-            <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
-        {% endif %}
-        <!-- Countdown Widget -->
-        </ul>
+        {% include "artist/includes/artist_detail_countdown.html" %}
         <!-- Buy Shares -->
         <div class="break">
             <hr>
@@ -69,10 +41,13 @@
             </div>
             <button id="invest-button" class="button" type="button">Buy 1 Share</button>
             <br />
-            <small>
-                ${{ campaign.value_per_share }} per share + ${{ PERDIEM_FEE }} PerDiem fee + 2.9%+$0.30 credit card fee
-                <span id="shares-price"></span>
-            </small>
+            <div class="total-cost">
+                <h4 id="subtotal-shares-price"></h4>
+                <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
+                    <h4 id="fees-price"></h4>
+                </span>
+                <h4 id="shares-price"></h4>
+            </div>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}
@@ -85,7 +60,9 @@
         </div>
         <!-- Artist Bio -->
         <h2>OUR STORY</h2>
-        {{ artist.bio.bio|markdown }}
+        <div class="artist-detail-padding">
+            {{ artist.bio.bio|markdown }}
+        </div>
     {% endif %}
 
     {% if artist.soundcloudplaylist_set.exists %}
@@ -94,7 +71,7 @@
         </div>
         <!-- Music -->
         <h2>MUSIC</h2>
-        <div class="extra-padding">
+        <div class="artist-detail-padding">
             {% for playlist in artist.soundcloudplaylist_set.all %}
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
             {% endfor %}
@@ -152,7 +129,7 @@
         <!-- Socials -->
         <h2>FOLLOW US!</h2>
         {% for social in artist.social_set.all %}
-            <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x" aria-hidden="true"></i></a>
+            <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x social-padding" aria-hidden="true"></i></a>
         {% endfor %}
     {% endif %}
 </div>
