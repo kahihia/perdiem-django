@@ -90,6 +90,9 @@ $(document).ready(function() {
         var credit_card_fees = (perdiem_fee_cents + subtotal) * 0.029 + 30; // Stripe 2.9% + $0.30 fee
         return Math.ceil(perdiem_fee_cents + credit_card_fees);
     }
+    function get_total_cost_cents() {
+        return get_subtotal_cost_cents() + get_fees_cost_cents();
+    }
 
     // Click Invest button
     $('#invest-button').click(function(e) {
