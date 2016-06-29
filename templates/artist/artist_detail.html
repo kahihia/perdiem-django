@@ -7,13 +7,10 @@
     <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
     <style>
-        #progress-campaign-{{ campaign.id }} {
-            float: left;
-            width: {% firstof campaign.percentage_funded 0 %}%;
-            height: 20px;
-            background: #3090C7;
-            z-index: 333;
-        }
+        {% include "artist/includes/artist_detail_countdown_style.html" with campaign=campaign %}
+        {% for past_campaign in artist.past_campaigns %}
+            {% include "artist/includes/artist_detail_countdown_style.html" with campaign=past_campaign %}
+        {% endfor %}
     </style>
 {% endblock %}
 
