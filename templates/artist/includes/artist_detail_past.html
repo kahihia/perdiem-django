@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load perdiem %}
 
 <div class="tabs-panel" id="past">
     <h2>PAST CAMPAIGNS</h2>
@@ -9,8 +10,7 @@
             </div>
             <div class="past-campaign">
                 <li>
-                    <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}: {{ past_campaign.percentage_funded }}% funded</h3>
-                    <h4>[ended {{ past_campaign.end_datetime|timesince }} ago]</h4>
+                    <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}</h3>
 
                     <!-- Countdown Widget -->
                     {% include "artist/includes/artist_detail_countdown.html" with campaign=past_campaign %}
@@ -28,6 +28,9 @@
                     <!-- What do you get for investing? -->
                     <h4>WHAT DID INVESTORS GET FOR INVESTING?</h4>
                     <p>Raised ${{ campaign.amount|intcomma }} {{ campaign.project.reason }} and giving {{ campaign.fans_percentage }}% of the sales back</p>
+                    {% if past_campaign.project.generated_revenue %}
+                        <p>${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+                    {% endif %}
                     <div class="break">
                         <hr>
                     </div>

@@ -1,5 +1,4 @@
 {% load humanize %}
-{% load perdiem %}
 
 <!-- Countdown Widget -->
 <div class="artist-detail-padding">
@@ -30,8 +29,5 @@
     </div>
     {% if campaign.days_remaining == 0 %}
         <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
-    {% endif %}
-    {% if campaign.project.generated_revenue %}
-        <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
     {% endif %}
 </div>

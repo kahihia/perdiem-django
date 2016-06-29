@@ -26,8 +26,13 @@
         <!-- Goal -->
         <h2>GOAL</h2>
         <h4>${{ campaign.amount|intcomma }} {{ campaign.project.reason }}</h4>
+
         <!-- Countdown Widget -->
         {% include "artist/includes/artist_detail_countdown.html" %}
+        {% if campaign.project.generated_revenue %}
+            <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+        {% endif %}
+
         <!-- Buy Shares -->
         <div class="break">
             <hr>
