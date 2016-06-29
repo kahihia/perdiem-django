@@ -13,7 +13,7 @@
                     <h4>[ended {{ past_campaign.end_datetime|timesince }} ago]</h4>
 
                     <!-- Countdown Widget -->
-                    {% include "artist/includes/artist_detail_countdown.html" %}
+                    {% include "artist/includes/artist_detail_countdown.html" with campaign=past_campaign %}
 
                     <!-- What is the money being used for? -->
                     <h4>WHAT WAS THE MONEY USED FOR?</h4>
