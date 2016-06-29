@@ -15,10 +15,12 @@
                 <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
                 <span class="goal-label">Raised</span>
             </div>
-            <div class="goal-stat">
-                <span class="goal-number">{{ campaign.days_remaining }}</span>
-                <span class="goal-label">Days Remaining</span>
-            </div>
+            {% if campaign.days_remaining %}
+                <div class="goal-stat">
+                    <span class="goal-number">{{ campaign.days_remaining }}</span>
+                    <span class="goal-label">Days Remaining</span>
+                </div>
+            {% endif %}
             <div class="goal-stat">
                 {% with num_investors=campaign.campaign_investors|length %}
                     <span class="goal-number">{{ num_investors }}</span>
