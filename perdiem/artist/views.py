@@ -173,7 +173,7 @@ class ArtistDetailView(FormView):
         campaign = self.artist.active_campaign()
         if campaign:
             context['campaign'] = campaign
-            context['fans_percentage'] = campaign.fans_percentage
+            context['fans_percentage'] = campaign.project.total_fans_percentage()
 
             if self.request.user.is_authenticated():
                 user_investor = investors.get(self.request.user.id)
