@@ -60,7 +60,7 @@ class CoordinatesFromAddress(APIView):
 
 class PaymentCharge(APIView):
 
-    NEW_LAUNCH_DATETIME = datetime.datetime(year=2016, month=6, day=15)
+    NEW_LAUNCH_DATETIME = datetime.datetime(year=2016, month=6, day=28)
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, campaign_id, *args, **kwargs):
