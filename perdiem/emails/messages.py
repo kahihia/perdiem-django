@@ -101,6 +101,7 @@ class WelcomeEmail(EmailVerificationEmail):
 class CredentialsEmail(BaseEmail):
 
     template_name = 'credentials'
+    send_to_unverified_emails = True
 
     def get_context_data(self, user, **kwargs):
         context = super(CredentialsEmail, self).get_context_data(user, **kwargs)
