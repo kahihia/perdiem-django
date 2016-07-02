@@ -1,35 +1,41 @@
 {% load humanize %}
+{% load perdiem %}
 
 <div class="tabs-panel" id="past">
     <h2>PAST CAMPAIGNS</h2>
     <ul>
         {% for past_campaign in artist.past_campaigns %}
-        <div class="break">
-            <hr>
-        </div>
-        <div class="past-campaign">
-            <li>
-                <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}: {{ past_campaign.percentage_funded }}% funded</h3>
-                <h4>[ended {{ past_campaign.end_datetime|timesince }} ago]</h4>
-                <!-- Countdown Widget -->
-                {% include "artist/includes/artist_detail_countdown.html" %}
-                <!-- What is the money being used for? -->
-                <h4>WHAT WAS THE MONEY USED FOR?</h4>
-                <p>{{ campaign.use_of_funds }}</p>
-                <ul>
-                    {% for expense in campaign.expense_set.all %}
-                        <li>{{ expense.expense }}</li>
-                    {% endfor %}
-                    <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
-                </ul>
-                <!-- What do you get for investing? -->
-                <h4>WHAT DID INVESTORS GET FOR INVESTING?</h4>
-                <p>Raised ${{ campaign.amount|intcomma }} {{ campaign.project.reason }} and giving {{ campaign.fans_percentage }}% of the sales back</p>
-                <div class="break">
-                    <hr>
-                </div>
-            </li>
-        </div>
+            <div class="break">
+                <hr>
+            </div>
+            <div class="past-campaign">
+                <li>
+                    <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}</h3>
+
+                    <!-- Countdown Widget -->
+                    {% include "artist/includes/artist_detail_countdown.html" with campaign=past_campaign %}
+
+                    <!-- What is the money being used for? -->
+                    <h4>WHAT WAS THE MONEY USED FOR?</h4>
+                    <p>{{ past_campaign.use_of_funds }}</p>
+                    <ul>
+                        {% for expense in past_campaign.expense_set.all %}
+                            <li>{{ expense.expense }}</li>
+                        {% endfor %}
+                        <li><strong>Total = ${{ past_campaign.amount|intcomma }}</strong></li>
+                    </ul>
+
+                    <!-- What do you get for investing? -->
+                    <h4>WHAT DID INVESTORS GET FOR INVESTING?</h4>
+                    <p>Raised ${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }} and giving {{ past_campaign.fans_percentage }}% of the sales back to the people who invested in it.</p>
+                    {% if past_campaign.project.generated_revenue %}
+                        <p>${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+                    {% endif %}
+                    <div class="break">
+                        <hr>
+                    </div>
+                </li>
+            </div>
         {% endfor %}
     </ul>
 </div>
