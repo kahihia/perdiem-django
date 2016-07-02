@@ -8,6 +8,7 @@ import decimal
 
 from geopy.geocoders import Nominatim
 from pinax.stripe.actions import charges, customers, sources
+from pinax.stripe.models import Card
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
