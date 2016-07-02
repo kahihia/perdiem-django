@@ -7,7 +7,7 @@
 import decimal
 
 from geopy.geocoders import Nominatim
-from pinax.stripe.actions import charges, customers
+from pinax.stripe.actions import charges, customers, sources
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -85,6 +85,9 @@ class PaymentCharge(APIView):
         customer = customers.get_customer_for_user(request.user)
         if not customer:
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
+        elif not Card.objects.filter(customer=customer).exists():
+            # In some cases, a customer can exist without a card, so we create it now
+            sources.create_card(customer=customer, token=card)
 
         # Create charge
         num_shares = d['num_shares']
