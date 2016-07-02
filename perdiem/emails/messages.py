@@ -6,6 +6,7 @@
 
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.utils.crypto import get_random_string
 
 from templated_email import send_templated_mail
 
@@ -94,6 +95,20 @@ class WelcomeEmail(EmailVerificationEmail):
         verified_email = VerifiedEmail.objects.get_current_email(user)
         if verified_email.verified:
             del context['verify_email_url']
+        return context
+
+
+class CredentialsEmail(BaseEmail):
+
+    template_name = 'credentials'
+
+    def get_context_data(self, user, **kwargs):
+        context = super(CredentialsEmail, self).get_context_data(user, **kwargs)
+        password_chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+        temporary_password = get_random_string(12, password_chars)
+        user.set_password(temporary_password)
+        user.save()
+        context['temporary_password'] = temporary_password
         return context
 
 
