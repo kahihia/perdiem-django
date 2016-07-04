@@ -148,7 +148,7 @@ class InvestSuccessEmail(BaseEmail):
 
         investment = kwargs['investment']
         context.update({
-            'artist': investment.campaign.artist,
+            'artist': investment.campaign.project.artist,
             'campaign': investment.campaign,
             'num_shares': investment.num_shares,
         })
