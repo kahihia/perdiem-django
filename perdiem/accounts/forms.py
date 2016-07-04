@@ -38,6 +38,15 @@ class RegisterAccountForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'email', 'password1', 'password2',)
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        # Verify that there are no other users already with this email address
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("The email address {email} already belongs to an existing user on PerDiem.".format(email=email))
+
+        return email
+
     def save(self, commit=True):
         user = super(RegisterAccountForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
