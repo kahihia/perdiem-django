@@ -27,7 +27,7 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
     def testCampaignRaisingZeroIsAlreadyFunded(self):
         self.campaign.amount = 0
         self.campaign.save()
-        self.assertEquals(self.campaign.percentage_funded(), '100')
+        self.assertEquals(self.campaign.percentage_funded(), 100)
 
 
 class CampaignWebTestCase(PerDiemTestCase):

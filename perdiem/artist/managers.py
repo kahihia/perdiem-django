@@ -60,7 +60,7 @@ class ArtistQuerySet(models.QuerySet):
         funded_artist_ids = []
         for artist in self:
             campaign = artist.latest_campaign()
-            if campaign and campaign.percentage_funded() == '100':
+            if campaign and campaign.percentage_funded() == 100:
                 funded_artist_ids.append(artist.id)
 
         return self.filter(id__in=funded_artist_ids)

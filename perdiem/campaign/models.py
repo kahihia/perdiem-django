@@ -75,6 +75,12 @@ class Campaign(models.Model):
     use_of_funds = models.TextField(null=True, blank=True, help_text='A description of how the funds will be used')
     fans_percentage = models.PositiveSmallIntegerField(help_text='The percentage of revenue that goes back to the fans (a value from 0-100)')
 
+    @staticmethod
+    def funded_rounding(n):
+        if n < 99:
+            return int(math.ceil(n))
+        return int(math.floor(n))
+
     def __unicode__(self):
         return u'{artist}: ${amount} {reason}'.format(
             artist=unicode(self.project.artist),
@@ -104,9 +110,10 @@ class Campaign(models.Model):
 
     def percentage_funded(self):
         try:
-            return "{0:.0f}".format((float(self.amount_raised()) / self.amount) * 100)
+            percentage = (float(self.amount_raised()) / self.amount) * 100
         except ZeroDivisionError:
-            return '100'
+            return 100
+        return self.funded_rounding(percentage)
 
     def percentage_roi(self, percentage):
         return self.amount * (percentage / self.fans_percentage)
