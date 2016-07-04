@@ -52,7 +52,8 @@ class Project(models.Model):
     def generated_revenue_fans(self):
         return float(self.generated_revenue()) * (float(self.total_fans_percentage()) / 100)
 
-    def project_investors(self, investors={}):
+    def project_investors(self, investors=None):
+        investors = investors or {}
         for campaign in self.campaign_set.all():
             investors = campaign.campaign_investors(investors=investors)
 
@@ -119,7 +120,8 @@ class Campaign(models.Model):
         ended = self.end_datetime and self.end_datetime < timezone.now()
         return started and not ended and self.amount_raised() < self.amount
 
-    def campaign_investors(self, investors={}):
+    def campaign_investors(self, investors=None):
+        investors = investors or {}
         investments = self.investment_set.filter(charge__paid=True).select_related('charge', 'charge__customer', 'charge__customer__user')
 
         for investment in investments:
