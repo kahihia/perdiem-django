@@ -8,7 +8,7 @@ psycopg2==2.6.1
 whitenoise==3.2
 djangorestframework==3.3.3
 python-social-auth==0.2.19
-Pillow==3.2.0
+Pillow==3.3.0
 django-classbasedsettings==1.5.0
 raven==5.21.0
 sorl-thumbnail==12.3
