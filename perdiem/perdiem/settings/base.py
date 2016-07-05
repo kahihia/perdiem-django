@@ -210,4 +210,6 @@ class BaseSettings(DjangoDefaults):
 
     # Stripe
     PERDIEM_FEE = 1 # $1
+    STRIPE_PERCENTAGE = 0.029 # 2.9%
+    STRIPE_FLAT_FEE = 0.3 # $0.30
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False

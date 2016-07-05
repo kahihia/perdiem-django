@@ -87,7 +87,8 @@ $(document).ready(function() {
     function get_fees_cost_cents() {
         var subtotal = get_num_shares() * share_value_cents;
         var perdiem_fee_cents = perdiem_fee * 100;
-        var credit_card_fees = (perdiem_fee_cents + subtotal) * 0.029 + 30; // Stripe 2.9% + $0.30 fee
+        var stripe_flat_fee_cents = stripe_flat_fee * 100;
+        var credit_card_fees = (perdiem_fee_cents + subtotal) * stripe_percentage + stripe_flat_fee_cents;
         return Math.ceil(perdiem_fee_cents + credit_card_fees);
     }
     function get_total_cost_cents() {

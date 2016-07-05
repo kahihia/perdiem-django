@@ -162,9 +162,13 @@ class ArtistDetailView(FormView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
-        context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
-        context['PERDIEM_FEE'] = settings.PERDIEM_FEE
-        context['has_permission_to_submit_update'] = self.artist.has_permission_to_submit_update(self.request.user)
+        context.update({
+            'PINAX_STRIPE_PUBLIC_KEY': settings.PINAX_STRIPE_PUBLIC_KEY,
+            'PERDIEM_FEE': settings.PERDIEM_FEE,
+            'STRIPE_PERCENTAGE': settings.STRIPE_PERCENTAGE,
+            'STRIPE_FLAT_FEE': settings.STRIPE_FLAT_FEE,
+            'has_permission_to_submit_update': self.artist.has_permission_to_submit_update(self.request.user),
+        })
 
         context['artist'] = self.artist
         investors = self.artist.investors()

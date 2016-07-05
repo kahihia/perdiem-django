@@ -52,6 +52,8 @@
     <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
+        var stripe_percentage = {{ STRIPE_PERCENTAGE }};
+        var stripe_flat_fee = {{ STRIPE_FLAT_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
 
         {% if campaign %}

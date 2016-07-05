@@ -93,7 +93,7 @@ class Campaign(models.Model):
 
     def total(self, num_shares):
         subtotal = num_shares * self.value_per_share
-        total = (settings.PERDIEM_FEE + subtotal) * 1.029 + 0.3 # Stripe 2.9% + $0.30 fee
+        total = (settings.PERDIEM_FEE + subtotal) * (1 + settings.STRIPE_PERCENTAGE) + settings.STRIPE_FLAT_FEE
         return math.ceil(total * 100.0) / 100.0
 
     def num_shares(self):
