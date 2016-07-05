@@ -41,8 +41,6 @@
                 <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="1" />
                 <button id="add-shares" class="secondary hollow button" type="button">+</button>
             </div>
-            <button id="invest-button" class="button" type="button">Buy 1 Share</button>
-            <br />
             <div class="total-cost">
                 <h4 id="subtotal-shares-price"></h4>
                 <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
@@ -50,6 +48,7 @@
                 </span>
                 <h4 id="shares-price"></h4>
             </div>
+            <button id="invest-button" class="button" type="button">Buy 1 Share</button>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}

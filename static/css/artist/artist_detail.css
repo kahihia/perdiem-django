@@ -49,6 +49,7 @@ h1, h2, li, p, a {
 }
 
 .total-cost {
+    padding-bottom: 10px;
     font-size: 16px;
 }
 .total-cost h4 {
