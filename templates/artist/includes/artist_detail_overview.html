@@ -38,7 +38,7 @@
         {% if request.user.is_authenticated %}
             <div class="invest-num-shares">
                 <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
-                <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="1" />
+                <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
                 <button id="add-shares" class="secondary hollow button" type="button">+</button>
             </div>
             <div class="total-cost">
@@ -48,7 +48,7 @@
                 </span>
                 <h4 id="shares-price"></h4>
             </div>
-            <button id="invest-button" class="button" type="button">Buy 1 Share</button>
+            <button id="invest-button" class="button" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}

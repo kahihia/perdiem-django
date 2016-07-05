@@ -105,6 +105,9 @@ class Campaign(models.Model):
     def num_shares_remaining(self):
         return self.num_shares() - self.total_shares_purchased()
 
+    def default_num_shares(self):
+        return min(1, self.num_shares_remaining())
+
     def amount_raised(self):
         return self.total_shares_purchased() * self.value_per_share
 
