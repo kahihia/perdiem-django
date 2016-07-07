@@ -72,5 +72,5 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
 def send_welcome_email(strategy, details, user=None, is_new=False, *args, **kwargs):
     if user and is_new:
         VerifiedEmail.objects.create(user=user, email=details['email'], verified=True)
-        # user = User.objects.get(id=user.id)
+        user = User.objects.get(id=user.id)
         WelcomeEmail().send(user=user)
