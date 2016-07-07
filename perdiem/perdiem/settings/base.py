@@ -212,5 +212,5 @@ class BaseSettings(DjangoDefaults):
     PERDIEM_FEE = 1 # $1
     STRIPE_PERCENTAGE = 0.029 # 2.9%
     STRIPE_FLAT_FEE = 0.3 # $0.30
-    DEFAULT_MIN_PURCHASE = 5 # $5
+    DEFAULT_MIN_PURCHASE = 10 # $10
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
