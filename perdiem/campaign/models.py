@@ -106,10 +106,7 @@ class Campaign(models.Model):
         return self.num_shares() - self.total_shares_purchased()
 
     def default_num_shares(self):
-        # We use a bit of algebra to work backwards and determine the
-        # default number of shares one would need to buy to spend >= DEFAULT_MIN_PURCHASE
-        default_num = math.ceil((((settings.DEFAULT_MIN_PURCHASE - settings.STRIPE_FLAT_FEE) / (1 + settings.STRIPE_PERCENTAGE)) - settings.PERDIEM_FEE) / self.value_per_share)
-
+        default_num = math.ceil(settings.DEFAULT_MIN_PURCHASE / self.value_per_share)
         return min(default_num, self.num_shares_remaining())
 
     def amount_raised(self):
