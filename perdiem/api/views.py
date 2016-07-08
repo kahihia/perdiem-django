@@ -4,7 +4,6 @@
 
 """
 
-import datetime
 import decimal
 
 from geopy.geocoders import Nominatim
@@ -60,7 +59,6 @@ class CoordinatesFromAddress(APIView):
 
 class PaymentCharge(APIView):
 
-    NEW_LAUNCH_DATETIME = datetime.datetime(year=2016, month=6, day=28)
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, campaign_id, *args, **kwargs):
@@ -88,9 +86,9 @@ class PaymentCharge(APIView):
         customer = customers.get_customer_for_user(request.user)
         if not customer:
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
-        elif not Card.objects.filter(customer=customer, created_at__gte=self.NEW_LAUNCH_DATETIME).exists():
+        elif not customer.default_source or not Card.objects.filter(customer=customer).exists():
             # In some cases, a customer can exist without a card, so we create it now
-            # We also need to create new cards for users that created a card before the new launch
+            # We also need to create new cards for users that don't have a default source set
             sources.create_card(customer=customer, token=card)
 
         # Create charge
