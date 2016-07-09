@@ -217,5 +217,5 @@ class BaseSettings(DjangoDefaults):
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
 
     # Analytics
-    GA_TRACKING_CODE = 'UA-80418114-1'
-    JACO_API_KEY = 'e27a767c-feab-4c90-a68d-b2b3380b7ef4'
+    GA_TRACKING_CODE = '' # Defined in prod.py
+    JACO_API_KEY = '' # Defined in prod.py
