@@ -117,7 +117,14 @@
                 {{ fans_percentage|notrail_floatformat:2 }}%
             </li>
             {% if user_investor %}
-                <li>Me: {{ user_investor.percentage|notrail_floatformat:2 }}%</li>
+                <li>
+                    Me:
+                    {% if user_investor.percentage < 0.005 %}
+                        <0.01%
+                    {% else %}
+                        {{ user_investor.percentage|notrail_floatformat:2 }}%
+                    {% endif %}
+                </li>
             {% endif %}
         </ul>
         <p>To raise the funds we are selling <strong>{{ campaign.num_shares|intcomma }}</strong> shares at <strong>${{ campaign.value_per_share }}</strong> per share.</p>

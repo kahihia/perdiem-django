@@ -177,12 +177,14 @@ class ArtistDetailView(FormView):
         campaign = self.artist.active_campaign()
         if campaign:
             context['campaign'] = campaign
-            context['fans_percentage'] = campaign.project.total_fans_percentage()
+            context['fans_percentage'] = context['fans_percentage_display'] = campaign.project.total_fans_percentage()
 
             if self.request.user.is_authenticated():
                 user_investor = investors.get(self.request.user.id)
-                if user_investor and user_investor.get('percentage', 0) >= 0.5:
+                if user_investor:
+                    user_investor['percentage_display'] = max(0.5, user_investor.get('percentage', 0))
                     context['fans_percentage'] -= user_investor['percentage']
+                    context['fans_percentage_display'] -= user_investor['percentage_display']
                     context['user_investor'] = user_investor
 
         context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
