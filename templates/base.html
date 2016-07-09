@@ -200,6 +200,9 @@
                     }
                 })(e, t, e[n] || [], "//recorder-assets.getjaco.com/recorder.js");
             }).call(window, window, document), window.JacoRecorder.push([ "init", "e27a767c-feab-4c90-a68d-b2b3380b7ef4", {} ]);
+            {% if user.is_authenticated %}
+                window.JacoRecorder.identify('{{ user.id }}');
+            {% endif %}
         </script>
         {% if request.login_form.errors %}
             <script type="text/javascript" src="{% static "js/accounts/login-errors.js" %}"></script>
