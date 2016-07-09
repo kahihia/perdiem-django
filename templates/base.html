@@ -176,7 +176,7 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-            ga('create', 'UA-80418114-1', 'auto');
+            ga('create', '{{ GA_TRACKING_CODE }}', 'auto');
             ga('send', 'pageview');
         </script>
         <script type="text/javascript">
@@ -199,7 +199,7 @@
                         f.appendChild(a);
                     }
                 })(e, t, e[n] || [], "//recorder-assets.getjaco.com/recorder.js");
-            }).call(window, window, document), window.JacoRecorder.push([ "init", "e27a767c-feab-4c90-a68d-b2b3380b7ef4", {} ]);
+            }).call(window, window, document), window.JacoRecorder.push([ "init", "{{ JACO_API_KEY }}", {} ]);
             {% if user.is_authenticated %}
                 window.JacoRecorder.identify('{{ user.id }} ({{ user.username }})');
             {% endif %}
