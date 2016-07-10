@@ -85,3 +85,27 @@ h1, h2, li, p, a {
     font-weight: bold;
     font-size: 18px;
 }
+
+.photo-left {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    margin-top: 20px;
+    float: center;
+}
+
+.buy-right {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    margin-top: 20px;
+    float: center;
+}
+
+#share-buttons img {
+width: 35px;
+padding: 5px;
+border: 0;
+box-shadow: 0;
+display: inline;
+}
