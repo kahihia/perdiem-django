@@ -4,10 +4,9 @@
 {% load perdiem %}
 
 <div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
-    <h2>OVERVIEW</h2>
-    {% thumbnail artist.photo.img "500" as thumb %}
-        <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
-    {% endthumbnail %}
+        {% thumbnail artist.photo.img "500" as thumb %}
+            <img class="artist-photo-header" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+        {% endthumbnail %}
     <!-- Genre -->
     {% with genres=artist.genres.all %}
         <div class="break">
@@ -20,62 +19,68 @@
         <div class="break">
             <hr>
         </div>
-        <!-- Goal -->
-        <h2>GOAL</h2>
-        <h4>${{ campaign.amount|intcomma }} {{ campaign.project.reason }}</h4>
-
-        <!-- Countdown Widget -->
-        {% include "artist/includes/artist_detail_countdown.html" %}
-        {% if campaign.project.generated_revenue %}
-            <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+        <!-- Music -->
+        {% if artist.soundcloudplaylist_set.exists %}
+            <h2>MUSIC</h2>
+            <div class="artist-detail-padding">
+                {% for playlist in artist.soundcloudplaylist_set.all %}
+                    <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
+                {% endfor %}
+            </div>
         {% endif %}
-
-        <!-- Buy Shares -->
         <div class="break">
             <hr>
         </div>
-        <h2>Buy Shares</h2>
+        <!-- Goal -->
+        <h2>INVEST IN FRTNK</h2>
+        <h3>${{ campaign.amount_raised|intcomma }}</h3>
+        <h5>AMOUNT RAISED</h5>
+
+        <!-- Countdown Widget -->
+        {% include "artist/includes/artist_detail_countdown.html" %}
+
+        <!-- Buy Shares -->
         {% if request.user.is_authenticated %}
+            <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
             <div class="invest-num-shares">
-                <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
+                <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
                 <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
                 <button id="add-shares" class="secondary hollow button" type="button">+</button>
             </div>
+            <p>NUMBER OF SHARES</p> 
             <div class="total-cost">
-                <h4 id="subtotal-shares-price"></h4>
                 <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
-                    <h4 id="fees-price"></h4>
+                    Total <a id="shares-price"></a>
                 </span>
-                <h4 id="shares-price"></h4>
+                <p "></p>
             </div>
-            <button id="invest-button" class="button" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
         {% else %}
             <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}
         <br />
         <br />
     {% endif %}
-    {% if artist.bio %}
+
+        <!-- What do you get for investing? -->
+        <h3>WHAT DO YOU GET FOR INVESTING?</h3>
+        <p>We are giving {{ campaign.fans_percentage }}% of the sales from this project back to the people who invest in it.</p>
+        <p>You'll get to hear our music before anyone else</p>
+        <p>You'll get to download and listen to the project before it's released</p>
+        <p>You'll get exclusive stuff from us</p>
+        {% if campaign.project.generated_revenue %}
+        <br/>
+        <h4>What has happened so far?</h4>
+        <p>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
+        {% endif %}
         <div class="break">
             <hr>
         </div>
-        <!-- Artist Bio -->
-        <h2>OUR STORY</h2>
+
+    <!-- Artist Bio -->
+    {% if artist.bio %}
+        <h2>ABOUT US</h2>
         <div class="artist-detail-padding">
             {{ artist.bio.bio|markdown }}
-        </div>
-    {% endif %}
-
-    {% if artist.soundcloudplaylist_set.exists %}
-        <div class="break">
-            <hr>
-        </div>
-        <!-- Music -->
-        <h2>MUSIC</h2>
-        <div class="artist-detail-padding">
-            {% for playlist in artist.soundcloudplaylist_set.all %}
-                <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
-            {% endfor %}
         </div>
     {% endif %}
 
@@ -97,12 +102,7 @@
         <div class="break">
             <hr>
         </div>
-        <!-- What do you get for investing? -->
-        <h3>WHAT DO YOU GET FOR INVESTING?</h3>
-        <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.project.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
-        <div class="break">
-            <hr>
-        </div>
+
         <!-- Percentage -->
         <h2>PERCENTAGE</h2>
         <div id="canvas-holder">
