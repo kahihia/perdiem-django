@@ -16,6 +16,9 @@
     {% endwith %}
     <h4>Location: {{ artist.location }}</h4>
     {% if campaign %}
+    {% for social in artist.social_set.all %}
+        <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x social-padding" aria-hidden="true"></i></a>
+    {% endfor %}
         <div class="break">
             <hr>
         </div>
@@ -63,10 +66,47 @@
 
         <!-- What do you get for investing? -->
         <h3>WHAT DO YOU GET FOR INVESTING?</h3>
-        <p>We are giving {{ campaign.fans_percentage }}% of the sales from this project back to the people who invest in it.</p>
+        <div id="canvas-holder">
+            <canvas id="chart-area" width="500" height="500"></canvas>
+        </div>
+        <ul>
+            {% if user_investor %}
+            <li class="me-investing">
+                Me:
+                {% if user_investor.percentage < 0.005 %}
+                    <0.01%
+                {% else %}
+                    {{ user_investor.percentage|notrail_floatformat:2 }}%
+                {% endif %}
+            </li>
+            {% for percentage_breakdown in campaign.project.artist_percentage %}
+                <li>{{ percentage_breakdown.name }}: {{ percentage_breakdown.percentage|notrail_floatformat:2 }}%</li>
+            {% endfor %}
+            <li>
+                {% if user_investor %}Other Investors:{% else %}Investors:{% endif %}
+                {{ fans_percentage|notrail_floatformat:2 }}%
+            </li>
+            {% endif %}
+        </ul>
+        <h4 class="investing">You'll also get</h4>
         <p>You'll get to hear our music before anyone else</p>
         <p>You'll get to download and listen to the project before it's released</p>
         <p>You'll get exclusive stuff from us</p>
+        <div class="break">
+            <hr>
+        </div>
+        <!-- What is the money being used for? -->
+        {% if campaign %}
+        {% if campaign.expense_set.all %}
+            <h4>WHAT IS THE MONEY BEING USED FOR?</h4>
+            <p>{{ campaign.use_of_funds }}</p>
+            <ul>
+                {% for expense in campaign.expense_set.all %}
+                    <li>{{ expense.expense }}</li>
+                {% endfor %}
+                <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
+            </ul>
+        {% endif %}
         {% if campaign.project.generated_revenue %}
         <br/>
         <h4>What has happened so far?</h4>
@@ -83,61 +123,5 @@
             {{ artist.bio.bio|markdown }}
         </div>
     {% endif %}
-
-    {% if campaign %}
-        {% if campaign.expense_set.all %}
-            <div class="break">
-                <hr>
-            </div>
-            <!-- What is the money being used for? -->
-            <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
-            <p>{{ campaign.use_of_funds }}</p>
-            <ul>
-                {% for expense in campaign.expense_set.all %}
-                    <li>{{ expense.expense }}</li>
-                {% endfor %}
-                <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
-            </ul>
-        {% endif %}
-        <div class="break">
-            <hr>
-        </div>
-
-        <!-- Percentage -->
-        <h2>PERCENTAGE</h2>
-        <div id="canvas-holder">
-            <canvas id="chart-area" width="500" height="500"></canvas>
-        </div>
-        <ul>
-            {% for percentage_breakdown in campaign.project.artist_percentage %}
-                <li>{{ percentage_breakdown.name }}: {{ percentage_breakdown.percentage|notrail_floatformat:2 }}%</li>
-            {% endfor %}
-            <li>
-                {% if user_investor %}Other Investors:{% else %}Investors:{% endif %}
-                {{ fans_percentage|notrail_floatformat:2 }}%
-            </li>
-            {% if user_investor %}
-                <li>
-                    Me:
-                    {% if user_investor.percentage < 0.005 %}
-                        <0.01%
-                    {% else %}
-                        {{ user_investor.percentage|notrail_floatformat:2 }}%
-                    {% endif %}
-                </li>
-            {% endif %}
-        </ul>
-        <p>To raise the funds we are selling <strong>{{ campaign.num_shares|intcomma }}</strong> shares at <strong>${{ campaign.value_per_share }}</strong> per share.</p>
-    {% endif %}
-
-    {% if artist.social_set.exists %}
-        <div class="break">
-            <hr>
-        </div>
-        <!-- Socials -->
-        <h2>FOLLOW US!</h2>
-        {% for social in artist.social_set.all %}
-            <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x social-padding" aria-hidden="true"></i></a>
-        {% endfor %}
     {% endif %}
 </div>

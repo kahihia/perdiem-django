@@ -76,3 +76,12 @@ h1, h2, li, p, a {
     height: 20px;
     width: 20px;
 }
+
+.investing {
+    font-weight: bold;
+}
+
+.me-investing {
+    font-weight: bold;
+    font-size: 18px;
+}
