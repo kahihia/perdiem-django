@@ -94,6 +94,7 @@ class BaseSettings(DjangoDefaults):
                     'django.contrib.messages.context_processors.messages',
                     'social.apps.django_app.context_processors.backends',
                     'social.apps.django_app.context_processors.login_redirect',
+                    'accounts.context_processors.analytics',
                 ],
             },
         },
@@ -214,3 +215,7 @@ class BaseSettings(DjangoDefaults):
     STRIPE_FLAT_FEE = 0.3 # $0.30
     DEFAULT_MIN_PURCHASE = 10 # $10
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
+
+    # Analytics
+    GA_TRACKING_CODE = '' # Defined in prod.py
+    JACO_API_KEY = '' # Defined in prod.py
