@@ -63,8 +63,8 @@
         {% endif %}
 
         <!-- Artist Bio -->
-        <h4>Bio</h4>
         {% if artist.bio %}
+        <h4>Bio</h4>
             <div class="artist-detail-padding">
                 {{ artist.bio.bio|markdown }}
             </div>
@@ -79,12 +79,12 @@
                 {% endif %}
 
             <!-- What do you get for investing? -->
+            {% if user_investor %}
             <h3>WHAT DO YOU GET FOR INVESTING?</h3>
             <div id="canvas-holder">
                 <canvas id="chart-area" width="500" height="500"></canvas>
             </div>
             <ul>
-                {% if user_investor %}
                 <li class="me-investing">
                     Me:
                     {% if user_investor.percentage < 0.005 %}
