@@ -6,17 +6,25 @@
 <div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
     {% thumbnail artist.photo.img "500x500" crop="center" as thumb %}
         <div class="photo-left">
-            <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+            <img class="dropshadow" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
         </div>
     {% endthumbnail %}
+    {% with campaign=campaign %}
     <div class="buy-right">
         <!-- Goal -->
-        <h3>INVEST IN {{ artist.name }}</h3>
+        <h3>INVEST IN {{ campaign.project.reason }}</h3>
+        <div class="break">
+            <hr>
+        </div>
         <h4>AMOUNT RAISED</h4>
         <h4 class="investing">${{ campaign.amount_raised|intcomma }}</h4>
         <h5>OUT OF ${{ campaign.amount|intcomma }}</h5>
-            <!-- Buy Shares -->
+        <div class="break">
+            <hr>
+        </div>
+
             {% if request.user.is_authenticated %}
+                <!-- Buy Shares -->
                 <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
                 <div class="invest-num-shares">
                     <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
@@ -29,10 +37,13 @@
                         Total <a id="shares-price"></a>
                     </span>
                 </div>
-            </div>
-        {% else %}
-            <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
-        {% endif %}
+            {% else %}
+                <h4> to invest in this project</h4>
+                <button class="login-box signup" data-open="login-modal">Login</button>
+                <button class="login-box signup" >Sign up</button>
+            {% endif %}
+    </div>
+    {% endwith %}
 
         <!-- Music -->
         {% if artist.soundcloudplaylist_set.exists %}
@@ -92,24 +103,14 @@
                 {% endif %}
             </ul>
             <h4 class="investing">You'll also get</h4>
-            <p>To hear our music before anyone else</p>
-            <p>To download and listen to the project before it's released</p>
-            <p>Exclusive stuff from us</p>
+            <p class="investing-copy">To hear the music before anyone else</p>
+            <p class="investing-copy">To download the project as soon as it's ready</p>
+            <p class="investing-copy">Exclusive updates from the artist</p>
             <div class="break">
                 <hr>
             </div>
             <!-- What is the money being used for? -->
             {% if campaign %}
-            {% if campaign.expense_set.all %}
-                <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
-                <p>{{ campaign.use_of_funds }}</p>
-                <ul>
-                    {% for expense in campaign.expense_set.all %}
-                        <li>{{ expense.expense }}</li>
-                    {% endfor %}
-                    <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
-                </ul>
-            {% endif %}
             {% if campaign.project.generated_revenue %}
             <br/>
             <h3>How much this project has earned</h4>
@@ -121,6 +122,7 @@
             <div class="break">
                 <hr>
             </div>
+            {% endif %}
             <h4>Share this project</h4>
             <!-- Share Buttons -->
             <div id="share-buttons">
@@ -155,5 +157,4 @@
                     <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
                 </a>
             </div>
-    {% endif %}
 </div>

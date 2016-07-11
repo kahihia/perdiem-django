@@ -69,7 +69,7 @@ h1, h2, li, p, a {
 }
 
 .buy:hover {
-    background-color: #249c51
+    background-color: #249c51;
 }
 
 #shares {
@@ -84,6 +84,7 @@ h1, h2, li, p, a {
 .me-investing {
     font-weight: bold;
     font-size: 18px;
+    margin: 5px;
 }
 
 .photo-left {
@@ -103,9 +104,33 @@ h1, h2, li, p, a {
 }
 
 #share-buttons img {
-width: 35px;
-padding: 5px;
-border: 0;
-box-shadow: 0;
-display: inline;
+    width: 35px;
+    padding: 5px;
+    border: 0;
+    box-shadow: 0;
+    display: inline;
+}
+
+.login-box {
+    background-color: #2199e8;
+    padding: 15px;
+    margin: 20px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 1.2em;
+    font-family: Dosis;
+    text-transform: uppercase;
+}
+
+.signup {
+    width: 150px;
+    color: #fff;
+}
+
+.dropshadow {
+    box-shadow: 2px 2px 2px #888888;
+}
+
+.investing-copy {
+    margin: 0px;
 }
