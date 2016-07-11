@@ -124,37 +124,5 @@
             </div>
             {% endif %}
             <h4>Share this project</h4>
-            <!-- Share Buttons -->
-            <div id="share-buttons">
-                
-                <!-- Email -->
-                <a href="mailto:?Subject=Simple Share Buttons&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 https://investperdiem.com">
-                    <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
-                </a>
-             
-                <!-- Facebook -->
-                <a href="http://www.facebook.com/sharer.php?u=https://investperdiem.com" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
-                </a>
-                
-                <!-- Google+ -->
-                <a href="https://plus.google.com/share?url=https://investperdiem.com" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
-                </a>
-                
-                <!-- LinkedIn -->
-                <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://investperdiem.com" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
-                </a>
-                
-                <!-- Reddit -->
-                <a href="http://reddit.com/submit?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
-                </a>
-                
-                <!-- Twitter -->
-                <a href="https://twitter.com/share?url=https://investperdiem.com&amp;text=Just%20invested%20in%20{{ artist.name }}%20on%20@perdiemmusic&amp;hashtags=supportmusic" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
-                </a>
-            </div>
+            {% include "artist/includes/share_buttons.html" %}
 </div>

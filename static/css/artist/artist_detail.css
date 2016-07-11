@@ -72,6 +72,10 @@ h1, h2, li, p, a {
     background-color: #249c51;
 }
 
+.buy:focus {
+    background-color: #249c51;
+}
+
 #shares {
     height: 20px;
     width: 20px;
@@ -101,6 +105,10 @@ h1, h2, li, p, a {
     padding: 10px;
     margin-top: 20px;
     float: center;
+}
+
+#share-buttons {
+    margin-bottom: 10px;
 }
 
 #share-buttons img {
