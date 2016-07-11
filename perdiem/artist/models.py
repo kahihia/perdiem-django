@@ -14,7 +14,7 @@ from django.utils.html import escape
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from artist.managers import ArtistQuerySet
-from campaign.models import Campaign
+from campaign.models import Campaign, Investment
 
 
 class Genre(models.Model):
@@ -67,6 +67,9 @@ class Artist(models.Model):
 
     def has_permission_to_submit_update(self, user):
         return user.is_authenticated() and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
+
+    def is_investor(self, user):
+        return Investment.objects.filter(charge__customer__user=user, campaign__project__artist=self).exists()
 
     def investors(self):
         investors = {}
