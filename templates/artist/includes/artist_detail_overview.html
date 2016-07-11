@@ -10,39 +10,39 @@
         </div>
     {% endthumbnail %}
     {% with campaign=campaign %}
-    <div class="buy-right">
-        <!-- Goal -->
-        <h3>INVEST IN {{ campaign.project.reason }}</h3>
-        <div class="break">
-            <hr>
-        </div>
-        <h4>AMOUNT RAISED</h4>
-        <h4 class="investing">${{ campaign.amount_raised|intcomma }}</h4>
-        <h5>OUT OF ${{ campaign.amount|intcomma }}</h5>
-        <div class="break">
-            <hr>
-        </div>
+        <div class="buy-right">
+            <!-- Goal -->
+            <h3>INVEST IN {{ campaign.project.reason }}</h3>
+            <div class="break">
+                <hr>
+            </div>
+            <h4>AMOUNT RAISED</h4>
+            <h4 class="investing">${{ campaign.amount_raised|intcomma }}</h4>
+            <h5>OUT OF ${{ campaign.amount|intcomma }}</h5>
+            <div class="break">
+                <hr>
+            </div>
 
-            {% if request.user.is_authenticated %}
-                <!-- Buy Shares -->
-                <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
-                <div class="invest-num-shares">
-                    <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
-                    <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
-                    <button id="add-shares" class="secondary hollow button" type="button">+</button>
-                </div>
-                <p>NUMBER OF SHARES</p> 
-                <div class="total-cost">
-                    <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
-                        Total <a id="shares-price"></a>
-                    </span>
-                </div>
-            {% else %}
-                <h4> to invest in this project</h4>
-                <button class="login-box signup" data-open="login-modal">Login</button>
-                <button class="login-box signup" >Sign up</button>
-            {% endif %}
-    </div>
+                {% if request.user.is_authenticated %}
+                    <!-- Buy Shares -->
+                    <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
+                    <div class="invest-num-shares">
+                        <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
+                        <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
+                        <button id="add-shares" class="secondary hollow button" type="button">+</button>
+                    </div>
+                    <p>NUMBER OF SHARES</p> 
+                    <div class="total-cost">
+                        <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
+                            Total <a id="shares-price"></a>
+                        </span>
+                    </div>
+                {% else %}
+                    <h4> to invest in this project</h4>
+                    <button class="login-box signup" data-open="login-modal">Login</button>
+                    <button class="login-box signup" >Sign up</button>
+                {% endif %}
+        </div>
     {% endwith %}
 
         <!-- Music -->
