@@ -5,7 +5,7 @@
 
 {% block socialmeta %}
     <!-- Google+ data -->
-    <meta itemprop="name" content="PERDIEM - INVEST IN {{ artist.name|upper }}">
+    <meta itemprop="name" content="INVEST IN {{ artist.name|upper }} ON PERDIEM">
     <meta itemprop="description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists.">
     {% thumbnail artist.photo.img "506" as thumb %}
         <meta itemprop="image" content="{{ thumb.url }}">
@@ -14,7 +14,7 @@
     {% if artist.social_twitter %}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="{{ artist.social_twitter.username_twitter }}">
-        <meta name="twitter:title" content="{{ artist.name|upper }}">
+        <meta name="twitter:title" content="INVEST IN {{ artist.name|upper }} ON PERDIEM">
         <meta name="twitter:description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists.">
         <meta name="twitter:creator" content="{{ artist.social_twitter.username_twitter }}">
         {% thumbnail artist.photo.img "208" as thumb %}
@@ -22,7 +22,7 @@
         {% endthumbnail %}
     {% endif %}
     <!-- Open Graph data -->
-    <meta property="og:title" content="PERDIEM - INVEST IN {{ artist.name|upper }}" />
+    <meta property="og:title" content="INVEST IN {{ artist.name|upper }} ON PERDIEM" />
     <meta property="og:url" content="{% url 'artist' slug=artist.slug %}" />
     {% thumbnail artist.photo.img "600" as thumb %}
         <meta property="og:image" content="{{ thumb.url }}" />
