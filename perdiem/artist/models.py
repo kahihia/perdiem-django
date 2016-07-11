@@ -39,6 +39,11 @@ class Artist(models.Model):
     def __unicode__(self):
         return self.name
 
+    def social_twitter(self):
+        twitter_socials = self.social_set.filter(medium=Social.SOCIAL_TWITTER)
+        if twitter_socials.exists():
+            return twitter_socials[0]
+
     def latest_campaign(self):
         campaigns = Campaign.objects.filter(project__artist=self).order_by('-start_datetime')
         if campaigns:
@@ -120,9 +125,10 @@ class SoundCloudPlaylist(models.Model):
 
 class Social(models.Model):
 
+    SOCIAL_TWITTER = 'twitter'
     SOCIAL_CHOICES = (
         ('facebook', 'Facebook'),
-        ('twitter', 'Twitter'),
+        (SOCIAL_TWITTER, 'Twitter'),
         ('instagram', 'Instagram'),
         ('youtube', 'YouTube'),
         ('soundcloud', 'SoundCloud'),
@@ -140,6 +146,11 @@ class Social(models.Model):
             artist=unicode(self.artist),
             medium=self.get_medium_display()
         )
+
+    def username_twitter(self):
+        if self.medium == self.SOCIAL_TWITTER:
+            return '@{username}'.format(username=self.url.split('/')[-1])
+        return self.url
 
 
 class Update(models.Model):
