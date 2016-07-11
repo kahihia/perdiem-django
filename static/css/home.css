@@ -69,13 +69,12 @@ p.welcome-text {
 
 .home-boxes {
     text-align: center;
-    margin: 20px;
+    margin-top: 20px;
 }
 
 .box-margin {
     margin: 10px;
     padding: 15px;
-    width: 120px;
     background-color: #4A96AD;
 }
 
@@ -111,7 +110,7 @@ p.welcome-text {
 }
 
 .view-artists-box {
-    width: 200px;
+    /*width: 200px;*/
     font-size: 1.5em;
     font-family: Dosis;
     font-weight: 200
