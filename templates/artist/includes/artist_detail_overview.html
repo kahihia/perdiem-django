@@ -112,15 +112,13 @@
                 <hr>
             </div>
             <!-- What is the money being used for? -->
-            {% if campaign %}
-            {% if campaign.project.generated_revenue %}
+            {% if campaign and campaign.project.generated_revenue %}
             <br/>
             <h3>How much this project has earned</h4>
             <h4>${{ campaign.project.generated_revenue|notrail_floatformat:2|intcomma }}</h3>
             <h5>generated so far from this project
             <h4>${{ campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }}</h4>
             <h5>generated from this project for investors</h5>
-            {% endif %}
             <div class="break">
                 <hr>
             </div>
