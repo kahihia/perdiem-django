@@ -20,7 +20,7 @@
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">DISCOVER AND INVEST IN UP AND COMING ARTISTS</h2>
         <div class="home-boxes">
-            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>START INVESTING</a>
+            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>DISCOVER ARTISTS</a>
         </div>
         <div class="bottom-how">
             <h5><a class="white-color" href={% url 'home' %}#how>LEARN MORE<br/>
@@ -95,9 +95,9 @@
         <div class="break">
             <hr>
         </div>
-        <br/>
-        <h4>WANT TO LEARN EVEN MORE?</h4>
-        <h5>CHECK OUT OUR <a href="{% url 'faq' %}">FAQ</a> AND <a href="{% url 'resources' %}">RESOURCES</a></h5>
+        <div class="home-boxes">
+            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}?campaign-status=Active>START INVESTING</a>
+        </div>
     </div>
 {% endblock %}
 
