@@ -55,3 +55,90 @@ h1, h2, li, p, a {
 .total-cost h4 {
     display: inline-block;
 }
+
+.artist-photo-header {
+    height: 100%;
+    width: 100%;
+}
+
+.buy {
+    background-color: #22bb5b;
+    height: 70px;
+    width: 200px;
+    font-size: 20px;
+}
+
+.buy:hover {
+    background-color: #249c51;
+}
+
+.buy:focus {
+    background-color: #249c51;
+}
+
+#shares {
+    height: 20px;
+    width: 20px;
+}
+
+.investing {
+    font-weight: bold;
+}
+
+.me-investing {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 5px;
+}
+
+.photo-left {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    margin-top: 20px;
+    float: center;
+}
+
+.buy-right {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    margin-top: 20px;
+    float: center;
+}
+
+#share-buttons {
+    margin-bottom: 10px;
+}
+
+#share-buttons img {
+    width: 35px;
+    padding: 5px;
+    border: 0;
+    box-shadow: 0;
+    display: inline;
+}
+
+.login-box {
+    background-color: #2199e8;
+    padding: 15px;
+    margin: 20px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 1.2em;
+    font-family: Dosis;
+    text-transform: uppercase;
+}
+
+.signup {
+    width: 150px;
+    color: #fff;
+}
+
+.dropshadow {
+    box-shadow: 2px 2px 2px #888888;
+}
+
+.investing-copy {
+    margin: 0px;
+}

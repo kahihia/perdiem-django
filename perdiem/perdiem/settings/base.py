@@ -94,6 +94,7 @@ class BaseSettings(DjangoDefaults):
                     'django.contrib.messages.context_processors.messages',
                     'social.apps.django_app.context_processors.backends',
                     'social.apps.django_app.context_processors.login_redirect',
+                    'perdiem.context_processors.request',
                     'accounts.context_processors.analytics',
                 ],
             },

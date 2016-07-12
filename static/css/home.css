@@ -24,12 +24,14 @@
 h1.home-title {
     position: relative;
     color: #ffffff;
+    text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.7);
 }
 
 h2.home-description {
     position: relative;
     color: #ffffff;
     font-size: 25px;
+    text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.7);
 }
 
 h1.how-title {
