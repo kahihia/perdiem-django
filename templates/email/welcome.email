@@ -9,13 +9,17 @@
         Please go to the following link to verify your email address:
         {{ host }}{{ verify_email_url }}
     {% endif %}
+
+    Discover artists on PerDiem:
+    {{ host }}{% url 'artists' %}
 {% endblock %}
 
 {% block html_body %}
-    <p>Thanks for joining PerDiem!
+    <p>Thanks for joining PerDiem!</p>
 
     {% if verify_email_url %}
-        Please <a href="{{ host }}{{ verify_email_url }}">click here</a> to verify your email address.
+        <p>Please <a href="{{ host }}{{ verify_email_url }}">click here</a> to verify your email address.</p>
     {% endif %}
-    </p>
+
+    <p><a href="{{ host }}{% url 'artists' %}">Discover artists</a> on PerDiem.</p>
 {% endblock %}
