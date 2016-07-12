@@ -96,7 +96,7 @@
         {% for artist in artists %}
             <div class="column">
                 {% include "artist/includes/artist_preview.html" with artist=artist %}
-                <p class="artist-details artist-location">Location: {{ artist.location|truncatechars:30 }}</p>
+                <p class="artist-details artist-location">{{ artist.location|truncatechars:30 }}</p>
                 {% if order_by.slug == 'funded' %}
                     <p class="artist-details artist-location">
                         {% if artist.funded %}
