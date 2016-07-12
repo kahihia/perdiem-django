@@ -40,8 +40,8 @@
                 </div>
             {% else %}
                 <h4>to invest in this project</h4>
-                <button class="login-box signup" >Sign up</button>
-                <button class="login-box signup" data-open="login-modal">Login</button>
+                <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+                <button class="button login-box" data-open="login-modal">LOGIN</button>
             {% endif %}
         </div>
     {% endwith %}
