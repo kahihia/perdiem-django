@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static "css/home.css" %}" type="text/css" charset="utf-8" />
     <style>
         #home-page {
+            position: relative;
             background-image: url("{% static "img/perdiem.jpg" %}");
             background-size: cover;
             background-repeat: no-repeat;
@@ -16,6 +17,7 @@
 
 {% block content %}
     <div id="home-page" class="page">
+        <div class="home-gradient"></div>
         <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">DISCOVER AND INVEST IN UP AND COMING ARTISTS</h2>
@@ -96,7 +98,7 @@
             <hr>
         </div>
         <div class="home-boxes">
-            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}?campaign-status=Active>START INVESTING</a>
+            <a class="button text-center box-margin view-artists-box" href="{% url 'artists' %}?campaign-status=Active">START INVESTING</a>
         </div>
     </div>
 {% endblock %}

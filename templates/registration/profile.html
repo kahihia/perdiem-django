@@ -32,7 +32,7 @@
     {% else %}
         <p>You haven't invested in anything yet!</p>
         <div class="profile-boxes">
-            <a class="button text-center box-margin view-artists-box" href={% url 'artists' %}>START INVESTING</a>
+            <a class="button text-center box-margin view-artists-box" href="{% url 'artists' %}?campaign-status=Active">START INVESTING</a>
         </div>
     {% endif %}
 {% endblock %}
