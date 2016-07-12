@@ -190,6 +190,7 @@ class ArtistDetailView(FormView):
 
         if self.request.user.is_authenticated() and self.artist.is_investor(self.request.user):
             context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
+        context['latest_campaign'] = self.artist.latest_campaign()
 
         return context
 
