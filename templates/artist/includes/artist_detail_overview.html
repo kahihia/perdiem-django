@@ -23,30 +23,29 @@
                 <hr>
             </div>
 
-                {% if request.user.is_authenticated %}
-                    <!-- Buy Shares -->
-                    <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
-                    <div class="invest-num-shares">
-                        <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
-                        <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
-                        <button id="add-shares" class="secondary hollow button" type="button">+</button>
-                    </div>
-                    <p>NUMBER OF SHARES</p> 
-                    <div class="total-cost">
-                        <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
-                            Total <a id="shares-price"></a>
-                        </span>
-                    </div>
-                {% else %}
-                    <h4>to invest in this project</h4>
-                    <button class="login-box signup" data-open="login-modal">Login</button>
-                    <button class="login-box signup" >Sign up</button>
-                {% endif %}
+            {% if request.user.is_authenticated %}
+                <!-- Buy Shares -->
+                <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
+                <div class="invest-num-shares">
+                    <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
+                    <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
+                    <button id="add-shares" class="secondary hollow button" type="button">+</button>
+                </div>
+                <p>NUMBER OF SHARES</p> 
+                <div class="total-cost">
+                    <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)">
+                        Total <a id="shares-price"></a>
+                    </span>
+                </div>
+            {% else %}
+                <h4>to invest in this project</h4>
+                <button class="login-box signup" data-open="login-modal">Login</button>
+                <button class="login-box signup" >Sign up</button>
+            {% endif %}
         </div>
     {% endwith %}
 
         <!-- Music -->
-        {% if artist.soundcloudplaylist_set.exists %}
         <div class="break">
             <hr>
         </div>
@@ -55,12 +54,13 @@
             <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
         {% endwith %}
         <h4>Location: {{ artist.location }}</h4>
+        {% if artist.soundcloudplaylist_set.exists %}
         <div class="artist-detail-padding">
             {% for playlist in artist.soundcloudplaylist_set.all %}
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
             {% endfor %}
-        </div>
         {% endif %}
+        </div>
 
         <!-- Artist Bio -->
         {% if artist.bio %}
@@ -69,7 +69,6 @@
                 {{ artist.bio.bio|markdown }}
             </div>
         {% endif %}
-        {% if campaign %}
         {% for social in artist.social_set.all %}
             <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x social-padding" aria-hidden="true"></i></a>
         {% endfor %}
@@ -79,6 +78,7 @@
                 {% endif %}
 
             <!-- What do you get for investing? -->
+            {% if campaign %}
             {% if user_investor %}
             <h3>WHAT DO YOU GET FOR INVESTING?</h3>
             <div id="canvas-holder">
@@ -123,6 +123,6 @@
                 <hr>
             </div>
             {% endif %}
-            <h4>Share this project</h4>
-            {% include "artist/includes/share_buttons.html" %}
+        <h4>Share this project</h4>
+        {% include "artist/includes/share_buttons.html" %}
 </div>
