@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static "css/home.css" %}" type="text/css" charset="utf-8" />
     <style>
         #home-page {
+            position: relative;
             background-image: url("{% static "img/perdiem.jpg" %}");
             background-size: cover;
             background-repeat: no-repeat;
@@ -16,6 +17,7 @@
 
 {% block content %}
     <div id="home-page" class="page">
+        <div class="home-gradient"></div>
         <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>

@@ -11,11 +11,23 @@
     padding: 30px 30px 30px 30px;
 }
 
+.home-gradient {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
+    z-index: 0;
+}
+
 h1.home-title {
+    position: relative;
     color: #ffffff;
 }
 
 h2.home-description {
+    position: relative;
     color: #ffffff;
     font-size: 25px;
 }
@@ -68,6 +80,7 @@ p.welcome-text {
 }
 
 .home-boxes {
+    position: relative;
     text-align: center;
     margin-top: 20px;
 }
@@ -90,6 +103,7 @@ p.welcome-text {
 }
 
 .bottom-how {
+    position: relative;
     padding-top: 10%;
 }
 
