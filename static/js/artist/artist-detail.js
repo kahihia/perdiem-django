@@ -96,13 +96,22 @@ $(document).ready(function() {
     }
 
     // Click Invest button
-    $('#invest-button').click(function(e) {
+    function click_invest() {
         stripe_handler.open({
             name: 'PerDiem',
             description: 'Invest in ' + artist_name,
             amount: get_total_cost_cents()
         });
+    }
+    $('#invest-button').click(function(e) {
+        click_invest();
         e.preventDefault();
+    });
+    $('.invest-num-shares > input').keydown(function(e) {
+        if (e.keyCode == 10 | e.keyCode == 13) {
+            click_invest();
+            e.preventDefault();
+        }
     });
 
     $(window).on('popstate', function() {
