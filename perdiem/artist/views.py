@@ -167,6 +167,7 @@ class ArtistDetailView(FormView):
             'PERDIEM_FEE': settings.PERDIEM_FEE,
             'STRIPE_PERCENTAGE': settings.STRIPE_PERCENTAGE,
             'STRIPE_FLAT_FEE': settings.STRIPE_FLAT_FEE,
+            'DEFAULT_MIN_PURCHASE': settings.DEFAULT_MIN_PURCHASE,
             'has_permission_to_submit_update': self.artist.has_permission_to_submit_update(self.request.user),
         })
 

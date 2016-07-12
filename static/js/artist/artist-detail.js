@@ -44,14 +44,13 @@ $(document).ready(function() {
         }
 
         // Update invest button text
-        var button_text = "Buy " + num_shares + " Share";
-        if (num_shares !== 1) button_text += "s";
+        var subtotal_cost_cents = get_subtotal_cost_cents();
+        var subtotal_shares_price = parseFloat(subtotal_cost_cents / 100).toFixed(2);
+        var button_text = "Invest $" + subtotal_shares_price;
         $('button#invest-button').text(button_text);
 
         // Update shares price
-        var subtotal_cost_cents = get_subtotal_cost_cents();
         var fees_cost_cents = get_fees_cost_cents();
-        var subtotal_shares_price = parseFloat(subtotal_cost_cents / 100).toFixed(2);
         $('#subtotal-shares-price').text("$" + subtotal_shares_price + " + ");
         var fees_price = parseFloat(fees_cost_cents / 100).toFixed(2);
         $('#fees-price').text("$" + fees_price);

@@ -26,7 +26,7 @@
 
             {% if request.user.is_authenticated %}
                 <!-- Buy Shares -->
-                <button id="invest-button" class="button buy" type="button">Buy {{ campaign.default_name_shares }} Share{{ campaign.default_num_shares|pluralize }}</button>
+                <button id="invest-button" class="button buy" type="button">Invest ${{ DEFAULT_MIN_PURCHASE|floatformat:2 }}</button>
                 <div class="invest-num-shares">
                     <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
                     <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
