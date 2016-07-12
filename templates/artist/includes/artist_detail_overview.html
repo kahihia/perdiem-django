@@ -8,6 +8,7 @@
         <div class="photo-left">
             <img class="dropshadow" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
         </div>
+
     {% endthumbnail %}
     {% with campaign=campaign %}
         <div class="buy-right">
@@ -60,7 +61,6 @@
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
             {% endfor %}
         {% endif %}
-        </div>
 
         <!-- Artist Bio -->
         {% if artist.bio %}
