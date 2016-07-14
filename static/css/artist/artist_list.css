@@ -100,3 +100,18 @@
     padding-bottom: 10px;
     font-weight: 400;
 }
+
+.artist-list-image { 
+   position: relative; 
+}
+
+h2.artist-list-overlay { 
+   position: absolute; 
+   margin-bottom: 10px;
+   top: 200px; 
+   left: 0; 
+   width: 100%; 
+   font-size: 25px;
+   background-color: #22bb5b;
+   color: #fff;
+}
