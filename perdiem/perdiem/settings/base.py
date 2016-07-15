@@ -95,7 +95,7 @@ class BaseSettings(DjangoDefaults):
                     'social.apps.django_app.context_processors.backends',
                     'social.apps.django_app.context_processors.login_redirect',
                     'perdiem.context_processors.request',
-                    'accounts.context_processors.analytics',
+                    'accounts.context_processors.keys',
                 ],
             },
         },
