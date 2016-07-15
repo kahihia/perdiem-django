@@ -47,8 +47,10 @@
                         <button class="button login-box" data-open="login-modal">LOGIN</button>
                     {% endif %}
                 {% else %}
-                    <h3 class="campaign-funded">FUNDED!</h3>
-                    <p><em>Campaign ended {{ campaign.end_datetime|date:'F jS' }}</em></p>
+                    {% if campaign.percentage_funded == 100 %}
+                        <h3 class="campaign-funded">FUNDED!</h3>
+                        <p><em>Campaign ended {{ campaign.end_datetime|date:'F jS' }}</em></p>
+                    {% endif %}
                 {% endif %}
                 {% if campaign.days_remaining %}
             {% endif %}
