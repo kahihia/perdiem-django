@@ -200,13 +200,13 @@
                         e[n] = i;
                         var o = [ "init", "identify", "startRecording", "stopRecording", "removeUserTracking", "setUserInfo" ];
                         for (var u = 0; u < o.length; u++) r(i, o[u]);
-                        i.__VERSION = .9, i.__INIT_TIME = 1 * new Date;
+                        i.__VERSION = 2, i.__INIT_TIME = 1 * new Date;
                         var a = t.createElement("script");
                         a.async = !0, a.setAttribute("crossorigin", "anonymous"), a.src = s;
                         var f = t.getElementsByTagName("head")[0];
                         f.appendChild(a);
                     }
-                })(e, t, e[n] || [], "//recorder-assets.getjaco.com/recorder.js");
+                })(e, t, e[n] || [], "//recorder-assets.getjaco.com/recorder_v2.js");
             }).call(window, window, document), window.JacoRecorder.push([ "init", "{{ JACO_API_KEY }}", {} ]);
             {% if user.is_authenticated %}
                 window.JacoRecorder.identify('{{ user.id }} ({{ user.username }})');
