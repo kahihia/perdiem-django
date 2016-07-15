@@ -190,6 +190,12 @@ class BaseSettings(DjangoDefaults):
     LOGIN_URL = '/'
     LOGIN_REDIRECT_URL = '/profile/'
 
+    @property
+    def FACEBOOK_APP_ID(self):
+        if not hasattr(self, 'SOCIAL_AUTH_FACEBOOK_KEY'):
+            return ''
+        return self.SOCIAL_AUTH_FACEBOOK_KEY
+
     # Sentry
     @property
     def RAVEN_CONFIG(self):
