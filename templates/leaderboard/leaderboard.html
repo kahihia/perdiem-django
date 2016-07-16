@@ -8,11 +8,13 @@
 
 {% block content %}
     <h2>CHARTS</h2>
-    {% if top_earned_artists or top_earned_investors %}
+    {% if top_raised or top_invested or top_earned_artists or top_earned_investors %}
         <div class="break">
             <hr>
         </div>
         <div class="center">
+            {% include "leaderboard/includes/list.html" with name='Top Raised' leaders=top_raised %}
+            {% include "leaderboard/includes/list.html" with name='Top Invested' leaders=top_invested %}
             {% include "leaderboard/includes/list.html" with name='Top Earned Artists' leaders=top_earned_artists %}
             {% include "leaderboard/includes/list.html" with name='Top Earned Investors' leaders=top_earned_investors %}
         </div>
