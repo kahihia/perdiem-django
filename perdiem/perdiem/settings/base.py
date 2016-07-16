@@ -214,7 +214,7 @@ class BaseSettings(DjangoDefaults):
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = '/tmp/perdiem/email'
     TEMPLATED_EMAIL_TEMPLATE_DIR = 'email/'
-    DEFAULT_FROM_EMAIL = 'noreply@investperdiem.com'
+    DEFAULT_FROM_EMAIL = 'PerDiem <noreply@investperdiem.com>'
 
     # Stripe
     PERDIEM_FEE = 1 # $1
