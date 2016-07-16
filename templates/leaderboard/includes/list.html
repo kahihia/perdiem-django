@@ -10,7 +10,7 @@
                     <div class="leaderboard-padding button">
                         <img class="profile-crop" src="{{ leader_context.avatar_url }}" alt="{{ leader_context.name }}" />
                         <br/>
-                        <h5 class="leader-name">#{{ forloop.counter }}: {{ leader_context.name }}</h5>${{ leader_context.total_earned|notrail_floatformat:2|intcomma }}
+                        <h5 class="leader-name">#{{ forloop.counter }}: {{ leader_context.name }}</h5>${{ leader_context.amount|notrail_floatformat:2|intcomma }}
                     </div>
                 </a>
             </li>

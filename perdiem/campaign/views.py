@@ -17,8 +17,9 @@ class LeaderboardView(TemplateView):
 
     template_name = 'leaderboard/leaderboard.html'
 
-    def investor_context(self, investor):
+    def investor_context(self, investor, key_to_copy):
         context = investor.profile_context()
+        context['amount'] = context[key_to_copy]
         context.update({
             'name': investor.get_display_name(),
             'url': investor.public_profile_url(),
@@ -35,7 +36,7 @@ class LeaderboardView(TemplateView):
             'name': artist.name,
             'url': reverse('artist', kwargs={'slug': artist.slug,}),
             'avatar_url': avatar_url,
-            'total_earned': artist.total_earned,
+            'amount': artist.amount,
         }
 
     # TODO(lucas): Review to improve performance
@@ -44,12 +45,12 @@ class LeaderboardView(TemplateView):
     def calculate_leaderboard(self):
         # Top earned investors
         user_profiles = UserProfile.objects.filter(invest_anonymously=False)
-        top_earned_investors = [self.investor_context(user_profile) for user_profile in user_profiles]
-        top_earned_investors = filter(lambda context: context['total_earned'] > 0, top_earned_investors)
-        top_earned_investors = sorted(top_earned_investors, key=lambda context: context['total_earned'], reverse=True)[:5]
+        top_earned_investors = [self.investor_context(user_profile, 'total_earned') for user_profile in user_profiles]
+        top_earned_investors = filter(lambda context: context['amount'] > 0, top_earned_investors)
+        top_earned_investors = sorted(top_earned_investors, key=lambda context: context['amount'], reverse=True)[:5]
 
         # Top earned artists
-        artists = Artist.objects.all().annotate(total_earned=models.Sum('project__revenuereport__amount')).filter(total_earned__isnull=False).order_by('-total_earned')[:5]
+        artists = Artist.objects.all().annotate(amount=models.Sum('project__revenuereport__amount')).filter(amount__isnull=False).order_by('-amount')[:5]
         top_earned_artists = [self.artist_context(artist) for artist in artists]
         return {
             'top_earned_artists': top_earned_artists,
