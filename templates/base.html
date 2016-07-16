@@ -57,6 +57,7 @@
                     <ul class="vertical menu">
                         <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
                         <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
+                        <li><a class="nav-color" href="{% url 'leaderboard' %}">CHARTS</a></li>
                         <li><a class="nav-color" href="https://medium.com/perdiem" target="_blank">BLOG</a></li>
                         {% if user.is_authenticated %}
                             <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
@@ -81,6 +82,7 @@
                                 <ul class="dropdown menu nav" data-dropdown-menu>
                                     <li><a class="active" href="{% url 'home' %}">HOME</a></li>
                                     <li><a href="{% url 'artists' %}">ARTISTS</a></li>
+                                    <li><a href="{% url 'leaderboard' %}">CHARTS</a></li>
                                     <li><a href="https://medium.com/perdiem" target="_blank">BLOG</a></li>
                                 </ul>
                             </div>
