@@ -127,18 +127,7 @@ class ArtistListView(ListView):
                 )
             ).order_by('-num_investors')
         elif order_by_name == 'raised':
-            ordered_artists = artists.annotate(
-                amount_raised=models.Sum(
-                    models.Case(
-                        models.When(
-                            project__campaign__investment__charge__paid=True,
-                            then=models.F('project__campaign__investment__num_shares') * models.F('project__campaign__value_per_share'),
-                        ),
-                        default=0,
-                        output_field=models.IntegerField()
-                    )
-                )
-            ).order_by('-amount_raised')
+            ordered_artists = artists.order_by_amount_raised()
         elif order_by_name == 'valuation':
             ordered_artists = artists.order_by_valuation()
         else:

@@ -27,17 +27,26 @@ class LeaderboardView(TemplateView):
         })
         return context
 
-    def artist_context(self, artist):
+    def artist_context(self, artist, amount_attr=None):
         try:
             avatar_url = artist.photo.img.url
         except Photo.DoesNotExist:
             avatar_url = UserAvatar.default_avatar_url()
-        return {
+
+        if amount_attr:
+            context = {
+                'amount': getattr(artist, amount_attr),
+            }
+        else:
+            context = {
+                'amount': artist.amount,
+            }
+        context.update({
             'name': artist.name,
             'url': reverse('artist', kwargs={'slug': artist.slug,}),
             'avatar_url': avatar_url,
-            'amount': artist.amount,
-        }
+        })
+        return context
 
     # TODO(lucas): Review to improve performance
     # Warning: top_invested and top_earned_investors absolutely will not scale,
@@ -46,19 +55,8 @@ class LeaderboardView(TemplateView):
     def calculate_leaderboard(self):
         # Top raised
         all_artists = Artist.objects.all()
-        top_raised = all_artists.annotate(
-            amount=models.Sum(
-                models.Case(
-                    models.When(
-                        project__campaign__investment__charge__paid=True,
-                        then=models.F('project__campaign__investment__num_shares') * models.F('project__campaign__value_per_share')
-                    ),
-                    default=0,
-                    output_field=models.IntegerField()
-                )
-            )
-        ).filter(amount__gt=0).order_by('-amount')[:5]
-        top_raised = [self.artist_context(artist) for artist in top_raised]
+        top_raised = all_artists.order_by_amount_raised().filter(amount_raised__gt=0)[:5]
+        top_raised = [self.artist_context(artist, amount_attr='amount_raised') for artist in top_raised]
 
         # Top invested
         user_profiles = UserProfile.objects.filter(invest_anonymously=False)
