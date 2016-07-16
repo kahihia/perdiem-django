@@ -131,6 +131,12 @@ class ArtistUpdateEmail(BaseEmail):
     template_name = 'artist_update'
     subscription_type = EmailSubscription.SUBSCRIPTION_ARTUP
 
+    def get_from_email_address(self, **kwargs):
+        update = kwargs['update']
+        return "{artist_name} from PerDiem <noreply@investperdiem.com>".format(
+            artist_name=update.artist.name
+        )
+
     def get_context_data(self, user, **kwargs):
         context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
 
