@@ -39,21 +39,21 @@ class LeaderboardView(TemplateView):
         }
 
     # TODO(lucas): Review to improve performance
-    # Warning: total_earned absolutely will not scale, the view is meant to
+    # Warning: top_earned_investors absolutely will not scale, the view is meant to
     # be run occasionally (once a day) and then have the whole page cached
     def calculate_leaderboard(self):
-        # Investor total earned
+        # Top earned investors
         user_profiles = UserProfile.objects.filter(invest_anonymously=False)
-        investor_leaders = [self.investor_context(user_profile) for user_profile in user_profiles]
-        investor_leaders = filter(lambda context: context['total_earned'] > 0, investor_leaders)
-        investor_leaders = sorted(investor_leaders, key=lambda context: context['total_earned'], reverse=True)[:5]
+        top_earned_investors = [self.investor_context(user_profile) for user_profile in user_profiles]
+        top_earned_investors = filter(lambda context: context['total_earned'] > 0, top_earned_investors)
+        top_earned_investors = sorted(top_earned_investors, key=lambda context: context['total_earned'], reverse=True)[:5]
 
-        # Artist total earned
+        # Top earned artists
         artists = Artist.objects.all().annotate(total_earned=models.Sum('project__revenuereport__amount')).filter(total_earned__isnull=False).order_by('-total_earned')[:5]
-        artist_leaders = [self.artist_context(artist) for artist in artists]
+        top_earned_artists = [self.artist_context(artist) for artist in artists]
         return {
-            'investor_leaders': investor_leaders,
-            'artist_leaders': artist_leaders,
+            'top_earned_artists': top_earned_artists,
+            'top_earned_investors': top_earned_investors,
         }
 
     def get_context_data(self, **kwargs):
