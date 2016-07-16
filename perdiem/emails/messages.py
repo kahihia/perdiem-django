@@ -46,7 +46,7 @@ class BaseEmail(object):
             raise NoTemplateProvided("No template was provided for the email message.")
         return self.template_name
 
-    def get_from_email(self, **kwargs):
+    def get_from_email_address(self, **kwargs):
         return self.from_email
 
     def get_context_data(self, user, **kwargs):
@@ -66,7 +66,7 @@ class BaseEmail(object):
         """
         send_templated_mail(
             template_name=self.get_template_name(),
-            from_email=self.get_from_email(**kwargs),
+            from_email=self.get_from_email_address(**kwargs),
             recipient_list=[email],
             context=context
         )
