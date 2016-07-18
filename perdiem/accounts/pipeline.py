@@ -26,6 +26,15 @@ def verify_auth_operation(strategy, details, user=None, is_new=False, *args, **k
         return HttpResponseRedirect(reverse('error_account_does_not_exist'))
 
 
+def mark_email_verified(strategy, details, user=None, is_new=False, *args, **kwargs):
+    if user:
+        VerifiedEmail.objects.get_or_create(
+            defaults={'verified': True,},
+            user=user,
+            email=details['email']
+        )
+
+
 def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     # Skip if we don't have the user yet
     if not user:
@@ -71,6 +80,5 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
 
 def send_welcome_email(strategy, details, user=None, is_new=False, *args, **kwargs):
     if user and is_new:
-        VerifiedEmail.objects.create(user=user, email=details['email'], verified=True)
         user = User.objects.get(id=user.id)
         WelcomeEmail().send(user=user)

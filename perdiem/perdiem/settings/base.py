@@ -176,6 +176,7 @@ class BaseSettings(DjangoDefaults):
         'accounts.pipeline.require_email',
         'accounts.pipeline.verify_auth_operation',
         'social.pipeline.user.create_user',
+        'accounts.pipeline.mark_email_verified',
         'accounts.pipeline.save_avatar',
         'social.pipeline.social_auth.associate_user',
         'social.pipeline.social_auth.load_extra_data',
