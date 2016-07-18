@@ -28,7 +28,7 @@ def verify_auth_operation(strategy, details, user=None, is_new=False, *args, **k
 
 def mark_email_verified(strategy, details, user=None, is_new=False, *args, **kwargs):
     if user:
-        VerifiedEmail.objects.get_or_create(
+        VerifiedEmail.objects.update_or_create(
             defaults={'verified': True,},
             user=user,
             email=details['email']
