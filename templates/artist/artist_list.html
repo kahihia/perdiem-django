@@ -97,19 +97,21 @@
             <div class="column">
                 <div class="artist-list-image">
                     {% include "artist/includes/artist_preview.html" with artist=artist %}
-                    {% with latest_campaign=artist.latest_campaign %}
-                        {% if latest_campaign.percentage_funded == 100 %}
-                            <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
-                        {% elif latest_campaign.open %}
-                            <h2 class="artist-list-overlay banner-active">
-                                {% if not latest_campaign.percentage_funded %}
-                                    ACTIVE
-                                {% else %}
-                                    {{ latest_campaign.percentage_funded }}% FUNDED
-                                {% endif %}
-                            </h2>
-                        {% endif %}
-                    {% endwith %}
+                    {% if campaign_status != 'Funded' %}
+                        {% with latest_campaign=artist.latest_campaign %}
+                            {% if latest_campaign.percentage_funded == 100 %}
+                                <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
+                            {% elif latest_campaign.open %}
+                                <h2 class="artist-list-overlay banner-active">
+                                    {% if not latest_campaign.percentage_funded %}
+                                        ACTIVE
+                                    {% else %}
+                                        {{ latest_campaign.percentage_funded }}% FUNDED
+                                    {% endif %}
+                                </h2>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
                 </div>
                 <p class="artist-details artist-location">{{ artist.location|truncatechars:30 }}</p>
                 {% if order_by.slug == 'funded' %}
