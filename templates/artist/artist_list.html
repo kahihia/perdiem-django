@@ -99,7 +99,7 @@
                     {% include "artist/includes/artist_preview.html" with artist=artist %}
                     {% with latest_campaign=artist.latest_campaign %}
                         {% if latest_campaign.percentage_funded == 100 %}
-                            <h2 class="artist-list-overlay">FUNDED</h2>
+                            <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
                         {% endif %}
                     {% endwith %}
                 </div>

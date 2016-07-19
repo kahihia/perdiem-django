@@ -112,7 +112,6 @@ h2.artist-list-overlay {
     width: 100%;
     max-width: 250px;
     font-size: 25px;
-    background-color: #22bb5b;
     color: #fff;
     left: 0;
     right: 0;
@@ -122,4 +121,8 @@ h2.artist-list-overlay {
 
 .banner-active {
     background-color: #4A96AD;
+}
+
+.banner-funded {
+    background-color: #22bb5b;
 }
