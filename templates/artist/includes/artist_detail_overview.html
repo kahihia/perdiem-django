@@ -50,8 +50,8 @@
                     {% if campaign.percentage_funded == 100 %}
                         <h3 class="campaign-funded">FUNDED!</h3>
                     {% endif %}
-                        <p><em>Campaign ended {{ campaign.end_datetime|date:'F jS' }}</em></p>
-            {% endif %}
+                    <p><em>Campaign ended {{ campaign.end_datetime|date:'F jS' }}</em></p>
+                {% endif %}
             </div>
         {% endwith %}
     {% endif %}
