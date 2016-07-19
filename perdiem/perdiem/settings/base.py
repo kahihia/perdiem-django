@@ -95,7 +95,7 @@ class BaseSettings(DjangoDefaults):
                     'social.apps.django_app.context_processors.backends',
                     'social.apps.django_app.context_processors.login_redirect',
                     'perdiem.context_processors.request',
-                    'accounts.context_processors.analytics',
+                    'accounts.context_processors.keys',
                 ],
             },
         },
@@ -176,6 +176,7 @@ class BaseSettings(DjangoDefaults):
         'accounts.pipeline.require_email',
         'accounts.pipeline.verify_auth_operation',
         'social.pipeline.user.create_user',
+        'accounts.pipeline.mark_email_verified',
         'accounts.pipeline.save_avatar',
         'social.pipeline.social_auth.associate_user',
         'social.pipeline.social_auth.load_extra_data',
@@ -189,6 +190,12 @@ class BaseSettings(DjangoDefaults):
     }
     LOGIN_URL = '/'
     LOGIN_REDIRECT_URL = '/profile/'
+
+    @property
+    def FACEBOOK_APP_ID(self):
+        if not hasattr(self, 'SOCIAL_AUTH_FACEBOOK_KEY'):
+            return ''
+        return self.SOCIAL_AUTH_FACEBOOK_KEY
 
     # Sentry
     @property
@@ -208,7 +215,7 @@ class BaseSettings(DjangoDefaults):
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = '/tmp/perdiem/email'
     TEMPLATED_EMAIL_TEMPLATE_DIR = 'email/'
-    DEFAULT_FROM_EMAIL = 'noreply@investperdiem.com'
+    DEFAULT_FROM_EMAIL = 'PerDiem <noreply@investperdiem.com>'
 
     # Stripe
     PERDIEM_FEE = 1 # $1
