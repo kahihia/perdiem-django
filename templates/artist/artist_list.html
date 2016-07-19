@@ -95,7 +95,22 @@
     <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
         {% for artist in artists %}
             <div class="column">
-                {% include "artist/includes/artist_preview.html" with artist=artist %}
+                <div class="artist-list-image">
+                    {% include "artist/includes/artist_preview.html" with artist=artist %}
+                    {% with latest_campaign=artist.latest_campaign %}
+                        {% if latest_campaign.percentage_funded == 100 %}
+                            <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
+                        {% elif latest_campaign.open %}
+                            <h2 class="artist-list-overlay banner-active">
+                                {% if not latest_campaign.percentage_funded %}
+                                    ACTIVE
+                                {% else %}
+                                    {{ latest_campaign.percentage_funded }}% FUNDED
+                                {% endif %}
+                            </h2>
+                        {% endif %}
+                    {% endwith %}
+                </div>
                 <p class="artist-details artist-location">{{ artist.location|truncatechars:30 }}</p>
                 {% if order_by.slug == 'funded' %}
                     <p class="artist-details artist-location">
