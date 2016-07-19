@@ -23,7 +23,8 @@
     {% endif %}
     <!-- Open Graph data -->
     <meta property="og:title" content="INVEST IN {{ artist.name|upper }} ON PERDIEM" />
-    <meta property="og:url" content="{% url 'artist' slug=artist.slug %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://{{ host }}{% url 'artist' slug=artist.slug %}" />
     {% thumbnail artist.photo.img "600" as thumb %}
         <meta property="og:image" content="{{ thumb.url }}" />
     {% endthumbnail %}

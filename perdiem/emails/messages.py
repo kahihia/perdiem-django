@@ -6,7 +6,6 @@
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.utils.crypto import get_random_string
 
 from templated_email import send_templated_mail
 
@@ -17,6 +16,7 @@ from emails.utils import create_unsubscribe_link
 
 class BaseEmail(object):
 
+    from_email = settings.DEFAULT_FROM_EMAIL
     ignore_unsubscribed = False
     send_to_unverified_emails = False
     subscription_type = EmailSubscription.SUBSCRIPTION_ALL
@@ -45,6 +45,9 @@ class BaseEmail(object):
             raise NoTemplateProvided("No template was provided for the email message.")
         return self.template_name
 
+    def get_from_email_address(self, **kwargs):
+        return self.from_email
+
     def get_context_data(self, user, **kwargs):
         context = {
             'host': self.get_host(),
@@ -54,7 +57,7 @@ class BaseEmail(object):
             context['unsubscribe_message'] = self.unsubscribe_message(user)
         return context
 
-    def send_to_email(self, email, context={}):
+    def send_to_email(self, email, context={}, **kwargs):
         """
         This method is not meant to be called directly, except for
         sending emails to email addresses that do not belong to a user.
@@ -62,7 +65,7 @@ class BaseEmail(object):
         """
         send_templated_mail(
             template_name=self.get_template_name(),
-            from_email=settings.DEFAULT_FROM_EMAIL,
+            from_email=self.get_from_email_address(**kwargs),
             recipient_list=[email],
             context=context
         )
@@ -72,7 +75,7 @@ class BaseEmail(object):
         user_is_subscribed = self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
         email_is_verified = self.send_to_unverified_emails or VerifiedEmail.objects.is_current_email_verified(user)
         if user_is_subscribed and email_is_verified:
-            self.send_to_email(user.email, context)
+            self.send_to_email(user.email, context, **kwargs)
 
 
 class EmailVerificationEmail(BaseEmail):
@@ -98,20 +101,6 @@ class WelcomeEmail(EmailVerificationEmail):
         return context
 
 
-class CredentialsEmail(EmailVerificationEmail):
-
-    template_name = 'credentials'
-
-    def get_context_data(self, user, **kwargs):
-        context = super(CredentialsEmail, self).get_context_data(user, **kwargs)
-        password_chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        temporary_password = get_random_string(12, password_chars)
-        user.set_password(temporary_password)
-        user.save()
-        context['temporary_password'] = temporary_password
-        return context
-
-
 class ContactEmail(BaseEmail):
 
     template_name = 'contact'
@@ -126,6 +115,12 @@ class ArtistUpdateEmail(BaseEmail):
 
     template_name = 'artist_update'
     subscription_type = EmailSubscription.SUBSCRIPTION_ARTUP
+
+    def get_from_email_address(self, **kwargs):
+        update = kwargs['update']
+        return "{artist_name} from PerDiem <noreply@investperdiem.com>".format(
+            artist_name=update.artist.name
+        )
 
     def get_context_data(self, user, **kwargs):
         context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)

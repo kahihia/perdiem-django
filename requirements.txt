@@ -6,17 +6,17 @@ Django==1.9.7
 python-memcached==1.58
 psycopg2==2.6.2
 whitenoise==3.2
-djangorestframework==3.3.3
+djangorestframework==3.4.0
 python-social-auth==0.2.19
 Pillow==3.3.0
 django-classbasedsettings==1.5.0
-raven==5.22.0
+raven==5.23.0
 sorl-thumbnail==12.3
 boto==2.41.0
 django-storages==1.4.1
-django-ses==0.7.1
+django-ses==0.8.0
 geopy==1.11.0
 pinax-stripe==3.1.0
--e git://github.com/BradWhittington/django-templated-email.git@959c40e793bab96454245585ab090df873a619b5#egg=django_templated_email-master
+django-templated-email==0.5
 django-markdown-deux==1.0.5
 django-pagedown==0.1.1
