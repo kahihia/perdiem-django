@@ -103,10 +103,10 @@
                                 <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
                             {% elif latest_campaign.open %}
                                 <h2 class="artist-list-overlay banner-active">
-                                    {% if not latest_campaign.percentage_funded %}
-                                        ACTIVE
-                                    {% else %}
+                                    {% if latest_campaign.percentage_funded %}
                                         {{ latest_campaign.percentage_funded }}% FUNDED
+                                    {% elif campaign_status == 'All' %}
+                                        ACTIVE
                                     {% endif %}
                                 </h2>
                             {% endif %}
