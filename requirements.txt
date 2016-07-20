@@ -2,7 +2,7 @@ Fabric==1.11.1
 mock==2.0.0
 coverage==4.1
 gunicorn==19.6.0
-Django==1.9.7
+Django==1.9.8
 python-memcached==1.58
 psycopg2==2.6.2
 whitenoise==3.2
