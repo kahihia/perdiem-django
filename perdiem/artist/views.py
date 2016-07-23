@@ -16,6 +16,7 @@ from django.utils import timezone
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
+from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim
 
 from artist.forms import ArtistApplyForm, ArtistUpdateForm
@@ -57,9 +58,13 @@ class ArtistListView(ListView):
 
         # Geolocate if location
         self.location_coordinates = None
+        self.geocoder_failed = False
         if self.location:
             geolocator = Nominatim()
-            self.location_coordinates = geolocator.geocode(self.location)
+            try:
+                self.location_coordinates = geolocator.geocode(self.location)
+            except GeocoderTimedOut:
+                self.geocoder_failed = True
 
         return super(ArtistListView, self).dispatch(request, *args, **kwargs)
 
@@ -75,6 +80,7 @@ class ArtistListView(ListView):
             'location': self.location,
             'lat': self.lat,
             'lon': self.lon,
+            'geocoder_failed': self.geocoder_failed,
             'sort_options': sorted(sort_options, key=lambda o: o['name']),
             'order_by': self.order_by,
         })
