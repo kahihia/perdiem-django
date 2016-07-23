@@ -54,6 +54,13 @@ class ArtistListView(ListView):
             'slug': order_by_slug,
             'name': self.ORDER_BY_NAME[order_by_slug],
         }
+
+        # Geolocate if location
+        self.location_coordinates = None
+        if self.location:
+            geolocator = Nominatim()
+            self.location_coordinates = geolocator.geocode(self.location)
+
         return super(ArtistListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -101,12 +108,12 @@ class ArtistListView(ListView):
             artists = artists.filter_by_funded()
 
         # Filter by location
-        if self.distance and self.location:
-            geolocator = Nominatim()
-            location = geolocator.geocode(self.location)
-            artists = artists.filter_by_location(distance=int(self.distance), lat=location.latitude, lon=location.longitude)
-        elif self.distance and self.lat and self.lon:
-            artists = artists.filter_by_location(distance=int(self.distance), lat=self.lat, lon=self.lon)
+        if self.distance and ((self.lat and self.lon) or (self.location and self.location_coordinates)):
+            if self.lat and self.lon:
+                lat, lon = self.lat, self.lon
+            elif self.location and self.location_coordinates:
+                lat, lon = self.location_coordinates.latitude, self.location_coordinates.longitude
+            artists = artists.filter_by_location(distance=int(self.distance), lat=lat, lon=lon)
 
         # Sorting
         order_by_name = self.order_by['slug']
