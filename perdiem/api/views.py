@@ -6,6 +6,7 @@
 
 import decimal
 
+from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim
 from pinax.stripe.actions import charges, customers, sources
 from pinax.stripe.models import Card
@@ -50,7 +51,10 @@ class CoordinatesFromAddress(APIView):
 
         # Return lat/lon for address
         geolocator = Nominatim()
-        location = geolocator.geocode(address)
+        try:
+            location = geolocator.geocode(address)
+        except GeocoderTimedOut:
+            return Response("Geocoder service currently unavailable. Please try again later.", status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return Response({
             'latitude': float("{0:.4f}".format(location.latitude)),
             'longitude': float("{0:.4f}".format(location.longitude)),
