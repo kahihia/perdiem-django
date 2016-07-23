@@ -4,6 +4,10 @@
 
 """
 
+import mock
+
+from geopy.exc import GeocoderTimedOut
+
 from perdiem.tests import PerDiemTestCase
 
 
@@ -28,7 +32,6 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artists/',
             '/artists/?campaign-status=Funded',
             '/artists/?distance=50&lat=43.7689&lon=-79.4138',
-            '/artists/?distance=50&location=Toronto,%20ON',
             '/artists/?sort=recent',
             '/artists/?sort=funded',
             '/artists/?sort=time-remaining',
@@ -39,6 +42,21 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artist/{slug}/'.format(slug=self.artist.slug),
             '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
         ]
+
+    @mock.patch('artist.views.Nominatim.geocode')
+    def testGeocoderInArtistList(self, mock_geocode):
+        url = '/artists/?distance=50&location=Toronto,%20ON'
+
+        # First the Geocoder service fails and so we display warning to user
+        mock_geocode.side_effect = GeocoderTimedOut
+        response = self.assertResponseRenders(url)
+        self.assertIn('Geocoding failed.', response.content)
+
+        # Then the Geocoder service kicks back online and we succeed
+        mock_geocode.side_effect = None
+        mock_geocode.return_value = mock.Mock(latitude=43.653226, longitude=-79.383184)
+        response = self.assertResponseRenders(url)
+        self.assertNotIn('Geocoding failed.', response.content)
 
     def testArtistDoesNotExistReturns404(self):
         self.assertResponseRenders('/artist/does-not-exist/', status_code=404)
