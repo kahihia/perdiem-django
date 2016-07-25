@@ -21,7 +21,9 @@
                 <h4>AMOUNT RAISED</h4>
                 <h4 class="investing">${{ campaign.amount_raised|intcomma }}</h4>
                 <h5>OUT OF ${{ campaign.amount|intcomma }}</h5>
-                <p class="days-remaining">WITH {{ campaign.days_remaining }} DAY{{ campaign.days_remaining|pluralize|upper }} REMAINING</p>
+                {% if campaign.end_datetime %}
+                    <p class="days-remaining">WITH {{ campaign.days_remaining }} DAY{{ campaign.days_remaining|pluralize|upper }} REMAINING</p>
+                {% endif %}
                 <div class="break">
                     <hr>
                 </div>
