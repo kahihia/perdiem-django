@@ -1,0 +1,10 @@
+{% load thumbnail %}
+
+<a class="artist-details name" href="{{ object.url }}">
+    {% thumbnail img "250x250" crop="center" as thumb %}
+        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ object.name }}" />
+    {% endthumbnail %}
+    <div class="artist-details artist-name">
+        {{ object.name }}
+    </div>
+</a>

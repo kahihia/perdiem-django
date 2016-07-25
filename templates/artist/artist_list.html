@@ -101,7 +101,7 @@
         {% for artist in artists %}
             <div class="column">
                 <div class="artist-list-image">
-                    {% include "artist/includes/artist_preview.html" with artist=artist %}
+                    {% include "object_preview.html" with object=artist img=artist.photo.img %}
                     {% if campaign_status != 'Funded' %}
                         {% with latest_campaign=artist.latest_campaign %}
                             {% if latest_campaign.percentage_funded == 100 %}
