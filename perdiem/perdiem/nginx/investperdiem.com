@@ -7,7 +7,7 @@ server {
     server_name www.investperdiem.com;
 
     access_log off;
-    client_max_body_size 5M;
+    client_max_body_size 50M;
 
     location / {
         proxy_set_header X-Forwarded-Host $server_name;
