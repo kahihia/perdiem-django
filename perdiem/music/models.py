@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from boto.s3.connection import S3Connection
@@ -31,6 +32,9 @@ class Album(models.Model):
     def save(self, *args, **kwargs):
         self.validate_unique()
         super(Album, self).save(*args, **kwargs)
+
+    def url(self):
+        return reverse('album', kwargs={'artist_slug': self.project.artist.slug, 'album_slug': self.slug,})
 
 
 class Artwork(models.Model):

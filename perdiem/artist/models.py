@@ -7,6 +7,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.html import escape
@@ -38,6 +39,9 @@ class Artist(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def url(self):
+        return reverse('artist', kwargs={'slug': self.slug,})
 
     def social_twitter(self):
         twitter_socials = self.social_set.filter(medium=Social.SOCIAL_TWITTER)
