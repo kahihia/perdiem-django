@@ -5,17 +5,11 @@
     <div class="break">
         <hr>
     </div>
-    <ul>
+    <div class="row small-up-1 medium-up-2 large-up-4 centered artistlist">
         {% for album in albums %}
-            <li>
-                <a href="{% url 'album' artist_slug=album.project.artist.slug album_slug=album.slug %}">
-                {% thumbnail album.artwork.img "250x250" crop="center" as thumb %}
-                    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
-                {% endthumbnail %}
-                <br />
-                {{ album.project.artist.name }} - {{ album.name }}
-                </a>
-            </li>
+            <div class="column">
+                {% include "object_preview.html" with object=album img=album.artwork.img %}
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
