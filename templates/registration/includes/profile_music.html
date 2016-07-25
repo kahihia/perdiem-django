@@ -1,5 +1,7 @@
+{% load thumbnail %}
+
 <div class="investments">
-    <h2>Music</h2>
+    <h2>MY MUSIC</h2>
     <div class="break">
         <hr>
     </div>
@@ -7,7 +9,11 @@
         {% for album in albums %}
             <li>
                 <a href="{% url 'album' artist_slug=album.project.artist.slug album_slug=album.slug %}">
-                    {{ album.name }}
+                {% thumbnail album.artwork.img "250x250" crop="center" as thumb %}
+                    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
+                {% endthumbnail %}
+                <br />
+                {{ album.project.artist.name }} - {{ album.name }}
                 </a>
             </li>
         {% endfor %}
