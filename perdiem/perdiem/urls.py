@@ -18,6 +18,7 @@ from accounts.views import (
 from artist.views import ArtistListView, ArtistDetailView, ArtistApplyFormView
 from campaign.views import LeaderboardView
 from emails.views import UnsubscribeView, unsubscribe_from_mailchimp
+from music.views import AlbumDetailView
 
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     url(r'^artist/apply/?$', ArtistApplyFormView.as_view(), name='artist_application'),
     url(r'^artist/apply/thanks/?$', TemplateView.as_view(template_name='artist/artist_application_thanks.html'), name='artist_application_thanks'),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
+    url(r'^artist/(?P<artist_slug>[\w_-]+)/(?P<album_slug>[\w_-]+)/?$', AlbumDetailView.as_view(), name='album'),
 
     url(r'^profile/?$', ProfileView.as_view(), name='profile'),
     url(r'^profile/(?P<username>[\w.@+-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
