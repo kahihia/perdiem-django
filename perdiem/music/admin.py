@@ -6,7 +6,7 @@
 
 from django.contrib import admin
 
-from music.models import Album, Artwork, MarketplaceURL
+from music.models import Album, Artwork, MarketplaceURL, Audio
 
 
 class ArtworkInline(admin.TabularInline):
@@ -19,11 +19,16 @@ class MarketplaceURLInline(admin.TabularInline):
     model = MarketplaceURL
 
 
+class AudioInline(admin.TabularInline):
+
+    model = Audio
+
+
 class AlbumAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('project',)
     prepopulated_fields = {'slug': ('name',),}
-    inlines = (ArtworkInline, MarketplaceURLInline,)
+    inlines = (ArtworkInline, MarketplaceURLInline, AudioInline,)
 
 
 admin.site.register(Album, AlbumAdmin)
