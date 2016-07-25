@@ -6,8 +6,11 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+
+from boto.s3.connection import S3Connection
 
 from campaign.models import Project
 
@@ -66,3 +69,34 @@ class MarketplaceURL(models.Model):
             album=unicode(self.album),
             medium=self.get_medium_display()
         )
+
+
+class S3PrivateFileField(models.FileField):
+
+    def __init__(self, verbose_name=None, name=None, upload_to='', storage=None, **kwargs):
+        super(S3PrivateFileField, self).__init__(
+            verbose_name=verbose_name,
+            name=name,
+            upload_to=upload_to,
+            storage=storage,
+            **kwargs
+        )
+        self.storage.default_acl = "private"
+
+
+class Audio(models.Model):
+
+    album = models.OneToOneField(Album)
+    file = S3PrivateFileField(upload_to='artist/audio')
+
+    class Meta:
+        verbose_name_plural = 'Audio'
+
+    def __unicode__(self):
+        return unicode(self.album)
+
+    def get_temporary_url(self, ttl=60):
+        if hasattr(settings, 'AWS_STORAGE_BUCKET_NAME'):
+            s3 = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY, is_secure=True)
+            return s3.generate_url(ttl, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME, key=self.file.name)
+        return self.file.url
