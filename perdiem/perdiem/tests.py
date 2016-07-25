@@ -19,6 +19,7 @@ from rest_framework import status
 from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Project, Campaign, Investment, RevenueReport
+from music.models import Album
 
 
 class PerDiemTestCase(TestCase):
@@ -45,6 +46,7 @@ class PerDiemTestCase(TestCase):
     CAMPAIGN_AMOUNT = 10000
     CAMPAIGN_FANS_PERCENTAGE = 20
     PROJECT_REVENUE_REPORT_AMOUNT = 500
+    ALBUM_NAME = 'Moving Pictures'
 
     @staticmethod
     def strip_query_params(url):
@@ -157,6 +159,11 @@ class PerDiemTestCase(TestCase):
         self.revenue_report = RevenueReport.objects.create(
             project=self.project,
             amount=self.PROJECT_REVENUE_REPORT_AMOUNT
+        )
+        self.album = Album.objects.create(
+            project=self.project,
+            name=self.ALBUM_NAME,
+            slug=slugify(self.ALBUM_NAME)
         )
 
         self.artist_no_campaign = Artist.objects.create(
