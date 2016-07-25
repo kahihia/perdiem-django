@@ -102,5 +102,6 @@ class Audio(models.Model):
     def get_temporary_url(self, ttl=60):
         if hasattr(settings, 'AWS_STORAGE_BUCKET_NAME'):
             s3 = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY, is_secure=True)
-            return s3.generate_url(ttl, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME, key=self.file.name)
+            key = "{media}/{filename}".format(media=settings.MEDIAFILES_LOCATION, filename=self.file.name)
+            return s3.generate_url(ttl, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME, key=key)
         return self.file.url
