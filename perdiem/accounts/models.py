@@ -123,6 +123,7 @@ class UserProfile(models.Model):
         investments = Investment.objects.filter(charge__customer__user=self.user, charge__paid=True)
         campaign_ids = investments.values_list('campaign', flat=True).distinct()
         campaigns = Campaign.objects.filter(id__in=campaign_ids).select_related('project')
+        context['campaigns'] = campaigns
         artist_ids = campaigns.values_list('project__artist', flat=True).distinct()
         artists = Artist.objects.filter(id__in=artist_ids)
         context['artists'] = dict(map(self.prepare_artist_for_profile_context, artists))

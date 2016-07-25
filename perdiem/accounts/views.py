@@ -22,6 +22,7 @@ from accounts.models import UserAvatar, UserAvatarImage
 from artist.models import Artist, Update
 from emails.messages import EmailVerificationEmail, WelcomeEmail, ContactEmail
 from emails.models import VerifiedEmail, EmailSubscription
+from music.models import Album
 from perdiem.views import ConstituentFormView, MultipleFormView
 
 
@@ -209,6 +210,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         # Update context with profile information
         context.update(self.request.user.userprofile.profile_context())
+        context['albums'] = Album.objects.filter(project__campaign__in=context['campaigns'])
         context['updates'] = Update.objects.filter(artist__in=context['artists']).order_by('-created_datetime')
 
         return context
