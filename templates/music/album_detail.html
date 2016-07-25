@@ -12,4 +12,6 @@
             <li><a href="{{ marketplace_url.url }}" target="_blank">{{ marketplace_url.get_medium_display }}</a></li>
         {% endfor %}
     </ul>
+
+    <a href="{{ album.audio.get_temporary_url }}" download>Download</a>
 {% endblock %}
