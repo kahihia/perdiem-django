@@ -355,3 +355,21 @@ ul.tabs li {
     width: 150px;
     height: 50px;
 }
+
+.project-image {
+    text-align: center;
+    padding: 20px;
+}
+
+.download-container {
+    text-align: center;
+}
+
+.download-button {
+    text-align: center;
+    background-color: #4A96AD;
+    width: 150px;
+    margin: 0 auto;
+    padding: 10px;
+    color: #fff;
+}

@@ -3,15 +3,22 @@
 
 {% block content %}
     <h1>{{ album.name }}</h1>
-    {% thumbnail album.artwork.img "500x500" crop="center" as thumb %}
-        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
-    {% endthumbnail %}
+    <div class="project-image">
+        {% thumbnail album.artwork.img "500x500" crop="center" as thumb %}
+            <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
+        {% endthumbnail %}
+    </div>
 
     <ul>
         {% for marketplace_url in album.marketplaceurl_set.all %}
             <li><a href="{{ marketplace_url.url }}" target="_blank">{{ marketplace_url.get_medium_display }}</a></li>
         {% endfor %}
     </ul>
+    <div class="download-container">
+        <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
+            Download
+            <i class="fa fa-download" aria-hidden="true"></i>
+        </a>
+    </div>
 
-    <a href="{{ album.audio.get_temporary_url }}" download>Download</a>
 {% endblock %}
