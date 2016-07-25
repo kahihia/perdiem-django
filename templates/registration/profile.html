@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/artist/profile.css" %}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
@@ -13,9 +14,9 @@
     {% if artists %}
         {% if albums or updates %}
             <ul class="tabs" data-tabs id="profile-tabs">
-                <li class="tabs-title is-active"><a href="#portfolio">Portfolio</a></li>
+                <li class="tabs-title is-active"><a href="#portfolio">My Artists</a></li>
                 {% if albums %}
-                    <li class="tabs-title"><a href="#music">Music</a></li>
+                    <li class="tabs-title"><a href="#music">My Music</a></li>
                 {% endif %}
                 {% if updates %}
                     <li class="tabs-title"><a href="#updates">Updates</a></li>
@@ -33,7 +34,8 @@
                 {% endif %}
                 {% if updates %}
                     <div class="tabs-panel" id="updates">
-                        <h2>Updates</h2>
+                        <h2>ARTIST UPDATES</h2>
+                        <h4>HERE ARE UPDATES FROM YOUR ARTISTS</h4>
                         {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
                     </div>
                 {% endif %}
