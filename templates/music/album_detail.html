@@ -1,5 +1,15 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 
 {% block content %}
     <h1>{{ album.name }}</h1>
+    {% thumbnail album.artwork.img "500x500" crop="center" as thumb %}
+        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
+    {% endthumbnail %}
+
+    <ul>
+        {% for marketplace_url in album.marketplaceurl_set.all %}
+            <li><a href="{{ marketplace_url.url }}" target="_blank">{{ marketplace_url.get_medium_display }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}
