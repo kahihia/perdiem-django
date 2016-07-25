@@ -14,11 +14,13 @@
             <li><a href="{{ marketplace_url.url }}" target="_blank">{{ marketplace_url.get_medium_display }}</a></li>
         {% endfor %}
     </ul>
-    <div class="download-container">
-        <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
-            Download
-            <i class="fa fa-download" aria-hidden="true"></i>
-        </a>
-    </div>
 
+    {% if user_is_investor %}
+        <div class="download-container">
+            <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
+                Download
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}

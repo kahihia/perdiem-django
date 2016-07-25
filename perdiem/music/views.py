@@ -7,6 +7,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
+from campaign.models import Investment
 from music.models import Album
 
 
@@ -16,7 +17,17 @@ class AlbumDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AlbumDetailView, self).get_context_data(**kwargs)
-        artist_slug = kwargs['artist_slug']
-        album_slug = kwargs['album_slug']
-        context['album'] = get_object_or_404(Album, slug=album_slug, project__artist__slug=artist_slug)
+        user = self.request.user
+
+        album = get_object_or_404(
+            Album,
+            slug=kwargs['album_slug'],
+            project__artist__slug=kwargs['artist_slug']
+        )
+        user_is_investor = user.is_authenticated() and Investment.objects.filter(campaign__project__album=album, charge__customer__user=user, charge__paid=True).exists()
+        context.update({
+            'album': album,
+            'user_is_investor': user_is_investor,
+        })
+
         return context
