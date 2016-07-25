@@ -21,7 +21,7 @@ class Album(models.Model):
     def __unicode__(self):
         return self.name
 
-    def validate_unique(self):
+    def validate_unique(self, exclude=None):
         if Album.objects.exclude(id=self.id).filter(project__artist=self.project.artist, slug=self.slug).exists():
             raise ValidationError("Slug must be unique per artist")
 
