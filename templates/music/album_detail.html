@@ -3,13 +3,15 @@
 {% load thumbnail %}
 
 {% block content %}
-    <h1>{{ album.name }}</h1>
+    <h2>{{ album.name }}</h2>
+    <h4>BY {{ album.project.artist.name }}</h4>
     <div class="project-image">
         {% thumbnail album.artwork.img "500x500" crop="center" as thumb %}
             <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
         {% endthumbnail %}
     </div>
 
+    <h4>LISTEN / PURCHASE</h4>
     <div class="center">
         {% for marketplace_url in album.marketplaceurl_set.all %}
             <a href="{{ marketplace_url.url }}" target="_blank">

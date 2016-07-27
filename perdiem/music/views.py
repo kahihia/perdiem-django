@@ -6,9 +6,17 @@
 
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 
 from campaign.models import Investment
 from music.models import Album
+
+
+class MusicListView(ListView):
+
+    template_name = 'music/music.html'
+    context_object_name = 'albums'
+    model = Album
 
 
 class AlbumDetailView(TemplateView):

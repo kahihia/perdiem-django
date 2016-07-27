@@ -373,3 +373,20 @@ ul.tabs li {
     padding: 10px;
     color: #fff;
 }
+
+.home-logo {
+    height: 35px;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+a.home-logo {
+    margin: 0px;
+    padding: 0px;
+}
+
+li.home-logo {
+    margin: 0px;
+    padding: 0px;
+}
