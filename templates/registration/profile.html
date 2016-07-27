@@ -18,7 +18,7 @@
                     <li class="tabs-title"><a href="#music">My Music</a></li>
                 {% endif %}
                 {% if updates %}
-                    <li class="tabs-title"><a href="#updates">Updates</a></li>
+                    <li class="tabs-title"><a href="#updates">Artist Updates</a></li>
                 {% endif %}
             </ul>
 
@@ -34,7 +34,6 @@
                 {% if updates %}
                     <div class="tabs-panel" id="updates">
                         <h2>ARTIST UPDATES</h2>
-                        <h4>HERE ARE UPDATES FROM YOUR ARTISTS</h4>
                         {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
                     </div>
                 {% endif %}

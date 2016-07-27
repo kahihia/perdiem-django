@@ -5,7 +5,6 @@
     <div class="break">
         <hr>
     </div>
-    <h4>Here are the artists that you have invested in:</h4>
     {% include "artist/includes/investor_profile_artist_list.html" with artists=artists %}
     <div class="break">
         <hr>
@@ -15,7 +14,7 @@
         <h5 class="profile-total">${{ total_earned|floatformat:2|intcomma }}</h5>
     {% else %}
         <p class="profile-total">Your money is going toward creating some amazing music!
-            <br/>It usually takes a few weeks from the time the music is finished to when revenue is reported...
+            <br/>It can take up to a few months from the time the music is released until revenue is reported...
         </p>
     {% endif %}
     <h5 class="profile-total-header">TOTAL INVESTED:</h5>
