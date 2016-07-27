@@ -40,12 +40,12 @@ urlpatterns = [
     url(r'^artist/apply/thanks/?$', TemplateView.as_view(template_name='artist/artist_application_thanks.html'), name='artist_application_thanks'),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
     url(r'^artist/(?P<artist_slug>[\w_-]+)/(?P<album_slug>[\w_-]+)/?$', AlbumDetailView.as_view(), name='album'),
+    url(r'^music/?$', TemplateView.as_view(template_name='music/music.html'), name='music'),
 
     url(r'^profile/?$', ProfileView.as_view(), name='profile'),
     url(r'^profile/(?P<username>[\w.@+-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
     url(r'^charts/?$', LeaderboardView.as_view(), name='leaderboard'),
 
-    url(r'^music/?$', TemplateView.as_view(template_name='music/music.html'), name='music'),
     url(r'^resources/?$', TemplateView.as_view(template_name='extra/resources.html'), name='resources'),
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
     url(r'^trust/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),
