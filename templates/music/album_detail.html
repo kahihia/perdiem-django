@@ -11,17 +11,19 @@
         {% endthumbnail %}
     </div>
 
-    <h4>LISTEN / PURCHASE</h4>
-    <div class="center">
-        {% for marketplace_url in album.marketplaceurl_set.all %}
-            <a href="{{ marketplace_url.url }}" target="_blank">
-                {% with "img/marketplace/"|add:marketplace_url.medium|add:".png" as medium_image %}
-                    <img src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
-                {% endwith %}
-            </a>
-        {% endfor %}
-    </div>
-    <br />
+    {% if album.marketplaceurl_set.all %}
+        <h4>LISTEN / PURCHASE</h4>
+        <div class="center">
+            {% for marketplace_url in album.marketplaceurl_set.all %}
+                <a href="{{ marketplace_url.url }}" target="_blank">
+                    {% with "img/marketplace/"|add:marketplace_url.medium|add:".png" as medium_image %}
+                        <img src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
+                    {% endwith %}
+                </a>
+            {% endfor %}
+        </div>
+        <br />
+    {% endif %}
 
     {% if user_is_investor %}
         <div class="download-container">
