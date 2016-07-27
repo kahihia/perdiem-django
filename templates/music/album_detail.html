@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load thumbnail %}
 
 {% block content %}
@@ -9,12 +10,18 @@
             <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
         {% endthumbnail %}
     </div>
+
     <h4>LISTEN / PURCHASE</h4>
-    <ul>
+    <div class="center">
         {% for marketplace_url in album.marketplaceurl_set.all %}
-            <li><a href="{{ marketplace_url.url }}" target="_blank">{{ marketplace_url.get_medium_display }}</a></li>
+            <a href="{{ marketplace_url.url }}" target="_blank">
+                {% with "img/marketplace/"|add:marketplace_url.medium|add:".png" as medium_image %}
+                    <img src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
+                {% endwith %}
+            </a>
         {% endfor %}
-    </ul>
+    </div>
+    <br />
 
     {% if user_is_investor %}
         <div class="download-container">
