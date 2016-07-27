@@ -22,6 +22,7 @@ class MusicWebTestCase(PerDiemTestCase):
 
     def get200s(self):
         return [
+            '/music/',
             '/artist/{artist_slug}/{album_slug}/'.format(
                 artist_slug=self.artist.slug,
                 album_slug=self.album.slug
