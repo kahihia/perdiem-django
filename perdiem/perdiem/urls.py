@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>[\w.@+-]+)/?$', PublicProfileView.as_view(), name='public_profile'),
     url(r'^charts/?$', LeaderboardView.as_view(), name='leaderboard'),
 
+    url(r'^music/?$', TemplateView.as_view(template_name='music/music.html'), name='music'),
     url(r'^resources/?$', TemplateView.as_view(template_name='extra/resources.html'), name='resources'),
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
     url(r'^trust/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),
