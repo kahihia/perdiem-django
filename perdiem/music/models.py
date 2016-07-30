@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from boto.s3.connection import S3Connection
+from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from campaign.models import Project
 
@@ -21,6 +22,7 @@ class Album(models.Model):
     project = models.ForeignKey(Project)
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=40, db_index=True, help_text='A short label for an album (used in URLs)')
+    release_date = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -44,6 +46,15 @@ class Artwork(models.Model):
 
     class Meta:
         verbose_name_plural = 'Artwork'
+
+    def __unicode__(self):
+        return unicode(self.album)
+
+
+class AlbumBio(models.Model):
+
+    album = models.OneToOneField(Album)
+    bio = models.TextField(help_text='Tracklisting and other info about the album. ' + markdown_allowed())
 
     def __unicode__(self):
         return unicode(self.album)
