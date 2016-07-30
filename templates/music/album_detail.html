@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load thumbnail %}
+{% load markdown_deux_tags %}
 
 {% block content %}
     <h2>{{ album.name }}</h2>
@@ -10,6 +11,12 @@
             <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
         {% endthumbnail %}
     </div>
+    {% if album.release_date %}
+        <h4>Release date: {{ album.release_date }}</h4>
+    {% endif %}
+    {% if album.albumbio %}
+        <p>{{ album.albumbio.bio|markdown }}</p>
+    {% endif %}
 
     {% if album.marketplaceurl_set.all %}
         <h4>LISTEN / PURCHASE</h4>
