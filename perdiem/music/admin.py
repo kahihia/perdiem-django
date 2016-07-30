@@ -4,14 +4,32 @@
 
 """
 
+from django import forms
 from django.contrib import admin
 
-from music.models import Album, Artwork, MarketplaceURL, Audio
+from pagedown.widgets import AdminPagedownWidget
+
+from music.models import Album, Artwork, AlbumBio, MarketplaceURL, Audio
 
 
 class ArtworkInline(admin.TabularInline):
 
     model = Artwork
+
+
+class AlbumBioAdminForm(forms.ModelForm):
+
+    bio = forms.CharField(help_text=AlbumBio._meta.get_field('bio').help_text, widget=AdminPagedownWidget)
+
+    class Meta:
+        model = AlbumBio
+        fields = ('bio',)
+
+
+class AlbumBioInline(admin.StackedInline):
+
+    model = AlbumBio
+    form = AlbumBioAdminForm
 
 
 class MarketplaceURLInline(admin.TabularInline):
@@ -28,7 +46,7 @@ class AlbumAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('project',)
     prepopulated_fields = {'slug': ('name',),}
-    inlines = (ArtworkInline, MarketplaceURLInline, AudioInline,)
+    inlines = (ArtworkInline, AlbumBioInline, MarketplaceURLInline, AudioInline,)
 
 
 admin.site.register(Album, AlbumAdmin)
