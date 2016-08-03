@@ -15,16 +15,25 @@
         <h4>Release date: {{ album.release_date }}</h4>
     {% endif %}
     {% if album.albumbio %}
-        <p>{{ album.albumbio.bio|markdown }}</p>
+        <h4>About</h4>
+        <div class="break-small">
+            <hr>
+        </div>
+        <div class="album-bio">
+            <p>{{ album.albumbio.bio|markdown }}</p>
+        </div>
     {% endif %}
 
     {% if album.marketplaceurl_set.all %}
         <h4>LISTEN / PURCHASE</h4>
-        <div class="center">
+        <div class="break-small">
+            <hr>
+        </div>
+        <div class="marketplace-container">
             {% for marketplace_url in album.marketplaceurl_set.all %}
                 <a href="{{ marketplace_url.url }}" target="_blank">
-                    {% with "img/marketplace/"|add:marketplace_url.medium|add:".png" as medium_image %}
-                        <img src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
+                    {% with "img/marketplace/"|add:marketplace_url.medium|add:".svg" as medium_image %}
+                        <img class="marketplace-icons" src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
                     {% endwith %}
                 </a>
             {% endfor %}
@@ -33,6 +42,10 @@
     {% endif %}
 
     {% if user_is_investor %}
+        <h4>FOR INVESTORS</h4>
+        <div class="break-small">
+            <hr>
+        </div>
         <div class="download-container">
             <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
                 Download
