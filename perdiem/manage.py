@@ -8,8 +8,13 @@ from django.utils.deprecation import RemovedInDjango20Warning
 # Propagate warnings as errors when running tests
 if len(sys.argv) >= 2 and sys.argv[1] == 'test':
     warnings.filterwarnings('error')
-    # This warning is raised by pinax-stripe, so we will have to ignore it for now
-    warnings.filterwarnings("ignore", category=RemovedInDjango20Warning, message='on_delete will be a required arg for .*')
+    # Filter warnings that are a result of dependencies
+    # They can be removed once the dependency fixes the issue
+    django20warnings = [
+        'on_delete will be a required arg for .*', # pinax-stripe
+    ]
+    for django20warning in django20warnings:
+        warnings.filterwarnings('ignore', category=RemovedInDjango20Warning, message=django20warning)
 
 import cbsettings
 
