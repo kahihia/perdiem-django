@@ -49,7 +49,10 @@ class Artist(models.Model):
             return twitter_socials[0]
 
     def latest_campaign(self):
-        campaigns = Campaign.objects.filter(project__artist=self).order_by('-start_datetime')
+        campaigns = Campaign.objects.filter(
+            project__artist=self,
+            start_datetime__lt=timezone.now()
+        ).order_by('-start_datetime')
         if campaigns:
             return campaigns[0]
 
