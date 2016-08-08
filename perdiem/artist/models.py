@@ -7,7 +7,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.html import escape
@@ -73,7 +73,7 @@ class Artist(models.Model):
         ).order_by('-end_datetime')
 
     def has_permission_to_submit_update(self, user):
-        return user.is_authenticated() and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
+        return user.is_authenticated and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
 
     def is_investor(self, user):
         return Investment.objects.filter(charge__customer__user=user, campaign__project__artist=self).exists()

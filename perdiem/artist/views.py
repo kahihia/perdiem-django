@@ -8,7 +8,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
@@ -182,7 +182,7 @@ class ArtistDetailView(FormView):
             context['campaign'] = campaign
             context['fans_percentage'] = context['fans_percentage_display'] = campaign.project.total_fans_percentage()
 
-            if self.request.user.is_authenticated():
+            if self.request.user.is_authenticated:
                 user_investor = investors.get(self.request.user.id)
                 if user_investor:
                     user_investor['percentage_display'] = max(0.5, user_investor.get('percentage', 0))
@@ -190,7 +190,7 @@ class ArtistDetailView(FormView):
                     context['fans_percentage_display'] -= user_investor['percentage_display']
                     context['user_investor'] = user_investor
 
-        if self.request.user.is_authenticated() and self.artist.is_investor(self.request.user):
+        if self.request.user.is_authenticated and self.artist.is_investor(self.request.user):
             context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
         context['latest_campaign'] = self.artist.latest_campaign()
 
@@ -239,7 +239,7 @@ class ArtistApplyFormView(FormView):
     def get_initial(self):
         initial = super(ArtistApplyFormView, self).get_initial()
         user = self.request.user
-        if user.is_authenticated():
+        if user.is_authenticated:
             initial['email'] = user.email
         return initial
 
@@ -247,7 +247,7 @@ class ArtistApplyFormView(FormView):
         # Add user_id to context, if available
         context = form.cleaned_data
         user = self.request.user
-        if user.is_authenticated():
+        if user.is_authenticated:
             context['user_id'] = user.id
 
         # Send artist application email

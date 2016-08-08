@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
@@ -243,7 +243,7 @@ class ContactFormView(FormView):
     def get_initial(self):
         initial = super(ContactFormView, self).get_initial()
         user = self.request.user
-        if user.is_authenticated():
+        if user.is_authenticated:
             initial['email'] = user.email
             initial['first_name'] = user.first_name
             initial['last_name'] = user.last_name
@@ -253,7 +253,7 @@ class ContactFormView(FormView):
         # Add user_id to context, if available
         context = form.cleaned_data
         user = self.request.user
-        if user.is_authenticated():
+        if user.is_authenticated:
             context['user_id'] = user.id
 
         # Send contact email

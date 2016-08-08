@@ -5,7 +5,7 @@
 """
 
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from emails.models import EmailSubscription
 

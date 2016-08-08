@@ -6,11 +6,12 @@
 
 from django.contrib.auth import login
 from django.http import HttpResponseRedirect
+from django.utils.deprecation import MiddlewareMixin
 
 from accounts.forms import LoginAccountForm
 
 
-class LoginFormMiddleware(object):
+class LoginFormMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         if request.method == 'POST' and 'login-username' in request.POST:

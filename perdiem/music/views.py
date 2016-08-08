@@ -32,7 +32,7 @@ class AlbumDetailView(TemplateView):
             slug=kwargs['album_slug'],
             project__artist__slug=kwargs['artist_slug']
         )
-        user_is_investor = user.is_authenticated() and Investment.objects.filter(campaign__project__album=album, charge__customer__user=user, charge__paid=True).exists()
+        user_is_investor = user.is_authenticated and Investment.objects.filter(campaign__project__album=album, charge__customer__user=user, charge__paid=True).exists()
         context.update({
             'album': album,
             'user_is_investor': user_is_investor,

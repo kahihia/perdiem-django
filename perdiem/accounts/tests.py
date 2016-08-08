@@ -4,6 +4,8 @@
 
 """
 
+import re
+
 from django.contrib.auth.models import User
 
 from accounts.models import UserAvatar
@@ -115,6 +117,11 @@ class ProfileWebTestCase(PerDiemTestCase):
             status_code=404
         )
         anonymous_profile_html = anonymous_profile_response.content.replace(anonymous_profile_url, '')
+
+        # Remove CSRF tokens from profiles
+        csrf_regex = r'<input[^>]+csrfmiddlewaretoken[^>]+>'
+        invalid_profile_html = re.sub(csrf_regex, '', invalid_profile_html)
+        anonymous_profile_html = re.sub(csrf_regex, '', anonymous_profile_html)
 
         # Verify that the HTML from these two different pages are identical
         self.assertHTMLEqual(invalid_profile_html, anonymous_profile_html)
