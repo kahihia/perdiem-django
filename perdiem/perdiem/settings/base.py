@@ -138,6 +138,7 @@ class BaseSettings(DjangoDefaults):
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'Cache-Control': 'max-age=94608000',
     }
+    AWS_QUERYSTRING_AUTH = False
     MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024 # 2MB
 
     @property
