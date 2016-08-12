@@ -27,6 +27,8 @@
     <meta property="og:url" content="https://{{ host }}{% url 'artist' slug=artist.slug %}" />
     {% thumbnail artist.photo.img "600" as thumb %}
         <meta property="og:image" content="{{ thumb.url }}" />
+        <meta property="og:image:width" content="{{ thumb.width }}" />
+        <meta property="og:image:height" content="{{ thumb.height }}" />
     {% endthumbnail %}
     <meta property="og:description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists." />
     <meta property="og:site_name" content="PERDIEM" />
