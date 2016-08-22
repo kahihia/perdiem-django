@@ -40,7 +40,7 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
-        self.campaign_status = request.GET.get('campaign-status', 'All')
+        self.campaign_status = request.GET.get('campaign-status', 'Recent')
         self.active_genre = request.GET.get('genre', 'All Genres')
         self.distance = request.GET.get('distance')
         self.location = request.GET.get('location')
@@ -72,7 +72,7 @@ class ArtistListView(ListView):
         context = super(ArtistListView, self).get_context_data(**kwargs)
         sort_options = [{'slug': s, 'name': n,} for s, n in self.ORDER_BY_NAME.iteritems()]
         context.update({
-            'campaign_statuses': ('Active', 'Funded', 'All',),
+            'campaign_statuses': ('Recent', 'Active', 'Funded',),
             'campaign_status': self.campaign_status,
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,
