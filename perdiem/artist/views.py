@@ -175,7 +175,7 @@ class ArtistDetailView(FormView):
 
         context['artist'] = self.artist
         investors = self.artist.investors()
-        context['investors'] = investors.values()
+        context['investors'] = sorted(investors.values(), key=lambda investor: investor['total_investment'], reverse=True)
 
         campaign = self.artist.active_campaign()
         if campaign:
