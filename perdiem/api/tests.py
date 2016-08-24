@@ -282,10 +282,10 @@ class DeleteUpdateTestCase(PerDiemTestCase):
         self.valid_url = self.url.format(update_id=self.update.id)
 
     def testDeleteUpdate(self):
-        response = self.assertAPIResponseRenders(self.valid_url, status_code=204, method='DELETE')
+        self.assertAPIResponseRenders(self.valid_url, status_code=204, method='DELETE')
 
     def testDeleteUpdateRequiresValidUpdateId(self):
-        response = self.assertResponseRenders(self.url.format(update_id=0), status_code=403)
+        self.assertResponseRenders(self.url.format(update_id=0), status_code=403)
 
     def testDeleteUpdateFailsWithoutPermission(self):
         # Logout from being a superuser
