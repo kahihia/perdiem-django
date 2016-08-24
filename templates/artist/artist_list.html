@@ -104,7 +104,9 @@
                     {% include "object_preview.html" with object=artist img=artist.photo.img %}
                     {% if campaign_status != 'Funded' %}
                         {% with latest_campaign=artist.latest_campaign %}
-                            {% if latest_campaign.percentage_funded == 100 %}
+                            {% if not latest_campaign %}
+                                <h2 class="artist-list-overlay banner-coming">COMING SOON</h2>
+                            {% elif latest_campaign.percentage_funded == 100 %}
                                 <h2 class="artist-list-overlay banner-funded">FUNDED</h2>
                             {% elif latest_campaign.open %}
                                 <h2 class="artist-list-overlay banner-active">
