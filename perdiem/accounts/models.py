@@ -69,7 +69,7 @@ def user_avatar_filename(instance, filename):
         user_id=instance.avatar.user.id,
         extension=extension
     )
-    return '/'.join(['avatars', new_filename,])
+    return '/'.join(['avatars', new_filename])
 
 
 class UserAvatarImage(models.Model):

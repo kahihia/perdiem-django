@@ -14,7 +14,7 @@ from accounts.views import RegisterAccountView, SettingsView
 
 
 urlpatterns = [
-    url(r'^logout/?$', logout, {'next_page': '/',}, name='logout'),
+    url(r'^logout/?$', logout, {'next_page': '/'}, name='logout'),
     url(r'^register/?$', RegisterAccountView.as_view(), name='register'),
     url(r'^settings/?$', SettingsView.as_view(), name='settings'),
 

@@ -32,7 +32,7 @@ def update_user_subscription(email, subscribed):
         subscriber_hash=hashlib.md5(email.lower()).hexdigest()
     )
     status = 'subscribed' if subscribed else 'unsubscribed'
-    data = {'email_address': email, 'status': status,}
+    data = {'email_address': email, 'status': status}
     response = requests.put(url, json=data, auth=('', mailchimp_api_key,))
     if response.status_code >= 400:
         response_json = response.json()

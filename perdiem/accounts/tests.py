@@ -83,7 +83,7 @@ class AuthWebTestCase(PerDiemTestCase):
             '/accounts/password/reset/',
             '/accounts/password/reset/sent',
             method='POST',
-            data={'email': self.user.email,}
+            data={'email': self.user.email}
         )
 
 

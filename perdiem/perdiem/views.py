@@ -65,5 +65,5 @@ class MultipleFormView(TemplateView):
             form_view.form_valid(form)
         else:
             form_context_name = "{form_name}_form".format(form_name=form_name)
-            kwargs.update({form_context_name: form,})
+            kwargs.update({form_context_name: form})
         return self.render_to_response(self.get_context_data(**kwargs))

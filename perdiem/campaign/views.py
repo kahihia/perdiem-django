@@ -43,7 +43,7 @@ class LeaderboardView(TemplateView):
             }
         context.update({
             'name': artist.name,
-            'url': reverse('artist', kwargs={'slug': artist.slug,}),
+            'url': reverse('artist', kwargs={'slug': artist.slug}),
             'avatar_url': avatar_url,
         })
         return context

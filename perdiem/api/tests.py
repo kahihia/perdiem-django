@@ -32,7 +32,7 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
         self.assertEquals(lon, -79.4103)
 
     def testCoordinatesFromAddressRequiresAddress(self):
-        for url in ['/api/coordinates/', self.url.format(address=''),]:
+        for url in ['/api/coordinates/', self.url.format(address='')]:
             self.assertAPIResponseRenders(url, status_code=400)
 
     def testCoordinatesFromAddressFailsWithoutPermission(self):
@@ -267,7 +267,7 @@ class PaymentChargeTestCase(PerDiemTestCase):
             '/api/payments/charge/{campaign_id}/'.format(campaign_id=self.campaign.id),
             status_code=205,
             method='POST',
-            data={'card': 'tok_6WqQnRecbRRrqvrdT1XXGP1d', 'num_shares': 1,}
+            data={'card': 'tok_6WqQnRecbRRrqvrdT1XXGP1d', 'num_shares': 1}
         )
 
         # Then Stripe responds confirming that the payment succeeded

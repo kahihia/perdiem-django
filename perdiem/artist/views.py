@@ -68,7 +68,7 @@ class ArtistListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ArtistListView, self).get_context_data(**kwargs)
-        sort_options = [{'slug': s, 'name': n,} for s, n in self.ORDER_BY_NAME.iteritems()]
+        sort_options = [{'slug': s, 'name': n} for s, n in self.ORDER_BY_NAME.iteritems()]
         context.update({
             'campaign_statuses': ('Recent', 'Active', 'Funded',),
             'campaign_status': self.campaign_status,
@@ -153,7 +153,7 @@ class ArtistDetailView(FormView):
     form_class = ArtistUpdateForm
 
     def get_success_url(self):
-        return reverse('artist', kwargs={'slug': self.slug,})
+        return reverse('artist', kwargs={'slug': self.slug})
 
     def dispatch(self, request, *args, **kwargs):
         self.slug = kwargs['slug']

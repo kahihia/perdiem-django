@@ -120,7 +120,7 @@ class EditAvatarFormView(ConstituentFormView):
         custom_avatar = d['custom_avatar']
         if custom_avatar:
             user_avatar, _ = UserAvatar.objects.get_or_create(user=user, provider=UserAvatar.PROVIDER_PERDIEM)
-            UserAvatarImage.objects.update_or_create(avatar=user_avatar, defaults={'img': custom_avatar,})
+            UserAvatarImage.objects.update_or_create(avatar=user_avatar, defaults={'img': custom_avatar})
 
         # Update user's avatar
         user.userprofile.avatar = user_avatar
@@ -169,7 +169,7 @@ class EmailPreferencesFormView(ConstituentFormView):
             EmailSubscription.objects.update_or_create(
                 user=user,
                 subscription=getattr(EmailSubscription, subscription_type.upper()),
-                defaults={'subscribed': is_subscribed,}
+                defaults={'subscribed': is_subscribed}
             )
 
         # Update user's email address
@@ -272,7 +272,7 @@ def redirect_to_profile(request, slug):
     except Artist.DoesNotExist:
         pass
     else:
-        return HttpResponseRedirect(reverse('artist', kwargs={'slug': artist.slug,}))
+        return HttpResponseRedirect(reverse('artist', kwargs={'slug': artist.slug}))
 
     # Try matching the slug to a public profile
     try:
@@ -280,4 +280,4 @@ def redirect_to_profile(request, slug):
     except User.DoesNotExist:
         raise Http404
     else:
-        return HttpResponseRedirect(reverse('public_profile', kwargs={'username': user.username,}))
+        return HttpResponseRedirect(reverse('public_profile', kwargs={'username': user.username}))

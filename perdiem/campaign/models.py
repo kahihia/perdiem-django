@@ -49,7 +49,7 @@ class Project(models.Model):
             percentage=models.Sum('percentage')
         ).order_by('-percentage')
         if not percentage_breakdowns:
-            percentage_breakdowns = [{'name': self.artist.name, 'percentage': self.total_artist_percentage(),},]
+            percentage_breakdowns = [{'name': self.artist.name, 'percentage': self.total_artist_percentage()}]
         return percentage_breakdowns
 
     def generated_revenue(self):

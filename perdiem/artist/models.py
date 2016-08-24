@@ -43,7 +43,7 @@ class Artist(models.Model):
         return self.name
 
     def url(self):
-        return reverse('artist', kwargs={'slug': self.slug,})
+        return reverse('artist', kwargs={'slug': self.slug})
 
     def social_twitter(self):
         twitter_socials = self.social_set.filter(medium=Social.SOCIAL_TWITTER)
@@ -181,7 +181,7 @@ class Update(models.Model):
 class UpdateImage(models.Model):
 
     update = models.ForeignKey(Update, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to='/'.join(['artist', 'updates',]))
+    img = models.ImageField(upload_to='/'.join(['artist', 'updates']))
 
     def __unicode__(self):
         return unicode(self.update)

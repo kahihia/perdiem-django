@@ -27,7 +27,7 @@ class VerifiedEmail(models.Model):
         return self.email
 
     def url(self):
-        return reverse('verify_email', kwargs={'user_id': self.user.id, 'code': self.code,})
+        return reverse('verify_email', kwargs={'user_id': self.user.id, 'code': self.code})
 
 
 class EmailSubscription(models.Model):

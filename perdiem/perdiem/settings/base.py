@@ -185,9 +185,9 @@ class BaseSettings(DjangoDefaults):
         'accounts.pipeline.send_welcome_email',
     )
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
-    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
     SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-        'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)',]),
+        'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)']),
     }
     LOGIN_URL = '/'
     LOGIN_REDIRECT_URL = '/profile/'

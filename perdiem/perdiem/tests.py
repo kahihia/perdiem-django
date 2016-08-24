@@ -86,7 +86,7 @@ class PerDiemTestCase(TestCase):
         return response
 
     def assertAPIResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
-        api_url = self.add_params_to_url(url, {'format': 'json',})
+        api_url = self.add_params_to_url(url, {'format': 'json'})
         if data:
             data = json.dumps(data)
         response = self.assertResponseRenders(
@@ -97,7 +97,7 @@ class PerDiemTestCase(TestCase):
             content_type='application/json',
             **kwargs
         )
-        if status_code in [status.HTTP_204_NO_CONTENT, status.HTTP_205_RESET_CONTENT,]:
+        if status_code in [status.HTTP_204_NO_CONTENT, status.HTTP_205_RESET_CONTENT]:
             return response
         return response.json()
 
@@ -237,5 +237,5 @@ class ExtrasWebTestCase(PerDiemTestCase):
             '/contact/',
             '/contact/thanks',
             method='POST',
-            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!',}
+            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!'}
         )

@@ -29,7 +29,7 @@ def verify_auth_operation(strategy, details, user=None, is_new=False, *args, **k
 def mark_email_verified(strategy, details, user=None, is_new=False, *args, **kwargs):
     if user:
         VerifiedEmail.objects.update_or_create(
-            defaults={'verified': True,},
+            defaults={'verified': True},
             user=user,
             email=details['email']
         )
@@ -70,7 +70,7 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
 
     # Save avatar URL
     user_avatar, created = UserAvatar.objects.get_or_create(user=user, provider=provider)
-    user_avatar_url, _ = UserAvatarURL.objects.update_or_create(avatar=user_avatar, defaults={'url': avatar_url,})
+    user_avatar_url, _ = UserAvatarURL.objects.update_or_create(avatar=user_avatar, defaults={'url': avatar_url})
 
     # Update user's current avatar if none was ever set
     if created and not user.userprofile.avatar:
