@@ -41,7 +41,7 @@ class ArtistQuerySet(models.QuerySet):
 
     def filter_by_genre(self, genre):
         if genre != 'All Genres':
-            return self.filter(genre__name=genre)
+            return self.filter(genres__name=genre)
         return self.all()
 
     # TODO(lucas): Use annotations as much as possible to improve performance
