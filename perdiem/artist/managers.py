@@ -39,6 +39,42 @@ class ArtistQuerySet(models.QuerySet):
             artist.valuation = valuation
             return valuation
 
+    def filter_by_genre(self, genre):
+        if genre != 'All Genres':
+            return self.filter(genre__name=genre)
+        return self.all()
+
+    # TODO(lucas): Use annotations as much as possible to improve performance
+    def filter_by_funded(self):
+        funded_artist_ids = []
+        for artist in self:
+            campaign = artist.latest_campaign()
+            if campaign and campaign.percentage_funded() == 100:
+                funded_artist_ids.append(artist.id)
+
+        return self.filter(id__in=funded_artist_ids)
+
+    def filter_by_campaign_status(self, campaign_status):
+        now = timezone.now()
+        if campaign_status == 'Active':
+            return self.annotate(
+                ended=models.Case(
+                    models.When(
+                        project__campaign__end_datetime__isnull=True,
+                        then=False
+                    ),
+                    models.When(
+                        project__campaign__end_datetime__gte=now,
+                        then=False
+                    ),
+                    default=True,
+                    output_field=models.BooleanField()
+                )
+            ).filter(project__campaign__start_datetime__lte=now, ended=False).distinct()
+        elif campaign_status == 'Funded':
+            return self.filter_by_funded()
+        return self.all()
+
     def filter_by_location(self, distance, lat, lon):
         min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(distance, lat, lon)
         artists_within_bounds = self.filter(
@@ -53,16 +89,6 @@ class ArtistQuerySet(models.QuerySet):
             if calc_distance((lat, lon,), (artist.lat, artist.lon,)).miles <= distance:
                 nearby_artist_ids.append(artist.id)
         return self.filter(id__in=nearby_artist_ids)
-
-    # TODO(lucas): Use annotations as much as possible to improve performance
-    def filter_by_funded(self):
-        funded_artist_ids = []
-        for artist in self:
-            campaign = artist.latest_campaign()
-            if campaign and campaign.percentage_funded() == 100:
-                funded_artist_ids.append(artist.id)
-
-        return self.filter(id__in=funded_artist_ids)
 
     # TODO(lucas): Use annotations as much as possible to improve performance
     def order_by_percentage_funded(self):
@@ -85,6 +111,19 @@ class ArtistQuerySet(models.QuerySet):
             list(artists_current_campaign) + list(artists_current_campaign_no_end)
             + list(artists_past_campaign) + list(artists_no_campaign)
         )
+
+    def order_by_num_investors(self):
+        return self.annotate(
+            num_investors=models.Count(
+                models.Case(
+                    models.When(
+                        project__campaign__investment__charge__paid=True,
+                        then='project__campaign__investment__charge__customer__user'
+                    )
+                ),
+                distinct=True
+            )
+        ).order_by('-num_investors')
 
     def order_by_amount_raised(self):
         return self.annotate(

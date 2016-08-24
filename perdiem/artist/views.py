@@ -7,10 +7,8 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.db import models
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
@@ -84,32 +82,6 @@ class ArtistListView(ListView):
         })
         return context
 
-    def filter_by_genre(self, artists):
-        if self.active_genre != 'All Genres':
-            artists = artists.filter(genres__name=self.active_genre)
-        return artists
-
-    def filter_by_campaign_status(self, artists):
-        now = timezone.now()
-        if self.campaign_status == 'Active':
-            artists = artists.annotate(
-                ended=models.Case(
-                    models.When(
-                        project__campaign__end_datetime__isnull=True,
-                        then=False
-                    ),
-                    models.When(
-                        project__campaign__end_datetime__gte=now,
-                        then=False
-                    ),
-                    default=True,
-                    output_field=models.BooleanField()
-                )
-            ).filter(project__campaign__start_datetime__lte=now, ended=False).distinct()
-        elif self.campaign_status == 'Funded':
-            artists = artists.filter_by_funded()
-        return artists
-
     def filter_by_location(self, artists):
         if self.distance and ((self.lat and self.lon) or (self.location and self.location_coordinates)):
             if self.lat and self.lon:
@@ -127,17 +99,7 @@ class ArtistListView(ListView):
         elif order_by_name == 'time-remaining':
             return artists.order_by_time_remaining()
         elif order_by_name == 'investors':
-            return artists.annotate(
-                num_investors=models.Count(
-                    models.Case(
-                        models.When(
-                            project__campaign__investment__charge__paid=True,
-                            then='project__campaign__investment__charge__customer__user'
-                        )
-                    ),
-                    distinct=True
-                )
-            ).order_by('-num_investors')
+            return artists.order_by_num_investors()
         elif order_by_name == 'raised':
             return artists.order_by_amount_raised()
         elif order_by_name == 'valuation':
@@ -147,8 +109,8 @@ class ArtistListView(ListView):
 
     def get_queryset(self):
         artists = Artist.objects.all()
-        artists = self.filter_by_genre(artists)
-        artists = self.filter_by_campaign_status(artists)
+        artists = artists.filter_by_genre(self.genre)
+        artists = artists.filter_by_campaign_status(self.campaign_status)
         artists = self.filter_by_location(artists)
         artists = self.sort_artists(artists)
         return artists
