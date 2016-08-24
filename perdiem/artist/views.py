@@ -106,7 +106,7 @@ class ArtistListView(ListView):
 
     def get_queryset(self):
         artists = Artist.objects.all()
-        artists = artists.filter_by_genre(self.genre)
+        artists = artists.filter_by_genre(self.active_genre)
         artists = artists.filter_by_campaign_status(self.campaign_status)
         artists = self.filter_by_location(artists)
         artists = self.sort_artists(artists)
