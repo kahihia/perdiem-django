@@ -4,8 +4,6 @@
 
 """
 
-from django.conf import settings
-
 from social.backends.facebook import FacebookOAuth2
 from social.backends.google import GoogleOAuth2
 

@@ -18,7 +18,7 @@ from rest_framework import status
 
 from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
-from campaign.models import Project, Campaign, Investment, RevenueReport
+from campaign.models import Project, Campaign, RevenueReport
 from music.models import Album
 
 

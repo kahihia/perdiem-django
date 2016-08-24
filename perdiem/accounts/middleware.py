@@ -5,7 +5,6 @@
 """
 
 from django.contrib.auth import login
-from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 
 from accounts.forms import LoginAccountForm
