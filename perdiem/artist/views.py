@@ -33,6 +33,13 @@ class ArtistListView(ListView):
         'raised': 'Amount Raised',
         'valuation': 'Valuation',
     }
+    ORDER_BY_METHOD = {
+        'funded': 'order_by_percentage_funded',
+        'time-remaining': 'order_by_time_remaining',
+        'investors': 'order_by_num_investors',
+        'raised': 'order_by_amount_raised',
+        'valuation': 'order_by_valuation',
+    }
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
@@ -93,19 +100,9 @@ class ArtistListView(ListView):
 
     def sort_artists(self, artists):
         order_by_name = self.order_by['slug']
-
-        if order_by_name == 'funded':
-            return artists.order_by_percentage_funded()
-        elif order_by_name == 'time-remaining':
-            return artists.order_by_time_remaining()
-        elif order_by_name == 'investors':
-            return artists.order_by_num_investors()
-        elif order_by_name == 'raised':
-            return artists.order_by_amount_raised()
-        elif order_by_name == 'valuation':
-            return artists.order_by_valuation()
-        else:
-            return artists.order_by('-id')
+        if order_by_name in self.ORDER_BY_METHOD:
+            return getattr(artists, self.ORDER_BY_METHOD[order_by_name])
+        return artists.order_by('-id')
 
     def get_queryset(self):
         artists = Artist.objects.all()
