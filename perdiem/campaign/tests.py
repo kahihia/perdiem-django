@@ -21,7 +21,9 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             '/admin/campaign/investment/',
             '/admin/campaign/revenuereport/',
             '/admin/campaign/revenuereport/add/',
-            '/admin/campaign/revenuereport/{revenue_report_id}/change/'.format(revenue_report_id=self.revenue_report.id),
+            '/admin/campaign/revenuereport/{revenue_report_id}/change/'.format(
+                revenue_report_id=self.revenue_report.id
+            ),
         ]
 
     def testCampaignRaisingZeroIsAlreadyFunded(self):

@@ -89,7 +89,14 @@ class PerDiemTestCase(TestCase):
         api_url = self.add_params_to_url(url, {'format': 'json',})
         if data:
             data = json.dumps(data)
-        response = self.assertResponseRenders(api_url, status_code=status_code, method=method, data=data, content_type='application/json', **kwargs)
+        response = self.assertResponseRenders(
+            api_url,
+            status_code=status_code,
+            method=method,
+            data=data,
+            content_type='application/json',
+            **kwargs
+        )
         if status_code in [status.HTTP_204_NO_CONTENT, status.HTTP_205_RESET_CONTENT,]:
             return response
         return response.json()

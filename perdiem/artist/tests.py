@@ -72,7 +72,10 @@ class ArtistWebTestCase(PerDiemTestCase):
                 'hometown': 'Waterloo, ON, Canada',
                 'email': self.user.email,
                 'phone_number': '(226) 123-4567',
-                'bio': 'We are a really cool heavy metal band. We mostly perform covers but are excited to create an album, and we\'re hoping PerDiem can help us do that.',
+                'bio': (
+                    'We are a really cool heavy metal band. We mostly perform covers but are excited to '
+                    'create an album, and we\'re hoping PerDiem can help us do that.'
+                ),
                 'campaign_reason': 'We want to record our next album: Access Granted.',
                 'campaign_expenses': 'Studio time, mastering, mixing, etc.',
                 'music_link': 'https://www.spotify.com/',

@@ -31,13 +31,21 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
 
     url(r'^unsubscribe/from-mailchimp/$', unsubscribe_from_mailchimp, name='unsubscribe_from_mailchimp'),
-    url(r'^unsubscribe/(?P<user_id>\d+)/(?P<subscription_type>\w+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
+    url(
+        r'^unsubscribe/(?P<user_id>\d+)/(?P<subscription_type>\w+)/(?P<token>[\w.:\-_=]+)/$',
+        UnsubscribeView.as_view(),
+        name='unsubscribe'
+    ),
     url(r'^email/verify/(?P<user_id>\d+)/(?P<code>[\w-]+)/$', VerifyEmailView.as_view(), name='verify_email'),
     url(r'^payments/', include('pinax.stripe.urls')),
 
     url(r'^artists/?$', ArtistListView.as_view(), name='artists'),
     url(r'^artist/apply/?$', ArtistApplyFormView.as_view(), name='artist_application'),
-    url(r'^artist/apply/thanks/?$', TemplateView.as_view(template_name='artist/artist_application_thanks.html'), name='artist_application_thanks'),
+    url(
+        r'^artist/apply/thanks/?$',
+        TemplateView.as_view(template_name='artist/artist_application_thanks.html'),
+        name='artist_application_thanks'
+    ),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
 
     url(r'^artist/(?P<artist_slug>[\w_-]+)/(?P<album_slug>[\w_-]+)/?$', AlbumDetailView.as_view(), name='album'),
@@ -52,7 +60,11 @@ urlpatterns = [
     url(r'^trust/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),
     url(r'^privacy/?$', TemplateView.as_view(template_name='extra/privacy.html'), name='privacy'),
     url(r'^faq/?$', TemplateView.as_view(template_name='extra/faq.html'), name='faq'),
-    url(r'^contact/thanks/?$', TemplateView.as_view(template_name='registration/contact_thanks.html'), name='contact_thanks'),
+    url(
+        r'^contact/thanks/?$',
+        TemplateView.as_view(template_name='registration/contact_thanks.html'),
+        name='contact_thanks'
+    ),
     url(r'^contact/?$', ContactFormView.as_view(), name='contact'),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
 

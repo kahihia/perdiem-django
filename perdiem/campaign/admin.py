@@ -27,11 +27,15 @@ for pinax_stripe_model in [
 
 class CampaignAdminForm(forms.ModelForm):
 
-    fans_percentage = forms.IntegerField(min_value=0, max_value=100, help_text=Campaign._meta.get_field('fans_percentage').help_text)
+    fans_percentage = forms.IntegerField(
+        min_value=0, max_value=100, help_text=Campaign._meta.get_field('fans_percentage').help_text
+    )
 
     class Meta:
         model = Campaign
-        fields = ('project', 'amount', 'value_per_share', 'start_datetime', 'end_datetime', 'use_of_funds', 'fans_percentage',)
+        fields = (
+            'project', 'amount', 'value_per_share', 'start_datetime', 'end_datetime', 'use_of_funds', 'fans_percentage',
+        )
 
     def clean(self):
         cleaned_data = super(CampaignAdminForm, self).clean()

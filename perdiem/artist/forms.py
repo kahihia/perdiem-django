@@ -15,8 +15,14 @@ class ArtistApplyForm(forms.Form):
     email = forms.EmailField()
     phone_number = forms.CharField()
     bio = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'We started playing music because...',}))
-    campaign_reason = forms.CharField(label='Why are you raising money?', widget=forms.Textarea(attrs={'placeholder': 'We are trying to record our album...',}))
-    campaign_expenses = forms.CharField(label='What do you need the money for?', widget=forms.Textarea(attrs={'placeholder': 'Mixing, mastering, studio time, etc...',}))
+    campaign_reason = forms.CharField(
+        label='Why are you raising money?',
+        widget=forms.Textarea(attrs={'placeholder': 'We are trying to record our album...',})
+    )
+    campaign_expenses = forms.CharField(
+        label='What do you need the money for?',
+        widget=forms.Textarea(attrs={'placeholder': 'Mixing, mastering, studio time, etc...',})
+    )
     facebook = forms.URLField(required=False, widget=forms.TextInput(attrs={'placeholder': 'http://',}))
     twitter = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': '@',}))
     instagram = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': '@',}))

@@ -37,7 +37,11 @@ class BaseEmail(object):
             message = "To unsubscribe from these types of emails from PerDiem"
         return {
             'plain': "{message}, go to: {host}{url}.".format(message=message, host=host, url=unsubscribe_url),
-            'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(message=message, host=host, url=unsubscribe_url),
+            'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(
+                message=message,
+                host=host,
+                url=unsubscribe_url
+            ),
         }
 
     def get_template_name(self):
@@ -72,9 +76,10 @@ class BaseEmail(object):
 
     def send(self, user, context={}, **kwargs):
         context.update(self.get_context_data(user, **kwargs))
-        user_is_subscribed = self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
+        user_is_subscribed = EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
+        user_subscription_okay = self.ignore_unsubscribed or user_is_subscribed
         email_is_verified = self.send_to_unverified_emails or VerifiedEmail.objects.is_current_email_verified(user)
-        if user_is_subscribed and email_is_verified:
+        if user_subscription_okay and email_is_verified:
             self.send_to_email(user.email, context, **kwargs)
 
 

@@ -27,13 +27,17 @@ class RegisterAccountForm(UserCreationForm):
         validators=[
             validators.RegexValidator(
                 r'^[a-z0-9.@+_-]+$',
-                ('Enter a valid username. This value may contain only '
-                  'lowercase letters, numbers and @/./+/-/_ characters.')
+                (
+                    'Enter a valid username. This value may contain only lowercase letters, '
+                    'numbers and @/./+/-/_ characters.'
+                )
             ),
         ]
     )
     email = forms.EmailField(required=True)
-    subscribe_news = forms.BooleanField(required=False, initial=True, label='Subscribe to general updates about PerDiem')
+    subscribe_news = forms.BooleanField(
+        required=False, initial=True, label='Subscribe to general updates about PerDiem'
+    )
 
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'email', 'password1', 'password2',)
@@ -43,7 +47,9 @@ class RegisterAccountForm(UserCreationForm):
 
         # Verify that there are no other users already with this email address
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("The email address {email} already belongs to an existing user on PerDiem.".format(email=email))
+            raise forms.ValidationError(
+                "The email address {email} already belongs to an existing user on PerDiem.".format(email=email)
+            )
 
         return email
 
@@ -88,7 +94,9 @@ class EditAvatarForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(EditAvatarForm, self).__init__(*args, **kwargs)
-        self.fields['avatar'] = forms.ChoiceField(choices=self.get_avatar_choices(user), required=False, widget=forms.RadioSelect)
+        self.fields['avatar'] = forms.ChoiceField(
+            choices=self.get_avatar_choices(user), required=False, widget=forms.RadioSelect
+        )
 
     def get_avatar_choices(self, user):
         user_avatars = UserAvatar.objects.filter(user=user)
@@ -111,7 +119,9 @@ class EmailPreferencesForm(forms.Form):
     email = forms.EmailField()
     subscription_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
     subscription_artup = forms.BooleanField(required=False, label='Subscribe to updates from artists you invest in')
-    subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')
+    subscription_all = forms.BooleanField(
+        required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem'
+    )
 
     def __init__(self, user, *args, **kwargs):
         super(EmailPreferencesForm, self).__init__(*args, **kwargs)
@@ -122,14 +132,18 @@ class EmailPreferencesForm(forms.Form):
 
         # Verify that there are no other users already with this email address
         if User.objects.exclude(id=self.user.id).filter(email=email).exists():
-            raise forms.ValidationError("The email address {email} already belongs to an existing user on PerDiem.".format(email=email))
+            raise forms.ValidationError(
+                "The email address {email} already belongs to an existing user on PerDiem.".format(email=email)
+            )
 
         return email
 
     def clean(self):
         d = self.cleaned_data
         if (d['subscription_news'] or d['subscription_artup']) and not d['subscription_all']:
-            raise forms.ValidationError("You cannot subscribe to general updates or artist updates if you are unsubscribed from all emails.")
+            raise forms.ValidationError(
+                "You cannot subscribe to general updates or artist updates if you are unsubscribed from all emails."
+            )
         return d
 
 

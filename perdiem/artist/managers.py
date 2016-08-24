@@ -70,11 +70,21 @@ class ArtistQuerySet(models.QuerySet):
 
     def order_by_time_remaining(self):
         artists = self.annotate(campaign_end_datetime=models.Max('project__campaign__end_datetime'))
-        artists_current_campaign = artists.filter(campaign_end_datetime__gte=timezone.now()).order_by('campaign_end_datetime')
-        artists_current_campaign_no_end = artists.filter(project__campaign__isnull=False, campaign_end_datetime__isnull=True)
-        artists_past_campaign = artists.filter(campaign_end_datetime__lt=timezone.now()).order_by('-campaign_end_datetime')
+        artists_current_campaign = artists.filter(
+            campaign_end_datetime__gte=timezone.now()
+        ).order_by('campaign_end_datetime')
+        artists_current_campaign_no_end = artists.filter(
+            project__campaign__isnull=False,
+            campaign_end_datetime__isnull=True
+        )
+        artists_past_campaign = artists.filter(
+            campaign_end_datetime__lt=timezone.now()
+        ).order_by('-campaign_end_datetime')
         artists_no_campaign = artists.filter(project__campaign__isnull=True)
-        return list(artists_current_campaign) + list(artists_current_campaign_no_end) + list(artists_past_campaign) + list(artists_no_campaign)
+        return (
+            list(artists_current_campaign) + list(artists_current_campaign_no_end)
+            + list(artists_past_campaign) + list(artists_no_campaign)
+        )
 
     def order_by_amount_raised(self):
         return self.annotate(
@@ -82,7 +92,10 @@ class ArtistQuerySet(models.QuerySet):
                 models.Case(
                     models.When(
                         project__campaign__investment__charge__paid=True,
-                        then=models.F('project__campaign__investment__num_shares') * models.F('project__campaign__value_per_share'),
+                        then=(
+                            models.F('project__campaign__investment__num_shares')
+                            * models.F('project__campaign__value_per_share')
+                        ),
                     ),
                     default=0,
                     output_field=models.IntegerField()

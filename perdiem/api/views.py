@@ -54,7 +54,10 @@ class CoordinatesFromAddress(APIView):
         try:
             location = geolocator.geocode(address)
         except GeocoderTimedOut:
-            return Response("Geocoder service currently unavailable. Please try again later.", status=status.HTTP_503_SERVICE_UNAVAILABLE)
+            return Response(
+                "Geocoder service currently unavailable. Please try again later.",
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
         return Response({
             'latitude': float("{0:.4f}".format(location.latitude)),
             'longitude': float("{0:.4f}".format(location.longitude)),

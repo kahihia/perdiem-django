@@ -26,7 +26,9 @@ class Project(models.Model):
         )
 
     def active(self):
-        return self.campaign_set.filter(start_datetime__lte=timezone.now()).exclude(end_datetime__lte=timezone.now()).exists()
+        return self.campaign_set.filter(
+            start_datetime__lte=timezone.now()
+        ).exclude(end_datetime__lte=timezone.now()).exists()
 
     def total_num_shares(self):
         total_num_shares = 0
@@ -41,7 +43,11 @@ class Project(models.Model):
         return 100 - self.total_fans_percentage()
 
     def artist_percentage(self):
-        percentage_breakdowns = self.artistpercentagebreakdown_set.annotate(name=models.F('displays_publicly_as')).values('name').annotate(percentage=models.Sum('percentage')).order_by('-percentage')
+        percentage_breakdowns = self.artistpercentagebreakdown_set.annotate(
+            name=models.F('displays_publicly_as')
+        ).values('name').annotate(
+            percentage=models.Sum('percentage')
+        ).order_by('-percentage')
         if not percentage_breakdowns:
             percentage_breakdowns = [{'name': self.artist.name, 'percentage': self.total_artist_percentage(),},]
         return percentage_breakdowns
@@ -60,7 +66,8 @@ class Project(models.Model):
         # Calculate percentage ownership for each investor (if project is active)
         if self.active():
             for investor_id, investor in investors.iteritems():
-                investors[investor_id]['percentage'] = (float(investor['num_shares']) / self.total_num_shares()) * self.total_fans_percentage()
+                percentage = (float(investor['num_shares']) / self.total_num_shares()) * self.total_fans_percentage()
+                investors[investor_id]['percentage'] = percentage
 
         return investors
 
@@ -69,11 +76,20 @@ class Campaign(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(help_text='The amount of money the artist wishes to raise')
-    value_per_share = models.PositiveIntegerField(default=1, help_text='The value (in dollars) per share the artist wishes to sell')
-    start_datetime = models.DateTimeField(db_index=True, default=timezone.now, help_text='When the campaign will start accepting investors')
-    end_datetime = models.DateTimeField(db_index=True, null=True, blank=True, help_text='When the campaign ends and will no longer accept investors (no end date if blank)')
+    value_per_share = models.PositiveIntegerField(
+        default=1, help_text='The value (in dollars) per share the artist wishes to sell'
+    )
+    start_datetime = models.DateTimeField(
+        db_index=True, default=timezone.now, help_text='When the campaign will start accepting investors'
+    )
+    end_datetime = models.DateTimeField(
+        db_index=True, null=True, blank=True,
+        help_text='When the campaign ends and will no longer accept investors (no end date if blank)'
+    )
     use_of_funds = models.TextField(null=True, blank=True, help_text='A description of how the funds will be used')
-    fans_percentage = models.PositiveSmallIntegerField(help_text='The percentage of revenue that goes back to the fans (a value from 0-100)')
+    fans_percentage = models.PositiveSmallIntegerField(
+        help_text='The percentage of revenue that goes back to the fans (a value from 0-100)'
+    )
 
     @staticmethod
     def funded_rounding(n):
@@ -100,7 +116,9 @@ class Campaign(models.Model):
         return self.amount / self.value_per_share
 
     def total_shares_purchased(self):
-        return self.investment_set.filter(charge__paid=True).aggregate(total_shares=models.Sum('num_shares'))['total_shares'] or 0
+        return self.investment_set.filter(
+            charge__paid=True
+        ).aggregate(total_shares=models.Sum('num_shares'))['total_shares'] or 0
 
     def num_shares_remaining(self):
         return self.num_shares() - self.total_shares_purchased()
@@ -133,7 +151,9 @@ class Campaign(models.Model):
 
     def campaign_investors(self, investors=None):
         investors = investors or {}
-        investments = self.investment_set.filter(charge__paid=True).select_related('charge', 'charge__customer', 'charge__customer__user')
+        investments = self.investment_set.filter(
+            charge__paid=True
+        ).select_related('charge', 'charge__customer', 'charge__customer__user')
 
         for investment in investments:
             investor = investment.investor()
@@ -156,7 +176,9 @@ class ArtistPercentageBreakdown(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     artist_admin = models.ForeignKey('artist.ArtistAdmin', on_delete=models.SET_NULL, null=True, blank=True)
     displays_publicly_as = models.CharField(max_length=30, help_text='The name shown on the artist\'s detail page')
-    percentage = models.FloatField(help_text='The percentage of revenue that goes back to this group/individual (a value from 0-100)')
+    percentage = models.FloatField(
+        help_text='The percentage of revenue that goes back to this group/individual (a value from 0-100)'
+    )
 
     def __unicode__(self):
         return u'{project}: {displays_publicly_as} - {percentage}%'.format(
@@ -169,7 +191,9 @@ class ArtistPercentageBreakdown(models.Model):
 class Expense(models.Model):
 
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    expense = models.CharField(max_length=30, help_text='A description of one of the expenses for the artist (eg. Studio cost)')
+    expense = models.CharField(
+        max_length=30, help_text='A description of one of the expenses for the artist (eg. Studio cost)'
+    )
 
     class Meta:
         unique_together = (('campaign', 'expense',))
@@ -186,7 +210,9 @@ class Investment(models.Model):
     charge = models.OneToOneField(Charge, on_delete=models.CASCADE)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     transaction_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
-    num_shares = models.PositiveSmallIntegerField(default=1, help_text='The number of shares an investor made in a transaction')
+    num_shares = models.PositiveSmallIntegerField(
+        default=1, help_text='The number of shares an investor made in a transaction'
+    )
 
     def __unicode__(self):
         return u'{num_shares} shares in {campaign} to {investor}'.format(
@@ -203,14 +229,22 @@ class Investment(models.Model):
             project=self.campaign.project,
             reported_datetime__gt=self.transaction_datetime
         )
-        total_relevant_revenue = relevant_revenue_reports.aggregate(total_revenue=models.Sum('amount'))['total_revenue'] or 0
-        return float(total_relevant_revenue) * (float(self.campaign.fans_percentage) / 100) * (float(self.num_shares) / self.campaign.num_shares())
+        total_relevant_revenue = relevant_revenue_reports.aggregate(
+            total_revenue=models.Sum('amount')
+        )['total_revenue'] or 0
+
+        percentage_ownership = (float(self.num_shares) / self.campaign.num_shares())
+        investor_ownership = percentage_ownership * (float(self.campaign.fans_percentage) / 100)
+        return investor_ownership * float(total_relevant_revenue)
 
 
 class RevenueReport(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=9, decimal_places=2, help_text='The amount of revenue generated (in dollars) being reported (since last report)')
+    amount = models.DecimalField(
+        max_digits=9, decimal_places=2,
+        help_text='The amount of revenue generated (in dollars) being reported (since last report)'
+    )
     reported_datetime = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

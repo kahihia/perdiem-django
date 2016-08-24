@@ -60,7 +60,13 @@ class PaymentChargeTestCase(PerDiemTestCase):
     @mock.patch('pinax.stripe.views.Webhook.extract_json')
     @mock.patch('stripe.Charge.create')
     @mock.patch('stripe.Customer.create')
-    def testInvestInCampaign(self, mock_stripe_customer_create, mock_stripe_charge_create, mock_pinax_stripe_webhook_extract_json, mock_pinax_stripe_webhook_validate):
+    def testInvestInCampaign(
+        self,
+        mock_stripe_customer_create,
+        mock_stripe_charge_create,
+        mock_pinax_stripe_webhook_extract_json,
+        mock_pinax_stripe_webhook_validate
+    ):
         # Mock responses from Stripe
         mock_stripe_customer_create.return_value = {
             'account_balance': 0,
