@@ -4,5 +4,6 @@
 
 """
 
+
 class NoTemplateProvided(Exception):
     pass

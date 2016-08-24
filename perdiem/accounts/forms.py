@@ -68,8 +68,10 @@ class EditNameForm(forms.Form):
         validators=[
             validators.RegexValidator(
                 r'^[a-z0-9.@+_-]+$',
-                ('Enter a valid username. This value may contain only '
-                  'lowercase letters, numbers and @/./+/-/_ characters.')
+                (
+                    'Enter a valid username. This value may contain only '
+                    'lowercase letters, numbers and @/./+/-/_ characters.'
+                )
             ),
         ]
     )

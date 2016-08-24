@@ -22,6 +22,7 @@ def unsubscribe_from_all_handler(sender, instance, **kwargs):
             email_subscription.subscribed = False
             email_subscription.save()
 
+
 @receiver(models.signals.pre_save, sender=EmailSubscription, dispatch_uid="sync_to_mailchimp_handler")
 def sync_to_mailchimp_handler(sender, instance, **kwargs):
     user_is_subscribed_news = EmailSubscription.objects.is_subscribed(

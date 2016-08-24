@@ -13,6 +13,7 @@ from emails.models import EmailSubscription
 def make_token(user):
     return TimestampSigner().sign(user.id)
 
+
 def create_unsubscribe_link(user, subscription_type=EmailSubscription.SUBSCRIPTION_ALL):
     user_id, token = make_token(user).split(":", 1)
     return reverse(
@@ -23,6 +24,7 @@ def create_unsubscribe_link(user, subscription_type=EmailSubscription.SUBSCRIPTI
             'token': token,
         }
     )
+
 
 def check_token(user_id, token):
     try:
