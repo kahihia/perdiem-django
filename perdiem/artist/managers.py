@@ -91,6 +91,15 @@ class ArtistQuerySet(models.QuerySet):
         return self.filter(id__in=nearby_artist_ids)
 
     # TODO(lucas): Use annotations as much as possible to improve performance
+    def exclude_failed_artists(self):
+        excluded_artist_ids = []
+        for artist in self:
+            if artist.all_campaigns_failed():
+                excluded_artist_ids.append(artist.id)
+
+        return self.exclude(id__in=excluded_artist_ids)
+
+    # TODO(lucas): Use annotations as much as possible to improve performance
     def order_by_percentage_funded(self):
         return sorted(self, key=self.percentage_funded, reverse=True)
 

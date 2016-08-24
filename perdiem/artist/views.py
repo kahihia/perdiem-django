@@ -109,6 +109,7 @@ class ArtistListView(ListView):
         artists = artists.filter_by_genre(self.active_genre)
         artists = artists.filter_by_campaign_status(self.campaign_status)
         artists = self.filter_by_location(artists)
+        artists = artists.exclude_failed_artists()
         artists = self.sort_artists(artists)
         return artists
 

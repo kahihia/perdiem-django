@@ -74,6 +74,22 @@ class Artist(models.Model):
             end_datetime__lt=timezone.now()
         ).order_by('-end_datetime')
 
+    def all_campaigns_failed(self):
+        # Artists that have an active campaign have not failed
+        if self.active_campaign():
+            return False
+
+        # Artists that have no past campaigns have not failed
+        past_campaigns = self.past_campaigns()
+        if not past_campaigns:
+            return False
+
+        # Check all of the artist's past campaigns to see if any of them succeeded
+        for campaign in past_campaigns:
+            if campaign.percentage_funded() == 100:
+                return False
+        return True
+
     def has_permission_to_submit_update(self, user):
         return user.is_authenticated and (user.is_superuser or self.artistadmin_set.filter(user=user).exists())
 
