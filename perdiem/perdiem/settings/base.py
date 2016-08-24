@@ -139,7 +139,7 @@ class BaseSettings(DjangoDefaults):
         'Cache-Control': 'max-age=94608000',
     }
     AWS_QUERYSTRING_AUTH = False
-    MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024 # 2MB
+    MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024  # 2MB
 
     @property
     def MEDIA_URL(self):
@@ -219,12 +219,12 @@ class BaseSettings(DjangoDefaults):
     DEFAULT_FROM_EMAIL = 'PerDiem <noreply@investperdiem.com>'
 
     # Stripe
-    PERDIEM_FEE = 1 # $1
-    STRIPE_PERCENTAGE = 0.029 # 2.9%
-    STRIPE_FLAT_FEE = 0.3 # $0.30
-    DEFAULT_MIN_PURCHASE = 10 # $10
+    PERDIEM_FEE = 1  # $1
+    STRIPE_PERCENTAGE = 0.029  # 2.9%
+    STRIPE_FLAT_FEE = 0.3  # $0.30
+    DEFAULT_MIN_PURCHASE = 10  # $10
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
 
     # Analytics
-    GA_TRACKING_CODE = '' # Defined in prod.py
-    JACO_API_KEY = '' # Defined in prod.py
+    GA_TRACKING_CODE = ''  # Defined in prod.py
+    JACO_API_KEY = ''  # Defined in prod.py

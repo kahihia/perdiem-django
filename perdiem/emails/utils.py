@@ -29,7 +29,7 @@ def create_unsubscribe_link(user, subscription_type=EmailSubscription.SUBSCRIPTI
 def check_token(user_id, token):
     try:
         key = '%s:%s' % (user_id, token)
-        TimestampSigner().unsign(key, max_age=60 * 60 * 48) # Valid for 2 days
+        TimestampSigner().unsign(key, max_age=60 * 60 * 48)  # Valid for 2 days
     except (BadSignature, SignatureExpired):
         return False
     return True
