@@ -94,7 +94,8 @@ class ProjectAdmin(admin.ModelAdmin):
         inline_instances = []
 
         # Only show ArtistPercentageBreakdownInline in edit view
-        if obj:
+        # when the project has campaigns
+        if obj and obj.campaign_set.exists():
             inline_instances.append(ArtistPercentageBreakdownInline(self.model, self.admin_site))
 
         for inline in self.inlines:
