@@ -40,7 +40,9 @@ class Project(models.Model):
         return self.campaign_set.all().aggregate(fans_percentage=models.Sum('fans_percentage'))['fans_percentage']
 
     def total_artist_percentage(self):
-        return 100 - self.total_fans_percentage()
+        fans_percentage = self.total_fans_percentage()
+        if fans_percentage:
+            return 100 - fans_percentage
 
     def artist_percentage(self):
         percentage_breakdowns = self.artistpercentagebreakdown_set.annotate(
