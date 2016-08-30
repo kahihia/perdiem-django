@@ -127,6 +127,7 @@ class ArtistQuerySet(models.QuerySet):
                 models.Case(
                     models.When(
                         project__campaign__investment__charge__paid=True,
+                        project__campaign__investment__charge__refunded=False,
                         then='project__campaign__investment__charge__customer__user'
                     )
                 ),
@@ -140,6 +141,7 @@ class ArtistQuerySet(models.QuerySet):
                 models.Case(
                     models.When(
                         project__campaign__investment__charge__paid=True,
+                        project__campaign__investment__charge__refunded=False,
                         then=(
                             models.F('project__campaign__investment__num_shares')
                             * models.F('project__campaign__value_per_share')

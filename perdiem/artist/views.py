@@ -189,6 +189,7 @@ class ArtistDetailView(FormView):
         # Send email to users following the artist's updates
         investors = User.objects.filter(
             customer__charges__paid=True,
+            customer__charges__refunded=False,
             customer__charges__investment__campaign__project__artist=self.artist
         ).distinct()
         for investor in investors:

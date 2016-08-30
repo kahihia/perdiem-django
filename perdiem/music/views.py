@@ -35,7 +35,8 @@ class AlbumDetailView(TemplateView):
         user_is_investor = user.is_authenticated and Investment.objects.filter(
             campaign__project__album=album,
             charge__customer__user=user,
-            charge__paid=True
+            charge__paid=True,
+            charge__refunded=False
         ).exists()
         context.update({
             'album': album,

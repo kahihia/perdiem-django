@@ -120,7 +120,11 @@ class UserProfile(models.Model):
         context = {}
 
         # Get artists the user has invested in
-        investments = Investment.objects.filter(charge__customer__user=self.user, charge__paid=True)
+        investments = Investment.objects.filter(
+            charge__customer__user=self.user,
+            charge__paid=True,
+            charge__refunded=False
+        )
         campaign_ids = investments.values_list('campaign', flat=True).distinct()
         campaigns = Campaign.objects.filter(id__in=campaign_ids).select_related('project')
         context['campaigns'] = campaigns
