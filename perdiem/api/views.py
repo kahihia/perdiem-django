@@ -13,7 +13,7 @@ from pinax.stripe.models import Card
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from stripe import CardError
+import stripe
 
 from api.forms import CoordinatesFromAddressForm
 from artist.models import Artist, Update
@@ -93,17 +93,19 @@ class PaymentCharge(APIView):
         customer = customers.get_customer_for_user(request.user)
         if not customer:
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
-        elif not customer.default_source or not Card.objects.filter(customer=customer).exists():
-            # In some cases, a customer can exist without a card, so we create it now
-            # We also need to create new cards for users that don't have a default source set
-            sources.create_card(customer=customer, token=card)
+        else:
+            # Check if we have the card the user is using
+            # and if not, create it
+            card_fingerprint = stripe.Token.retrieve(card)['card']['fingerprint']
+            if not Card.objects.filter(customer=customer, fingerprint=card_fingerprint).exists():
+                sources.create_card(customer=customer, token=card)
 
         # Create charge
         num_shares = d['num_shares']
         amount = decimal.Decimal(campaign.total(num_shares))
         try:
             charge = charges.create(amount=amount, customer=customer.stripe_id, source=card)
-        except CardError as e:
+        except stripe.CardError as e:
             return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
         Investment.objects.create(charge=charge, campaign=campaign, num_shares=num_shares)
         return Response(status=status.HTTP_205_RESET_CONTENT)
