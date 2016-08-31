@@ -94,11 +94,7 @@ class PaymentCharge(APIView):
         if not customer:
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
         else:
-            # Check if we have the card the user is using
-            # and if not, create it
-            card_fingerprint = stripe.Token.retrieve(card)['card']['fingerprint']
-            if not Card.objects.filter(customer=customer, fingerprint=card_fingerprint).exists():
-                sources.create_card(customer=customer, token=card)
+            sources.create_card(customer=customer, token=card)
 
         # Create charge
         num_shares = d['num_shares']
