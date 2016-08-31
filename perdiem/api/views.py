@@ -102,7 +102,7 @@ class PaymentCharge(APIView):
         num_shares = d['num_shares']
         amount = decimal.Decimal(campaign.total(num_shares))
         try:
-            charge = charges.create(amount=amount, customer=customer.stripe_id)
+            charge = charges.create(amount=amount, customer=customer.stripe_id, source=card)
         except CardError as e:
             return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
         Investment.objects.create(charge=charge, campaign=campaign, num_shares=num_shares)
