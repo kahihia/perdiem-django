@@ -161,8 +161,8 @@ class ArtistDetailView(FormView):
                     context['fans_percentage_display'] -= user_investor['percentage_display']
                     context['user_investor'] = user_investor
 
-        user_is_investor = self.artist.is_investor(self.request.user)
-        if self.request.user.is_authenticated and (user_has_permission_to_submit_update or user_is_investor):
+        user_is_investor = self.request.user.is_authenticated and self.artist.is_investor(self.request.user)
+        if user_has_permission_to_submit_update or user_is_investor:
             context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
         context['latest_campaign'] = self.artist.latest_campaign()
 

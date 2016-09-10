@@ -44,6 +44,10 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
         ]
 
+    def testArtistDetailPageUnauthenticated(self):
+        self.client.logout()
+        self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
+
     @mock.patch('artist.views.Nominatim.geocode')
     def testGeocoderInArtistList(self, mock_geocode):
         url = '/artists/?distance=50&location=Toronto,%20ON'
