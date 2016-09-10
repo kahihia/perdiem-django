@@ -45,7 +45,7 @@ class AudioInline(admin.TabularInline):
 class AlbumAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('project',)
-    prepopulated_fields = {'slug': ('name',),}
+    prepopulated_fields = {'slug': ('name',)}
     inlines = (ArtworkInline, AlbumBioInline, MarketplaceURLInline, AudioInline,)
 
 

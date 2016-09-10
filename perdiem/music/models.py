@@ -36,7 +36,7 @@ class Album(models.Model):
         super(Album, self).save(*args, **kwargs)
 
     def url(self):
-        return reverse('album', kwargs={'artist_slug': self.project.artist.slug, 'album_slug': self.slug,})
+        return reverse('album', kwargs={'artist_slug': self.project.artist.slug, 'album_slug': self.slug})
 
 
 class Artwork(models.Model):
