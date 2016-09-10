@@ -93,6 +93,7 @@ class PaymentCharge(APIView):
         customer = customers.get_customer_for_user(request.user)
         if not customer:
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
+            card = Card.objects.get(customer=customer)
         else:
             # Check if we have the card the user is using
             # and if not, create it
