@@ -129,13 +129,15 @@ class ArtistDetailView(FormView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
+
+        user_has_permission_to_submit_update = self.artist.has_permission_to_submit_update(self.request.user)
         context.update({
             'PINAX_STRIPE_PUBLIC_KEY': settings.PINAX_STRIPE_PUBLIC_KEY,
             'PERDIEM_FEE': settings.PERDIEM_FEE,
             'STRIPE_PERCENTAGE': settings.STRIPE_PERCENTAGE,
             'STRIPE_FLAT_FEE': settings.STRIPE_FLAT_FEE,
             'DEFAULT_MIN_PURCHASE': settings.DEFAULT_MIN_PURCHASE,
-            'has_permission_to_submit_update': self.artist.has_permission_to_submit_update(self.request.user),
+            'has_permission_to_submit_update': user_has_permission_to_submit_update,
         })
 
         context['artist'] = self.artist
@@ -159,7 +161,8 @@ class ArtistDetailView(FormView):
                     context['fans_percentage_display'] -= user_investor['percentage_display']
                     context['user_investor'] = user_investor
 
-        if self.request.user.is_authenticated and self.artist.is_investor(self.request.user):
+        user_is_investor = self.artist.is_investor(self.request.user)
+        if self.request.user.is_authenticated and (user_has_permission_to_submit_update or user_is_investor):
             context['updates'] = self.artist.update_set.all().order_by('-created_datetime')
         context['latest_campaign'] = self.artist.latest_campaign()
 
