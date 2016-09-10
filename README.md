@@ -141,3 +141,7 @@ To configure your local machine to enable easier deployments, simply add comma-s
 Then you will be able to deploy to all of your instances with Fabric, simply with:
 
     $ fab deploy
+
+If you'd like Fabric to notify your `#general` Slack channel when deployments complete, you can also add an environment variable `PERDIEM_DEPLOYBOT_TOKEN` containing the token for a bot configured on Slack:
+
+    PERDIEM_DEPLOYBOT_TOKEN=abc123
