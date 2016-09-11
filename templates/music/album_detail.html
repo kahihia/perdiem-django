@@ -17,13 +17,15 @@
     {% endif %}
     {% if album.discs %}
         <h4>TRACK LISTING</h4>
-        {% for disc in album.discs %}
-            <ol>
-                {% for track in disc %}
-                    <li>{{ track.name }} [{{ track.duration|trackdurationformat }}]</li>
-                {% endfor %}
-            </ol>
-        {% endfor %}
+        <div class="track-listing">
+            {% for disc in album.discs %}
+                <ol class="ol-center">
+                    {% for track in disc %}
+                        <li>{{ track.name }}</li>
+                    {% endfor %}
+                </ol>
+            {% endfor %}
+        </div>
     {% endif %}
     {% if album.albumbio %}
         <h4>About</h4>
