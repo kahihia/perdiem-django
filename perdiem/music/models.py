@@ -47,6 +47,9 @@ class Track(models.Model):
     name = models.CharField(max_length=60)
     duration = models.DurationField(null=True, blank=True)
 
+    class Meta:
+        unique_together = (('album', 'disc_number', 'track_number',),)
+
     def __unicode__(self):
         return "{album} #{track_number}: {name}".format(
             album=unicode(self.album),
