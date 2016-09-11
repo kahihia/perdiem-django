@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load markdown_deux_tags %}
+{% load music %}
 
 {% block content %}
     <h2>{{ album.name }}</h2>
@@ -13,6 +14,18 @@
     </div>
     {% if album.release_date %}
         <h4>Release date: {{ album.release_date }}</h4>
+    {% endif %}
+    {% if album.discs %}
+        <h4>TRACK LISTING</h4>
+        <div class="track-listing">
+            {% for disc in album.discs %}
+                <ol class="ol-center">
+                    {% for track in disc %}
+                        <li>{{ track.name }}{% if track.duration %} [{{ track.duration|trackdurationformat }}]{% endif %}</li>
+                    {% endfor %}
+                </ol>
+            {% endfor %}
+        </div>
     {% endif %}
     {% if album.albumbio %}
         <h4>About</h4>
