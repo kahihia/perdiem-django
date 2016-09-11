@@ -21,7 +21,7 @@
             {% for disc in album.discs %}
                 <ol class="ol-center">
                     {% for track in disc %}
-                        <li>{{ track.name }}</li>
+                        <li>{{ track.name }}{% if track.duration %} [{{ track.duration|trackdurationformat }}]{% endif %}</li>
                     {% endfor %}
                 </ol>
             {% endfor %}

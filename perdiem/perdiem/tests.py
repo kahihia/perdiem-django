@@ -177,7 +177,8 @@ class PerDiemTestCase(TestCase):
             Track.objects.create(
                 album=self.album,
                 track_number=i,
-                name=track_name
+                name=track_name,
+                duration=datetime.timedelta(minutes=2)
             )
 
         self.artist_no_campaign = Artist.objects.create(
