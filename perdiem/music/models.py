@@ -38,6 +38,10 @@ class Album(models.Model):
     def url(self):
         return reverse('album', kwargs={'artist_slug': self.project.artist.slug, 'album_slug': self.slug})
 
+    def discs(self):
+        disc_numbers = self.track_set.all().values_list('disc_number', flat=True).distinct().order_by('disc_number')
+        return (self.track_set.filter(disc_number=disc).order_by('track_number') for disc in disc_numbers)
+
 
 class Track(models.Model):
 
