@@ -18,6 +18,6 @@ django-storages==1.5.0
 django-ses==0.8.1
 geopy==1.11.0
 pinax-stripe==3.2.1
-django-templated-email==0.5
+django-templated-email==1.0
 django-markdown-deux==1.0.5
 django-pagedown==0.1.1
