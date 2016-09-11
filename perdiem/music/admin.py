@@ -9,7 +9,13 @@ from django.contrib import admin
 
 from pagedown.widgets import AdminPagedownWidget
 
-from music.models import Album, Artwork, AlbumBio, MarketplaceURL, Audio
+from music.models import Album, Track, Artwork, AlbumBio, MarketplaceURL, Audio
+
+
+class TrackInline(admin.StackedInline):
+
+    model = Track
+    extra = 1
 
 
 class ArtworkInline(admin.TabularInline):
@@ -46,7 +52,7 @@ class AlbumAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('project',)
     prepopulated_fields = {'slug': ('name',)}
-    inlines = (ArtworkInline, AlbumBioInline, MarketplaceURLInline, AudioInline,)
+    inlines = (TrackInline, ArtworkInline, AlbumBioInline, MarketplaceURLInline, AudioInline,)
 
 
 admin.site.register(Album, AlbumAdmin)

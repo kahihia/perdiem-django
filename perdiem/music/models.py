@@ -39,6 +39,22 @@ class Album(models.Model):
         return reverse('album', kwargs={'artist_slug': self.project.artist.slug, 'album_slug': self.slug})
 
 
+class Track(models.Model):
+
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    disc_number = models.PositiveSmallIntegerField(default=1)
+    track_number = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=60)
+    duration = models.DurationField(null=True, blank=True)
+
+    def __unicode__(self):
+        return "{album} #{track_number}: {name}".format(
+            album=unicode(self.album),
+            track_number=self.track_number,
+            name=self.name
+        )
+
+
 class Artwork(models.Model):
 
     album = models.OneToOneField(Album)
