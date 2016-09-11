@@ -12,5 +12,6 @@ register = template.Library()
 
 @register.filter
 def trackdurationformat(duration):
-    minutes, seconds = divmod(duration.seconds, 60)
-    return "{minutes:02d}:{seconds:02d}".format(minutes=minutes, seconds=seconds)
+    if duration:
+        minutes, seconds = divmod(duration.seconds, 60)
+        return "{minutes:02d}:{seconds:02d}".format(minutes=minutes, seconds=seconds)
