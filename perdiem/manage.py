@@ -22,6 +22,16 @@ if len(sys.argv) >= 2 and sys.argv[1] == 'test':
 
         # python-social-auth: https://github.com/omab/python-social-auth/issues/979
         'Importing from django\.core\.urlresolvers is deprecated in favor of django\.urls\.',
+
+        # python-social-auth: https://github.com/omab/python-social-auth/issues/1013
+        (
+            'Using user\.is_authenticated\(\) and user\.is_anonymous\(\) as a method is deprecated\. '
+            'Remove the parentheses to use it as an attribute\.'
+        ),
+
+        # python-social-auth: https://github.com/omab/python-social-auth/issues/1014
+        'Usage of field\.rel has been deprecated\. Use field\.remote_field instead\.',
+        'Usage of ForeignObjectRel\.to attribute has been deprecated\. Use the model attribute instead\.',
     ]
     for django20warning in django20warnings:
         warnings.filterwarnings('ignore', category=RemovedInDjango20Warning, message=django20warning)

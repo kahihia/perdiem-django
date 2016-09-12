@@ -7,6 +7,9 @@
 import re
 
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
+
+import mock
 
 from accounts.models import UserAvatar
 from emails.models import VerifiedEmail
@@ -84,6 +87,48 @@ class AuthWebTestCase(PerDiemTestCase):
             '/accounts/password/reset/sent',
             method='POST',
             data={'email': self.user.email}
+        )
+
+
+class OAuth2TestCase(PerDiemTestCase):
+
+    @mock.patch('social.backends.google.BaseGoogleOAuth2API.user_data')
+    @mock.patch('social.backends.oauth.BaseOAuth2.request_access_token')
+    def testGoogleOAuth2Login(self, mock_request_access_token, mock_user_data):
+        mock_request_access_token.return_value = {'access_token': 'abc123'}
+        mock_user_data.return_value = {
+            u'id_token': u'abc123',
+            u'image': {
+                u'url': u'https://lh4.googleusercontent.com/abc123/photo.jpg?sz=50',
+                u'isDefault': False,
+            },
+            u'token_type': u'Bearer',
+            u'birthday': u'0000-01-01',
+            u'verified': False,
+            u'id': u'1234',
+            u'displayName': u'John Smith',
+            u'name': {u'givenName': u'John', u'familyName': u'Smith'},
+            u'language': u'en',
+            u'access_token': u'ya29.abc123',
+            u'gender': u'male',
+            u'expires_in': 3600,
+            u'emails': [{u'type': u'account', u'value': u'jsmith@example.com'}],
+        }
+
+        # Click on "Sign in with Google" button
+        self.client.logout()
+        self.assertResponseRedirects(
+            '/login/google-oauth2-login/',
+            'https://accounts.google.com/o/oauth2/auth',
+            status_code=404  # The actual page will fail since the client ID used in tests does not exist
+        )
+
+        # The user auths and consents
+        # Google redirects to our redirect URI
+        state = Session.objects.get().get_decoded()['google-oauth2-login_state']
+        self.assertResponseRedirects(
+            '/complete/google-oauth2-login/?state={state}&code=4/abc123&session_state={state}'.format(state=state),
+            '/profile/'
         )
 
 
