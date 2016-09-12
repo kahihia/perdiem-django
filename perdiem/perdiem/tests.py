@@ -102,11 +102,11 @@ class PerDiemTestCase(TestCase):
             return response
         return response.json()
 
-    def assertResponseRedirects(self, url, redirect_url, method='GET', data={}, **kwargs):
+    def assertResponseRedirects(self, url, redirect_url, status_code=200, method='GET', data={}, **kwargs):
         response = self.assertResponseRenders(url, status_code=302, method=method, data=data, **kwargs)
         redirect_url_from_response, _ = response.redirect_chain[0]
         self.assertEquals(self.strip_query_params(redirect_url_from_response), redirect_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, status_code)
 
     def get200s(self):
         return []
