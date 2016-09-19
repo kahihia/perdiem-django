@@ -159,6 +159,22 @@ class BaseSettings(DjangoDefaults):
             static=self.STATICFILES_LOCATION
         )
 
+    # Markdown
+    MARKDOWN_DEUX_STYLES = {
+        'default': {
+            'extras': {
+                'code-friendly': None,
+            },
+            'safe_mode': True,
+        },
+        'trusted': {
+            'extras': {
+                'code-friendly': None,
+            },
+            'safe_mode': False,  # Allow raw HTML
+        }
+    }
+
     # Authentication
     AUTHENTICATION_BACKENDS = (
         'accounts.backends.GoogleOAuth2Login',

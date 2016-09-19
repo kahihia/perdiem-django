@@ -82,7 +82,7 @@
     {% if artist.bio %}
         <h4>Bio</h4>
         <div class="artist-detail-padding">
-            {{ artist.bio.bio|markdown }}
+            {{ artist.bio.bio|markdown:'trusted' }}
         </div>
     {% endif %}
     {% for social in artist.social_set.all %}
