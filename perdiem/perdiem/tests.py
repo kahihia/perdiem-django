@@ -10,6 +10,7 @@ import urllib
 import urlparse
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
@@ -19,7 +20,7 @@ from rest_framework import status
 from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Project, Campaign, RevenueReport
-from music.models import Album, Track
+from music.models import Album, Track, ActivityEstimate
 
 
 class PerDiemTestCase(TestCase):
@@ -180,6 +181,12 @@ class PerDiemTestCase(TestCase):
                 name=track_name,
                 duration=datetime.timedelta(minutes=2)
             )
+        self.activity_estimate = ActivityEstimate.objects.create(
+            activity_type='download',
+            content_type=ContentType.objects.get_for_model(Album),
+            object_id=self.album.id,
+            total=5
+        )
 
         self.artist_no_campaign = Artist.objects.create(
             name=self.ARTIST_NO_CAMPAIGN_NAME,
