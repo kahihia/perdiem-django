@@ -7,11 +7,15 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
+from django.utils import timezone
 
 from boto.s3.connection import S3Connection
+from gfklookupwidget.fields import GfkLookupField
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from campaign.models import Project
@@ -139,3 +143,30 @@ class Audio(models.Model):
             key = "{media}/{filename}".format(media=settings.MEDIAFILES_LOCATION, filename=self.file.name)
             return s3.generate_url(ttl, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME, key=key)
         return self.file.url
+
+
+class ActivityEstimate(models.Model):
+
+    ACTIVITY_CHOICES = (
+        ('stream', 'Stream',),
+        ('download', 'Download',),
+    )
+    ACTIVITY_CONTENT_TYPES = (
+        ContentType.objects.get_for_model(Album).id,
+        ContentType.objects.get_for_model(Track).id,
+    )
+
+    date = models.DateField(default=timezone.now)
+    activity_type = models.CharField(choices=ACTIVITY_CHOICES, max_length=8)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.PROTECT, limit_choices_to={'id__in': ACTIVITY_CONTENT_TYPES}
+    )
+    object_id = GfkLookupField('content_type')
+    content_object = GenericForeignKey()
+    total = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = (('date', 'activity_type', 'content_type', 'object_id',),)
+
+    def __unicode__(self):
+        return unicode(self.content_object)

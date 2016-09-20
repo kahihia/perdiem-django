@@ -21,3 +21,4 @@ pinax-stripe==3.2.1
 django-templated-email==1.0
 django-markdown-deux==1.0.5
 django-pagedown==0.1.1
+django-gfklookupwidget==1.0.5
