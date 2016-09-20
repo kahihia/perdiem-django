@@ -56,3 +56,4 @@ class AlbumAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Album, AlbumAdmin)
+admin.site.register(Track)
