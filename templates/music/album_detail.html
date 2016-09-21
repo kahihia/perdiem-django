@@ -44,7 +44,7 @@
         </div>
         <div class="marketplace-container">
             {% for marketplace_url in album.marketplaceurl_set.all %}
-                <a href="{{ marketplace_url.url }}" target="_blank">
+                <a href="{{ marketplace_url.affiliate_url }}" target="_blank">
                     {% with "img/marketplace/"|add:marketplace_url.medium|add:".svg" as medium_image %}
                         <img class="marketplace-icons" src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
                     {% endwith %}

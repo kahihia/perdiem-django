@@ -88,6 +88,7 @@ In the production environment, you'll need to create a different dev settings co
         EMAIL_BACKEND = 'django_ses.SESBackend'
         GA_TRACKING_CODE = 'UA-1234-1'
         JACO_API_KEY = 'abc123'
+        ITUNES_AFFILIATE_TOKEN = 'abc123'
 
 For reference, the format of the Sentry DSN is as follows:
 

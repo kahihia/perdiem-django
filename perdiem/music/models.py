@@ -19,6 +19,7 @@ from gfklookupwidget.fields import GfkLookupField
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from campaign.models import Project
+from perdiem.utils import add_params_to_url
 
 
 class Album(models.Model):
@@ -89,10 +90,12 @@ class AlbumBio(models.Model):
 
 class MarketplaceURL(models.Model):
 
+    MARKETPLACE_ITUNES = 'itunes'
+    MARKETPLACE_APPLE_MUSIC = 'apple'
     MARKETPLACE_CHOICES = (
         ('spotify', 'Spotify',),
-        ('itunes', 'iTunes',),
-        ('apple', 'Apple Music',),
+        (MARKETPLACE_ITUNES, 'iTunes',),
+        (MARKETPLACE_APPLE_MUSIC, 'Apple Music',),
         ('google', 'Google Play',),
         ('amazon', 'Amazon',),
         ('tidal', 'Tidal',),
@@ -111,6 +114,14 @@ class MarketplaceURL(models.Model):
             album=unicode(self.album),
             medium=self.get_medium_display()
         )
+
+    def marketplace_has_affiliate_token(self):
+        return self.medium in (self.MARKETPLACE_ITUNES, self.MARKETPLACE_APPLE_MUSIC,)
+
+    def affiliate_url(self):
+        if self.marketplace_has_affiliate_token() and hasattr(settings, 'ITUNES_AFFILIATE_TOKEN'):
+            return add_params_to_url(self.url, {'at': settings.ITUNES_AFFILIATE_TOKEN})
+        return self.url
 
 
 class S3PrivateFileField(models.FileField):
