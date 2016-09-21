@@ -6,8 +6,6 @@
 
 import datetime
 import json
-import urllib
-import urlparse
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -21,6 +19,7 @@ from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Project, Campaign, RevenueReport
 from music.models import Album, Track, ActivityEstimate
+from perdiem.utils import add_params_to_url
 
 
 class PerDiemTestCase(TestCase):
@@ -54,14 +53,6 @@ class PerDiemTestCase(TestCase):
     def strip_query_params(url):
         return url.split('?')[0]
 
-    @staticmethod
-    def add_params_to_url(url, params):
-        url_parts = list(urlparse.urlparse(url))
-        query = dict(urlparse.parse_qsl(url_parts[4]))
-        query.update(params)
-        url_parts[4] = urllib.urlencode(query)
-        return urlparse.urlunparse(url_parts)
-
     def assertResponseRenders(self, url, status_code=200, method='GET', data={}, has_form_error=False, **kwargs):
         request_method = getattr(self.client, method.lower())
         follow = status_code == 302
@@ -88,7 +79,7 @@ class PerDiemTestCase(TestCase):
         return response
 
     def assertAPIResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
-        api_url = self.add_params_to_url(url, {'format': 'json'})
+        api_url = add_params_to_url(url, {'format': 'json'})
         if data:
             data = json.dumps(data)
         response = self.assertResponseRenders(
