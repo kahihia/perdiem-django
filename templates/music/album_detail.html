@@ -65,7 +65,7 @@
     <div class="break-small">
         <hr>
     </div>
-    
+
     {% block extrajs %}
         <script type="text/javascript">
             var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
@@ -127,8 +127,6 @@
             });
         }
             </script>
+            <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
         {% endblock %}
-
-    <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
-
 {% endblock %}
