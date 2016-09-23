@@ -110,8 +110,6 @@
                         data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
                     }
                 ]
-
-
             }
             window.onload = function(){
             var ctx = document.getElementById("line-canvas").getContext("2d");
@@ -122,10 +120,7 @@
                 window.myBar = new Chart(ctx).Bar(barChartData, {
                     responsive : true
                 });
-
         }
-
-
             </script>
         {% endblock %}
 
