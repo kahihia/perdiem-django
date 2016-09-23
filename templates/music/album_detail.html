@@ -22,7 +22,6 @@
     {% endif %}
 
     <h4>Listen</h4>
-    {% if album.discs %}
     <div class="marketplace-container">
         {% for marketplace_url in album.marketplaceurl_set.all %}
             <a href="{{ marketplace_url.url }}" target="_blank">
