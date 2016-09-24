@@ -120,12 +120,12 @@
         }
 
         window.onload = function(){
-            var ctx = document.getElementById("line-canvas").getContext("2d");
-            window.myLine = new Chart(ctx).Line(lineChartData, {
+            var line_context = document.getElementById("line-canvas").getContext("2d");
+            window.myLine = new Chart(line_context).Line(lineChartData, {
                 responsive: true
             });
-            var ctx = document.getElementById("bar-canvas").getContext("2d");
-            window.myBar = new Chart(ctx).Bar(barChartData, {
+            var bar_context = document.getElementById("bar-canvas").getContext("2d");
+            window.myBar = new Chart(bar_context).Bar(barChartData, {
                 responsive : true
             });
         }
