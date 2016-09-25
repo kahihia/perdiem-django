@@ -127,21 +127,6 @@
             ],
             datasets: [
                 {
-                    label: "Downloads",
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,0.8)",
-                    highlightFill: "rgba(220,220,220,0.75)",
-                    highlightStroke: "rgba(220,220,220,1)",
-                    data: [
-                        {% for disc in album.discs %}
-                            {% for track in disc %}
-                                {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                            {% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                },
-                {
                     label: "Streams",
                     fillColor: "rgba(151,187,205,0.5)",
                     strokeColor: "rgba(151,187,205,0.8)",
@@ -179,21 +164,6 @@
                         {% for disc in album.discs %}
                             {% for track in disc %}
                                 {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                            {% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                },
-                {
-                    label: "Streams",
-                    fillColor: "rgba(151,187,205,0.5)",
-                    strokeColor: "rgba(151,187,205,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: [
-                        {% for disc in album.discs %}
-                            {% for track in disc %}
-                                {{ track.total_streams }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
