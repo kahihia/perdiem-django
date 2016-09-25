@@ -59,9 +59,16 @@
 
     <br/>
     <br/>
-    <h3>Streams / Downloads</h3>
+    <h3>Streams</h3>
     <div class="bar-chart">
-        <canvas id="bar-canvas" height="450" width="600"></canvas>
+        <canvas id="bar-streams-canvas" height="450" width="600"></canvas>
+    </div>
+    <div class="break-small">
+        <hr>
+    </div>
+    <h3>Downloads</h3>
+    <div class="bar-chart">
+        <canvas id="bar-downloads-canvas" height="450" width="600"></canvas>
     </div>
     <div class="break-small">
         <hr>
@@ -109,7 +116,50 @@
             ]
         }
 
-        var barChartData = {
+        var barStreamsChartData = {
+            labels: [
+                {% for disc in album.discs %}
+                    {% for track in disc %}
+                        "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            datasets: [
+                {
+                    label: "Downloads",
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(220,220,220,0.75)",
+                    highlightStroke: "rgba(220,220,220,1)",
+                    data: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                                {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                },
+                {
+                    label: "Streams",
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(151,187,205,0.75)",
+                    highlightStroke: "rgba(151,187,205,1)",
+                    data: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                                {{ track.total_streams }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        }
+
+        var barDownloadsChartData = {
             labels: [
                 {% for disc in album.discs %}
                     {% for track in disc %}
@@ -157,8 +207,12 @@
             window.myLine = new Chart(line_context).Line(lineChartData, {
                 responsive: true
             });
-            var bar_context = document.getElementById("bar-canvas").getContext("2d");
-            window.myBar = new Chart(bar_context).Bar(barChartData, {
+            var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
+            window.myBar = new Chart(bar_streams_context).Bar(barStreamsChartData, {
+                responsive : true
+            });
+            var bar_downloads_context = document.getElementById("bar-downloads-canvas").getContext("2d");
+            window.myBar = new Chart(bar__downloads_context).Bar(barDownloadsChartData, {
                 responsive : true
             });
         }
