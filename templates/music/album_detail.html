@@ -116,15 +116,16 @@
             ]
         }
 
-        var barStreamsChartData = {
-            labels: [
-                {% for disc in album.discs %}
-                    {% for track in disc %}
-                        "{{ track.name }}"{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                    {% if not forloop.last %},{% endif %}
+        var trackLabels = [
+            {% for disc in album.discs %}
+                {% for track in disc %}
+                    "{{ track.name }}"{% if not forloop.last %},{% endif %}
                 {% endfor %}
-            ],
+                {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+        var barStreamsChartData = {
+            labels: trackLabels,
             datasets: [
                 {
                     label: "Streams",
@@ -145,14 +146,7 @@
         }
 
         var barDownloadsChartData = {
-            labels: [
-                {% for disc in album.discs %}
-                    {% for track in disc %}
-                        "{{ track.name }}"{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                    {% if not forloop.last %},{% endif %}
-                {% endfor %}
-            ],
+            labels: trackLabels,
             datasets: [
                 {
                     label: "Downloads",
