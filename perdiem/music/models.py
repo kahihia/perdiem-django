@@ -68,9 +68,9 @@ class Track(models.Model):
 
     def total_activity(self, activity_type):
         return ActivityEstimate.objects.filter(
-            activity_type=activity_type,
-            content_type=ContentType.objects.get_for_model(self),
-            object_id=self.id
+            models.Q(content_type=ContentType.objects.get_for_model(self.album), object_id=self.album.id) |
+            models.Q(content_type=ContentType.objects.get_for_model(self), object_id=self.id),
+            activity_type=activity_type
         ).aggregate(total=models.Sum('total'))['total'] or 0
 
     def total_downloads(self):
