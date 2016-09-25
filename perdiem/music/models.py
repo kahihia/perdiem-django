@@ -7,7 +7,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -56,8 +56,6 @@ class Track(models.Model):
     name = models.CharField(max_length=60)
     duration = models.DurationField(null=True, blank=True)
 
-    activity = GenericRelation('ActivityEstimate')
-
     class Meta:
         unique_together = (('album', 'disc_number', 'track_number',),)
 
@@ -69,7 +67,11 @@ class Track(models.Model):
         )
 
     def total_activity(self, activity_type):
-        return self.activity.filter(activity_type=activity_type).aggregate(total=models.Sum('total'))['total'] or 0
+        return ActivityEstimate.objects.filter(
+            activity_type=activity_type,
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id
+        ).aggregate(total=models.Sum('total'))['total'] or 0
 
     def total_downloads(self):
         return self.total_activity(ActivityEstimate.ACTIVITY_DOWNLOAD)
