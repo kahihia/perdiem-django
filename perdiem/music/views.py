@@ -26,6 +26,16 @@ class AlbumDetailView(TemplateView):
 
     template_name = 'music/album_detail.html'
 
+    @staticmethod
+    def generate_cumulative_revenue(revenue):
+        artist_revenue_so_far = investor_revenue_so_far = 0
+        for month in revenue:
+            month['artist_revenue'] += artist_revenue_so_far
+            month['investor_revenue'] += investor_revenue_so_far
+            artist_revenue_so_far = month['artist_revenue']
+            investor_revenue_so_far = month['investor_revenue']
+        return revenue
+
     def get_revenue_from_activity(self, activity_qs, month, revenue_per_activity, multiplier=1):
         activity_per_month = activity_qs.annotate(total=models.Sum('total'))
         try:
@@ -123,7 +133,7 @@ class AlbumDetailView(TemplateView):
 
         context.update({
             'album': self.album,
-            'estimated_revenue': estimated_revenue,
+            'estimated_cumulative_revenue': self.generate_cumulative_revenue(estimated_revenue),
             'user_is_investor': user_is_investor,
         })
         return context

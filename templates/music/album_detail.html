@@ -51,7 +51,7 @@
           </div>
       {% endif %}
 
-      <h3>ESTIMATED REVENUE</h3>
+      <h3>TOTAL ESTIMATED REVENUE</h3>
       <div class="bar-chart">
           <canvas id="line-canvas" height="650px" width="1000px"></canvas>
       </div>
@@ -80,7 +80,7 @@
     <script type="text/javascript">
         var lineChartData = {
             labels: [
-                {% for month_revenue in estimated_revenue %}
+                {% for month_revenue in estimated_cumulative_revenue %}
                     "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
                 {% endfor %}
             ],
@@ -94,7 +94,7 @@
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
                     data: [
-                        {% for month_revenue in estimated_revenue %}
+                        {% for month_revenue in estimated_cumulative_revenue %}
                             {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                     ]
@@ -108,7 +108,7 @@
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(151,187,205,1)",
                     data: [
-                        {% for month_revenue in estimated_revenue %}
+                        {% for month_revenue in estimated_cumulative_revenue %}
                             {{ month_revenue.investor_revenue }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                     ]
