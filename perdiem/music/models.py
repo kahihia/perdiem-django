@@ -66,6 +66,19 @@ class Track(models.Model):
             name=self.name
         )
 
+    def total_activity(self, activity_type):
+        return ActivityEstimate.objects.filter(
+            models.Q(content_type=ContentType.objects.get_for_model(self.album), object_id=self.album.id) |
+            models.Q(content_type=ContentType.objects.get_for_model(self), object_id=self.id),
+            activity_type=activity_type
+        ).aggregate(total=models.Sum('total'))['total'] or 0
+
+    def total_downloads(self):
+        return self.total_activity(ActivityEstimate.ACTIVITY_DOWNLOAD)
+
+    def total_streams(self):
+        return self.total_activity(ActivityEstimate.ACTIVITY_STREAM)
+
 
 class Artwork(models.Model):
 
@@ -167,9 +180,11 @@ def activity_content_type_choices():
 
 class ActivityEstimate(models.Model):
 
+    ACTIVITY_STREAM = 'stream'
+    ACTIVITY_DOWNLOAD = 'download'
     ACTIVITY_CHOICES = (
-        ('stream', 'Stream',),
-        ('download', 'Download',),
+        (ACTIVITY_STREAM, 'Stream',),
+        (ACTIVITY_DOWNLOAD, 'Download',),
     )
 
     date = models.DateField(default=timezone.now)

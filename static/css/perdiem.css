@@ -394,7 +394,10 @@ li.home-logo {
 
 .album-bio {    
     margin: 0 auto;
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 600px;
 }
 
 .album-bio > ol {
@@ -425,4 +428,11 @@ li.home-logo {
 .ol-center { 
     text-align: center; 
     list-style-position:inside;
+}
+
+.bar-chart {
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    max-width: 600px;
 }

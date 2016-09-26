@@ -12,58 +12,186 @@
             <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ album.name }}" />
         {% endthumbnail %}
     </div>
-    {% if album.release_date %}
-        <h4>Release date: {{ album.release_date }}</h4>
-    {% endif %}
-    {% if album.discs %}
-        <h4>TRACK LISTING</h4>
-        <div class="track-listing">
-            {% for disc in album.discs %}
-                <ol class="ol-center">
-                    {% for track in disc %}
-                        <li>{{ track.name }}{% if track.duration %} [{{ track.duration|trackdurationformat }}]{% endif %}</li>
-                    {% endfor %}
-                </ol>
-            {% endfor %}
-        </div>
-    {% endif %}
     {% if album.albumbio %}
-        <h4>About</h4>
-        <div class="break-small">
-            <hr>
-        </div>
         <div class="album-bio">
             <p>{{ album.albumbio.bio|markdown }}</p>
         </div>
-    {% endif %}
-
-    {% if album.marketplaceurl_set.all %}
-        <h4>LISTEN / PURCHASE</h4>
         <div class="break-small">
             <hr>
         </div>
-        <div class="marketplace-container">
-            {% for marketplace_url in album.marketplaceurl_set.all %}
-                <a href="{{ marketplace_url.affiliate_url }}" target="_blank">
-                    {% with "img/marketplace/"|add:marketplace_url.medium|add:".svg" as medium_image %}
-                        <img class="marketplace-icons" src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
-                    {% endwith %}
-                </a>
-            {% endfor %}
-        </div>
-        <br />
     {% endif %}
 
-    {% if user_is_investor %}
-        <h4>FOR INVESTORS</h4>
-        <div class="break-small">
-            <hr>
-        </div>
-        <div class="download-container">
-            <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
-                Download
-                <i class="fa fa-download" aria-hidden="true"></i>
+    <h4>Listen</h4>
+    <div class="marketplace-container">
+        {% for marketplace_url in album.marketplaceurl_set.all %}
+            <a href="{{ marketplace_url.url }}" target="_blank">
+                {% with "img/marketplace/"|add:marketplace_url.medium|add:".svg" as medium_image %}
+                    <img class="marketplace-icons" src="{% static medium_image %}" alt="{{ marketplace_url.get_medium_display }}" />
+                {% endwith %}
             </a>
-        </div>
+        {% endfor %}
+    </div>
+    {% if album.release_date %}
+        <h5 class="padding">Release date: {{ album.release_date }}</h5>
     {% endif %}
+    <div class="break-small">
+        <hr>
+    </div>
+
+    <div>
+      {% if user_is_investor %}
+          <div class="download-container">
+              <a class="download-button" href="{{ album.audio.get_temporary_url }}" download>
+                  Download
+                  <i class="fa fa-download" aria-hidden="true"></i>
+              </a>
+          </div>
+          <div class="break-small">
+              <hr>
+          </div>
+      {% endif %}
+
+      <h3>TOTAL ESTIMATED REVENUE</h3>
+      <div class="bar-chart">
+          <canvas id="line-canvas" height="650px" width="1000px"></canvas>
+      </div>
+    </div>
+
+    <br/>
+    <br/>
+    <h3>Streams</h3>
+    <div class="bar-chart">
+        <canvas id="bar-streams-canvas" height="450" width="600"></canvas>
+    </div>
+    <div class="break-small">
+        <hr>
+    </div>
+    <h3>Downloads</h3>
+    <div class="bar-chart">
+        <canvas id="bar-downloads-canvas" height="450" width="600"></canvas>
+    </div>
+    <div class="break-small">
+        <hr>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
+    <script type="text/javascript">
+        var lineChartData = {
+            labels: [
+                {% for month_revenue in estimated_cumulative_revenue %}
+                    "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            datasets: [
+                {
+                    label: "Artist Revenue",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [
+                        {% for month_revenue in estimated_cumulative_revenue %}
+                            {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                },
+                {
+                    label: "Investor Income",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: [
+                        {% for month_revenue in estimated_cumulative_revenue %}
+                            {{ month_revenue.investor_revenue }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        }
+
+        var trackLabels = [
+            {% for disc in album.discs %}
+                {% for track in disc %}
+                    "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+                {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+        var barStreamsChartData = {
+            labels: trackLabels,
+            datasets: [
+                {
+                    label: "Streams",
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(151,187,205,0.75)",
+                    highlightStroke: "rgba(151,187,205,1)",
+                    data: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                                {{ track.total_streams }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        }
+
+        var barDownloadsChartData = {
+            labels: trackLabels,
+            datasets: [
+                {
+                    label: "Downloads",
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(220,220,220,0.75)",
+                    highlightStroke: "rgba(220,220,220,1)",
+                    data: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                                {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        }
+
+        window.onload = function(){
+            var line_context = document.getElementById("line-canvas").getContext("2d");
+            window.myLine = new Chart(line_context).Line(lineChartData, {
+                responsive: true,
+                multiTooltipTemplate: function(point) {
+                    var value = point.value.toLocaleString(
+                        'en-US',
+                        {minimumFractionDigits: 2, maximumFractionDigits: 2}
+                    );
+                    return point.datasetLabel + ": $" + value;
+                }
+            });
+            var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
+            window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
+                responsive: true,
+                tooltipTemplate: function(point) {
+                    return point.label + ": " + point.value.toLocaleString('en-US');
+                }
+            });
+            var bar_downloads_context = document.getElementById("bar-downloads-canvas").getContext("2d");
+            window.barDownloads = new Chart(bar_downloads_context).Bar(barDownloadsChartData, {
+                responsive: true,
+                tooltipTemplate: function(point) {
+                    return point.label + ": " + point.value.toLocaleString('en-US');
+                }
+            });
+        }
+    </script>
 {% endblock %}
