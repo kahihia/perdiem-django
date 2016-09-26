@@ -169,7 +169,10 @@
         window.onload = function(){
             var line_context = document.getElementById("line-canvas").getContext("2d");
             window.myLine = new Chart(line_context).Line(lineChartData, {
-                responsive: true
+                responsive: true,
+                multiTooltipTemplate: function(point) {
+                    return point.datasetLabel + ": $" + point.value.toFixed(2);
+                }
             });
             var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
             window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
