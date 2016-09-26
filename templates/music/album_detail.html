@@ -171,7 +171,7 @@
             window.myLine = new Chart(line_context).Line(lineChartData, {
                 responsive: true,
                 multiTooltipTemplate: function(point) {
-                    return point.datasetLabel + ": $" + point.value.toFixed(2);
+                    return point.datasetLabel + ": $" + point.value.toLocaleString('en-US', {minimumFractionDigits: 2});
                 }
             });
             var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
