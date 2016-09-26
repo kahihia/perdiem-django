@@ -89,8 +89,8 @@ class AlbumDetailView(TemplateView):
         total_revenue = download_revenue + stream_revenue
         return {
             'month': month.strftime("%B"),
-            'artist_revenue': total_revenue * self.album.project.total_artist_percentage(),
-            'investor_revenue': total_revenue * self.album.project.total_fans_percentage(),
+            'artist_revenue': total_revenue * (float(self.album.project.total_artist_percentage()) / 100),
+            'investor_revenue': total_revenue * (float(self.album.project.total_fans_percentage()) / 100),
         }
 
     def get_context_data(self, **kwargs):
