@@ -170,6 +170,9 @@
             var line_context = document.getElementById("line-canvas").getContext("2d");
             window.myLine = new Chart(line_context).Line(lineChartData, {
                 responsive: true,
+                scaleLabel: function(label) {
+                    return '$' + label.value.toString();
+                },
                 multiTooltipTemplate: function(point) {
                     var value = point.value.toLocaleString(
                         'en-US',
