@@ -181,6 +181,9 @@
             var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
             window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
                 responsive: true,
+                scaleLabel: function(label) {
+                    return parseInt(label.value).toLocaleString('en-US');
+                },
                 tooltipTemplate: function(point) {
                     return point.label + ": " + point.value.toLocaleString('en-US');
                 }
@@ -188,6 +191,9 @@
             var bar_downloads_context = document.getElementById("bar-downloads-canvas").getContext("2d");
             window.barDownloads = new Chart(bar_downloads_context).Bar(barDownloadsChartData, {
                 responsive: true,
+                scaleLabel: function(label) {
+                    return parseInt(label.value).toLocaleString('en-US');
+                },
                 tooltipTemplate: function(point) {
                     return point.label + ": " + point.value.toLocaleString('en-US');
                 }
