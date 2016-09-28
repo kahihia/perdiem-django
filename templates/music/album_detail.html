@@ -59,7 +59,7 @@
       {% endif %}
     </div>
 
-    {% if album.discs %}
+    {% if album.track_set.all %}
         <br/>
         <br/>
         <h3>Streams</h3>
@@ -122,7 +122,7 @@
             }
         {% endif %}
 
-        {% if album.discs %}
+        {% if album.track_set.all %}
             var trackLabels = [
                 {% for disc in album.discs %}
                     {% for track in disc %}
@@ -191,7 +191,7 @@
                     }
                 });
             {% endif %}
-            {% if album.discs %}
+            {% if album.track_set.all %}
                 var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
                 window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
                     responsive: true,
