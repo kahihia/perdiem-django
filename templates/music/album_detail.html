@@ -51,25 +51,29 @@
           </div>
       {% endif %}
 
-      <h3>TOTAL ESTIMATED REVENUE</h3>
-      <div class="bar-chart">
-          <canvas id="line-canvas" height="650px" width="1000px"></canvas>
-      </div>
+      {% if estimated_cumulative_revenue %}
+          <h3>TOTAL ESTIMATED REVENUE</h3>
+          <div class="bar-chart">
+              <canvas id="line-canvas" height="650px" width="1000px"></canvas>
+          </div>
+      {% endif %}
     </div>
 
-    <br/>
-    <br/>
-    <h3>Streams</h3>
-    <div class="bar-chart">
-        <canvas id="bar-streams-canvas" height="450" width="600"></canvas>
-    </div>
-    <div class="break-small">
-        <hr>
-    </div>
-    <h3>Downloads</h3>
-    <div class="bar-chart">
-        <canvas id="bar-downloads-canvas" height="450" width="600"></canvas>
-    </div>
+    {% if album.discs %}
+        <br/>
+        <br/>
+        <h3>Streams</h3>
+        <div class="bar-chart">
+            <canvas id="bar-streams-canvas" height="450" width="600"></canvas>
+        </div>
+        <div class="break-small">
+            <hr>
+        </div>
+        <h3>Downloads</h3>
+        <div class="bar-chart">
+            <canvas id="bar-downloads-canvas" height="450" width="600"></canvas>
+        </div>
+    {% endif %}
     <div class="break-small">
         <hr>
     </div>
@@ -78,129 +82,137 @@
 {% block extrajs %}
     <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
     <script type="text/javascript">
-        var lineChartData = {
-            labels: [
-                {% for month_revenue in estimated_cumulative_revenue %}
-                    "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
-                {% endfor %}
-            ],
-            datasets: [
-                {
-                    label: "Artist Revenue",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [
-                        {% for month_revenue in estimated_cumulative_revenue %}
-                            {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                },
-                {
-                    label: "Investor Income",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: [
-                        {% for month_revenue in estimated_cumulative_revenue %}
-                            {{ month_revenue.investor_revenue }}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                }
-            ]
-        }
-
-        var trackLabels = [
-            {% for disc in album.discs %}
-                {% for track in disc %}
-                    "{{ track.name }}"{% if not forloop.last %},{% endif %}
-                {% endfor %}
-                {% if not forloop.last %},{% endif %}
-            {% endfor %}
-        ]
-        var barStreamsChartData = {
-            labels: trackLabels,
-            datasets: [
-                {
-                    label: "Streams",
-                    fillColor: "rgba(151,187,205,0.5)",
-                    strokeColor: "rgba(151,187,205,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: [
-                        {% for disc in album.discs %}
-                            {% for track in disc %}
-                                {{ track.total_streams }}{% if not forloop.last %},{% endif %}
+        {% if estimated_cumulative_revenue %}
+            var lineChartData = {
+                labels: [
+                    {% for month_revenue in estimated_cumulative_revenue %}
+                        "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                datasets: [
+                    {
+                        label: "Artist Revenue",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [
+                            {% for month_revenue in estimated_cumulative_revenue %}
+                                {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
-                            {% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                }
-            ]
-        }
-
-        var barDownloadsChartData = {
-            labels: trackLabels,
-            datasets: [
-                {
-                    label: "Downloads",
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,0.8)",
-                    highlightFill: "rgba(220,220,220,0.75)",
-                    highlightStroke: "rgba(220,220,220,1)",
-                    data: [
-                        {% for disc in album.discs %}
-                            {% for track in disc %}
-                                {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                        ]
+                    },
+                    {
+                        label: "Investor Income",
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        data: [
+                            {% for month_revenue in estimated_cumulative_revenue %}
+                                {{ month_revenue.investor_revenue }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
-                            {% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]
-                }
+                        ]
+                    }
+                ]
+            }
+        {% endif %}
+
+        {% if album.discs %}
+            var trackLabels = [
+                {% for disc in album.discs %}
+                    {% for track in disc %}
+                        "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    {% if not forloop.last %},{% endif %}
+                {% endfor %}
             ]
-        }
+            var barStreamsChartData = {
+                labels: trackLabels,
+                datasets: [
+                    {
+                        label: "Streams",
+                        fillColor: "rgba(151,187,205,0.5)",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "rgba(151,187,205,0.75)",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data: [
+                            {% for disc in album.discs %}
+                                {% for track in disc %}
+                                    {{ track.total_streams }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ]
+                    }
+                ]
+            }
+
+            var barDownloadsChartData = {
+                labels: trackLabels,
+                datasets: [
+                    {
+                        label: "Downloads",
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(220,220,220,0.75)",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: [
+                            {% for disc in album.discs %}
+                                {% for track in disc %}
+                                    {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ]
+                    }
+                ]
+            }
+        {% endif %}
 
         window.onload = function(){
-            var line_context = document.getElementById("line-canvas").getContext("2d");
-            window.myLine = new Chart(line_context).Line(lineChartData, {
-                responsive: true,
-                scaleLabel: function(label) {
-                    return '$' + label.value.toString();
-                },
-                multiTooltipTemplate: function(point) {
-                    var value = point.value.toLocaleString(
-                        'en-US',
-                        {minimumFractionDigits: 2, maximumFractionDigits: 2}
-                    );
-                    return point.datasetLabel + ": $" + value;
-                }
-            });
-            var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
-            window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
-                responsive: true,
-                scaleLabel: function(label) {
-                    return parseInt(label.value).toLocaleString('en-US');
-                },
-                tooltipTemplate: function(point) {
-                    return point.label + ": " + point.value.toLocaleString('en-US');
-                }
-            });
-            var bar_downloads_context = document.getElementById("bar-downloads-canvas").getContext("2d");
-            window.barDownloads = new Chart(bar_downloads_context).Bar(barDownloadsChartData, {
-                responsive: true,
-                scaleLabel: function(label) {
-                    return parseInt(label.value).toLocaleString('en-US');
-                },
-                tooltipTemplate: function(point) {
-                    return point.label + ": " + point.value.toLocaleString('en-US');
-                }
-            });
+            {% if estimated_cumulative_revenue %}
+                var line_context = document.getElementById("line-canvas").getContext("2d");
+                window.myLine = new Chart(line_context).Line(lineChartData, {
+                    responsive: true,
+                    scaleLabel: function(label) {
+                        return '$' + label.value.toString();
+                    },
+                    multiTooltipTemplate: function(point) {
+                        var value = point.value.toLocaleString(
+                            'en-US',
+                            {minimumFractionDigits: 2, maximumFractionDigits: 2}
+                        );
+                        return point.datasetLabel + ": $" + value;
+                    }
+                });
+            {% endif %}
+            {% if album.discs %}
+                var bar_streams_context = document.getElementById("bar-streams-canvas").getContext("2d");
+                window.barStreams = new Chart(bar_streams_context).Bar(barStreamsChartData, {
+                    responsive: true,
+                    scaleLabel: function(label) {
+                        return parseInt(label.value).toLocaleString('en-US');
+                    },
+                    tooltipTemplate: function(point) {
+                        return point.label + ": " + point.value.toLocaleString('en-US');
+                    }
+                });
+                var bar_downloads_context = document.getElementById("bar-downloads-canvas").getContext("2d");
+                window.barDownloads = new Chart(bar_downloads_context).Bar(barDownloadsChartData, {
+                    responsive: true,
+                    scaleLabel: function(label) {
+                        return parseInt(label.value).toLocaleString('en-US');
+                    },
+                    tooltipTemplate: function(point) {
+                        return point.label + ": " + point.value.toLocaleString('en-US');
+                    }
+                });
+            {% endif %}
         }
     </script>
 {% endblock %}
