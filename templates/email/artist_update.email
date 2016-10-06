@@ -1,6 +1,6 @@
 {% extends "email/base.email" %}
 
-{% block email_subject %}{{ artist.name }}: {{ update.title }}{% endblock %}
+{% block email_subject %}{{ artist.name }}: {{ update.title|safe }}{% endblock %}
 
 {% block plain_body %}
     {{ update.text }}
