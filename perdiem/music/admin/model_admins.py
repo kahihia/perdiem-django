@@ -4,9 +4,11 @@
 
 """
 
+from django.conf.urls import url
 from django.contrib import admin
 
 from music.admin.forms import AlbumBioAdminForm, ActivityEstimateAdminForm
+from music.admin.views import DailyReportAdminView
 from music.models import Track, Artwork, AlbumBio, MarketplaceURL, Audio
 
 
@@ -47,3 +49,10 @@ class AlbumAdmin(admin.ModelAdmin):
 class ActivityEstimateAdmin(admin.ModelAdmin):
 
     form = ActivityEstimateAdminForm
+
+    def get_urls(self):
+        urls = super(ActivityEstimateAdmin, self).get_urls()
+        custom_urls = [
+            url(r'^daily-report/?$', admin.site.admin_view(DailyReportAdminView.as_view()), name='daily_report'),
+        ]
+        return custom_urls + urls
