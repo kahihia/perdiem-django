@@ -6,7 +6,7 @@
 {% endfor %}
 {% for image in update.updateimage_set.all %}
     {% if not forloop.first %}<br />{% endif %}
-    {% thumbnail image.img "500x300" crop="center" as thumb %}
+    {% thumbnail image.img "500x500" as thumb %}
         <img src="{{ thumb.url }}" alt="{{ update.title }}" />
     {% endthumbnail %}
 {% endfor %}
