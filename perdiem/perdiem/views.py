@@ -4,8 +4,70 @@
 
 """
 
-from django.http import HttpResponseBadRequest
+from django.core.exceptions import ImproperlyConfigured
+from django.forms import formset_factory
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.generic import TemplateView
+
+
+class Http405(Exception):
+    pass
+
+
+class FormsetView(TemplateView):
+
+    def get_success_url(self):
+        try:
+            return self.success_url
+        except AttributeError:
+            raise ImproperlyConfigured(
+                "FormsetView requires either a definition of 'success_url' or implementation of 'get_success_url()'"
+            )
+
+    def get_form_class(self):
+        try:
+            return self.form_class
+        except AttributeError:
+            raise ImproperlyConfigured(
+                "FormsetView requires either a definition of 'form_class' or implementation of 'get_form_class()'"
+            )
+
+    def get_formset_factory_kwargs(self):
+        return {}
+
+    def get_initial(self):
+        return []
+
+    def get_context_data(self, **kwargs):
+        view_formset = formset_factory(self.get_form_class(), **self.get_formset_factory_kwargs())
+
+        if self.request.method == 'GET':
+            formset = view_formset(initial=self.get_initial())
+        elif self.request.method == 'POST':
+            formset = view_formset(self.request.POST, initial=self.get_initial())
+        else:
+            raise Http405
+
+        context = {'formset': formset}
+        return context
+
+    def formset_valid(self, formset):
+        return HttpResponseRedirect(self.get_success_url())
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super(FormsetView, self).dispatch(request, *args, **kwargs)
+        except Http405:
+            return HttpResponseNotAllowed(['GET', 'POST'])
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
+        formset = context['formset']
+        if formset.is_valid():
+            return self.formset_valid(formset)
+
+        return self.render_to_response(context)
 
 
 class ConstituentFormView(object):
