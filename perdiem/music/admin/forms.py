@@ -8,7 +8,7 @@ from django import forms
 
 from pagedown.widgets import AdminPagedownWidget
 
-from music.models import AlbumBio, ActivityEstimate
+from music.models import AlbumBio, Track, ActivityEstimate
 
 
 class AlbumBioAdminForm(forms.ModelForm):
@@ -48,3 +48,10 @@ class ActivityEstimateAdminForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+
+class DailyReportForm(forms.Form):
+
+    track = forms.ModelChoiceField(queryset=Track.objects.all(), widget=forms.HiddenInput())
+    streams = forms.IntegerField(min_value=0)
+    downloads = forms.IntegerField(min_value=0)
