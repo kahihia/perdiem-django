@@ -48,6 +48,7 @@ class AlbumAdmin(admin.ModelAdmin):
 
 class ActivityEstimateAdmin(admin.ModelAdmin):
 
+    list_display = ('content_object', 'date', 'activity_type',)
     form = ActivityEstimateAdminForm
 
     def get_urls(self):
