@@ -28,6 +28,7 @@ class MusicAdminWebTestCase(PerDiemTestCase):
             '/admin/music/activityestimate/{activity_estimate_id}/change/'.format(
                 activity_estimate_id=self.activity_estimate.id
             ),
+            '/admin/music/activityestimate/daily-report/',
         ]
 
     def testActivityEstimatesRequireCampaigns(self):
