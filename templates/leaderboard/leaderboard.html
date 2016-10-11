@@ -1,20 +1,36 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load humanize %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/extra/charts.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
-    <h2>Charts</h2>
+    <h1>Investments</h1>
     <div class="break">
         <hr>
     </div>
     <div class="center">
-        {% include "leaderboard/includes/list.html" with name='Top Raised' leaders=top_raised %}
-        {% include "leaderboard/includes/list.html" with name='Top Invested' leaders=top_invested %}
-        {% include "leaderboard/includes/list.html" with name='Top Earned Artists' leaders=top_earned_artists %}
-        {% include "leaderboard/includes/list.html" with name='Top Earned Investors' leaders=top_earned_investors %}
+        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
+        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
+    </div>
+    <div class="total-box">
+        <h1 class="white-color">${{ total_raised|floatformat:0|intcomma }}</h1>
+        <p class="white-color">AMOUNT OF MONEY RAISED FOR ARTISTS ON PERDIEM</p>
+    </div>
+    <br/>
+    <h1>Returns</h1>
+    <div class="break">
+        <hr>
+    </div>
+    <div class="center">
+        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
+        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
+    </div>
+    <div class="total-box">
+        <h1 class="white-color">${{ total_generated|floatformat:0|intcomma }}</h1>
+        <p class="white-color">AMOUNT OF REVENUE GENERATED FOR ARTISTS AND INVESTORS</p>
     </div>
 {% endblock %}

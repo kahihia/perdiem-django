@@ -60,6 +60,7 @@
                         <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
                         <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
                         <li><a class="nav-color" href="{% url 'music' %}">MUSIC</a></li>
+                        <li><a class="nav-color" href="{% url 'leaderboard' %}">STATS</a></li>
                         {% if user.is_authenticated %}
                             <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
                             <li style="float: center;"><a class="nav-color" href="{% url 'settings' %}">SETTINGS</a></li>
@@ -84,6 +85,7 @@
                                     <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
                                     <li><a href="{% url 'artists' %}">ARTISTS</a></li>
                                     <li><a href="{% url 'music' %}">MUSIC</a></li>
+                                    <li><a href="{% url 'leaderboard' %}">STATS</a></li>
                                 </ul>
                             </div>
                             <div class="top-bar-right">
