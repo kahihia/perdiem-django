@@ -11,6 +11,7 @@ from django.views.generic import TemplateView
 
 from accounts.models import UserAvatar, UserProfile
 from artist.models import Artist, Photo
+from campaign.models import Campaign, RevenueReport
 
 
 class LeaderboardView(TemplateView):
@@ -75,11 +76,19 @@ class LeaderboardView(TemplateView):
         ).filter(amount__isnull=False).order_by('-amount')[:5]
         top_earned_artists = [self.artist_context(artist) for artist in top_earned_artists]
 
+        # Totals
+        total_raised = 0
+        for campaign in Campaign.objects.all():
+            total_raised += campaign.amount_raised()
+        total_generated = RevenueReport.objects.all().aggregate(total_generated=models.Sum('amount'))['total_generated']
+
         return {
             'top_raised': top_raised,
             'top_invested': top_invested,
             'top_earned_artists': top_earned_artists,
             'top_earned_investors': top_earned_investors,
+            'total_raised': total_raised,
+            'total_generated': total_generated,
         }
 
     def get_context_data(self, **kwargs):
