@@ -36,5 +36,5 @@ class CampaignWebTestCase(PerDiemTestCase):
 
     def get200s(self):
         return [
-            '/charts/',
+            '/stats/',
         ]
