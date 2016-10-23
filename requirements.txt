@@ -7,13 +7,13 @@ Django==1.10.2
 python-memcached==1.58
 psycopg2==2.6.2
 whitenoise==3.2.2
-djangorestframework==3.4.7
+djangorestframework==3.5.1
 python-social-auth==0.2.21
-Pillow==3.4.1
+Pillow==3.4.2
 django-classbasedsettings==1.5.0
-raven==5.27.1
+raven==5.31.0
 sorl-thumbnail==12.3
-boto==2.42.0
+boto==2.43.0
 django-storages==1.5.1
 django-ses==0.8.1
 geopy==1.11.0
