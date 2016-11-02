@@ -17,6 +17,7 @@ class BaseSettings(DjangoDefaults):
     TOP_DIR = os.path.dirname(BASE_DIR)
 
     DEBUG = True
+    ACCEPTABLE_HOSTS = ['localhost', '127.0.0.1']
 
     @property
     def ALLOWED_HOSTS(self):
@@ -24,10 +25,10 @@ class BaseSettings(DjangoDefaults):
         if hasattr(self, '_ALLOWED_HOSTS'):
             return self._ALLOWED_HOSTS
 
-        # When DEBUG == True, ALLOWED_HOSTS is just []
-        if not hasattr(self, 'ACCEPTABLE_HOSTS'):
-            self._ALLOWED_HOSTS = []
-            return []
+        # When DEBUG == True, ALLOWED_HOSTS is just ACCEPTABLE_HOSTS
+        if self.DEBUG:
+            self._ALLOWED_HOSTS = self.ACCEPTABLE_HOSTS
+            return self._ALLOWED_HOSTS
 
         # Otherwise, add EC2 IP to ACCEPTABLE_HOSTS
         hosts = self.ACCEPTABLE_HOSTS
