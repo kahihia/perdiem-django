@@ -30,7 +30,7 @@ def send_notification(commit):
 def deploy():
     with prefix(". /usr/local/bin/virtualenvwrapper.sh; workon perdiem"):
         run("git pull")
-        latest_commit = run("git log -1 --format=\"%h | %an | %s\" --no-color", pty=False)
+        latest_commit = run("git log -1 --format=\"%h : %an : %s\" --no-color", pty=False)
         run("pip install -r ../requirements.txt")
         run("python manage.py migrate")
         run("python manage.py collectstatic --no-input")
