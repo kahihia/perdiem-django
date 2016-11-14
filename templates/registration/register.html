@@ -7,15 +7,16 @@
         <hr>
     </div>
     <div class="center">
-        <a href="{% url 'social:begin' backend='facebook-register' %}"><img class="oauth-icon" src="{% static "img/facebook-signin.png" %}" alt="Register with Facebook" /></a><br/>
-        <a href="{% url 'social:begin' backend='google-oauth2-register' %}"><img class="oauth-icon" src="{% static "img/google-signin.png" %}" alt="Register with Google" /></a>
+        <p>You can sign up with one click using facebook or google</p>
+        <a href="{% url 'social:begin' backend='facebook-register' %}"><img class="oauth-icon" src="{% static "img/facebook-signup.png" %}" alt="Register with Facebook" /></a><br/>
+        <a href="{% url 'social:begin' backend='google-oauth2-register' %}"><img class="oauth-icon" src="{% static "img/google-signup.png" %}" alt="Register with Google" /></a>
     </div>
     <div class="form-input">
+        <p>or create an account</p>
         <form action="" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <input class="button submit-button" type="submit" value="Register" />
         </form>
-        <p>...or just <a data-open="login-modal">login</a>.</p>
     </div>
 {% endblock %}
