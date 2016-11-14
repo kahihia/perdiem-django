@@ -7,12 +7,12 @@
         <hr>
     </div>
     <div class="center">
-        <p>You can sign up with one click using facebook or google</p>
+        <p>Sign up with one click using Facebook or Google</p>
         <a href="{% url 'social:begin' backend='facebook-register' %}"><img class="oauth-icon" src="{% static "img/facebook-signup.png" %}" alt="Register with Facebook" /></a><br/>
         <a href="{% url 'social:begin' backend='google-oauth2-register' %}"><img class="oauth-icon" src="{% static "img/google-signup.png" %}" alt="Register with Google" /></a>
     </div>
     <div class="form-input">
-        <p>or create an account</p>
+        <p>or create an account the old-fashioned way</p>
         <form action="" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
