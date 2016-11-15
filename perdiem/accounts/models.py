@@ -57,7 +57,7 @@ class UserAvatar(models.Model):
 class UserAvatarURL(models.Model):
 
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
-    url = models.URLField()
+    url = models.URLField(max_length=2000)
 
     def __unicode__(self):
         return unicode(self.avatar)
