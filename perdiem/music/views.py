@@ -46,8 +46,7 @@ class AlbumDetailView(TemplateView):
             revenue = activity['total'] * multiplier * revenue_per_activity
         return revenue
 
-    def estimated_revenue_month(self, activity):
-        month = activity['month']
+    def estimated_revenue_month(self, month):
         tracks = self.album.track_set.all()
         track_ids = tracks.values_list('id', flat=True)
         num_tracks = tracks.count()
@@ -120,7 +119,7 @@ class AlbumDetailView(TemplateView):
         ).annotate(month=models.functions.TruncMonth('date')).values('month').order_by('date')
         self.download_activity = album_activity.filter(activity_type=ActivityEstimate.ACTIVITY_DOWNLOAD)
         self.stream_activity = album_activity.filter(activity_type=ActivityEstimate.ACTIVITY_STREAM)
-        album_activity_months = album_activity.annotate(total=models.Sum('total'))
+        album_activity_months = sorted(list(set(album_activity.values_list('month', flat=True))))
         estimated_revenue = [self.estimated_revenue_month(month) for month in album_activity_months]
 
         user = self.request.user
