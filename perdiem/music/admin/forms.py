@@ -5,6 +5,7 @@
 """
 
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 
 from pagedown.widgets import AdminPagedownWidget
 
@@ -33,7 +34,15 @@ class ActivityEstimateAdminForm(forms.ModelForm):
             # Get the object associated with this ActivityEstimate
             content_type = cleaned_data['content_type']
             object_id = cleaned_data['object_id']
-            obj = content_type.get_object_for_this_type(id=object_id)
+            try:
+                obj = content_type.get_object_for_this_type(id=object_id)
+            except ObjectDoesNotExist:
+                raise forms.ValidationError(
+                    "The {object_name} with ID {invalid_id} does not exist.".format(
+                        object_name=content_type.model,
+                        invalid_id=object_id
+                    )
+                )
 
             # Get the album associated with this ActivityEstimate
             if hasattr(obj, 'album'):
