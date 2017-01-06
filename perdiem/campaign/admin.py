@@ -39,8 +39,9 @@ class CampaignAdminForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(CampaignAdminForm, self).clean()
-        end_datetime = cleaned_data['end_datetime']
-        if end_datetime and end_datetime < cleaned_data['start_datetime']:
+        start_datetime = cleaned_data.get('start_datetime')
+        end_datetime = cleaned_data.get('end_datetime')
+        if start_datetime and end_datetime and end_datetime < start_datetime:
             raise forms.ValidationError("Campaign cannot end before it begins.")
         return cleaned_data
 

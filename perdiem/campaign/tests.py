@@ -77,6 +77,20 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
         )
         self.assertIn("Campaign cannot end before it begins.", response.content)
 
+    def testCannotAddCampaignWithoutTime(self):
+        for dt in ['start', 'end']:
+            # Erase the time from campaign add POST data
+            data = self.campaign_add_data.copy()
+            del data['{dt}_datetime_1'.format(dt=dt)]
+
+            # Fail to create a campaign without the time component
+            self.assertResponseRenders(
+                '/admin/campaign/campaign/add/',
+                method='POST',
+                data=data,
+                has_form_error=True
+            )
+
 
 class CampaignWebTestCase(PerDiemTestCase):
 
