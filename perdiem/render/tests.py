@@ -4,14 +4,10 @@ from django.test import TestCase, TransactionTestCase
 
 from rest_framework import status
 
-from render.url.utils import add_params_to_url
+from render.url.utils import strip_params_from_url, add_params_to_url
 
 
 class RenderTestCaseMixin(object):
-
-    @staticmethod
-    def strip_query_params(url):
-        return url.split('?')[0]
 
     def assertResponseRenders(self, url, status_code=200, method='GET', data={}, has_form_error=False, **kwargs):
         request_method = getattr(self.client, method.lower())
@@ -57,7 +53,7 @@ class RenderTestCaseMixin(object):
     def assertResponseRedirects(self, url, redirect_url, status_code=200, method='GET', data={}, **kwargs):
         response = self.assertResponseRenders(url, status_code=302, method=method, data=data, **kwargs)
         redirect_url_from_response, _ = response.redirect_chain[0]
-        self.assertEquals(self.strip_query_params(redirect_url_from_response), redirect_url)
+        self.assertEquals(strip_params_from_url(redirect_url_from_response), redirect_url)
         self.assertEquals(response.status_code, status_code)
 
     def get200s(self):
