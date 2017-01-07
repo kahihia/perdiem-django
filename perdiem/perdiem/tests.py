@@ -192,15 +192,6 @@ class PerDiemTestCase(TestCase):
         self.setup_users()
         self.create_first_instances()
 
-    def tearDown(self):
-        RevenueReport.objects.all().delete()
-        Campaign.objects.all().delete()
-        Update.objects.all().delete()
-        Artist.objects.all().delete()
-        Genre.objects.all().delete()
-        User.objects.all().delete()
-        super(PerDiemTestCase, self).tearDown()
-
     def testRender200s(self):
         for url in self.get200s():
             self.assertResponseRenders(url)
