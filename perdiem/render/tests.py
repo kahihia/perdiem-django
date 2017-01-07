@@ -2,8 +2,6 @@ import json
 
 from django.test import TestCase, TransactionTestCase
 
-from rest_framework import status
-
 from render.url.utils import strip_params_from_url, add_params_to_url
 
 
@@ -46,7 +44,10 @@ class RenderTestCaseMixin(object):
             content_type='application/json',
             **kwargs
         )
-        if status_code in [status.HTTP_204_NO_CONTENT, status.HTTP_205_RESET_CONTENT]:
+        if status_code in [
+            204,  # No Content
+            205,  # Reset Content
+        ]:
             return response
         return response.json()
 
