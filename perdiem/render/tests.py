@@ -65,9 +65,9 @@ class RenderTestCaseMixin(object):
             self.assertResponseRenders(url)
 
 
-class RenderTestCase(TestCase, RenderTestCaseMixin):
+class RenderTestCase(RenderTestCaseMixin, TestCase):
     pass
 
 
-class RenderTransactionTestCase(TransactionTestCase, RenderTestCaseMixin):
+class RenderTransactionTestCase(RenderTestCaseMixin, TransactionTestCase):
     pass
