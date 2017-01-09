@@ -7,6 +7,16 @@ from render.url.utils import strip_params_from_url, add_params_to_url
 
 class RenderTestCaseMixin(object):
 
+    @classmethod
+    def setUpClass(cls):
+        def testRender200s(self):
+            for url in self.get200s():
+                self.assertResponseRenders(url)
+
+        if hasattr(cls, 'get200s'):
+            cls.testRender200s = testRender200s
+        super(RenderTestCaseMixin, cls).setUpClass()
+
     def assertResponseRenders(self, url, status_code=200, method='GET', data={}, has_form_error=False, **kwargs):
         request_method = getattr(self.client, method.lower())
         follow = status_code == 302
@@ -56,13 +66,6 @@ class RenderTestCaseMixin(object):
         redirect_url_from_response, _ = response.redirect_chain[0]
         self.assertEquals(strip_params_from_url(redirect_url_from_response), redirect_url)
         self.assertEquals(response.status_code, status_code)
-
-    def get200s(self):
-        return []
-
-    def testRender200s(self):
-        for url in self.get200s():
-            self.assertResponseRenders(url)
 
 
 class RenderTestCase(RenderTestCaseMixin, TestCase):
