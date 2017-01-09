@@ -15,7 +15,7 @@ from accounts.models import UserAvatar, UserAvatarURL
 from artist.models import Genre, Artist, ArtistAdmin, Update
 from campaign.models import Project, Campaign, RevenueReport
 from music.models import Album, Track, ActivityEstimate
-from render.tests import RenderTestCase
+from render.test import RenderTestCase
 
 
 class PerDiemTestCase(RenderTestCase):
