@@ -1,12 +1,34 @@
 <div class="investments">
-    <h2>MY MUSIC</h2>
+    <h2>MUSIC</h2>
     <div class="break">
         <hr>
     </div>
     <div class="row small-up-1 medium-up-2 large-up-4 centered artistlist">
         {% for album in albums %}
             <div class="column">
-                {% include "object_preview.html" with object=album img=album.artwork.img %}
+                <div class="artist-list-image img-list">
+                    {% include "object_preview.html" with object=album img=album.artwork.img %}
+                </div>
+                <div>
+                    <p>
+                    {% for disc in album.discs %}
+                        {% for track in disc %}
+                            {% if track.total_streams %}
+                                <i class="fa fa-cloud" aria-hidden="true"></i>
+                                {{ track.total_streams}}
+                            {% else %}
+                                EXCLUSIVE
+                            {% endif %}
+                        {% endfor %}
+                        {% for track in disc %}
+                            {% if track.total_downloads %}
+                                <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                                {{ track.total_downloads }}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </p>
+                </div>
             </div>
         {% endfor %}
     </div>
