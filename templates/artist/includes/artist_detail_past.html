@@ -1,41 +1,93 @@
 {% load humanize %}
+{% load thumbnail %}
+{% load markdown_deux_tags %}
 {% load perdiem %}
+{% load music %}
+{% load staticfiles %}
 
 <div class="tabs-panel" id="past">
-    <h2>PAST CAMPAIGNS</h2>
-    <ul>
-        {% for past_campaign in artist.past_campaigns %}
-            <div class="break">
-                <hr>
+    {% if user.is_authenticated %}
+        {% if campaign %}
+            <h3>Current Project</h3>
+            <div class="profile-container">
+                <canvas id="myChart5"></canvas>
             </div>
-            <div class="past-campaign">
+            <ul>
+                {% if user_investor %}
+                    <li class="me-investing">
+                        My percentage:
+                        {% if user_investor.percentage < 0.005 %}
+                            &lt;0.01%
+                        {% else %}
+                            {{ user_investor.percentage|notrail_floatformat:2 }}%
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% for percentage_breakdown in campaign.project.artist_percentage %}
+                    <li>{{ percentage_breakdown.name }}: {{ percentage_breakdown.percentage|notrail_floatformat:2 }}%</li>
+                {% endfor %}
                 <li>
-                    <h3>${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }}</h3>
-
-                    <!-- Countdown Widget -->
-                    {% include "artist/includes/artist_detail_countdown.html" with campaign=past_campaign %}
-
-                    <!-- What is the money being used for? -->
-                    <h4>WHAT WAS THE MONEY USED FOR?</h4>
-                    <p>{{ past_campaign.use_of_funds }}</p>
-                    <ul>
-                        {% for expense in past_campaign.expense_set.all %}
-                            <li>{{ expense.expense }}</li>
-                        {% endfor %}
-                        <li><strong>Total = ${{ past_campaign.amount|intcomma }}</strong></li>
-                    </ul>
-
-                    <!-- What do you get for investing? -->
-                    <h4>WHAT DID INVESTORS GET FOR INVESTING?</h4>
-                    <p>Raised ${{ past_campaign.amount|intcomma }} {{ past_campaign.project.reason }} and giving {{ past_campaign.fans_percentage }}% of the sales back to the people who invested in it.</p>
-                    {% if past_campaign.project.generated_revenue %}
-                        <p>${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for fans).</p>
-                    {% endif %}
-                    <div class="break">
-                        <hr>
-                    </div>
+                    {% if user_investor %}Other Investors:{% else %}Investors:{% endif %}
+                    {{ fans_percentage|notrail_floatformat:2 }}%
                 </li>
-            </div>
-        {% endfor %}
-    </ul>
+            </ul>
+    {% endif %}
+
+    {% if latest_campaign and latest_campaign.project.generated_revenue %}
+        <br/>
+        <h5>${{ latest_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} Total Earnings</h5>
+        <h5>${{ latest_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} Investor Earnings</h5>
+        <div class="break">
+            <hr>
+        </div>
+    {% endif %}
+        <h3>Past Campaigns</h3>
+        <ul>
+            {% for past_campaign in artist.past_campaigns %}
+                <div class="break">
+                    <hr>
+                </div>
+                <div class="past-campaign">
+                    <li>
+                        <h5>Raised ${{ past_campaign.amount|intcomma }} for {{ past_campaign.fans_percentage }}% of {{ past_campaign.project.reason }} revenue</h5>
+                        <h5>{{ past_campaign.use_of_funds }}</h5>
+                        {% if past_campaign.project.generated_revenue %}
+                            <h5>${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for investors).</h5>
+                        {% endif %}
+                        <div class="break">
+                            <hr>
+                        </div>
+                    </li>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h4>TO VIEW BREAKDOWN</h4>
+        <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+        <button class="button login-box" data-open="login-modal">LOGIN</button>
+    {% endif %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+    <script>
+        {% if campaign %}
+        var ctx = document.getElementById("myChart5").getContext('2d');
+        var myChart5 = new Chart(ctx, { {% if user_investor %}
+          type: 'pie',
+          data: {
+            labels: ["Me", "Other Investors", "Artist"],
+            datasets: [{
+              backgroundColor: [
+                "#85929E",
+                "#34495E",
+                "#d6dbdf"
+              ],
+              data: [{{ user_investor.percentage_display|floatformat:2 }}, {{ fans_percentage_display|floatformat:2 }}, {% for percentage_breakdown in campaign.project.artist_percentage %}{{ percentage_breakdown.percentage|floatformat:2 }}{% endfor %} ] 
+            }]
+          }
+        });
+        {% endif %}
+        {% endif %}
+    </script>
+
 </div>
