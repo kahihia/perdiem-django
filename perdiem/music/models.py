@@ -19,7 +19,7 @@ from gfklookupwidget.fields import GfkLookupField
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from campaign.models import Project
-from render.url.utils import add_params_to_url
+from pigeon.url.utils import add_params_to_url
 
 
 class Album(models.Model):

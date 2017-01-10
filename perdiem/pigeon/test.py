@@ -2,7 +2,7 @@ import json
 
 from django.test import TestCase, TransactionTestCase
 
-from render.url.utils import strip_params_from_url, add_params_to_url
+from pigeon.url.utils import strip_params_from_url, add_params_to_url
 
 
 class RenderTestCaseMixin(object):
