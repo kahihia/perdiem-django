@@ -18,7 +18,7 @@ h1 {
 h2 {
     text-align: center;
     font-size: 4em;
-    color: #000;
+    color: #285e6f;
     font-weight: 400;
     text-transform: uppercase;
 }
@@ -42,12 +42,14 @@ h5 {
     font-weight: 200;
     font-size: 1em;
     text-align: center;
+    text-transform: uppercase;
 }
 
 h6 {
-    font-size: 1em;
+    font-size: .9em;
     text-align: center;
     font-weight: 200;
+    text-transform: uppercase;
 }
 
 ul {
@@ -83,10 +85,11 @@ body {
 .full-page {
     min-height: 100%;
     position: relative;
+    background: #fff;
 }
 
 .nav {
-    background-color: black;
+    background-color: black !important;
     padding: 0px;
 }
 
@@ -103,20 +106,21 @@ body {
     padding: 8px 8px;
 }
 
+.nav-right > li {
+    display: inline;
+    float: right;
+    padding: 8px 8px;
+}
+
 .nav a {
     display: block;
-    color: #000;
-    color: #fff;
+    color: #4d96ad;
     padding: 5px 5px;
     text-decoration: none;
 }
 
-.container {
-    padding-bottom: 100px;
-}
-
 .reveal {
-    background-color: #333;
+    background-color: #000;
 }
 
 canvas {
@@ -140,19 +144,23 @@ canvas {
 
 .footer {
     width: 100%;
-    padding: 30px;
+    padding: 20px;
     background-color: #000;
     text-align: center;
 }
 
 .footer a {
-    color: #fff;
+    color: #85929E;
     font-family: Roboto;
     font-size: .6em;
     letter-spacing: 3px;
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
+}
+
+.footer a:hover {
+    color: #fff;
 }
 
 .footer-items > li {
@@ -174,6 +182,7 @@ img.img-404 {
 h2.profile-header {
     text-align: center;
     font-size: 25px;
+    padding: 10px;
 }
 
 p.profile-total {
@@ -242,6 +251,10 @@ a.nav-color {
     color: #fff;
 }
 
+.green-color {
+    color: #4cbd7e!important;
+}
+
 .profile-crop {
     height: 30px;
     width: 30px;
@@ -264,8 +277,10 @@ a.nav-color {
     float: center;
 }
 
-.profile-padding {
+.public-profile-name {
     padding: 5px;
+    font-weight: 400;
+    color: #285e6f;
 }
 
 .public-profile-crop {
@@ -293,21 +308,33 @@ a.nav-color {
 .oauth-icon {
     text-align: center;
     height: auto;
-    width: 200px;
+    width: 250px;
     padding: 5px;
 }
 
 .center {
     text-align: center;
 }
+
 .login-module {
+    text-align: center;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#login-modal label {
+    color: #fff;
+}
+
+.signup-module {
     text-align: center;
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
 }
 
-#login-modal label {
+#signup-modal label {
     color: #fff;
 }
 
@@ -331,7 +358,7 @@ ul.tabs li {
 
 .form-input {
     text-align: center;
-    max-width: 500px;
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -351,7 +378,7 @@ ul.tabs li {
 }
 
 .tabs-title {
-    background-color: #e6e6e6;
+    background-color: #333333;
     margin: 2px;
     width: 150px;
     height: 50px;
@@ -383,6 +410,14 @@ ul.tabs li {
     padding: 0px;
 }
 
+.home-logo-mobile {
+    height: 35px;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    float: left;
+}
+
 a.home-logo {
     margin: 0px;
     padding: 0px;
@@ -409,10 +444,11 @@ li.home-logo {
 .marketplace-container {
     text-align: center;
     padding: 20px;
+    height: 100px;
 }
 
 .marketplace-icons {
-    width: 40px;
+    width: 50px;
 }
 
 .break-small {
@@ -436,4 +472,216 @@ li.home-logo {
     text-align: center;
     padding: 20px;
     max-width: 600px;
+}
+
+#percentage {
+    color: #4cbd7e;
+}
+
+#percentage1 {
+    color: #4cbd7e;
+    font-size: 18px;
+}
+
+.profile-invested {
+    font-size: 20px;
+    color: #4d96ad;
+}
+
+.profile-earned {
+    font-size: 20px;
+    color: #4d96ad;
+}
+
+.roi {
+    font-size: 20px;
+    color: #4d96ad;
+    text-transform: uppercase;
+    font-family: Dosis;
+    font-weight: 400;
+}
+
+ .tabs-title>a {
+    padding: 5px;
+    height: 100%;
+    position: vertical-align;
+ }
+
+ .tab-icon {
+    padding: 5px;
+    color: #4d96ad;
+ }
+
+ .menu>li>a {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+ }
+
+ a.nav-icon {
+    padding: 0px;
+ }
+
+ li.home-logo {
+    padding: 2px;
+ }
+
+.name {
+    font-family: Dosis;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #4d96ad;
+}
+
+.profile-container {
+  width: 80%;
+  margin: 15px auto;
+}
+
+#myChart {
+    font-family: Dosis;
+}
+
+h2.nav-name {
+    text-align: center;
+    font-size: 18px;
+    padding: 5px;
+    margin: 0px;
+}
+
+.profile-stats {
+    margin: 0 auto;
+}
+
+.login-item {
+    padding: 10px;
+}
+
+.left-align {
+    text-align: left
+}
+
+.signup-manual {
+    background-color: #85929E;
+    color: #fff;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 5px;
+    font-weight: 400 !important;
+}
+
+#register-page {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    height: 80vh;
+    }
+
+.signup-form {
+    margin-top: 10%;
+}
+
+.register-copy {
+    color: #285e6f;
+    padding: 20px;
+    font-family: ;
+}
+
+.privacy-padding {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.terms-padding {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-padding {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-padding {
+    padding: 40px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.top-bar-left {
+    width: auto !important;
+}
+
+.top-bar-right {
+    width: auto !important;
+}
+
+.title-bar {
+    padding: 0px;
+}
+
+.small-nav-icon {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.small-home-logo {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.profile-name {
+    color: #4d96ad;
+    font-size: 16px !important;
+    text-transform: uppercase;
+}
+
+.page {
+    min-height: 80%;
+}
+
+.img-list {
+    display: inline-block;
+    height: 225px;
+    width: 225px;
+    margin: 10px;
+    position: relative;
+}
+
+span.text-content {
+    background: rgba(0,0,0,0.5);
+    color: white;
+    cursor: pointer;
+    display: table;
+    height: 225px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 225px;
+    opacity: 0;
+    -webkit-transition: opacity 500ms;
+    -moz-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
+    transition: opacity 500ms;
+}
+
+span.text-content span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.img-list:hover span.text-content {
+    opacity: 1;
+}
+
+.investor-download {
+    font-size: 20px;
 }
