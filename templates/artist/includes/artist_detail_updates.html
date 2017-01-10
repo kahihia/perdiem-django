@@ -1,11 +1,7 @@
 <div class="tabs-panel {% if form.errors %}is-active{% endif %}" id="updates">
-    {% if updates %}
-        <h2>UPDATES</h2>
-        <div class="break">
-            <hr>
-        </div>
+    {% if user.is_authenticated %}
+    <h3>LATEST HAPPENINGS</h3>
         {% include "artist/includes/artist_updates.html" with updates=updates has_permission_to_submit_update=has_permission_to_submit_update %}
-    {% endif %}
 
     {% if has_permission_to_submit_update %}
         <h2>POST AN UPDATE</h2>
@@ -52,5 +48,10 @@
             </div>
             <input type="submit" value="Submit" />
         </form>
+    {% endif %}
+    {% else %}
+        <h4>To View Updates</h4>
+        <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+        <button class="button login-box" data-open="login-modal">LOGIN</button>
     {% endif %}
 </div>
