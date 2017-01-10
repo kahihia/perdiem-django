@@ -1,0 +1,56 @@
+{% load staticfiles %}
+{% load humanize %}
+
+<div class="investments">
+    <h2>EARNINGS</h2>
+    <div class="break">
+        <hr>
+    </div>
+</div>
+<h1 id="percentage"></h1>
+<h4 style="color: #4cbd7e;""><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
+<h3 class="roi">Return on Investment</h3>
+
+<div class="profile-container">
+    <canvas id="myChart"></canvas>
+</div>
+
+<div>
+    {% for artist in artists.values %}
+        <div class="profile-stats">
+            {% if artist.total_earned %}
+                <p>{{ artist.name }}</p>
+                <p style="color: #4cbd7e;""><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ artist.total_earned|floatformat:2|intcomma }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'INVESTED',
+      data: [{{ total_investments|floatformat:2|intcomma }},],
+      backgroundColor: "#85929E"
+    }, {
+      label: 'EARNED',
+      data: [{{ total_earned|floatformat:2|intcomma }},0],
+      backgroundColor: "#34495E"
+    }]
+  }
+});
+
+</script>
+
+<script>
+var x = {{ total_earned|floatformat:2|intcomma }};
+var y = {{ total_investments|floatformat:2|intcomma }};
+var z = x / y * 100;
+document.getElementById("percentage").innerHTML = z.toFixed(2) + ' %';
+</script>
