@@ -2,35 +2,64 @@
 
 {% load staticfiles %}
 {% load humanize %}
+{% load perdiem %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/extra/stats.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
-    <h1>Investments</h1>
+    <h2>Investments</h2>
     <div class="break">
         <hr>
     </div>
+    <h3>Returns</h3>
+    <div class="profile-container">
+        <canvas id="myChart4"></canvas>
+    </div>
+    <h2 id="average-return"></h2>
+    <div class="break">
+        <hr>
+    </div>
+    <h3>Investments</h3>
     <div class="center">
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
     </div>
-    <div class="total-box">
-        <h1 class="white-color">${{ total_raised|floatformat:0|intcomma }}</h1>
-        <p class="white-color">AMOUNT OF MONEY RAISED FOR ARTISTS ON PERDIEM</p>
-    </div>
-    <br/>
-    <h1>Returns</h1>
     <div class="break">
         <hr>
     </div>
+    <h3>Earnings</h3>
     <div class="center">
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
     </div>
-    <div class="total-box">
-        <h1 class="white-color">${{ total_generated|floatformat:0|intcomma }}</h1>
-        <p class="white-color">AMOUNT OF REVENUE GENERATED FOR ARTISTS AND INVESTORS</p>
-    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+    <script>
+    var ctx = document.getElementById("myChart4").getContext('2d');
+    var myChart4 = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Revenue", "Raised"],
+        datasets: [{
+          backgroundColor: [
+            "#85929E",
+            "#34495E"
+          ],
+          data: [{{ total_generated }}, {{ total_raised }}]
+        }]
+      }
+    });
+    </script>
+
+    <script>
+    var g = {{ total_generated }};
+    var r = {{ total_raised }};
+    var t = g / r * 100;
+    document.getElementById("average-return").innerHTML = t.toFixed(2) + ' %';
+    </script>
+
 {% endblock %}
