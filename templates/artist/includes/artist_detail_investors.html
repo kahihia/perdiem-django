@@ -1,24 +1,91 @@
+{% load humanize %} 
+{% load perdiem %}
+{% load staticfiles %}
+
 <div class="tabs-panel" id="investors">
-    <h2>INVESTORS</h2>
+    {% if user.is_authenticated %}
+    <h3>Invest in {{ campaign.project.reason }}</h3>
     <div class="break">
         <hr>
     </div>
+
+    <!-- Invest -->
+    {% if latest_campaign %}
+        {% with campaign=latest_campaign %}
+            {% if campaign.open %}
+                {% if request.user.is_authenticated %}
+                    <img src="{% static "img/project.png" %}" alt="project" height="200px" width="200px" />
+                    <h5 class="remaining">{{ campaign.num_shares_remaining }} shares remaining </h5>
+                    <button id="invest-button" class="button buy" type="button">Invest ${{ DEFAULT_MIN_PURCHASE|floatformat:2 }}
+                    </button>
+                    <div class="invest-num-shares">
+                        <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
+                        <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
+                        <button id="add-shares" class="secondary hollow button" type="button">+</button>
+                    </div>
+                    <h5 class="total-amount">Total: <span data-tooltip aria-haspopup="true" class="has-tip [tip-right] [radius round]" title="${{ PERDIEM_FEE }} PerDiem + Credit Card Fee (2.9%+$0.30)"><span id="shares-price"></span></span></h5>
+                    <div class="break">
+                        <hr>
+                    </div>
+                    <h6>{{ artist.name }} is raising ${{ campaign.amount|intcomma }} and giving {{ campaign.fans_percentage }}% of sales from {{ campaign.project.reason }} to investors</h6>
+                    <h6>The value of a share is ${{ campaign.default_num_shares }}
+                    <h6>Each share is worth <span id="share-price"></span> of {{ campaign.project.reason }} revenue</h6>
+                    <h6>This project is valued at $<span id="valuation"></span></h6>
+                {% else %}
+                    <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+                    <button class="button login-box" data-open="login-modal">LOGIN</button>
+                    <h4>To invest in {{ artist.name }}</h4>
+                {% endif %}
+            {% else %}
+            {% if campaign.percentage_funded == 100 %}
+                <h3 class="campaign-funded">Sold Out</h3>
+            {% endif %}
+                <p><em>This campaign is no longer avaliable {{ campaign.end_datetime|date:'F jS' }}</em></p>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+
+    <div class="break">
+        <hr>
+    </div>
+    
+    <h3>INVESTORS</h3>
     <ul class="menu vertical nested is-active">
         {% for investor in investors %}
             <li id="investor-block">
                 {% if investor.public_profile_url %}
                     <a href="{{ investor.public_profile_url }}">
-                        <img class="profile-crop-list" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
-                        <br/>{{ investor.name }}:
-                    
+                    <img class="profile-crop-list" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
+                    <br/>{{ investor.name }}:
                 {% else %}
                     {{ investor.name }}
                 {% endif %}
-                ${{ investor.total_investment }}
+                    ${{ investor.total_investment }}
                 {% if investor.public_profile_url %}
                     </a>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
+
+
+    {% else %}
+        <h4>To View Investors</h4>
+        <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
+        <button class="button login-box" data-open="login-modal">LOGIN</button>
+    {% endif %}
+
+    <script>
+    var ca = {{ campaign.fans_percentage }};
+    var fp = {{ campaign.amount|intcomma }};
+    var sp = ca / fp * 100;
+    document.getElementById("share-price").innerHTML = sp.toFixed(2) + ' %';
+    </script>
+
+    <script>
+    var ca = {{ campaign.amount|intcomma }};
+    var fp = {{ campaign.fans_percentage }};
+    var va = ca / (fp/100);
+    document.getElementById("valuation").innerHTML = va.toFixed(2);
+    </script>
 </div>
