@@ -3,19 +3,24 @@
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{% static "css/artist/artist_list.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
-    <h1>FUNDED PROJECTS</h1>
-    <div class="break">
-        <hr>
-    </div>
-    <h4>MUSIC THAT HAS BEEN FUNDED AND RELEASED THROUGH PERDIEM</h4>
-    <div class="row small-up-1 medium-up-2 large-up-4 centered artistlist">
-        {% for album in albums %}
-            <div class="column">
-                {% include "object_preview.html" with object=album img=album.artwork.img %}
-            </div>
-        {% endfor %}
+    <div id="music-page" class="music-page">
+        <h2>Music</h2>
+        <div class="break">
+            <hr>
+        </div>
+        <h4>RELEASE AND EXCLUSIVES ON PERDIEM</h4>
+        <div class="row small-up-1 medium-up-2 large-up-4 centered artistlist">
+            {% for album in albums %}
+                <div class="column">
+                    <div class="artist-list-image img-list">
+                        {% include "object_preview.html" with object=album img=album.artwork.img %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
