@@ -20,11 +20,11 @@
                         <a href="#"><h6 class="list-font">{{ active_genre }}</h6></a>
                         <ul class="menu is-dropdown-submenu">
                             {% if active_genre != 'All Genres' %}
-                                <li><a href="?campaign-status={{ campaign_status }}&genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
+                                <li><a href="?genre=All%20Genres&sort={{ order_by.slug }}"><h6>All Genres</h6></a></li>
                             {% endif %}
                             {% for genre in genres %}
                                 {% if genre != active_genre %}
-                                    <li><a href="?campaign-status={{ campaign_status }}&genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h6 class="list-font">{{ genre }}</h6></a></li>
+                                    <li><a href="?genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h6 class="list-font">{{ genre }}</h6></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -72,7 +72,7 @@
                     <ul class="menu is-dropdown-submenu">
                         {% for option in sort_options %}
                             {% if option.slug != order_by.slug %}
-                                <li><a href="?campaign-status={{ campaign_status }}&genre={{ active_genre }}&sort={{ option.slug }}"><h6 class="list-font">{{ option.name }}</h6></a></li>
+                                <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}"><h6 class="list-font">{{ option.name }}</h6></a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -135,7 +135,6 @@
 {% block extrajs %}
     <script type="text/javascript">
         var my_location = {% if lat and lon %}true{% else %}false{% endif %};
-        var campaign_status = '{{ campaign_status|escapejs }}';
         var active_genre = '{{ active_genre|escapejs }}';
         var order_by = '{{ order_by.slug|escapejs }}';
     </script>

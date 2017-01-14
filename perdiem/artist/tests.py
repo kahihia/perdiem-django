@@ -31,7 +31,6 @@ class ArtistWebTestCase(PerDiemTestCase):
         return [
             '/artists/',
             '/artists/?genre=Progressive+Rock',
-            '/artists/?campaign-status=Funded',
             '/artists/?distance=50&lat=43.7689&lon=-79.4138',
             '/artists/?sort=recent',
             '/artists/?sort=funded',

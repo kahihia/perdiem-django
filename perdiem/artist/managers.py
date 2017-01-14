@@ -54,27 +54,6 @@ class ArtistQuerySet(models.QuerySet):
 
         return self.filter(id__in=funded_artist_ids)
 
-    def filter_by_campaign_status(self, campaign_status):
-        now = timezone.now()
-        if campaign_status == 'Active':
-            return self.annotate(
-                ended=models.Case(
-                    models.When(
-                        project__campaign__end_datetime__isnull=True,
-                        then=False
-                    ),
-                    models.When(
-                        project__campaign__end_datetime__gte=now,
-                        then=False
-                    ),
-                    default=True,
-                    output_field=models.BooleanField()
-                )
-            ).filter(project__campaign__start_datetime__lte=now, ended=False).distinct()
-        elif campaign_status == 'Funded':
-            return self.filter_by_funded()
-        return self.all()
-
     def filter_by_location(self, distance, lat, lon):
         min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(distance, lat, lon)
         artists_within_bounds = self.filter(
