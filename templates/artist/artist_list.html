@@ -30,11 +30,10 @@
                         </ul>
                     </li>
                 {% endif %}
-                <li class="nav-float"><h6>FROM</h6></li>
                 <li class="nav-float">
                     <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
                         <h6>{% if distance %}within {{ distance }} miles{% endif %}
-                        {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h6>
+                        FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h6>
                     </button>
                     <div class="dropdown-pane" id="location-dropdown" data-dropdown>
                         <h6>within</h6>
