@@ -19,3 +19,89 @@
     </div>
 
 {% endblock %}
+
+
+{% block extrajs %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+    <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{% for month_revenue in estimated_cumulative_revenue %}
+                            "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}],
+        datasets: [{
+          label: 'Downloads',
+          data: [{% for disc in album.discs %}{% for track in disc %}
+        {% if track.total_downloads %}
+            {{ track.total_downloads }},
+        {% else %}
+        {% endif %}
+        {% endfor %}{% endfor %}],
+          backgroundColor: "#34495E"
+        }, {
+          label: 'Streams',
+          data: [{% for disc in album.discs %}
+        {% for track in disc %}
+        {% if track.total_streams %}
+            {{ track.total_streams}},
+        {% else %}
+        {% endif %}
+            {% endfor %}
+            {% endfor %}],
+          backgroundColor: "#85929E"
+        }],
+      }
+    });
+    </script>
+
+    <script>
+    var ctx = document.getElementById("myChart2").getContext('2d');
+    var myChart2 = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [{% for month_revenue in estimated_cumulative_revenue %}
+                            "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}],
+        datasets: [ {
+          label: 'Streams',
+          data: [{% for disc in album.discs %}
+        {% for track in disc %}
+        {% if track.total_streams %}
+            {{ track.total_streams}},
+        {% else %}
+        {% endif %}
+            {% endfor %}
+            {% endfor %}],
+          backgroundColor: "#85929E"
+        }]
+      }
+    });
+    </script>
+
+    <script>
+    var ctx = document.getElementById("myChart3").getContext('2d');
+    var myChart3 = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [{% for month_revenue in estimated_cumulative_revenue %}
+                            "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}],
+        datasets: [{
+          label: 'DOWNLOADS',
+          data: [{% for disc in album.discs %}{% for track in disc %}
+        {% if track.total_downloads %}
+            {{ track.total_downloads }},
+        {% else %}
+        {% endif %}
+        {% endfor %}{% endfor %}],
+          backgroundColor: "#34495E"
+        }]
+      }
+    });
+    </script>
+
+{% endblock %}
