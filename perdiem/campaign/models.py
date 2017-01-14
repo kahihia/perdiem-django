@@ -143,10 +143,6 @@ class Campaign(models.Model):
     def percentage_roi(self, percentage):
         return self.amount * (percentage / self.fans_percentage)
 
-    def days_remaining(self):
-        if self.end_datetime:
-            return max(0, (self.end_datetime - timezone.now()).days)
-
     def open(self):
         started = self.start_datetime is None or self.start_datetime < timezone.now()
         ended = self.end_datetime and self.end_datetime < timezone.now()
