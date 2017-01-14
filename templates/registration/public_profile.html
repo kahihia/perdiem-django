@@ -14,13 +14,12 @@
 
     <div>
         <h2 id="percentage"></h2>
-        <h4 style="color: #4cbd7e;""><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
+        <h4 class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
     </div>
 
     <div class="break">
         <hr>
     </div>
-    {% if user.is_authenticated %}
 
     {% if artists %}
         <div class="investments">
@@ -35,9 +34,9 @@
         <p>{{ profile_user.userprofile.get_display_name }} hasn't invested in anything yet!</p>
     {% endif %}
 
-    {% else %}
-        <p>Login to view profile</p>
-    {% endif %}
+{% endblock %}
+
+{% block extrajs %}
 
     <script>
     var x = {{ total_earned|floatformat:2|intcomma }};
@@ -45,6 +44,5 @@
     var z = x / y * 100;
     document.getElementById("percentage").innerHTML = z.toFixed(2) + ' %';
     </script>
-
 
 {% endblock %}
