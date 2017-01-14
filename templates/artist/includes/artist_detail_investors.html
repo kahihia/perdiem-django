@@ -1,6 +1,6 @@
-{% load humanize %} 
-{% load perdiem %}
 {% load staticfiles %}
+{% load humanize %}
+{% load perdiem %}
 
 <div class="tabs-panel" id="investors">
     {% if user.is_authenticated %}
@@ -45,11 +45,16 @@
         {% endwith %}
     {% endif %}
 
+    {% else %}
+        <h4>To Invest in {{ artist.name }}</h4>
+        {% include "artist/includes/auth_buttons.html" %}
+    {% endif %}
+
     <div class="break">
         <hr>
     </div>
-    
-    <h3>INVESTORS</h3>
+
+    <h4>CURRENT INVESTORS</h4>
     <ul class="menu vertical nested is-active">
         {% for investor in investors %}
             <li id="investor-block">
@@ -68,24 +73,17 @@
         {% endfor %}
     </ul>
 
-
-    {% else %}
-        <h4>To View Investors</h4>
-        <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
-        <button class="button login-box" data-open="login-modal">LOGIN</button>
-    {% endif %}
-
     <script>
     var ca = {{ campaign.fans_percentage }};
     var fp = {{ campaign.amount|intcomma }};
     var sp = ca / fp * 100;
-    document.getElementById("share-price").innerHTML = sp.toFixed(2) + ' %';
+    $('#share-price').html(sp.toFixed(2) + ' %');
     </script>
 
     <script>
     var ca = {{ campaign.amount|intcomma }};
     var fp = {{ campaign.fans_percentage }};
     var va = ca / (fp/100);
-    document.getElementById("valuation").innerHTML = va.toFixed(2);
+    $('#valuation').html(va.toFixed(2);
     </script>
 </div>
