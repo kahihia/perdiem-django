@@ -128,7 +128,7 @@ canvas {
     max-height: 640px;
 }
 
-#canvas-box {   
+#canvas-box {
     text-align: center;
 }
 
@@ -252,7 +252,7 @@ a.nav-color {
 }
 
 .green-color {
-    color: #4cbd7e!important;
+    color: #4cbd7e !important;
 }
 
 .profile-crop {
@@ -428,7 +428,7 @@ li.home-logo {
     padding: 0px;
 }
 
-.album-bio {    
+.album-bio {
     margin: 0 auto;
     padding-top: 10px;
     padding-left: 10px;
@@ -462,8 +462,8 @@ li.home-logo {
     padding: 10px;
 }
 
-.ol-center { 
-    text-align: center; 
+.ol-center {
+    text-align: center;
     list-style-position:inside;
 }
 
@@ -501,7 +501,7 @@ li.home-logo {
     font-weight: 400;
 }
 
- .tabs-title>a {
+ .tabs-title > a {
     padding: 5px;
     height: 100%;
     position: vertical-align;
@@ -512,7 +512,7 @@ li.home-logo {
     color: #4d96ad;
  }
 
- .menu>li>a {
+ .menu > li > a {
     padding-right: 15px;
     padding-left: 15px;
     padding-top: 7px;
