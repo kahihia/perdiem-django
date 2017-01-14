@@ -3,7 +3,7 @@
 {% load markdown_deux_tags %}
 {% load perdiem %}
 
-<div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview"> 
+<div class="tabs-panel {% if not form.errors %}is-active{% endif %}" id="overview">
 
     <!-- Photo -->
     {% thumbnail artist.photo.img "500x500" as thumb %}
@@ -14,11 +14,12 @@
 
     <!-- Genre -->
     {% with genres=artist.genres.all %}
-        <h4 class="strong">{{ genres|length|pluralize }} {{ genres|join:" / " }} // 
+    <h4 class="strong">
+        {{ genres|length|pluralize }} {{ genres|join:" / " }}
+        // {{ artist.location }}
+    </h4>
     {% endwith %}
 
-    <!-- Location -->
-    {{ artist.location }}</h4>
         <div>
             <iframe src="https://embed.spotify.com/?uri=spotify:artist:2wzc9c6rclNEtMBAkg3FEN&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
         </div>
