@@ -159,8 +159,10 @@ class UserProfile(models.Model):
             total_earned += generated_revenue_user
         context['total_earned'] = total_earned
 
+        # Add percentage of return to context
+        total_investments = aggregate_context['total_investments'] or 0
         try:
-            percentage = total_earned / aggregate_context['total_investments'] * 100
+            percentage = total_earned / total_investments * 100
         except ZeroDivisionError:
             percentage = 0
         context['percentage'] = percentage
