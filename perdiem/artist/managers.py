@@ -35,7 +35,7 @@ class ArtistQuerySet(models.QuerySet):
     def valuation(artist):
         campaign = artist.latest_campaign()
         if campaign:
-            valuation = campaign.percentage_roi(100)
+            valuation = campaign.valuation()
             artist.valuation = valuation
             return valuation
 

@@ -143,6 +143,9 @@ class Campaign(models.Model):
     def percentage_roi(self, percentage):
         return self.amount * (percentage / self.fans_percentage)
 
+    def valuation(self):
+        return self.percentage_roi(100)
+
     def open(self):
         started = self.start_datetime is None or self.start_datetime < timezone.now()
         ended = self.end_datetime and self.end_datetime < timezone.now()
