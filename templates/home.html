@@ -8,15 +8,6 @@
 {% block content %}
     <div id="home-page" class="home-page">
         {% if user.is_authenticated %}
-            <style>
-            #home-page {
-                position: relative;
-                background-size: 50%;
-                background-repeat: no-repeat;
-                background-position: 50%;
-                background-color: black;
-            }
-            </style>
             <h2 class="name-header white-color">Welcome, {% firstof user.get_full_name user.get_username %}</h2>
             <h2> latest happenings </h2>
         {% else %}
