@@ -4,6 +4,9 @@
 {% load markdown_deux_tags %}
 {% load music %}
 
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/music/music.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
 
 {% block content %}
 
@@ -19,7 +22,6 @@
     </div>
 
 {% endblock %}
-
 
 {% block extrajs %}
 
