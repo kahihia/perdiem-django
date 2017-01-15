@@ -1,0 +1,23 @@
+{% load humanize %}
+{% load perdiem %}
+
+<h3>Past Campaigns</h3>
+<ul>
+    {% for past_campaign in artist.past_campaigns %}
+        <div class="break">
+            <hr>
+        </div>
+        <div class="past-campaign">
+            <li>
+                <h5>Raised ${{ past_campaign.amount|intcomma }} for {{ past_campaign.fans_percentage }}% of {{ past_campaign.project.reason }} revenue</h5>
+                <h5>{{ past_campaign.use_of_funds }}</h5>
+                {% if past_campaign.project.generated_revenue %}
+                    <h5>${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }} generated so far from this project (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }} for investors).</h5>
+                {% endif %}
+                <div class="break">
+                    <hr>
+                </div>
+            </li>
+        </div>
+    {% endfor %}
+</ul>
