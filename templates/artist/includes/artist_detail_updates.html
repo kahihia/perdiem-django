@@ -1,56 +1,56 @@
 <div class="tabs-panel {% if form.errors %}is-active{% endif %}" id="updates">
-    {% if user.is_authenticated %}
-        <h3>LATEST HAPPENINGS</h3>
-            {% include "artist/includes/artist_updates.html" with updates=updates has_permission_to_submit_update=has_permission_to_submit_update %}
+{% if user.is_authenticated %}
+    <h3>LATEST HAPPENINGS</h3>
+        {% include "artist/includes/artist_updates.html" with updates=updates has_permission_to_submit_update=has_permission_to_submit_update %}
 
-        {% if has_permission_to_submit_update %}
-            <h2>POST AN UPDATE</h2>
-            <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <p>{{ form.non_field_errors }}</p>
-                <p>
-                    {{ form.title.errors }}
-                    {{ form.title.label }}:
-                    {{ form.title }}
-                </p>
-                <p>
-                    {{ form.text.errors }}
-                    {{ form.text.label }}:
-                    {{ form.text }}
-                </p>
+    {% if has_permission_to_submit_update %}
+        <h2>POST AN UPDATE</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>
+                {{ form.title.errors }}
+                {{ form.title.label }}:
+                {{ form.title }}
+            </p>
+            <p>
+                {{ form.text.errors }}
+                {{ form.text.label }}:
+                {{ form.text }}
+            </p>
 
-                <ul class="tabs" data-tabs id="artist-update-form-media-tabs">
-                    <li class="tabs-title is-active"><a href="#image" aria-selected="true">Image</a></li>
-                    <li class="tabs-title"><a href="#video">Video</a></li>
-                </ul>
+            <ul class="tabs" data-tabs id="artist-update-form-media-tabs">
+                <li class="tabs-title is-active"><a href="#image" aria-selected="true">Image</a></li>
+                <li class="tabs-title"><a href="#video">Video</a></li>
+            </ul>
 
-                <div class="tabs-content" data-tabs-content="artist-update-form-media-tabs">
-                    <div class="tabs-panel is-active" id="image">
-                        <p>
-                            {{ form.image.errors }}
-                            {{ form.image.label }}:
-                            {{ form.image }}
-                        </p>
-                        <h5>-- OR --</h5>
-                        <p>
-                            {{ form.image_url.errors }}
-                            {{ form.image_url.label }}:
-                            {{ form.image_url }}
-                        </p>
-                    </div>
-                    <div class="tabs-panel" id="video">
-                        <p>
-                            {{ form.youtube_url.errors }}
-                            {{ form.youtube_url.label }}:
-                            {{ form.youtube_url }}
-                        </p>
-                    </div>
+            <div class="tabs-content" data-tabs-content="artist-update-form-media-tabs">
+                <div class="tabs-panel is-active" id="image">
+                    <p>
+                        {{ form.image.errors }}
+                        {{ form.image.label }}:
+                        {{ form.image }}
+                    </p>
+                    <h5>-- OR --</h5>
+                    <p>
+                        {{ form.image_url.errors }}
+                        {{ form.image_url.label }}:
+                        {{ form.image_url }}
+                    </p>
                 </div>
-                <input type="submit" value="Submit" />
-            </form>
-        {% endif %}
-    {% else %}
-        <h4>To View Updates</h4>
-        {% include "artist/includes/auth_buttons.html" %}
+                <div class="tabs-panel" id="video">
+                    <p>
+                        {{ form.youtube_url.errors }}
+                        {{ form.youtube_url.label }}:
+                        {{ form.youtube_url }}
+                    </p>
+                </div>
+            </div>
+            <input type="submit" value="Submit" />
+        </form>
     {% endif %}
+{% else %}
+    <h4>To View Updates</h4>
+    {% include "artist/includes/auth_buttons.html" %}
+{% endif %}
 </div>
