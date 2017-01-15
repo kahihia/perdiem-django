@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2 class="profile-header">{% firstof user.get_full_name user.get_username %}'s Profile</h2>
+    <h2 class="profile-header">{% firstof user.get_full_name user.get_username %}</h2>
     {% if user.userprofile.invest_anonymously %}<p><small>(displays publicly as Anonymous)</small></p>{% endif %}
 
     {% if artists %}
