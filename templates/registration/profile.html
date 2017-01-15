@@ -72,11 +72,4 @@
           }
         });
     </script>
-
-    <script>
-        var x = {{ total_earned|floatformat:2|intcomma }};
-        var y = {{ total_investments|floatformat:2|intcomma }};
-        var z = x / y * 100;
-        document.getElementById("percentage").innerHTML = z.toFixed(2) + ' %';
-    </script>
 {% endblock %}
