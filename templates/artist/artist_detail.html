@@ -151,7 +151,7 @@
                     })
                     .done(function(resp) {
                         // Show success
-                        $('#success-modal > h1').text('SUCCESS!');
+                        $('#success-modal > h1').text('SUCCESS!') href="{% url 'profile' %}";
                         var success_message = 'Your investment is being processed. When payment completes, your name will appear in the investor list.';
                         $('#success-modal > p.success-message').text(success_message);
                         $('#success-modal > .success-extra').html("<h4>Share this project</h4>{% filter escapejs %}{% include "artist/includes/share_buttons.html" %}{% endfilter %}");

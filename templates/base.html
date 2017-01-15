@@ -128,8 +128,8 @@
             </div>
             <div class="top-bar-right login-item">
                 <ul class="menu">
-                    <li class="nav"><a class="" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                    <li class="nav"><a class="" data-open="login-modal">LOGIN</a></li>
+                    <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
+                    <li class="nav"><aa data-open="login-modal">LOGIN</a></li>
                 </ul>
             </div>
         </div>
@@ -164,7 +164,7 @@
             <p class="success-message white-color center">The action completed successfully.</p>
             <div class="success-extra white-color"></div>
             <div class="center">
-                <a class="button center" data-close href="{% url 'profile' %}">Okay, got it!</a>
+                <button class="button center" data-close>Okay, got it!</button>
             </div>
             <button class="close-button" data-close aria-label="Close modal" type="button">
                 <span aria-hidden="true">&times;</span>
