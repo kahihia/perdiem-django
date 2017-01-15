@@ -21,7 +21,7 @@
                 <h6>{{ artist.name }} is raising ${{ campaign.amount|intcomma }} and giving {{ campaign.fans_percentage }}% of sales from {{ campaign.project.reason }} to investors</h6>
                 <h6>The value of a share is ${{ campaign.default_num_shares }}
                 <h6>Each share is worth <span id="share-price"></span> of {{ campaign.project.reason }} revenue</h6>
-                <h6>This project is valued at $<span id="valuation"></span></h6>
+                <h6>This project is valued at $<span>{{ campaign.valuation }}</span></h6>
             {% else %}
                 <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
                 <button class="button login-box" data-open="login-modal">LOGIN</button>

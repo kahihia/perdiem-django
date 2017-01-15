@@ -45,11 +45,4 @@
     var sp = ca / fp * 100;
     $('#share-price').html(sp.toFixed(2) + ' %');
     </script>
-
-    <script>
-    var ca = {{ campaign.amount|intcomma }};
-    var fp = {{ campaign.fans_percentage }};
-    var va = ca / (fp/100);
-    $('#valuation').html(va.toFixed(2);
-    </script>
 </div>
