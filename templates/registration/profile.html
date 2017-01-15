@@ -20,23 +20,24 @@
             </ul>
 
             <div class="tabs-content" data-tabs-content="profile-tabs">
-                <div class="tabs-panel" id="portfolio">
-                    {% include "registration/includes/profile_portfolio.html" %}
+                <div class="tabs-panel is-active" id="updates">
+                    <h2>ACTIVITY</h2>
+                    {% if updates %}
+                        {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
+                    {% else %}
+                        <p>This is where you will recieve updates from your artists.</p>
+                        <p>Looks like they haven't posted yet, but when they do it'll feed right here</p>
+                    {% endif %}
                 </div>
                 <div class="tabs-panel" id="profile-stats">
                     {% include "registration/includes/profile_stats.html" %}
                 </div>
-                {% if albums %}
-                    <div class="tabs-panel" id="music">
-                        {% include "registration/includes/profile_music.html" %}
-                    </div>
-                {% endif %}
-                {% if updates %}
-                    <div class="tabs-panel is-active" id="updates">
-                        <h2>ACTIVITY</h2>
-                        {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
-                    </div>
-                {% endif %}
+                <div class="tabs-panel" id="portfolio">
+                    {% include "registration/includes/profile_portfolio.html" %}
+                </div>
+                <div class="tabs-panel" id="music">
+                    {% include "registration/includes/profile_music.html" %}
+                </div>
             </div>
         {% else %}
             {% include "registration/includes/profile_portfolio.html" %}
