@@ -13,7 +13,7 @@
     </div>
 
     <div>
-        <h2 class="percentage">{{ percentage }}</h2>
+        <h2 class="green-color">{{ percentage|floatformat:2|intcomma }}%</h2>
         <h4 class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
     </div>
 
