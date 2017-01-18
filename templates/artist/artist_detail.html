@@ -52,7 +52,12 @@
             {% include "artist/includes/artist_detail_overview.html" %}
             {% include "artist/includes/artist_detail_invest.html" %}
             {% include "artist/includes/artist_detail_projects.html" %}
-            {% include "artist/includes/artist_detail_updates.html" %}
+            {% if updates %}
+                {% include "artist/includes/artist_detail_updates.html" %}
+            {% else %}
+                <p>This is where artists will share their updates.</p>
+                <p>Looks like they haven't posted yet, but when they do you'll see them right here</p>
+            {% endif %}
         </div>
     {% endif %}
 {% endblock %}
