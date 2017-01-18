@@ -16,10 +16,12 @@
 </div>
 
 {% for artist in artists.values %}
-    <div class="profile-stats">
-        {% if artist.total_earned %}
-            <p>{{ artist.name }}</p>
-            <p class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ artist.total_earned|floatformat:2|intcomma }}</p>
-        {% endif %}
-    </div>
+    {% if project.generated_revenue %}
+        <div class="profile-stats">
+            {% if artist.total_earned %}
+                <p>{{ artist.name }}</p>
+                <p class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ artist.total_earned|floatformat:2|intcomma }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endfor %}
