@@ -24,8 +24,8 @@
             <li id="investor-block">
                 {% if investor.public_profile_url %}
                     <a href="{{ investor.public_profile_url }}">
-                    <img class="profile-crop-list" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
-                    <br/>{{ investor.name }}:
+                        <img class="profile-crop-list" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
+                        <br/>{{ investor.name }}:
                 {% else %}
                     {{ investor.name }}
                 {% endif %}

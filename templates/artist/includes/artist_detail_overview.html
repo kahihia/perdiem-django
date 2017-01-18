@@ -14,18 +14,18 @@
 
     <!-- Genre -->
     {% with genres=artist.genres.all %}
-    <h4 class="strong">
-        {{ genres|length|pluralize }} {{ genres|join:" / " }}
-        // {{ artist.location }}
-    </h4>
+        <h4 class="strong">
+            {{ genres|length|pluralize }} {{ genres|join:" / " }}
+            // {{ artist.location }}
+        </h4>
     {% endwith %}
 
-        <div>
-            <iframe src="https://embed.spotify.com/?uri=spotify:artist:2wzc9c6rclNEtMBAkg3FEN&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-        </div>
-        <div class="break">
-            <hr>
-        </div>
+    <div>
+        <iframe src="https://embed.spotify.com/?uri=spotify:artist:2wzc9c6rclNEtMBAkg3FEN&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+    </div>
+    <div class="break">
+        <hr>
+    </div>
 
     <!-- Bio -->
     {% if artist.bio %}
