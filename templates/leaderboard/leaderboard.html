@@ -13,20 +13,14 @@
     <div class="break">
         <hr>
     </div>
-    <h2 class="green-color" id="average-return"></h2>
-    <h4>Overall Return</h4>
-    <div class="break">
-        <hr>
-    </div>
-    <h3>Leaderboard</h3>
     <div class="center">
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
     </div>
+    <h2>Earnings</h2>
     <div class="break">
         <hr>
     </div>
-    <h3>Earnings</h3>
     <div class="center">
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
@@ -35,11 +29,5 @@
 
 {% block extrajs %}
     <script type="text/javascript" src="{% static "js/vendor/Chart.js" %}"></script>
-
-    <script>
-    var g = {{ total_generated }};
-    var r = {{ total_raised }};
-    var t = g / r * 100;
-    document.getElementById("average-return").innerHTML = t.toFixed(2) + ' %';
     </script>
 {% endblock %}
