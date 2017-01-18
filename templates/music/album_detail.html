@@ -41,11 +41,9 @@
             }],
             }
         });
-    </script>
 
-    <script>
-        var ctx = document.getElementById("myChart2").getContext('2d');
-        var myChart2 = new Chart(ctx, {
+        var cta = document.getElementById("myChart2").getContext('2d');
+        var myChart2 = new Chart(cta, {
             type: 'bar',
             data: {
                 labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
@@ -56,11 +54,9 @@
             }]
             }
         });
-    </script>
 
-    <script>
-        var ctx = document.getElementById("myChart3").getContext('2d');
-        var myChart3 = new Chart(ctx, {
+        var ctb = document.getElementById("myChart3").getContext('2d');
+        var myChart3 = new Chart(ctb, {
             type: 'bar',
             data: {
                 labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],

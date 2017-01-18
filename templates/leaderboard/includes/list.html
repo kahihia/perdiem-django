@@ -1,9 +1,9 @@
 {% load humanize %}
 {% load perdiem %}
 
-<div class="leaderboard">
-    {% if leaders %}
-    <h4>Top {{ name }}</h4>
+{% if leaders %}
+    <div class="leaderboard">
+        <h4>Top {{ name }}</h4>
         {% for leader_context in leaders %}
             <a href="{{ leader_context.url }}">
                 <div class="leaderboard-padding button">
@@ -14,5 +14,5 @@
                 </div>
             </a>
         {% endfor %}
-    {% endif %}
-</div>
+    </div>
+{% endif %}
