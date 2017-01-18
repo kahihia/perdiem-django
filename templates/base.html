@@ -58,81 +58,80 @@
     </head>
     <body>
         {% if user.is_authenticated %}
-        <div class="show-for-small-only title-bar">
-            <div class="top-bar nav">
-                <div class="top-bar-left">
-                    <ul class="dropdown menu nav" data-dropdown-menu>
-                        <li class="home-logo"><a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                        <li><a class="small-nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                        <li><a class="small-nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
-                        <li><a class="small-nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>
-                <div class="top-bar-right">
-                    <ul class="dropdown menu" data-dropdown-menu>
-                    {% if total_earned %}
-                        <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
-                    {% else %}
-                        <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
-                    {% endif %}
-                        <li class="nav is-dropdown-submenu-parent">
-                            <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
-                            <ul class="menu vertical is-dropdown-submenu">
-                                <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
-                                <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
-                                <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="hide-for-small-only">
-            <div class="top-bar nav">
-                <div class="top-bar-left">
-                    <ul class="dropdown menu nav" data-dropdown-menu>
-                        <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                        <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                        <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
-                        <li><a class="nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>
-
-                <div class="top-bar-right">
-                    <ul class="dropdown menu" data-dropdown-menu>
-                    {% if total_earned %}
-                        <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
-                    {% else %}
-                        <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
-                    {% endif %}
-                        <li class="nav is-dropdown-submenu-parent">
-                            <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
-                            <ul class="menu vertical is-dropdown-submenu">
-                                <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
-                                <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
-                                <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+            <div class="show-for-small-only title-bar">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="dropdown menu nav" data-dropdown-menu>
+                            <li class="home-logo"><a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li><a class="small-nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a class="small-nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li><a class="small-nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right">
+                        <ul class="dropdown menu" data-dropdown-menu>
+                            {% if total_earned %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
+                            {% else %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
+                            {% endif %}
+                            <li class="nav is-dropdown-submenu-parent">
+                                <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                <ul class="menu vertical is-dropdown-submenu">
+                                    <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                                    <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
+                                    <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
 
+            <div class="hide-for-small-only">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="dropdown menu nav" data-dropdown-menu>
+                            <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li><a class="nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="top-bar-right">
+                        <ul class="dropdown menu" data-dropdown-menu>
+                            {% if total_earned %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
+                            {% else %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
+                            {% endif %}
+                            <li class="nav is-dropdown-submenu-parent">
+                                <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                <ul class="menu vertical is-dropdown-submenu">
+                                    <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                                    <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
+                                    <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         {% else %}
-        <div class="top-bar nav">
-            <div class="top-bar-left">
-                <ul class="menu nav">
-                    <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                </ul>
+            <div class="top-bar nav">
+                <div class="top-bar-left">
+                    <ul class="menu nav">
+                        <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                    </ul>
+                </div>
+                <div class="top-bar-right login-item">
+                    <ul class="menu">
+                        <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
+                        <li class="nav"><aa data-open="login-modal">LOGIN</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="top-bar-right login-item">
-                <ul class="menu">
-                    <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                    <li class="nav"><aa data-open="login-modal">LOGIN</a></li>
-                </ul>
-            </div>
-        </div>
         {% endif %}
 
         <!-- Content -->
