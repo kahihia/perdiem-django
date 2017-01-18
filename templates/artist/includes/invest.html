@@ -7,8 +7,7 @@
             {% if request.user.is_authenticated %}
                 <img src="{% static "img/project.png" %}" alt="project" height="200px" width="200px" />
                 <h5 class="remaining">{{ campaign.num_shares_remaining }} shares remaining </h5>
-                <button id="invest-button" class="button buy" type="button">Invest ${{ DEFAULT_MIN_PURCHASE|floatformat:2 }}
-                </button>
+                <button id="invest-button" class="button buy" type="button">Invest ${{ DEFAULT_MIN_PURCHASE|floatformat:2 }}</button>
                 <div class="invest-num-shares">
                     <button id="remove-shares" class="secondary hollow button disabled shares" type="button" disabled>-</button>
                     <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="{{ campaign.default_num_shares }}" />
@@ -19,19 +18,18 @@
                     <hr>
                 </div>
                 <h6>{{ artist.name }} is raising ${{ campaign.amount|intcomma }} and giving {{ campaign.fans_percentage }}% of sales from {{ campaign.project.reason }} to investors</h6>
-                <h6>The value of a share is ${{ campaign.default_num_shares }}
-                <h6>Each share is worth <span id="share-price"></span> of {{ campaign.project.reason }} revenue</h6>
+                <h6>The value of a share is ${{ campaign.value_per_share }}</h6>
+                <h6>Each share is worth {{ campaign.share_price }} of {{ campaign.project.reason }} revenue</h6>
                 <h6>This project is valued at $<span>{{ campaign.valuation }}</span></h6>
             {% else %}
-                <a class="button login-box" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a>
-                <button class="button login-box" data-open="login-modal">LOGIN</button>
+                {% include "artist/includes/auth_buttons.html" %}
                 <h4>To invest in {{ artist.name }}</h4>
             {% endif %}
-            {% else %}
+        {% else %}
             {% if campaign.percentage_funded == 100 %}
                 <h3 class="campaign-funded">Sold Out</h3>
             {% endif %}
                 <p><em>This campaign is no longer avaliable {{ campaign.end_datetime|date:'F jS' }}</em></p>
-            {% endif %}
-{% endwith %}
+        {% endif %}
+    {% endwith %}
 {% endif %}
