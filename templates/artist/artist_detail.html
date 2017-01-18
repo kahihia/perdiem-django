@@ -128,7 +128,10 @@
                     })
                     .done(function(resp) {
                         // Show success
-                        $('#success-modal > h1').text('SUCCESS!') href="{% url 'profile' %}";
+                        $('#success-modal > h1').text('SUCCESS!');
+                        $('#success-modal button.button').click(function() {
+                            window.location.href = '{% url 'profile' %}';
+                        });
                         var success_message = 'Your investment is being processed. When payment completes, your name will appear in the investor list.';
                         $('#success-modal > p.success-message').text(success_message);
                         $('#success-modal > .success-extra').html("<h4>Share this project</h4>{% filter escapejs %}{% include "artist/includes/share_buttons.html" %}{% endfilter %}");
@@ -149,22 +152,20 @@
         {% if campaign %}
             var ctx = document.getElementById("myChart5").getContext('2d');
             var myChart5 = new Chart(ctx, {
-                {% if user_investor %}
-                    type: 'pie',
-                    data: {
-                        labels: ["Me", "Other Investors", "Artist"],
-                        datasets: [{
-                            backgroundColor: ["#85929E", "#34495E", "#d6dbdf"],
-                            data: [
-                                {{ user_investor.percentage_display|floatformat:2 }},
-                                {{ fans_percentage_display|floatformat:2 }},
-                                {% for percentage_breakdown in campaign.project.artist_percentage %}
-                                    {{ percentage_breakdown.percentage|floatformat:2 }}
-                                {% endfor %}
-                            ]
-                        }]
-                    }
-                {% endif %}
+                type: 'pie',
+                data: {
+                    labels: ["Me", "Other Investors", "Artist"],
+                    datasets: [{
+                        backgroundColor: ["#85929E", "#34495E", "#d6dbdf"],
+                        data: [
+                            {{ user_investor.percentage_display|floatformat:2 }},
+                            {{ fans_percentage_display|floatformat:2 }},
+                            {% for percentage_breakdown in campaign.project.artist_percentage %}
+                                {{ percentage_breakdown.percentage|floatformat:2 }}
+                            {% endfor %}
+                        ]
+                    }]
+                }
             });
         {% endif %}
     </script>
