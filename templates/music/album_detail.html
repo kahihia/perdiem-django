@@ -30,15 +30,18 @@
             type: 'line',
             data: {
                 labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [{
-                label: 'Downloads',
-                data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
-                backgroundColor: "#34495E"
-                }, {
-                label: 'Streams',
-                data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
-                backgroundColor: "#85929E"
-            }],
+                datasets: [
+                    {
+                        label: 'Downloads',
+                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
+                        backgroundColor: "#34495E"
+                    },
+                    {
+                        label: 'Streams',
+                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
+                        backgroundColor: "#85929E"
+                    }
+                ],
             }
         });
 
@@ -47,11 +50,13 @@
             type: 'bar',
             data: {
                 labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [ {
-                label: 'Streams',
-                data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
-                backgroundColor: "#85929E"
-            }]
+                datasets: [
+                    {
+                        label: 'Streams',
+                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
+                        backgroundColor: "#85929E"
+                    }
+                ]
             }
         });
 
@@ -60,11 +65,13 @@
             type: 'bar',
             data: {
                 labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [{
-                label: 'DOWNLOADS',
-                data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
-                backgroundColor: "#34495E"
-            }]
+                datasets: [
+                    {
+                        label: 'DOWNLOADS',
+                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
+                        backgroundColor: "#34495E"
+                    }
+                ]
             }
         });
     </script>
