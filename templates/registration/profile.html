@@ -54,21 +54,21 @@
         var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
-            data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'INVESTED',
-                    data: [{{ total_investments|floatformat:2|intcomma }}],
-                    backgroundColor: "#85929E"
-                },
-                {
-                    label: 'EARNED',
-                    data: [{{ total_earned|floatformat:2|intcomma }}],
-                    backgroundColor: "#34495E"
-                }
-            ]
-        }
+                data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'INVESTED',
+                        data: [{{ total_investments|floatformat:2|intcomma }}],
+                        backgroundColor: "#85929E"
+                    },
+                    {
+                        label: 'EARNED',
+                        data: [{{ total_earned|floatformat:2|intcomma }}],
+                        backgroundColor: "#34495E"
+                    }
+                ]
+            }
         });
     </script>
 {% endblock %}
