@@ -25,7 +25,7 @@
                 {% include "artist/includes/auth_buttons.html" %}
                 <h4>To invest in {{ artist.name }}</h4>
             {% endif %}
-            {% else %}
+        {% else %}
             {% if campaign.percentage_funded == 100 %}
                 <h3 class="campaign-funded">Sold Out</h3>
             {% endif %}
