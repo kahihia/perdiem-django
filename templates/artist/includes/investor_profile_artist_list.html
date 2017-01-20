@@ -12,11 +12,13 @@
                 {% include "object_preview.html" with object=artist img=artist.photo.img %}
             </div>
             <div>
-                {% if artist.total_earned %}
-                    <p class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ artist.total_earned|floatformat:2|intcomma }} /<span class="green-color"${{ artist.total_invested|floatformat:2|intcomma }}</span></p>
-                {% else %}
-                    <p class="green-color">${{ artist.total_earned|floatformat:2|intcomma }} /<span class="green-color">${{ artist.total_invested|floatformat:2|intcomma }}</span></p>
-                {% endif %}
+                <p class="green-color">
+                    {% if artist.total_earned %}
+                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                    {% endif %}
+                    ${{ artist.total_earned|floatformat:2|intcomma }} /
+                    <span class="green-color">${{ artist.total_invested|floatformat:2|intcomma }}</span>
+                </p>
             </div>
         </div>
     {% endfor %}
