@@ -4,6 +4,7 @@
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{% static "css/profile/profile.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
@@ -14,7 +15,11 @@
 
     <div>
         <h2 class="green-color">{{ percentage|floatformat:2|intcomma }}%</h2>
-        <h4 class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
+        <h4 class="green-color">
+        {% if artists %}
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        {% endif %}
+        ${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
     </div>
 
     <div class="break">
