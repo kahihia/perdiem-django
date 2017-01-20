@@ -41,7 +41,7 @@
                         data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
                         backgroundColor: "#85929E"
                     }
-                ],
+                ]
             }
         });
 
