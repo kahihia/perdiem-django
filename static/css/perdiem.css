@@ -621,3 +621,7 @@ h5.button-font {
 .register-buttons {
     padding-top: 10%;
 }
+
+.left p {
+    text-align: left;
+}
