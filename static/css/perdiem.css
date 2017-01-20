@@ -53,7 +53,6 @@ h6 {
 }
 
 ul {
-    margin-left: 0;
     list-style-type: none;
     text-align: center;
 }
@@ -272,6 +271,7 @@ a.nav-color {
 
 #login-modal label {
     color: #fff;
+    font-family: Dosis;
 }
 
 .signup-module {
@@ -308,6 +308,7 @@ ul.tabs li {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    background-color: white;
 }
 
 .large-form-input {
@@ -553,4 +554,70 @@ span.text-content span {
 
 .img-list:hover span.text-content {
     opacity: 1;
+}
+
+.color-blue {
+    color: #285e6f;
+}
+
+.color-grey {
+    color: #85929E;
+}
+
+.color-black {
+    color: black;
+}
+
+.break-small-white {
+    padding-right: 30%;
+    padding-left: 30%;
+    color: white;
+}
+
+.sign-up-button {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.facebook {
+    background-color: #1f4897;
+}
+
+.google {
+    background-color: #eeeeee;
+}
+
+.manually {
+    background-color: #85929e;
+}
+
+.facebook-font {
+    color: white;
+}
+
+.google-font {
+    color: #6b6b6b;
+}
+
+.manual-font {
+    color: black;
+}
+
+.button-container {
+    padding: 5px
+}
+
+.button-icon-padding {
+    padding-right: 10px;
+    font-size: 20px;
+}
+
+h5.button-font {
+    margin: 0px;
+}
+
+.register-buttons {
+    padding-top: 10%;
 }

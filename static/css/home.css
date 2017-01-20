@@ -1,11 +1,19 @@
 .home-page {
-    min-height: 80vh;
+    height: 100vh;
+}
+
+.about {
+    min-height: 100vh;
+    background-color: black;
 }
 
 h2.name-header {
     padding-top: 40px;
+    padding-bottom: 30px;
     text-align: center;
-    font-size: 25px;
+    font-size: 28px;
+    color: white;
+    font-weight: 200;
 }
 
 .footer-position {
@@ -21,4 +29,74 @@ h2.name-header {
 .social-icon-home {
     margin: 0px;
     padding: 0px;
+}
+
+ul.color-white {
+    color: white;
+    font-weight: 200;
+}
+
+h2.title {
+    font-weight: 200;
+}
+
+li.price {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.about-padding {
+    padding:30px;
+}
+
+h2.color-black:hover {
+    color: #85929E;
+}
+
+.sign-up {
+    background-color: #2199e8;
+    font-family: Roboto;
+}
+
+a.learn-more {
+    color: black;
+
+}
+
+a.learn-more:hover {
+    color: #85929E;
+}
+
+.home-copy {
+    text-transform: uppercase;
+    color: #4d96ad;
+    font-family: Dosis;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 20px
+}
+
+.home-button {
+    margin: 50px;
+    padding: 20px;
+    font-family: Dosis;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.home-icon {
+    color: white;
+    padding: 5px;
+}
+
+.money-icon {
+    color: #4cbd7e;
+    padding: 5px;
+}
+
+.home-description {
+    padding-top: 5%;
 }

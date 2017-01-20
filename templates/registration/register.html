@@ -3,26 +3,37 @@
 
 {% block content %}
     <div id="register-page" class="page">
-        <h2 class="extra-padding">Sign Up</h2>
+        <h2 class="extra-padding">Register</h2>
         <div class="break">
             <hr>
         </div>
-        <div class="center signup-form">
-            <a href="{% url 'social:begin' backend='facebook-register' %}"><img class="oauth-icon" src="{% static "img/facebook-signup.png" %}" alt="Register with Facebook" /></a><br/>
-            <a href="{% url 'social:begin' backend='google-oauth2-register' %}"><img class="oauth-icon" src="{% static "img/google-signup.png" %}" alt="Register with Google" /></a>
-            <div class="form-input sign-up">
-                <h5><a class="signup-manual" data-open="signup-modal">Sign Up with e-mail / password</a></h5>
+        <div class="register-buttons">
+            <div class="button-container">
+                <div class="sign-up-button facebook">
+                    <h5 class="button-font"><a class="facebook-font" href="{% url 'social:begin' backend='facebook-register' %}"><i class="fa fa-facebook button-icon-padding" aria-hidden="true"></i>Sign Up with Facebook</a></h5>
+                </div>
             </div>
-        </div>
-        <div class="reveal center" id="signup-modal" data-reveal>
-            <form action="" method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-            <input class="button submit-button" type="submit" value="Register" />
-            </form>
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-            </button>
+            <div class="button-container">
+                <div class="sign-up-button google">
+                    <h5 class="button-font"><a class="google-font" href="{% url 'social:begin' backend='google-oauth2-register' %}"><i class="fa fa-google button-icon-padding" aria-hidden="true"></i>Sign Up with Google</a></h5>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <div class="sign-up-button manually">
+                    <h5 class="button-font"><a class="manual-font" data-open="signup-modal"><i class="fa fa-envelope button-icon-padding" aria-hidden="true"></i>Sign Up with e-mail</a></h5>
+                </div>
+            </div>
+            <div class="reveal center" id="signup-modal" data-reveal>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                <input class="button submit-button" type="submit" value="Register" />
+                </form>
+                <button class="close-button" data-close aria-label="Close modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </div>
     </div>
 {% endblock %}

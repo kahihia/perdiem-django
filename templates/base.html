@@ -92,7 +92,7 @@
                 <div class="top-bar nav">
                     <div class="top-bar-left">
                         <ul class="dropdown menu nav" data-dropdown-menu>
-                            <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li class="home-logo"><a class="home-logo" href="{% url 'profile' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
                             <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
                             <li><a class="nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
@@ -128,7 +128,7 @@
                 <div class="top-bar-right login-item">
                     <ul class="menu">
                         <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                        <li class="nav"><aa data-open="login-modal">LOGIN</a></li>
+                        <li class="nav"><a data-open="login-modal">LOGIN</a></li>
                     </ul>
                 </div>
             </div>
@@ -188,8 +188,18 @@
             <div class="break">
                 <hr>
             </div>
-            <a href="{% url 'social:begin' backend='facebook-login' %}"><img class="oauth-icon" src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a><br/>
-            <a href="{% url 'social:begin' backend='google-oauth2-login' %}"><img class="oauth-icon" src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
+            <div class="register-buttons">
+                <div class="button-container">
+                    <div class="sign-up-button facebook">
+                        <h5 class="button-font"><a class="facebook-font" href="{% url 'social:begin' backend='facebook-login' %}"><i class="fa fa-facebook button-icon-padding" aria-hidden="true"></i>Login with Facebook</a></h5>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <div class="sign-up-button google">
+                        <h5 class="button-font"><a class="google-font" href="{% url 'social:begin' backend='google-oauth2-login' %}"><i class="fa fa-google button-icon-padding" aria-hidden="true"></i>Login with Google</a></h5>
+                    </div>
+                </div>
+            </div>
             <form class="login-module" action="" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
