@@ -37,10 +37,4 @@
         {% endfor %}
     </ul>
 
-    <script>
-    var ca = {{ campaign.fans_percentage }};
-    var fp = {{ campaign.amount|intcomma }};
-    var sp = ca / fp * 100;
-    $('#share-price').html(sp.toFixed(2) + ' %');
-    </script>
 </div>

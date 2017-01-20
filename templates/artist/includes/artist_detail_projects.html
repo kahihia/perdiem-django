@@ -10,9 +10,9 @@
     {% if latest_campaign and latest_campaign.project.generated_revenue %}
         <br/>
         <h5>
-            ${{ past_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }}
+            ${{ latest_campaign.project.generated_revenue|notrail_floatformat:2|intcomma }}
             generated so far from this project
-            (${{ past_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }}
+            (${{ latest_campaign.project.generated_revenue_fans|notrail_floatformat:2|intcomma }}
             for investors).
         </h5>
         <div class="break">
