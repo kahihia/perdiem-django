@@ -9,26 +9,6 @@
                 <div class="artist-list-image img-list">
                     {% include "object_preview.html" with object=album img=album.artwork.img %}
                 </div>
-                <div>
-                    <p>
-                        {% for disc in album.discs %}
-                            {% for track in disc %}
-                                {% if track.total_streams %}
-                                    <i class="fa fa-cloud" aria-hidden="true"></i>
-                                    {{ track.total_streams}}
-                                {% else %}
-                                    EXCLUSIVE
-                                {% endif %}
-                            {% endfor %}
-                            {% for track in disc %}
-                                {% if track.total_downloads %}
-                                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
-                                    {{ track.total_downloads }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </p>
-                </div>
             </div>
         {% endfor %}
     </div>
