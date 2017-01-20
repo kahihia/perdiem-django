@@ -41,18 +41,18 @@
 
 {% block content %}
     <h2>{{ artist.name }}</h2>
-        <ul class="tabs" data-tabs id="artist-detail-tabs">
-            <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true"><i class="fa fa-user fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Overview</span></a></li>
-            <li class="tabs-title"><a href="#invest"><i class="fa fa-money fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Invest</span></a></li>
-            <li class="tabs-title"><a href="#projects"><i class="fa fa-pie-chart fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Projects</span></a></li>
-            <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Updates</span></a></li>
-        </ul>
-        <div class="tabs-content" data-tabs-content="artist-detail-tabs">
-            {% include "artist/includes/artist_detail_overview.html" %}
-            {% include "artist/includes/artist_detail_invest.html" %}
-            {% include "artist/includes/artist_detail_projects.html" %}
-            {% include "artist/includes/artist_detail_updates.html" %}
-        </div>
+    <ul class="tabs" data-tabs id="artist-detail-tabs">
+        <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true"><i class="fa fa-user fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Overview</span></a></li>
+        <li class="tabs-title"><a href="#invest"><i class="fa fa-money fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Invest</span></a></li>
+        <li class="tabs-title"><a href="#projects"><i class="fa fa-pie-chart fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Projects</span></a></li>
+        <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Updates</span></a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="artist-detail-tabs">
+        {% include "artist/includes/artist_detail_overview.html" %}
+        {% include "artist/includes/artist_detail_invest.html" %}
+        {% include "artist/includes/artist_detail_projects.html" %}
+        {% include "artist/includes/artist_detail_updates.html" %}
+    </div>
 {% endblock %}
 
 {% block extrajs %}
