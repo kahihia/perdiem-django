@@ -38,6 +38,7 @@ ul.color-white {
 
 h2.title {
     font-weight: 200;
+    padding-top: 10%;
 }
 
 li.price {
@@ -48,6 +49,8 @@ li.price {
 
 .about-padding {
     padding:30px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 h2.color-black:hover {
