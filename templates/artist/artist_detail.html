@@ -63,42 +63,43 @@
         var perdiem_fee = {{ PERDIEM_FEE }};
         var stripe_percentage = {{ STRIPE_PERCENTAGE }};
         var stripe_flat_fee = {{ STRIPE_FLAT_FEE }};
-        var artist_name = '{{ artist.name|escapejs }}';
-        var share_value = {{ campaign.value_per_share|escapejs }};
-        var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
-        var num_shares_remaining = {{ campaign.num_shares_remaining }};
-        var stripe_handler = StripeCheckout.configure({
-            key: '{{ PINAX_STRIPE_PUBLIC_KEY }}',
-            locale: 'auto',
-            email: '{{ request.user.email|escapejs }}',
-            token: function(token) {
-                var num_shares = parseInt($('.invest-num-shares > input').val());
-                $.ajax({
-                    url: "{% url 'pinax_stripe_charge' campaign_id=campaign.id %}?format=json",
-                    type: 'POST',
-                    data: JSON.stringify({card: token.id, num_shares: num_shares}),
-                    contentType: 'application/json'
-                })
-                .done(function(resp) {
-                    // Show success
-                    $('#success-modal > h1').text('SUCCESS!');
-                    $('#success-modal button.button').click(function() {
-                        window.location.href = '{% url 'profile' %}';
-                    });
-                    var success_message = 'Your investment is being processed. When payment completes, your name will appear in the investor list.';
-                    $('#success-modal > p.success-message').text(success_message);
-                    $('#success-modal > .success-extra').html("<h4>Share this project</h4>{% filter escapejs %}{% include "artist/includes/share_buttons.html" %}{% endfilter %}");
-                    $('#success-modal').foundation('open');
-                })
-                .fail(function(resp) {
-                    // Show error
-                    var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
-                    $('#error-modal > p.error-message').html(error_message);
-                    $('#error-modal').foundation('open');
-                });
-            }
-        });
+        var artist_name = '{{ artist.name|escapejs }}'
+
         {% if campaign %}
+            var share_value = {{ campaign.value_per_share|escapejs }};
+            var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
+            var num_shares_remaining = {{ campaign.num_shares_remaining }};
+            var stripe_handler = StripeCheckout.configure({
+                key: '{{ PINAX_STRIPE_PUBLIC_KEY }}',
+                locale: 'auto',
+                email: '{{ request.user.email|escapejs }}',
+                token: function(token) {
+                    var num_shares = parseInt($('.invest-num-shares > input').val());
+                    $.ajax({
+                        url: "{% url 'pinax_stripe_charge' campaign_id=campaign.id %}?format=json",
+                        type: 'POST',
+                        data: JSON.stringify({card: token.id, num_shares: num_shares}),
+                        contentType: 'application/json'
+                    })
+                    .done(function(resp) {
+                        // Show success
+                        $('#success-modal > h1').text('SUCCESS!');
+                        $('#success-modal button.button').click(function() {
+                            window.location.href = '{% url 'profile' %}';
+                        });
+                        var success_message = 'Your investment is being processed. When payment completes, your name will appear in the investor list.';
+                        $('#success-modal > p.success-message').text(success_message);
+                        $('#success-modal > .success-extra').html("<h4>Share this project</h4>{% filter escapejs %}{% include "artist/includes/share_buttons.html" %}{% endfilter %}");
+                        $('#success-modal').foundation('open');
+                    })
+                    .fail(function(resp) {
+                        // Show error
+                        var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
+                        $('#error-modal > p.error-message').html(error_message);
+                        $('#error-modal').foundation('open');
+                    });
+                }
+            });
             var ctx = document.getElementById("myChart5").getContext('2d');
             var myChart5 = new Chart(ctx, {
                 type: 'pie',
