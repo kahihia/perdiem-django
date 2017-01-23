@@ -541,7 +541,7 @@ span.text-content {
     -moz-transition: opacity 500ms;
     -o-transition: opacity 500ms;
     transition: opacity 500ms;
-    opacity: 0;
+    opacity: 1;
     color: white;
     background: rgba(0,0,0,0.5);
 }
@@ -553,7 +553,7 @@ span.text-content span {
 }
 
 .img-list:hover span.text-content {
-    opacity: 1;
+    opacity: 0;
 }
 
 .color-blue {
