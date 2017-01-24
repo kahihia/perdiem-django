@@ -9,64 +9,65 @@ h4 [type=submit] {
 
 h1 {
     text-align: center;
-    font-size: 6em;
-    color: #000;
-    font-weight: 200;
     text-transform: uppercase;
+    color: #000;
+    font-size: 6em;
+    font-weight: 200;
 }
 
 h2 {
     text-align: center;
-    font-size: 4em;
-    color: #000;
-    font-weight: 400;
     text-transform: uppercase;
+    color: #285e6f;
+    font-size: 4em;
+    font-weight: 400;
 }
 
 h3 {
     text-align: center;
-    font-size: 3em;
-    color: #000;
-    font-weight: 200;
     text-transform: uppercase;
+    color: #000;
+    font-size: 3em;
+    font-weight: 200;
 }
 
 h4 {
     text-align: center;
-    font-weight: 200;
-    font-size: 1.5em;
     text-transform: uppercase;
+    font-size: 1.5em;
+    font-weight: 200;
 }
 
 h5 {
-    font-weight: 200;
-    font-size: 1em;
     text-align: center;
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: 200;
 }
 
 h6 {
-    font-size: 1em;
     text-align: center;
+    text-transform: uppercase;
+    font-size: .9em;
     font-weight: 200;
 }
 
 ul {
     list-style-type: none;
     text-align: center;
-    margin-left: 0;
 }
 
 p {
+    text-align: center;
+    color: #000;
+    font-family: Roboto;
     font-size: .8em;
     font-weight: 200;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
 }
 
 a {
-    color: #4A96AD;
     text-decoration: none;
+    color: #4A96AD;
 }
 
 a:hover {
@@ -75,26 +76,28 @@ a:hover {
 
 html,
 body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
 }
 
 .full-page {
-    min-height: 100%;
     position: relative;
+    min-height: 100%;
+    background: #fff;
 }
 
 .nav {
-    background-color: black;
     padding: 0px;
+    background-color: black;
+    color: #4d96ad;
 }
 
 .nav-small {
-    background-color: black;
-    padding: 10px;
     margin: 0;
+    padding: 10px;
     text-align: left;
+    background-color: black;
 }
 
 .nav > li {
@@ -103,20 +106,20 @@ body {
     padding: 8px 8px;
 }
 
+.nav-right > li {
+    display: inline;
+    float: right;
+    padding: 8px 8px;
+}
+
 .nav a {
     display: block;
-    color: #000;
-    color: #fff;
     padding: 5px 5px;
     text-decoration: none;
 }
 
-.container {
-    padding-bottom: 100px;
-}
-
 .reveal {
-    background-color: #333;
+    background-color: #000;
 }
 
 canvas {
@@ -124,7 +127,7 @@ canvas {
     max-height: 640px;
 }
 
-#canvas-box {   
+#canvas-box {
     text-align: center;
 }
 
@@ -134,25 +137,29 @@ canvas {
 
 #canvas-holder {
     width:30%;
-    padding: 0;
     margin: auto;
+    padding: 0;
 }
 
 .footer {
     width: 100%;
-    padding: 30px;
-    background-color: #000;
+    padding: 20px;
     text-align: center;
+    background-color: #000;
 }
 
 .footer a {
-    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #85929E;
     font-family: Roboto;
     font-size: .6em;
-    letter-spacing: 3px;
     font-weight: 400;
     font-style: normal;
-    text-transform: uppercase;
+}
+
+.footer a:hover {
+    color: #fff;
 }
 
 .footer-items > li {
@@ -167,42 +174,13 @@ canvas {
 
 img.img-404 {
     display: block;
-    margin-left: auto;
     margin-right: auto;
-}
-
-h2.profile-header {
-    text-align: center;
-    font-size: 25px;
-}
-
-p.profile-total {
-    text-align: center;
-    font-size: 18px;
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-family: Dosis, sans-serif;
-}
-
-h5.profile-total-header {
-    text-align: center;
-    font-size: 25px;
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-h5.profile-total {
-    text-align: center;
-    font-size: 25px;
-    padding: 0px;
-    font-weight: 400;
+    margin-left: auto;
 }
 
 .break {
-    padding-left: 5%;
     padding-right: 5%;
+    padding-left: 5%;
 }
 
 .page-padding {
@@ -226,15 +204,16 @@ a.nav-color {
 }
 
 .social-icons > li {
-    color: #fff;
-    padding: 5px 5px;
-    text-decoration: none;
     display: inline;
     float: center;
+    padding: 5px 5px;
+    text-decoration: none;
+    color: #fff;
 }
 
 .register-box {
     padding: 2em;
+
     text-align: center;
 }
 
@@ -242,17 +221,21 @@ a.nav-color {
     color: #fff;
 }
 
+.green-color {
+    color: #4cbd7e;
+}
+
 .profile-crop {
-    height: 30px;
     width: 30px;
+    height: 30px;
     border-radius: 15px;
 }
 
 .profile-crop-list {
-    height: 30px;
     width: 30px;
-    border-radius: 15px;
+    height: 30px;
     margin: 5px;
+    border-radius: 15px;
 }
 
 .nav-settings {
@@ -264,50 +247,41 @@ a.nav-color {
     float: center;
 }
 
-.profile-padding {
-    padding: 5px;
-}
-
-.public-profile-crop {
-    height: 150px;
-    width: 150px;
-    border-radius: 150px;
-    text-align: center;
-    margin: 10px;
-}
-
 .center {
     text-align: center;
-}
-
-.canvas-profile {
-    text-align: center;
-    padding: 3em;
-}
-
-.profile-padding {
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 .oauth-icon {
-    text-align: center;
+    width: 250px;
     height: auto;
-    width: 200px;
     padding: 5px;
+    text-align: center;
 }
 
 .center {
     text-align: center;
 }
+
 .login-module {
-    text-align: center;
-    max-width: 500px;
+    max-width: 300px;
     margin: 0 auto;
     padding: 20px;
+    text-align: center;
 }
 
 #login-modal label {
+    color: #fff;
+    font-family: Dosis;
+}
+
+.signup-module {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#signup-modal label {
     color: #fff;
 }
 
@@ -321,8 +295,8 @@ ul.tabs {
 }
 
 ul.tabs li {
-    float: none;
     display: inline-block;
+    float: none;
 }
 
 .submit-button {
@@ -330,57 +304,53 @@ ul.tabs li {
 }
 
 .form-input {
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.large-form-input {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.small-form-input {
-    text-align: center;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
+    text-align: center;
+    background-color: white;
+}
+
+.large-form-input {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.small-form-input {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
 }
 
 .tabs-title {
-    background-color: #e6e6e6;
-    margin: 2px;
     width: 150px;
     height: 50px;
+    margin: 2px;
+    background-color: #333333;
 }
 
 .project-image {
-    text-align: center;
     padding: 20px;
-}
-
-.download-container {
     text-align: center;
-    padding: 20px;
-}
-
-.download-button {
-    text-align: center;
-    background-color: #4A96AD;
-    width: 150px;
-    margin: 0 auto;
-    padding: 10px;
-    color: #fff;
 }
 
 .home-logo {
     height: 35px;
-    text-align: center;
     margin: 0px;
     padding: 0px;
+
+    text-align: center;
+}
+
+.home-logo-mobile {
+    float: left;
+    height: 35px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
 }
 
 a.home-logo {
@@ -393,47 +363,265 @@ li.home-logo {
     padding: 0px;
 }
 
-.album-bio {    
-    margin: 0 auto;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    max-width: 600px;
-}
-
-.album-bio > ol {
-    text-align: center;
-    list-style-position: inside;
-}
-
-.marketplace-container {
-    text-align: center;
-    padding: 20px;
-}
-
-.marketplace-icons {
-    width: 40px;
-}
-
 .break-small {
-    padding-left: 30%;
     padding-right: 30%;
+    padding-left: 30%;
 }
 
 .track-listing {
-    text-align: center;
     margin: 0 auto;
     padding: 10px;
+    text-align: center;
 }
 
-.ol-center { 
-    text-align: center; 
+.ol-center {
     list-style-position:inside;
+    text-align: center;
 }
 
 .bar-chart {
-    margin: 0 auto;
-    text-align: center;
-    padding: 20px;
     max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#percentage {
+    color: #4cbd7e;
+}
+
+#percentage1 {
+    color: #4cbd7e;
+    font-size: 18px;
+}
+
+.roi {
+    text-transform: uppercase;
+    color: #4d96ad;
+    font-family: Dosis;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.tabs-title > a {
+    position: vertical-align;
+    height: 100%;
+    padding: 5px;
+ }
+
+.tab-icon {
+    padding: 5px;
+    color: #4d96ad;
+ }
+
+.menu > li > a {
+    padding-top: 7px;
+    padding-right: 15px;
+    padding-bottom: 7px;
+    padding-left: 15px;
+ }
+
+a.nav-icon {
+    padding: 0px;
+ }
+
+li.home-logo {
+    padding: 2px;
+ }
+
+.name {
+    text-transform: uppercase;
+    color: #4d96ad;
+    font-family: Dosis;
+    font-size: 20px;
+}
+
+#myChart {
+    font-family: Dosis;
+}
+
+h2.nav-name {
+    margin: 0px;
+    padding: 5px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.login-item {
+    padding: 10px;
+}
+
+.left-align {
+    text-align: left
+}
+
+.signup-manual {
+    padding-top: 15px;
+    padding-right: 12px;
+    padding-bottom: 15px;
+    padding-left: 12px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #85929E;
+    font-weight: 400;
+}
+
+#register-page {
+    position: relative;
+    height: 80vh;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    }
+
+.signup-form {
+    margin-top: 10%;
+}
+
+.register-copy {
+    padding: 20px;
+    color: #285e6f;
+}
+
+.extra-padding-wide {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.contact-padding {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.top-bar-left {
+    width: auto !important;
+}
+
+.top-bar-right {
+    width: auto !important;
+}
+
+.title-bar {
+    padding: 0px;
+}
+
+.small-nav-icon {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.small-home-logo {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.page {
+    min-height: 80%;
+}
+
+.img-list {
+    position: relative;
+    display: inline-block;
+    width: 225px;
+    height: 225px;
+    margin: 10px;
+}
+
+span.text-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: table;
+    width: 225px;
+    height: 225px;
+    cursor: pointer;
+    -webkit-transition: opacity 500ms;
+    -moz-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
+    transition: opacity 500ms;
+    opacity: 1;
+    color: white;
+    background: rgba(0,0,0,0.5);
+}
+
+span.text-content span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.img-list:hover span.text-content {
+    opacity: 0;
+}
+
+.color-blue {
+    color: #285e6f;
+}
+
+.color-grey {
+    color: #85929E;
+}
+
+.color-black {
+    color: black;
+}
+
+.break-small-white {
+    padding-right: 30%;
+    padding-left: 30%;
+    color: white;
+}
+
+.sign-up-button {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.facebook {
+    background-color: #1f4897;
+}
+
+.google {
+    background-color: #eeeeee;
+}
+
+.manually {
+    background-color: #85929e;
+}
+
+.facebook-font {
+    color: white;
+}
+
+.google-font {
+    color: #6b6b6b;
+}
+
+.manual-font {
+    color: black;
+}
+
+.button-container {
+    padding: 5px
+}
+
+.button-icon-padding {
+    padding-right: 10px;
+    font-size: 20px;
+}
+
+h5.button-font {
+    margin: 0px;
+}
+
+.register-buttons {
+    padding-top: 10%;
+}
+
+.left p {
+    text-align: left;
 }

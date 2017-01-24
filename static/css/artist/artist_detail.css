@@ -1,4 +1,4 @@
-h1, h2, li, p, a {
+h1, li, p, {
     color: #000;
 }
 
@@ -11,7 +11,7 @@ h1, h2, li, p, a {
 }
 
 .invest-num-shares {
-    margin-bottom: 16px;
+    margin-bottom: 5px;
 }
 
 .invest-num-shares > button {
@@ -42,6 +42,7 @@ h1, h2, li, p, a {
 
 .social-padding {
     padding: 20px;
+    color: black;
 }
 
 .past-campaign {
@@ -66,6 +67,7 @@ h1, h2, li, p, a {
     height: 70px;
     width: 200px;
     font-size: 20px;
+    margin: 5px;
 }
 
 .buy:hover {
@@ -77,8 +79,9 @@ h1, h2, li, p, a {
 }
 
 #shares {
-    height: 20px;
-    width: 20px;
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
 }
 
 .investing {
@@ -154,4 +157,34 @@ h1, h2, li, p, a {
 
 p.days-remaining {
     font-size: .7em;
+}
+
+.project-image {
+    padding: 20px;
+}
+
+.has-tip {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.total-amount {
+    font-size: 15px;
+    font-family: Dosis;
+    margin: 2px;
+}
+
+.strong {
+    font-weight: 400;
+}
+
+.artist-tab {
+    color: #4d96ad;
+    font-size: 16px !important;
+    text-transform: uppercase;
+}
+
+.remaining {
+    font-weight: 400;
+    padding: 10px;
 }

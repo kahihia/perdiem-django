@@ -36,7 +36,7 @@ class UserAvatar(models.Model):
 
     @staticmethod
     def default_avatar_url():
-        return "{static_url}img/avatar.png".format(static_url=settings.STATIC_URL)
+        return "{static_url}img/perdiem-avatar.svg".format(static_url=settings.STATIC_URL)
 
     def __unicode__(self):
         return u'{user}: {provider}'.format(
@@ -158,5 +158,13 @@ class UserProfile(models.Model):
             context['artists'][artist.id].total_earned += generated_revenue_user
             total_earned += generated_revenue_user
         context['total_earned'] = total_earned
+
+        # Add percentage of return to context
+        total_investments = aggregate_context['total_investments'] or 0
+        try:
+            percentage = total_earned / total_investments * 100
+        except ZeroDivisionError:
+            percentage = 0
+        context['percentage'] = percentage
 
         return context

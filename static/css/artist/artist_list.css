@@ -41,11 +41,12 @@
 .artistlist {
     margin: 20px;
     padding: 10px;
+    max-width: 100%;
 } 
 
 .artistlist.row > .column {
-    background: #ecf0f1;
-    padding: 20px;
+    background: #fff;
+    padding: 10px;
     border: 1px solid #fff;
     text-align: center;
 }
@@ -76,7 +77,6 @@
 
 .artist-details {
     font-family: Dosis, sans-serif;
-    background-color: #ecf0f1;
     margin: 0px;
 }
 
@@ -129,4 +129,14 @@ h2.artist-list-overlay {
 
 .banner-coming {
     background-color: #34495e;
+}
+
+.button.hollow.location {
+    border: none;
+    padding: 0px;
+    font-size: 1em;
+}
+
+.list-font {
+    color: #2199e8;
 }

@@ -1,10 +1,11 @@
 .artistlist {
     margin: 20px;
     padding: 50px;
+    max-width: 100%;
 } 
 
 .artistlist.row > .column {
-    background: #000;
+    background: #fff;
     padding: 20px;
     opacity: 0.8;
     border: 1px solid #ffffff;
@@ -37,3 +38,9 @@
     font-family: Dosis;
     font-weight: 200
 }
+
+.artistlist {
+    margin: 20px;
+    padding: 50px;
+    max-width: 100%;
+} 

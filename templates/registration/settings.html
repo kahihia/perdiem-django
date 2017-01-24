@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Settings</h1>
+    <h2>Settings</h2>
     <ul class="tabs nav-settings" data-tabs id="settings-tabs">
         <li class="tabs-title {% if 'edit_name' in forms_with_errors or not forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
         <li class="tabs-title {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>

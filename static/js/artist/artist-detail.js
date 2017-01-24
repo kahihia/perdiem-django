@@ -55,7 +55,7 @@ $(document).ready(function() {
         var fees_price = parseFloat(fees_cost_cents / 100).toFixed(2);
         $('#fees-price').text("$" + fees_price);
         var total_shares_price = parseFloat((subtotal_cost_cents + fees_cost_cents) / 100).toFixed(2);
-        $('#shares-price').text(" = $" + total_shares_price);
+        $('#shares-price').text(" $" + total_shares_price);
     }
     $('.invest-num-shares > input').change(function() {
         num_shares_updated();

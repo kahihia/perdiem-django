@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,95 +46,115 @@
         <link rel="apple-touch-icon" sizes="114x114" href= "{% static "img/icons/perdiem_icon_114.png" %}" />
         <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/icons/perdiem_icon_144.png" %}" />
         {% block extrastyle %}{% endblock %}
+        <style>
+            #home-page {
+                position: relative;
+                background-size: 50%;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-color: black;
+            }
+        </style>
     </head>
     <body>
-        <div class="off-canvas-wrapper">
-            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-                <div class="off-canvas position-right" id="offCanvas" data-off-canvas data-position="right">
-                    <!-- Close button -->
-                    <button class="close-button" aria-label="Close menu" type="button" data-close>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-
-                    <!-- Menu -->
-                    <ul class="vertical menu">
-                        <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
-                        <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
-                        <li><a class="nav-color" href="{% url 'music' %}">MUSIC</a></li>
-                        <li><a class="nav-color" href="{% url 'leaderboard' %}">STATS</a></li>
-                        {% if user.is_authenticated %}
-                            <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
-                            <li style="float: center;"><a class="nav-color" href="{% url 'settings' %}">SETTINGS</a></li>
-                            <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
-                        {% else %}
-                            <li style="float: center;"><a class="nav-color" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                            <li style="float: center;"><a class="nav-color" data-open="login-modal">LOGIN</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <div class="off-canvas-content" data-off-canvas-content>
-                    <div class="full-page">
-                        <!-- Nav -->
-                        <div class="show-for-small-only title-bar">
-                            <div class="title-bar-right">
-                                <button type="button" class="menu-icon" data-toggle="offCanvas"></button>
-                            </div>
-                        </div>
-                        <div class="hide-for-small-only top-bar nav">
-                            <div class="top-bar-left">
-                                <ul class="dropdown menu nav" data-dropdown-menu>
-                                    <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                                    <li><a href="{% url 'artists' %}">ARTISTS</a></li>
-                                    <li><a href="{% url 'music' %}">MUSIC</a></li>
-                                    <li><a href="{% url 'leaderboard' %}">STATS</a></li>
-                                </ul>
-                            </div>
-                            <div class="top-bar-right">
-                                <ul class="dropdown menu" data-dropdown-menu>
-                                    {% if user.is_authenticated %}
-                                        <li class="nav white-color"><a href="{% url 'profile' %}">{% firstof user.get_full_name user.get_username %}</a></li>
-                                        <li class="nav is-dropdown-submenu-parent">
-                                            <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
-                                            <ul class="menu vertical is-dropdown-submenu">
-                                                <li class="nav"><a href="{% url 'profile' %}">PROFILE</a></li>
-                                                <li class="nav"><a href="{% url 'settings' %}">SETTINGS</a></li>
-                                                <li class="nav"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                    <ul class="menu nav">
-                                        <li class="nav-color"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                                        <li class="nav-color"><a data-open="login-modal">LOGIN</a></li>
-                                    </ul>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Content -->
-                        <div class="container">
-                            {% block content %}
-                            {% endblock %}
-                        </div>
-                    </div>
-                    <!-- Footer -->
-                    <div class="footer">
-                        <ul class="footer-items">
-                            <li><a href="https://blog.investperdiem.com" target="_blank">BLOG</a></li>
-                            <li><a href="{% url 'privacy' %}">Privacy</a></li>
-                            <li><a href="{% url 'terms' %}">Terms of Use</a></li>
-                            <li><a href="{% url 'trust' %}">Trust &amp; Safety</a></li>
-                            <li><a href="{% url 'faq' %}">FAQ</a></li>
-                            <li><a href="{% url 'contact' %}">Contact</a></li>
+        {% if user.is_authenticated %}
+            <div class="show-for-small-only title-bar">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="dropdown menu nav" data-dropdown-menu>
+                            <li class="home-logo"><a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li><a class="small-nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a class="small-nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li><a class="small-nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
                         </ul>
-                        <ul class="social-icons">
-                            <li><a href="https://www.facebook.com/828188463946021" target="_blank"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></a></li>
-                            <li><a href="http://instagram.com/perdiemmusic" target="_blank"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></a></li>
-                            <li><a href="http://twitter.com/perdiemmusic" target="_blank"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a></li>
-                            <li><a href="https://www.youtube.com/channel/UC-6u9L-W6Dn7kaYLOz4YuTg" target="_blank"><i class="fa fa-youtube fa-2x" aria-hidden="true"></i></a></li>
+                    </div>
+                    <div class="top-bar-right">
+                        <ul class="dropdown menu" data-dropdown-menu>
+                            {% if total_earned %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
+                            {% else %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
+                            {% endif %}
+                            <li class="nav is-dropdown-submenu-parent">
+                                <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                <ul class="menu vertical is-dropdown-submenu">
+                                    <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                                    <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
+                                    <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
+
+            <div class="hide-for-small-only">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="dropdown menu nav" data-dropdown-menu>
+                            <li class="home-logo"><a class="home-logo" href="{% url 'profile' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li><a class="nav-icon" class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="top-bar-right">
+                        <ul class="dropdown menu" data-dropdown-menu>
+                            {% if total_earned %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">${{ total_earned|floatformat:2|intcomma }}</a></li>
+                            {% else %}
+                                <li class="nav green-color"><a class="green-color" href="{% url 'profile' %}">$0.00</a></li>
+                            {% endif %}
+                            <li class="nav is-dropdown-submenu-parent">
+                                <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                <ul class="menu vertical is-dropdown-submenu">
+                                    <li class="nav"><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                                    <li class="nav"><a href="{% url 'settings' %}"> <i class="fa fa-gears" aria-hidden="true"></i> SETTINGS</a></li>
+                                    <li class="nav"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="top-bar nav">
+                <div class="top-bar-left">
+                    <ul class="menu nav">
+                        <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                    </ul>
+                </div>
+                <div class="top-bar-right login-item">
+                    <ul class="menu">
+                        <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
+                        <li class="nav"><a data-open="login-modal">LOGIN</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Content -->
+        <div class="container page">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <ul class="footer-items">
+                <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                <li><a href="{% url 'terms' %}">Terms of Use</a></li>
+                <li><a href="{% url 'resources' %}">Resources</a></li>
+                <li><a href="{% url 'faq' %}">FAQ</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+            <ul class="social-icons">
+                <li><a href="https://www.facebook.com/828188463946021" target="_blank"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="http://instagram.com/perdiemmusic" target="_blank"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="http://twitter.com/perdiemmusic" target="_blank"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.youtube.com/channel/UC-6u9L-W6Dn7kaYLOz4YuTg" target="_blank"><i class="fa fa-youtube fa-2x" aria-hidden="true"></i></a></li>
+            </ul>
         </div>
 
         <!-- Success Modal -->
@@ -163,9 +184,22 @@
 
         <!-- Login Modal -->
         <div class="reveal center" id="login-modal" data-reveal>
-            <h2 class="white-color">Login</h2>
-            <a href="{% url 'social:begin' backend='facebook-login' %}"><img class="oauth-icon" src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a><br/>
-            <a href="{% url 'social:begin' backend='google-oauth2-login' %}"><img class="oauth-icon" src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
+            <h2>Login</h2>
+            <div class="break">
+                <hr>
+            </div>
+            <div class="register-buttons">
+                <div class="button-container">
+                    <div class="sign-up-button facebook">
+                        <h5 class="button-font"><a class="facebook-font" href="{% url 'social:begin' backend='facebook-login' %}"><i class="fa fa-facebook button-icon-padding" aria-hidden="true"></i>Login with Facebook</a></h5>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <div class="sign-up-button google">
+                        <h5 class="button-font"><a class="google-font" href="{% url 'social:begin' backend='google-oauth2-login' %}"><i class="fa fa-google button-icon-padding" aria-hidden="true"></i>Login with Google</a></h5>
+                    </div>
+                </div>
+            </div>
             <form class="login-module" action="" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />

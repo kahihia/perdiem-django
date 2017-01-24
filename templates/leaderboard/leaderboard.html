@@ -2,13 +2,14 @@
 
 {% load staticfiles %}
 {% load humanize %}
+{% load perdiem %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/extra/stats.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
-    <h1>Investments</h1>
+    <h2>Investments</h2>
     <div class="break">
         <hr>
     </div>
@@ -16,12 +17,7 @@
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
     </div>
-    <div class="total-box">
-        <h1 class="white-color">${{ total_raised|floatformat:0|intcomma }}</h1>
-        <p class="white-color">AMOUNT OF MONEY RAISED FOR ARTISTS ON PERDIEM</p>
-    </div>
-    <br/>
-    <h1>Returns</h1>
+    <h2>Earnings</h2>
     <div class="break">
         <hr>
     </div>
@@ -29,8 +25,8 @@
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
     </div>
-    <div class="total-box">
-        <h1 class="white-color">${{ total_generated|floatformat:0|intcomma }}</h1>
-        <p class="white-color">AMOUNT OF REVENUE GENERATED FOR ARTISTS AND INVESTORS</p>
-    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
 {% endblock %}

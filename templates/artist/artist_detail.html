@@ -36,104 +36,36 @@
 
 {% block extrastyle %}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
-    <style>
-        {% include "artist/includes/artist_detail_countdown_style.html" with campaign=campaign %}
-        {% for past_campaign in artist.past_campaigns %}
-            {% include "artist/includes/artist_detail_countdown_style.html" with campaign=past_campaign %}
-        {% endfor %}
-    </style>
 {% endblock %}
 
 {% block content %}
-    <h1 class="header-font">{{ artist.name }}</h1>
-    {% if investors or artist.past_campaigns or updates or has_permission_to_submit_update %}
-        <ul class="tabs" data-tabs id="artist-detail-tabs">
-            <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
-            {% if investors %}
-                <li class="tabs-title"><a href="#investors">Investors</a></li>
-            {% endif %}
-            {% if artist.past_campaigns %}
-                <li class="tabs-title"><a href="#past">Past Campaigns</a></li>
-            {% endif %}
-            {% if updates or has_permission_to_submit_update %}
-                <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates">Updates</a></li>
-            {% endif %}
-        </ul>
-        <div class="tabs-content" data-tabs-content="artist-detail-tabs">
-            {% include "artist/includes/artist_detail_overview.html" %}
-            {% if investors %}
-                {% include "artist/includes/artist_detail_investors.html" %}
-            {% endif %}
-            {% if artist.past_campaigns %}
-                {% include "artist/includes/artist_detail_past.html" %}
-            {% endif %}
-            {% if updates or has_permission_to_submit_update %}
-                {% include "artist/includes/artist_detail_updates.html" %}
-            {% endif %}
-        </div>
-    {% else %}
+    <h2>{{ artist.name }}</h2>
+    <ul class="tabs" data-tabs id="artist-detail-tabs">
+        <li class="tabs-title {% if not form.errors %}is-active{% endif %}"><a href="#overview" aria-selected="true"><i class="fa fa-user fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Overview</span></a></li>
+        <li class="tabs-title"><a href="#invest"><i class="fa fa-money fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Invest</span></a></li>
+        <li class="tabs-title"><a href="#projects"><i class="fa fa-pie-chart fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Projects</span></a></li>
+        <li class="tabs-title {% if form.errors %}is-active{% endif %}"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="artist-tab">Updates</span></a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="artist-detail-tabs">
         {% include "artist/includes/artist_detail_overview.html" %}
-    {% endif %}
+        {% include "artist/includes/artist_detail_invest.html" %}
+        {% include "artist/includes/artist_detail_projects.html" %}
+        {% include "artist/includes/artist_detail_updates.html" %}
+    </div>
 {% endblock %}
 
 {% block extrajs %}
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
-    <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
         var stripe_percentage = {{ STRIPE_PERCENTAGE }};
         var stripe_flat_fee = {{ STRIPE_FLAT_FEE }};
-        var artist_name = '{{ artist.name|escapejs }}';
+        var artist_name = '{{ artist.name|escapejs }}'
 
         {% if campaign %}
-            var doughnutData = [
-                    {% if user_investor %}
-                        {
-                            value: {{ user_investor.percentage_display|floatformat:2 }},
-                            color: "#000",
-                            highlight: "#444",
-                            {% if user_investor.percentage < 0.005 %}
-                                label: "Me: <0.01%"
-                            {% else %}
-                                label: "Me: {{ user_investor.percentage|notrail_floatformat:2 }}%"
-                            {% endif %}
-                        },
-                    {% endif %}
-                    {
-                        value: {{ fans_percentage_display|floatformat:2 }},
-                        color: "#46BFBD",
-                        highlight: "#5AD3D1",
-                        label: "{% if user_investor %}Other Investors{% else %}Investors{% endif %}: {{ fans_percentage|notrail_floatformat:2 }}%"
-                    },
-                    {% for percentage_breakdown in campaign.project.artist_percentage %}
-                        {
-                            value: {{ percentage_breakdown.percentage|floatformat:2 }},
-                            color: "{% if percentage_breakdown.name == campaign.artist.name %}#F7464A{% else %}{% cycle '#0066ff' '#ff99ff' '#33cc33' '#ff6600' '#00ffff' %}{% endif %}",
-                            highlight: "{% if percentage_breakdown.name == campaign.artist.name %}#FF5A5E{% else %}{% cycle '#4d94ff' '#ffccff' '#85e085' '#ffa366' '#99ffff' %}{% endif %}",
-                            label: "{{ percentage_breakdown.name|escapejs }}: {{ percentage_breakdown.percentage|notrail_floatformat:2 }}%"
-                        }{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                ];
-
-            function draw_doughnut_chart() {
-                var ctxchart = document.getElementById("chart-area").getContext("2d");
-                window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
-                    responsive: true,
-                    tooltipTemplate: "<%= label %>"
-                });
-            }
-            window.onload = function() {
-                draw_doughnut_chart();
-            }
-            $('#artist-detail-tabs').on('change.zf.tabs', function() {
-                if ($('#overview:visible').length) {
-                    draw_doughnut_chart();
-                }
-            });
-
             var share_value = {{ campaign.value_per_share|escapejs }};
             var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
             var num_shares_remaining = {{ campaign.num_shares_remaining }};
@@ -152,6 +84,9 @@
                     .done(function(resp) {
                         // Show success
                         $('#success-modal > h1').text('SUCCESS!');
+                        $('#success-modal button.button').click(function() {
+                            window.location.href = '{% url 'profile' %}';
+                        });
                         var success_message = 'Your investment is being processed. When payment completes, your name will appear in the investor list.';
                         $('#success-modal > p.success-message').text(success_message);
                         $('#success-modal > .success-extra').html("<h4>Share this project</h4>{% filter escapejs %}{% include "artist/includes/share_buttons.html" %}{% endfilter %}");
@@ -163,6 +98,23 @@
                         $('#error-modal > p.error-message').html(error_message);
                         $('#error-modal').foundation('open');
                     });
+                }
+            });
+            var ctx = document.getElementById("myChart5").getContext('2d');
+            var myChart5 = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Me", "Other Investors", "Artist"],
+                    datasets: [{
+                        backgroundColor: ["#85929E", "#34495E", "#d6dbdf"],
+                        data: [
+                            {{ user_investor.percentage_display|floatformat:2 }},
+                            {{ fans_percentage_display|floatformat:2 }},
+                            {% for percentage_breakdown in campaign.project.artist_percentage %}
+                                {{ percentage_breakdown.percentage|floatformat:2 }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        ]
+                    }]
                 }
             });
         {% endif %}

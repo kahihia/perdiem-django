@@ -43,7 +43,6 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # Filtering
-        self.campaign_status = request.GET.get('campaign-status', 'Recent')
         self.active_genre = request.GET.get('genre', 'All Genres')
         self.distance = request.GET.get('distance')
         self.location = request.GET.get('location')
@@ -75,8 +74,6 @@ class ArtistListView(ListView):
         context = super(ArtistListView, self).get_context_data(**kwargs)
         sort_options = [{'slug': s, 'name': n} for s, n in self.ORDER_BY_NAME.iteritems()]
         context.update({
-            'campaign_statuses': ('Recent', 'Active', 'Funded',),
-            'campaign_status': self.campaign_status,
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,
             'distance': self.distance if (self.lat and self.lon) or self.location else None,
@@ -107,7 +104,6 @@ class ArtistListView(ListView):
     def get_queryset(self):
         artists = Artist.objects.all()
         artists = artists.filter_by_genre(self.active_genre)
-        artists = artists.filter_by_campaign_status(self.campaign_status)
         artists = self.filter_by_location(artists)
         artists = artists.exclude_failed_artists()
         artists = self.sort_artists(artists)
