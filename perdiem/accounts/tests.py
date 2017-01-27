@@ -8,6 +8,7 @@ import re
 
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
+from django.test import override_settings
 
 import mock
 
@@ -254,6 +255,7 @@ class SettingsWebTestCase(PerDiemTestCase):
         )
 
     @mock.patch('emails.mailchimp.requests.put')
+    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
     def testUpdateEmailPreferences(self, mock_mailchimp_request):
         mock_mailchimp_request.return_value = mock.Mock(status_code=200)
 
@@ -270,6 +272,7 @@ class SettingsWebTestCase(PerDiemTestCase):
         )
 
     @mock.patch('emails.mailchimp.requests.put')
+    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
     def testUpdateEmailAddress(self, mock_mailchimp_request):
         mock_mailchimp_request.return_value = mock.Mock(status_code=200)
 

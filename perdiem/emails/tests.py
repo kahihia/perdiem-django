@@ -15,7 +15,6 @@ from perdiem.tests import PerDiemTestCase
 
 class SubscribeTestCase(PerDiemTestCase):
 
-    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
     def testSubscribeToNewsletterSuccess(self):
         self.assertResponseRenders(
             '/accounts/settings/',
@@ -58,7 +57,7 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
         self.assertIn("This link is invalid", response.content)
 
     @mock.patch('emails.mailchimp.requests.put')
-    @override_settings(MAILCHIMP_LIST_ID='FAKE_LIST_ID')
+    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
     def testUnsubscribeFromMailChimp(self, mock_mailchimp_request):
         mock_mailchimp_request.return_value = mock.Mock(status_code=200)
 
