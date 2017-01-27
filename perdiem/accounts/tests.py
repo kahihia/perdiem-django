@@ -253,7 +253,10 @@ class SettingsWebTestCase(PerDiemTestCase):
             }
         )
 
-    def testUpdateEmailPreferences(self):
+    @mock.patch('emails.mailchimp.requests.put')
+    def testUpdateEmailPreferences(self, mock_mailchimp_request):
+        mock_mailchimp_request.return_value = mock.Mock(status_code=200)
+
         self.assertResponseRenders(
             '/accounts/settings/',
             method='POST',
@@ -266,7 +269,10 @@ class SettingsWebTestCase(PerDiemTestCase):
             }
         )
 
-    def testUpdateEmailAddress(self):
+    @mock.patch('emails.mailchimp.requests.put')
+    def testUpdateEmailAddress(self, mock_mailchimp_request):
+        mock_mailchimp_request.return_value = mock.Mock(status_code=200)
+
         # Verify first email
         verified_email = VerifiedEmail.objects.get_current_email(self.user)
         verified_email.verified = True

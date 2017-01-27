@@ -27,7 +27,7 @@ class EmailSubscriptionManager(models.Manager):
         try:
             subscription = self.get(user=user, subscription=subscription_type)
         except self.model.DoesNotExist:
-            return True if subscription_type == self.model.SUBSCRIPTION_ALL else False
+            return True
         else:
             return subscription.subscribed
 
