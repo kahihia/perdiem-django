@@ -21,7 +21,7 @@ def send_notification(commits):
     data = {
         'token': bot_token,
         'channel': '#general',
-        'text': '`{commits}`\nhas been deployed'.format(commits=commits),
+        'text': '```\n{commits}\n```\nhas been deployed'.format(commits=commits),
         'as_user': True,
     }
     requests.post('https://slack.com/api/chat.postMessage', data=data)
