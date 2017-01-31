@@ -1,0 +1,10 @@
+{% load thumbnail %}
+
+<div data-content="{{ object.name }}" class="name">
+    <a class="artist-details name" href="{{ object.url }}">
+        {% thumbnail img "225x225" crop="center" as thumb %}
+            <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ object.name }}" />
+        {% endthumbnail %}
+        <span class="text-content-music"><span>{{ object.name }}<br />by {{ album.project.artist.name }}</span></span>
+    </a>
+</div>

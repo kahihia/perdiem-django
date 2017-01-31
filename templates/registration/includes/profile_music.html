@@ -7,7 +7,7 @@
         {% for album in albums %}
             <div class="column">
                 <div class="artist-list-image img-list">
-                    {% include "object_preview.html" with object=album img=album.artwork.img %}
+                    {% include "object_preview_music.html" with object=album img=album.artwork.img %}
                 </div>
             </div>
         {% endfor %}

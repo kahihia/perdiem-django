@@ -556,6 +556,33 @@ span.text-content span {
     opacity: 0;
 }
 
+span.text-content-music {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: table;
+    width: 225px;
+    height: 225px;
+    cursor: pointer;
+    -webkit-transition: opacity 500ms;
+    -moz-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
+    transition: opacity 500ms;
+    opacity: 0;
+    color: white;
+    background: rgba(0,0,0,0.5);
+}
+
+span.text-content-music span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.img-list:hover span.text-content-music {
+    opacity: 1;
+}
+
 .color-blue {
     color: #285e6f;
 }
