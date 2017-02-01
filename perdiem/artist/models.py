@@ -163,6 +163,15 @@ class Playlist(models.Model):
     def __unicode__(self):
         return self.uri
 
+    def html(self):
+        if self.provider == self.PLAYLIST_PROVIDER_SOUNDCLOUD:
+            return """
+                <iframe width="100%" height="166" scrolling="no" frameborder="no"
+                    src="https://w.soundcloud.com/player/?url={url}&color=ff5500"
+                >
+                </iframe>
+            """.format(url=self.uri)
+
 
 class Social(models.Model):
 
