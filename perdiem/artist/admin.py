@@ -11,9 +11,7 @@ from django.template.loader import render_to_string
 
 from pagedown.widgets import AdminPagedownWidget
 
-from artist.models import (
-    Genre, Artist, ArtistAdmin, Bio, Photo, SoundCloudPlaylist, Social
-)
+from artist.models import Genre, Artist, ArtistAdmin, Bio, Photo, Playlist, Social
 
 
 class LocationWidget(AdminTextInputWidget):
@@ -61,9 +59,9 @@ class PhotoInline(admin.TabularInline):
     model = Photo
 
 
-class SoundCloudPlaylistInline(admin.TabularInline):
+class PlaylistInline(admin.TabularInline):
 
-    model = SoundCloudPlaylist
+    model = Playlist
     extra = 1
 
 
@@ -76,7 +74,7 @@ class ArtistAdmin(admin.ModelAdmin):
 
     form = ArtistAdminForm
     prepopulated_fields = {'slug': ('name',)}
-    inlines = (ArtistAdministratorInline, BioInline, PhotoInline, SoundCloudPlaylistInline, SocialInline,)
+    inlines = (ArtistAdministratorInline, BioInline, PhotoInline, PlaylistInline, SocialInline,)
 
 
 admin.site.register(Genre)
