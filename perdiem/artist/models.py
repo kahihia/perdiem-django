@@ -171,6 +171,13 @@ class Playlist(models.Model):
                 >
                 </iframe>
             """.format(url=self.uri)
+        elif self.provider == self.PLAYLIST_PROVIDER_SPOTIFY:
+            return """
+                <iframe src="https://embed.spotify.com/?uri={uri}&theme=white" width="300" height="80" frameborder="0"
+                    allowtransparency="true"
+                >
+                </iframe>
+            """.format(uri=self.uri)
 
 
 class Social(models.Model):
