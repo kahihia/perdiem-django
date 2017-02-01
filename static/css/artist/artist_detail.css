@@ -46,6 +46,8 @@ h1, li, p, {
 }
 
 .past-campaign {
+    margin: 0 auto;
+    max-width: 800px;
     background-color: #ecf0f1;
 }
 
@@ -187,4 +189,23 @@ p.days-remaining {
 .remaining {
     font-weight: 400;
     padding: 10px;
+}
+
+.project-artwork {
+    height: 200px;
+    width: 200px;
+    background-color: #131313;
+    margin: 0 auto;
+}
+
+.project-details {
+    color: #285e6f;
+    padding-top: 40%;
+    padding-right: 10%;
+    padding-left: 10%
+}
+
+.update-container {
+    max-width: 800px;
+    margin: 0 auto;
 }

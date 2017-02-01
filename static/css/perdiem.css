@@ -541,7 +541,6 @@ span.text-content {
     -moz-transition: opacity 500ms;
     -o-transition: opacity 500ms;
     transition: opacity 500ms;
-    opacity: 1;
     color: white;
     background: rgba(0,0,0,0.5);
 }
@@ -552,8 +551,20 @@ span.text-content span {
     vertical-align: middle;
 }
 
-.img-list:hover span.text-content {
+span.hide-text {
+    opacity: 1;
+}
+
+span.reveal-text {
     opacity: 0;
+}
+
+.img-list:hover span.hide-text {
+    opacity: 0;
+}
+
+.img-list:hover span.reveal-text {
+    opacity: 1;
 }
 
 .color-blue {

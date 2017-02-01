@@ -35,15 +35,13 @@ class ArtistUpdateForm(forms.Form):
     title = forms.CharField(max_length=75)
     text = forms.CharField(widget=forms.TextInput())
     image = forms.ImageField(required=False)
-    image_url = forms.URLField(required=False)
     youtube_url = forms.URLField(required=False)
 
     def clean(self):
         cleaned_data = super(ArtistUpdateForm, self).clean()
         image = cleaned_data['image']
-        image_url = cleaned_data['image_url']
         youtube_url = cleaned_data['youtube_url']
-        provided = filter(lambda x: x, [image, image_url, youtube_url])
+        provided = filter(lambda x: x, [image, youtube_url])
         if len(provided) > 1:
             raise forms.ValidationError("Please only provide one image or video.")
         return cleaned_data

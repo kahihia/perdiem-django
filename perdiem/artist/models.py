@@ -232,10 +232,8 @@ class UpdateImage(models.Model):
 
 class UpdateMediaURL(models.Model):
 
-    MEDIA_IMAGE = 'image'
     MEDIA_YOUTUBE = 'youtube'
     MEDIA_CHOICES = (
-        (MEDIA_IMAGE, 'Image',),
         (MEDIA_YOUTUBE, 'YouTube',),
     )
 
@@ -247,12 +245,7 @@ class UpdateMediaURL(models.Model):
         return unicode(self.update)
 
     def html(self):
-        if self.media_type == self.MEDIA_IMAGE:
-            return u"<img src=\"{url}\" alt=\"{update}\" />".format(
-                url=escape(self.url),
-                update=unicode(self.update)
-            )
-        elif self.media_type == self.MEDIA_YOUTUBE:
+        if self.media_type == self.MEDIA_YOUTUBE:
             url = escape(self.url)
 
             # A hack to correct youtu.be links and normal watch links into embed links
