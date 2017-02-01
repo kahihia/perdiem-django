@@ -529,7 +529,7 @@ h2.nav-name {
     margin: 10px;
 }
 
-span.text-content-hide-text {
+span.text-content {
     position: absolute;
     top: 0;
     left: 0;
@@ -541,45 +541,29 @@ span.text-content-hide-text {
     -moz-transition: opacity 500ms;
     -o-transition: opacity 500ms;
     transition: opacity 500ms;
+    color: white;
+    background: rgba(0,0,0,0.5);
+}
+
+span.text-content span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+span.hide-text {
     opacity: 1;
-    color: white;
-    background: rgba(0,0,0,0.5);
 }
 
-span.text-content-hide-text span {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.img-list:hover span.text-content-hide-text {
+span.reveal-text {
     opacity: 0;
 }
 
-span.text-content-reveal-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: table;
-    width: 225px;
-    height: 225px;
-    cursor: pointer;
-    -webkit-transition: opacity 500ms;
-    -moz-transition: opacity 500ms;
-    -o-transition: opacity 500ms;
-    transition: opacity 500ms;
+.img-list:hover span.hide-text {
     opacity: 0;
-    color: white;
-    background: rgba(0,0,0,0.5);
 }
 
-span.text-content-reveal-text span {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.img-list:hover span.text-content-reveal-text {
+.img-list:hover span.reveal-text {
     opacity: 1;
 }
 
