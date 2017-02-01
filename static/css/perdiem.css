@@ -529,7 +529,7 @@ h2.nav-name {
     margin: 10px;
 }
 
-span.text-content {
+span.text-content-hide-text {
     position: absolute;
     top: 0;
     left: 0;
@@ -546,17 +546,17 @@ span.text-content {
     background: rgba(0,0,0,0.5);
 }
 
-span.text-content span {
+span.text-content-hide-text span {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
 }
 
-.img-list:hover span.text-content {
+.img-list:hover span.text-content-hide-text {
     opacity: 0;
 }
 
-span.text-content-music {
+span.text-content-reveal-text {
     position: absolute;
     top: 0;
     left: 0;
@@ -573,13 +573,13 @@ span.text-content-music {
     background: rgba(0,0,0,0.5);
 }
 
-span.text-content-music span {
+span.text-content-reveal-text span {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
 }
 
-.img-list:hover span.text-content-music {
+.img-list:hover span.text-content-reveal-text {
     opacity: 1;
 }
 
