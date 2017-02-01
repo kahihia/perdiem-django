@@ -5,6 +5,8 @@
         {% thumbnail img "225x225" crop="center" as thumb %}
             <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ object.name }}" />
         {% endthumbnail %}
-        <span class="text-content-hide-text"><span>{{ object.name }}</span></span>
+        {% block text %}
+            <span class="text-content-hide-text"><span>{{ object.name }}</span></span>
+        {% endblock %}
     </a>
 </div>
