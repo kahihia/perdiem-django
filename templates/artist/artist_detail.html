@@ -104,9 +104,9 @@
             var myChart5 = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ["Me", "Other Investors", "Artist"],
+                    labels: ["Me", "Artist", "Other Investors", "Brands"],
                     datasets: [{
-                        backgroundColor: ["#85929E", "#34495E", "#d6dbdf"],
+                        backgroundColor: ["#212f3c","#34495E", "#85929E", "#d6dbdf"],
                         data: [
                             {{ user_investor.percentage_display|floatformat:2 }},
                             {{ fans_percentage_display|floatformat:2 }},
