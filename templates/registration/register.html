@@ -37,7 +37,7 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     <p class="color-grey">
-                        Please use all lowercase, no spaces, no special characters
+                        Username and password are case-sensitive
                     </p>
                     {{ form.as_p }}
                     <input class="button submit-button" type="submit" value="Register" />
