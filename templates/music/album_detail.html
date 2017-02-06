@@ -33,8 +33,8 @@
                     labels: [
                         {% for month_revenue in estimated_cumulative_revenue %}
                             "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
-                     {% endfor %}
-                 ],
+                        {% endfor %}
+                    ],
                     datasets: [
                         {
                             label: 'Estimated Revenue',
@@ -94,12 +94,12 @@
                             label: 'DOWNLOADS',
                             data: [
                                 {% for disc in album.discs %}
-                                {% for track in disc %}
-                                    {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                                    {% for track in disc %}
+                                        {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                                        {% endfor %}
+                                   {% if not forloop.last %},{% endif %}
                                {% endfor %}
-                               {% if not forloop.last %},{% endif %}
-                           {% endfor %}
-                       ],
+                           ],
                             backgroundColor: "#34495E"
                         }
                     ]
