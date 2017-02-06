@@ -34,7 +34,7 @@ class BaseEmail(object):
         if self.subscription_type == EmailSubscription.SUBSCRIPTION_ALL:
             message = "To unsubscribe from all emails from PerDiem"
         else:
-            message = "To unsubscribe from these types of emails from PerDiem"
+            message = "To unsubscribe from these emails"
         return {
             'plain': "{message}, go to: {host}{url}.".format(message=message, host=host, url=unsubscribe_url),
             'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(
@@ -123,7 +123,7 @@ class ArtistUpdateEmail(BaseEmail):
 
     def get_from_email_address(self, **kwargs):
         update = kwargs['update']
-        return "{artist_name} on PerDiem <noreply@investperdiem.com>".format(
+        return "{artist_name}<noreply@investperdiem.com>".format(
             artist_name=update.artist.name
         )
 
