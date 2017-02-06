@@ -123,7 +123,7 @@ class ArtistUpdateEmail(BaseEmail):
 
     def get_from_email_address(self, **kwargs):
         update = kwargs['update']
-        return "{artist_name}<noreply@investperdiem.com>".format(
+        return "{artist_name} <noreply@investperdiem.com>".format(
             artist_name=update.artist.name
         )
 
