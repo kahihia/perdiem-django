@@ -31,7 +31,7 @@
             {% if campaign.percentage_funded == 100 %}
                 <h3 class="campaign-funded">Sold Out</h3>
             {% endif %}
-            <p><em>This campaign is no longer avaliable {{ campaign.end_datetime|date:'F jS' }}</em></p>
+            <p><em>This campaign is no longer available {{ campaign.end_datetime|date:'F jS' }}</em></p>
         {% endif %}
     {% endwith %}
 {% endif %}
