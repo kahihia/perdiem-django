@@ -27,6 +27,9 @@
             <div class="reveal center" id="signup-modal" data-reveal>
                 <form action="" method="POST">
                     {% csrf_token %}
+                    <p class="color-grey">
+                        Please use all lowercase, no spaces, no special characters
+                    </p>
                     {{ form.as_p }}
                     <input class="button submit-button" type="submit" value="Register" />
                 </form>
