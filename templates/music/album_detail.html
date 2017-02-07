@@ -41,8 +41,8 @@
                             data: [
                                 {% for month_revenue in estimated_cumulative_revenue %}
                                     {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
-                             {% endfor %}
-                         ],
+                                {% endfor %}
+                            ],
                             backgroundColor: "#34495E"
                         },
                     ]
@@ -54,12 +54,12 @@
                 data: {
                     labels: [
                         {% for disc in album.discs %}
-                        {% for track in disc %}
-                           "{{ track.name }}"{% if not forloop.last %},{% endif %}
-                       {% endfor %}
-                       {% if not forloop.last %},{% endif %}
-                   {% endfor %}
-               ],
+                            {% for track in disc %}
+                                "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
                     datasets: [
                         {
                             label: 'Streams',
@@ -96,10 +96,10 @@
                                 {% for disc in album.discs %}
                                     {% for track in disc %}
                                         {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
-                                        {% endfor %}
-                                   {% if not forloop.last %},{% endif %}
-                               {% endfor %}
-                           ],
+                                    {% endfor %}
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ],
                             backgroundColor: "#34495E"
                         }
                     ]
