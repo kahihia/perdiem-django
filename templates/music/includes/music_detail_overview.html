@@ -9,6 +9,16 @@
         {% endthumbnail %}
     </div>
 
+    {% if user_is_investor %}
+        <div class="download-container">
+            <a class="button sign-up" href="{{ album.audio.get_temporary_url }}" download>
+                DOWNLOAD
+            </a>
+        </div>
+    {% else %}
+        <h5>You must be an investor in order to listen and download.</h5>
+    {% endif %}
+
     <div class="marketplace-container">
         {% for marketplace_url in album.marketplaceurl_set.all %}
             <a href="{{ marketplace_url.url }}" target="_blank">
@@ -23,7 +33,8 @@
         <div class="break-small">
             <hr>
         </div>
-        <h5>{{ album.release_date }}</h5>
+        <h5>Release Date</h5>
+        <h6>{{ album.release_date }}</h6>
     {% endif %}
 
     {% if album.albumbio %}
@@ -33,15 +44,5 @@
         <div class="break-small">
             <hr>
         </div>
-    {% endif %}
-
-    {% if user_is_investor %}
-        <div class="download-container">
-            <a href="{{ album.audio.get_temporary_url }}" download>
-                <img class="marketplace-icons" src="{% static "img/investor.svg" %}"/>
-            </a>
-        </div>
-    {% else %}
-        <h5>This is an exclusive project. You must be an investor in order to listen and download.</h5>
     {% endif %}
 </div>

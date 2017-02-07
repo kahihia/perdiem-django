@@ -194,12 +194,12 @@ p.days-remaining {
 .project-artwork {
     height: 200px;
     width: 200px;
-    background-color: #131313;
+    background-color: #333333;
     margin: 0 auto;
 }
 
 .project-details {
-    color: #285e6f;
+    color: #85929e;
     padding-top: 40%;
     padding-right: 10%;
     padding-left: 10%

@@ -25,54 +25,86 @@
     <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
 
     <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [
-                    {
-                        label: 'Downloads',
-                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
-                        backgroundColor: "#34495E"
-                    },
-                    {
-                        label: 'Streams',
-                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
-                        backgroundColor: "#85929E"
-                    }
-                ]
-            }
-        });
+        {% if album.track_set.all %}
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        {% for month_revenue in estimated_cumulative_revenue %}
+                            "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    datasets: [
+                        {
+                            label: 'Estimated Revenue',
+                            data: [
+                                {% for month_revenue in estimated_cumulative_revenue %}
+                                    {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ],
+                            backgroundColor: "#34495E"
+                        },
+                    ]
+                }
+            });
+            var cta = document.getElementById("myChart2").getContext('2d');
+            var myChart2 = new Chart(cta, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                                "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    datasets: [
+                        {
+                            label: 'Streams',
+                            data: [
+                                {% for disc in album.discs %}
+                                   {% for track in disc %}
+                                       {{ track.total_streams }}{% if not forloop.last %},{% endif %}
+                                   {% endfor %}
+                                   {% if not forloop.last %},{% endif %}
+                               {% endfor %}
+                            ],
+                            backgroundColor: "#85929E"
+                        }
+                    ]
+                }
+            });
 
-        var cta = document.getElementById("myChart2").getContext('2d');
-        var myChart2 = new Chart(cta, {
-            type: 'bar',
-            data: {
-                labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [
-                    {
-                        label: 'Streams',
-                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_streams %}{{ track.total_streams}},{% endif %}{% endfor %}{% endfor %}],
-                        backgroundColor: "#85929E"
-                    }
-                ]
-            }
-        });
-
-        var ctb = document.getElementById("myChart3").getContext('2d');
-        var myChart3 = new Chart(ctb, {
-            type: 'bar',
-            data: {
-                labels: [{% for month_revenue in estimated_cumulative_revenue %}"{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                datasets: [
-                    {
-                        label: 'DOWNLOADS',
-                        data: [{% for disc in album.discs %}{% for track in disc %}{% if track.total_downloads %}{{ track.total_downloads }},{% endif %}{% endfor %}{% endfor %}],
-                        backgroundColor: "#34495E"
-                    }
-                ]
-            }
-        });
+            var ctb = document.getElementById("myChart3").getContext('2d');
+            var myChart3 = new Chart(ctb, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% for disc in album.discs %}
+                            {% for track in disc %}
+                               "{{ track.name }}"{% if not forloop.last %},{% endif %}
+                           {% endfor %}
+                           {% if not forloop.last %},{% endif %}
+                       {% endfor %}
+                    ],
+                    datasets: [
+                        {
+                            label: 'DOWNLOADS',
+                            data: [
+                                {% for disc in album.discs %}
+                                    {% for track in disc %}
+                                        {{ track.total_downloads }}{% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ],
+                            backgroundColor: "#34495E"
+                        }
+                    ]
+                }
+            });
+        {% endif %}
     </script>
 {% endblock %}

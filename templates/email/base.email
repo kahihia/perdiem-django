@@ -17,7 +17,9 @@
         </head>
         <body>
             {% block html_body %}{% endblock %}
-            {{ unsubscribe_message.html|safe }}
+            <p style="font-size: 8px;">
+                {{ unsubscribe_message.html|safe }}
+            </p>
         </body>
     </html>
 {% endblock %}
