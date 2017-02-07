@@ -108,7 +108,7 @@
                         "Me",
                         "Other Investors",
                         {% for percentage_breakdown in campaign.project.artist_percentage %}
-                            {{ percentage_breakdown.name }}{% if not forloop.last %},{% endif %}
+                            "{{ percentage_breakdown.name }}"{% if not forloop.last %},{% endif %}
                         {% endfor %}
                     ],
                     datasets: [{
