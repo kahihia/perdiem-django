@@ -144,13 +144,40 @@ class Photo(models.Model):
         return unicode(self.artist)
 
 
-class SoundCloudPlaylist(models.Model):
+class Playlist(models.Model):
+
+    PLAYLIST_PROVIDER_SPOTIFY = 'spotify'
+    PLAYLIST_PROVIDER_SOUNDCLOUD = 'soundcloud'
+    PLAYLIST_PROVIDER_CHOICES = (
+        (PLAYLIST_PROVIDER_SPOTIFY, 'Spotify',),
+        (PLAYLIST_PROVIDER_SOUNDCLOUD, 'SoundCloud',),
+    )
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    playlist = models.URLField(unique=True, help_text='The SoundCloud iframe URL to the artist\'s playlist')
+    provider = models.CharField(choices=PLAYLIST_PROVIDER_CHOICES, max_length=10, help_text='Provider of the playlist')
+    uri = models.TextField(help_text='URI that with the provider uniquely identifies a playlist')
+
+    class Meta:
+        unique_together = (('provider', 'uri',),)
 
     def __unicode__(self):
-        return self.playlist
+        return self.uri
+
+    def html(self):
+        if self.provider == self.PLAYLIST_PROVIDER_SOUNDCLOUD:
+            return """
+                <iframe width="100%" height="166" scrolling="no" frameborder="no"
+                    src="https://w.soundcloud.com/player/?url={url}&color=ff5500"
+                >
+                </iframe>
+            """.format(url=self.uri)
+        elif self.provider == self.PLAYLIST_PROVIDER_SPOTIFY:
+            return """
+                <iframe src="https://embed.spotify.com/?uri={uri}&theme=white" width="300" height="80" frameborder="0"
+                    allowtransparency="true"
+                >
+                </iframe>
+            """.format(uri=self.uri)
 
 
 class Social(models.Model):
@@ -205,10 +232,8 @@ class UpdateImage(models.Model):
 
 class UpdateMediaURL(models.Model):
 
-    MEDIA_IMAGE = 'image'
     MEDIA_YOUTUBE = 'youtube'
     MEDIA_CHOICES = (
-        (MEDIA_IMAGE, 'Image',),
         (MEDIA_YOUTUBE, 'YouTube',),
     )
 
@@ -220,12 +245,7 @@ class UpdateMediaURL(models.Model):
         return unicode(self.update)
 
     def html(self):
-        if self.media_type == self.MEDIA_IMAGE:
-            return u"<img src=\"{url}\" alt=\"{update}\" />".format(
-                url=escape(self.url),
-                update=unicode(self.update)
-            )
-        elif self.media_type == self.MEDIA_YOUTUBE:
+        if self.media_type == self.MEDIA_YOUTUBE:
             url = escape(self.url)
 
             # A hack to correct youtu.be links and normal watch links into embed links

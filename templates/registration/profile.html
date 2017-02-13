@@ -21,7 +21,7 @@
 
         <div class="tabs-content" data-tabs-content="profile-tabs">
             <div class="tabs-panel is-active" id="updates">
-                <h2>ACTIVITY</h2>
+                <h2>Artist Updates</h2>
                 {% if updates %}
                     {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
                 {% else %}
@@ -58,14 +58,14 @@
                 labels: [],
                 datasets: [
                     {
+                        label: 'EARNED',
+                        data: [{{ total_earned|floatformat:2|intcomma }}],
+                        backgroundColor: "#4cbd7e"
+                    },
+                    {
                         label: 'INVESTED',
                         data: [{{ total_investments|floatformat:2|intcomma }}],
                         backgroundColor: "#85929E"
-                    },
-                    {
-                        label: 'EARNED',
-                        data: [{{ total_earned|floatformat:2|intcomma }}],
-                        backgroundColor: "#34495E"
                     }
                 ]
             }

@@ -178,9 +178,6 @@ class ArtistDetailView(FormView):
         image = d['image']
         if image:
             UpdateImage.objects.create(update=update, img=image)
-        image_url = d['image_url']
-        if image_url:
-            UpdateMediaURL.objects.create(update=update, media_type=UpdateMediaURL.MEDIA_IMAGE, url=image_url)
         youtube_url = d['youtube_url']
         if youtube_url:
             UpdateMediaURL.objects.create(update=update, media_type=UpdateMediaURL.MEDIA_YOUTUBE, url=youtube_url)

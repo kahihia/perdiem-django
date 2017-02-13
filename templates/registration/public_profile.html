@@ -13,21 +13,21 @@
         <h3 class="public-profile-name">{{ profile_user.userprofile.get_display_name }}</h3>
     </div>
     <div>
-        <h2 class="green-color">{{ percentage|floatformat:2|intcomma }}%</h2>
+        <h2 class="green-color">{{ profile.percentage|floatformat:2|intcomma }}%</h2>
         <h4 class="green-color">
-        {% if artists %}
+        {% if profile.artists %}
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
         {% endif %}
-        ${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
+        ${{ profile.total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ profile.total_investments|floatformat:2|intcomma }}</span></h4>
     </div>
 
     <div class="break">
         <hr>
     </div>
-    {% if artists %}
+    {% if profile.artists %}
         <div class="investments">
             <h3>PORTFOLIO</h3>
-            {% include "artist/includes/investor_profile_artist_list.html" with artists=artists %}
+            {% include "artist/includes/investor_profile_artist_list.html" with artists=profile.artists %}
         </div>
         <div class="break">
             <hr>

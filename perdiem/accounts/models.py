@@ -13,6 +13,7 @@ from django.db import models
 
 from sorl.thumbnail import get_thumbnail
 
+from accounts.cache import cache_using_pk
 from artist.models import Artist
 from campaign.models import Campaign, Investment
 
@@ -116,6 +117,7 @@ class UserProfile(models.Model):
         if not self.invest_anonymously:
             return reverse('public_profile', args=(self.user.username,))
 
+    @cache_using_pk
     def profile_context(self):
         context = {}
 

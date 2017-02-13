@@ -228,9 +228,9 @@ class PublicProfileView(TemplateView):
         profile_user = get_object_or_404(User, username=kwargs['username'])
         if profile_user.userprofile.invest_anonymously:
             raise Http404("No User matches the given query.")
-        context.update(profile_user.userprofile.profile_context())
         context.update({
             'profile_user': profile_user,
+            'profile': profile_user.userprofile.profile_context(),
         })
         return context
 
