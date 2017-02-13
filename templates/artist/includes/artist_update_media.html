@@ -2,7 +2,11 @@
 
 {% for media_url in update.updatemediaurl_set.all %}
     {% if not forloop.first %}<br />{% endif %}
-    {{ media_url.embed_html|safe }}
+    {% if embed %}
+        {{ media_url.embed_html|safe }}
+    {% else %}
+        {{ media_url.thumbnail_html|safe }}
+    {% endif %}
 {% endfor %}
 {% for image in update.updateimage_set.all %}
     {% if not forloop.first %}<br />{% endif %}

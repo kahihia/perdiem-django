@@ -9,6 +9,6 @@
 {% endblock %}
 
 {% block html_body %}
-    {% include "artist/includes/artist_update_media.html" with update=update %}
+    {% include "artist/includes/artist_update_media.html" with update=update embed=False %}
     <p>{{ update.text }}</p>
 {% endblock %}

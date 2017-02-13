@@ -251,10 +251,19 @@ class UpdateMediaURL(models.Model):
         # TODO: Make more robust using regex and getting all query parameters
         if 'youtu.be/' in url:
             url = url.replace('youtu.be/', 'youtube.com/watch?v=')
-        return url.replace('/watch?v=', '/embed/')
+        return url
+
+    def thumbnail_html(self):
+        if self.media_type == self.MEDIA_YOUTUBE:
+            url = self.clean_youtube_url().replace('www.youtube.com', 'youtube.com')
+            thumbnail_url = "{base}/hqdefault.jpg".format(
+                base=url.replace('youtube.com/watch?v=', 'img.youtube.com/vi/')
+            )
+            return u"<a href=\"{url}\"><img src=\"{thumbnail_url}\" /></a>".format(url=url, thumbnail_url=thumbnail_url)
 
     def embed_html(self):
         if self.media_type == self.MEDIA_YOUTUBE:
+            url = self.clean_youtube_url().replace('/watch?v=', '/embed/')
             return (
                 u"<iframe width=\"560\" height=\"315\" src=\"{url}\" frameborder=\"0\" allowfullscreen></iframe>"
-            ).format(url=self.clean_youtube_url())
+            ).format(url=url)
