@@ -2,7 +2,7 @@
 
 {% for media_url in update.updatemediaurl_set.all %}
     {% if not forloop.first %}<br />{% endif %}
-    {{ media_url.html|safe }}
+    {{ media_url.embed_html|safe }}
 {% endfor %}
 {% for image in update.updateimage_set.all %}
     {% if not forloop.first %}<br />{% endif %}

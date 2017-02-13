@@ -244,7 +244,7 @@ class UpdateMediaURL(models.Model):
     def __unicode__(self):
         return unicode(self.update)
 
-    def html(self):
+    def embed_html(self):
         if self.media_type == self.MEDIA_YOUTUBE:
             url = escape(self.url)
 
