@@ -244,16 +244,17 @@ class UpdateMediaURL(models.Model):
     def __unicode__(self):
         return unicode(self.update)
 
+    def clean_youtube_url(self):
+        url = escape(self.url)
+
+        # A hack to correct youtu.be links and normal watch links into embed links
+        # TODO: Make more robust using regex and getting all query parameters
+        if 'youtu.be/' in url:
+            url = url.replace('youtu.be/', 'youtube.com/watch?v=')
+        return url.replace('/watch?v=', '/embed/')
+
     def embed_html(self):
         if self.media_type == self.MEDIA_YOUTUBE:
-            url = escape(self.url)
-
-            # A hack to correct youtu.be links and normal watch links into embed links
-            # TODO: Make more robust using regex and getting all query parameters
-            if 'youtu.be/' in url:
-                url = url.replace('youtu.be/', 'youtube.com/watch?v=')
-            url = url.replace('/watch?v=', '/embed/')
-
             return (
                 u"<iframe width=\"560\" height=\"315\" src=\"{url}\" frameborder=\"0\" allowfullscreen></iframe>"
-            ).format(url=url)
+            ).format(url=self.clean_youtube_url())
