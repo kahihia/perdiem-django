@@ -140,6 +140,9 @@ class Campaign(models.Model):
             return 100
         return self.funded_rounding(percentage)
 
+    def percentage_per_share(self):
+        return float(self.fans_percentage) / float(self.num_shares())
+
     def percentage_roi(self, percentage):
         return self.amount * (percentage / self.fans_percentage)
 

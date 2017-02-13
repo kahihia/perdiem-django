@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load humanize %}
+{% load perdiem %}
 
 {% if latest_campaign %}
     {% with campaign=latest_campaign %}
@@ -22,6 +23,7 @@
                 </div>
                 <h6>{{ artist.name }} is raising ${{ campaign.amount|intcomma }} and giving {{ campaign.fans_percentage }}% of sales from {{ campaign.project.reason }} to investors</h6>
                 <h6>The value of a share is ${{ campaign.value_per_share }}</h6>
+                <h6>Each share is worth {{ campaign.percentage_per_share|notrail_floatformat:2 }}% of {{ campaign.project.reason }} revenue</h6>
                 <h6>This project is valued at ${{ campaign.valuation }}</h6>
             {% else %}
                 {% include "artist/includes/auth_buttons.html" %}
