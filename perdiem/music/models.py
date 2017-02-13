@@ -47,6 +47,29 @@ class Album(models.Model):
         disc_numbers = self.track_set.all().values_list('disc_number', flat=True).distinct().order_by('disc_number')
         return (self.track_set.filter(disc_number=disc).order_by('track_number') for disc in disc_numbers)
 
+    def total_activity(self, activity_type):
+        tracks = self.track_set.all()
+        if not tracks:
+            return 0
+
+        all_activities = ActivityEstimate.objects.filter(activity_type=activity_type)
+        album_events = all_activities.filter(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id
+        ).aggregate(total=models.Sum('total'))['total'] or 0
+        track_events = all_activities.filter(
+            content_type=ContentType.objects.get_for_model(tracks[0]),
+            object_id__in=tracks.values_list('id', flat=True)
+        ).aggregate(total=models.Sum('total'))['total'] or 0
+
+        return album_events * tracks.count() + track_events
+
+    def total_downloads(self):
+        return self.total_activity(ActivityEstimate.ACTIVITY_DOWNLOAD)
+
+    def total_streams(self):
+        return self.total_activity(ActivityEstimate.ACTIVITY_STREAM)
+
 
 class Track(models.Model):
 
