@@ -9,6 +9,21 @@
                 <div class="artist-list-image img-list">
                     {% include "object_preview_music.html" with object=album img=album.artwork.img %}
                 </div>
+                <div>
+                    <p>
+                        {% if album.total_streams %}
+                            <i class="fa fa-cloud" aria-hidden="true"></i>
+                            {{ album.total_streams }}
+                        {% endif %}
+                        {% if album.total_downloads %}
+                            <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                            {{ album.total_downloads }}
+                        {% endif %}
+                        {% if not album.total_streams and not album.total_downloads %}
+                            EXCLUSIVE
+                        {% endif %}
+                    </p>
+                </div>
             </div>
         {% endfor %}
     </div>
