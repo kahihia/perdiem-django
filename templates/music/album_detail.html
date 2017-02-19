@@ -4,6 +4,37 @@
 {% load markdown_deux_tags %}
 {% load music %}
 
+{% block socialmeta %}
+    <!-- Google+ data -->
+    <meta itemprop="name" content="{{ album.name }} by {{ artist.name|upper }}">
+    <meta itemprop="description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists.">
+    {% thumbnail album.photo.img "506" as thumb %}
+        <meta itemprop="image" content="{{ thumb.url }}">
+    {% endthumbnail %}
+    <!-- Twitter Card data -->
+    {% if artist.social_twitter %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="{{ artist.social_twitter.username_twitter }}">
+        <meta name="twitter:title" content="INVEST IN {{ artist.name|upper }}">
+        <meta name="twitter:description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists.">
+        <meta name="twitter:creator" content="{{ artist.social_twitter.username_twitter }}">
+        {% thumbnail artist.photo.img "208" as thumb %}
+            <meta name="twitter:image:src" content="{{ thumb.url }}">
+        {% endthumbnail %}
+    {% endif %}
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ album.name }} by {{ artist.name|upper }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://{{ host }}{% url 'artist' slug=artist.slug %}" />
+    {% thumbnail album.photo.img "600" as thumb %}
+        <meta property="og:image" content="{{ thumb.url }}" />
+        <meta property="og:image:width" content="{{ thumb.width }}" />
+        <meta property="og:image:height" content="{{ thumb.height }}" />
+    {% endthumbnail %}
+    <meta property="og:description" content="PerDiem is a platform where you can invest in music. Earn money by discovering and supporting your favorite artists." />
+    <meta property="og:site_name" content="PERDIEM" />
+{% endblock %}
+
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/music/music.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}
