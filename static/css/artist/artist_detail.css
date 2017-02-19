@@ -35,7 +35,7 @@ h1, li, p, {
 }
 
 .artist-detail-padding {
-    max-width: 1000px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -203,9 +203,4 @@ p.days-remaining {
     padding-top: 40%;
     padding-right: 10%;
     padding-left: 10%
-}
-
-.update-container {
-    max-width: 800px;
-    margin: 0 auto;
 }
