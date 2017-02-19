@@ -662,3 +662,7 @@ p.register-copy {
     max-width: 600px;
     margin: 0 auto;
 }
+
+.errorlist {
+    color: red;
+}
