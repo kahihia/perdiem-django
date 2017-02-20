@@ -6,24 +6,24 @@
 
 {% block socialmeta %}
     <!-- Google+ data -->
-    <meta itemprop="name" content="{{ album.project.artist }} by {{ artist.name }}">
+    <meta itemprop="name" content="{{ album.name }} by {{ album.project.artist.name }}">
     <meta itemprop="description" content="Discover and invest in music like {{ album.name }} on PerDiem.">
     {% thumbnail album.photo.img "506" as thumb %}
         <meta itemprop="image" content="{{ thumb.url }}">
     {% endthumbnail %}
     <!-- Twitter Card data -->
-    {% if artist.social_twitter %}
+    {% if album.project.artist.social_twitter %}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="{{ artist.social_twitter.username_twitter }}">
-        <meta name="twitter:title" content="{{ album.project.artist }} by {{ artist.name }}">
+        <meta name="twitter:title" content="{{ album.name }} by {{ album.project.artist.name }}">
         <meta name="twitter:description" content="Discover and invest in music like {{ album.name }} on PerDiem.">
         <meta name="twitter:creator" content="{{ artist.social_twitter.username_twitter }}">
-        {% thumbnail artist.photo.img "208" as thumb %}
+        {% thumbnail album.project.artist.photo.img "208" as thumb %}
             <meta name="twitter:image:src" content="{{ thumb.url }}">
         {% endthumbnail %}
     {% endif %}
     <!-- Open Graph data -->
-    <meta property="og:title" content="{{ album.project.artist }} by {{ artist.name }}" />
+    <meta property="og:title" content="{{ album.name }} by {{ album.project.artist.name }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://{{ host }}{% url 'album' artist_slug=album.project.artist.slug album_slug=album.slug %}" />
     {% thumbnail album.photo.img "600" as thumb %}
