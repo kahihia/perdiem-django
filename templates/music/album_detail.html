@@ -14,10 +14,10 @@
     <!-- Twitter Card data -->
     {% if album.project.artist.social_twitter %}
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:site" content="{{ artist.social_twitter.username_twitter }}">
+        <meta name="twitter:site" content="{{ album.project.artist.social_twitter.username_twitter }}">
         <meta name="twitter:title" content="{{ album.name }} by {{ album.project.artist.name }}">
         <meta name="twitter:description" content="Discover and invest in music like {{ album.name }} on PerDiem.">
-        <meta name="twitter:creator" content="{{ artist.social_twitter.username_twitter }}">
+        <meta name="twitter:creator" content="{{ album.project.artist.social_twitter.username_twitter }}">
         {% thumbnail album.project.artist.photo.img "208" as thumb %}
             <meta name="twitter:image:src" content="{{ thumb.url }}">
         {% endthumbnail %}
