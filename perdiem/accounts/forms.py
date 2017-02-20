@@ -36,7 +36,7 @@ class RegisterAccountForm(UserCreationForm):
     )
     email = forms.EmailField(required=True)
     subscribe_news = forms.BooleanField(
-        required=False, initial=True, label='Let me know about new updates and happenings'
+        required=False, initial=True, label='Get exclusive updates before they\'re public'
     )
 
     class Meta(UserCreationForm.Meta):

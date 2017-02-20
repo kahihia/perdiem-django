@@ -4,6 +4,37 @@
 {% load markdown_deux_tags %}
 {% load music %}
 
+{% block socialmeta %}
+    <!-- Google+ data -->
+    <meta itemprop="name" content="{{ album.name }} by {{ album.project.artist.name }}">
+    <meta itemprop="description" content="Discover and invest in music like {{ album.name }} on PerDiem.">
+    {% thumbnail album.photo.img "506" as thumb %}
+        <meta itemprop="image" content="{{ thumb.url }}">
+    {% endthumbnail %}
+    <!-- Twitter Card data -->
+    {% if album.project.artist.social_twitter %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="{{ album.project.artist.social_twitter.username_twitter }}">
+        <meta name="twitter:title" content="{{ album.name }} by {{ album.project.artist.name }}">
+        <meta name="twitter:description" content="Discover and invest in music like {{ album.name }} on PerDiem.">
+        <meta name="twitter:creator" content="{{ album.project.artist.social_twitter.username_twitter }}">
+        {% thumbnail album.project.artist.photo.img "208" as thumb %}
+            <meta name="twitter:image:src" content="{{ thumb.url }}">
+        {% endthumbnail %}
+    {% endif %}
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ album.name }} by {{ album.project.artist.name }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://{{ host }}{% url 'album' artist_slug=album.project.artist.slug album_slug=album.slug %}" />
+    {% thumbnail album.photo.img "600" as thumb %}
+        <meta property="og:image" content="{{ thumb.url }}" />
+        <meta property="og:image:width" content="{{ thumb.width }}" />
+        <meta property="og:image:height" content="{{ thumb.height }}" />
+    {% endthumbnail %}
+    <meta property="og:description" content="Discover and invest in music like {{ album.name }} on PerDiem." />
+    <meta property="og:site_name" content="PERDIEM" />
+{% endblock %}
+
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/music/music.css" %}" type="text/css" charset="utf-8" />
 {% endblock %}

@@ -264,6 +264,8 @@ class UpdateMediaURL(models.Model):
     def embed_html(self):
         if self.media_type == self.MEDIA_YOUTUBE:
             url = self.clean_youtube_url().replace('/watch?v=', '/embed/')
-            return (
-                u"<iframe width=\"560\" height=\"315\" src=\"{url}\" frameborder=\"0\" allowfullscreen></iframe>"
-            ).format(url=url)
+            return u"""
+                <div class="videowrapper">
+                    <iframe width="560" height="315" src="{url}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            """.format(url=url)
