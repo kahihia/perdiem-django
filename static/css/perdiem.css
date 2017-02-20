@@ -666,3 +666,7 @@ p.register-copy {
 .errorlist {
     color: red;
 }
+
+.uppercase {
+    text-transform: uppercase;
+}
