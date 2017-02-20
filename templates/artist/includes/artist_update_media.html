@@ -3,9 +3,7 @@
 {% for media_url in update.updatemediaurl_set.all %}
     {% if not forloop.first %}<br />{% endif %}
     {% if embed %}
-        <div class="videowrapper">
-            {{ media_url.embed_html|safe }}
-        </div>
+        {{ media_url.embed_html|safe }}
     {% else %}
         {{ media_url.thumbnail_html|safe }}
     {% endif %}
