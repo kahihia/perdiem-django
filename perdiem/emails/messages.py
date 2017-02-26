@@ -61,12 +61,13 @@ class BaseEmail(object):
             context['unsubscribe_message'] = self.unsubscribe_message(user)
         return context
 
-    def send_to_email(self, email, context={}, **kwargs):
+    def send_to_email(self, email, context=None, **kwargs):
         """
         This method is not meant to be called directly, except for
         sending emails to email addresses that do not belong to a user.
         Generally, this method should be called from the send() method.
         """
+        context = context or {}
         send_templated_mail(
             template_name=self.get_template_name(),
             from_email=self.get_from_email_address(**kwargs),
@@ -74,7 +75,8 @@ class BaseEmail(object):
             context=context
         )
 
-    def send(self, user, context={}, **kwargs):
+    def send(self, user, context=None, **kwargs):
+        context = context or {}
         context.update(self.get_context_data(user, **kwargs))
         user_is_subscribed = EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
         user_subscription_okay = self.ignore_unsubscribed or user_is_subscribed
