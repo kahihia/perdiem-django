@@ -25,13 +25,13 @@
         var myChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ["Artist 1", "Artist 2", "Artist 3", "Artist 4", "Artist 5"],
+            labels: [{% if leaders %}{% for leader_context in leaders %}"{{ leader_context.name }}"{% endfor %}{% endif %}],
             datasets: [{
               label: 'Amount Raised',
-              data: [12, 19, 3, 17, 28,]
+              data: [{% if leaders %}{% for leader_context in leaders %}{{ leader_context.amount|notrail_floatformat:2|intcomma }}, {% endfor %}{% endif %}]
           }, {
             label: 'Amount Earned',
-            data: [19, 11, 31, 27, 25,]
+            data: [{% if leaders %}{% for leader_context in leaders %}{{ leader_context.amount|notrail_floatformat:2|intcomma }}, {% endfor %}{% endif %}]
           }]
           }
         });
@@ -39,13 +39,13 @@
         var myChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ["Artist 1", "Artist 2", "Artist 3", "Artist 4", "Artist 5"],
+            labels: [{% if leaders %}{% for leader_context in leaders %}"{{ leader_context.name }}"{% endfor %}{% endif %}],
             datasets: [{
               label: 'Amount Raised',
-              data: [12, 19, 3, 17, 28,]
+              data: [{% if leaders %}{% for leader_context in leaders %}{{ leader_context.amount|notrail_floatformat:2|intcomma }}, {% endfor %}{% endif %}]
           }, {
             label: 'Amount Earned',
-            data: [19, 11, 31, 27, 25,]
+            data: [{% if leaders %}{% for leader_context in leaders %}{{ leader_context.amount|notrail_floatformat:2|intcomma }}, {% endfor %}{% endif %}]
           }]
           }
         });
