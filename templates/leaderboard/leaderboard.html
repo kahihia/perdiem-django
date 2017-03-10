@@ -9,15 +9,10 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Investments</h2>
-    <div class="break">
-        <hr>
-    </div>
     <div class="center">
         {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
         {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
     </div>
-    <h2>Earnings</h2>
     <div class="break">
         <hr>
     </div>
