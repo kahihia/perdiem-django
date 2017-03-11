@@ -10,15 +10,7 @@
 
 {% block content %}
     <div class="center">
-        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
-        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
-    </div>
-    <div class="break">
-        <hr>
-    </div>
-    <div class="center">
-        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
-        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
+        {% include "leaderboard/includes/list.html" %}
     </div>
 {% endblock %}
 
