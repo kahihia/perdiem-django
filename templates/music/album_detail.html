@@ -57,28 +57,6 @@
 
     <script>
         {% if album.track_set.all %}
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [
-                        {% for month_revenue in estimated_cumulative_revenue %}
-                            "{{ month_revenue.month }}"{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ],
-                    datasets: [
-                        {
-                            label: 'Estimated Revenue',
-                            data: [
-                                {% for month_revenue in estimated_cumulative_revenue %}
-                                    {{ month_revenue.artist_revenue }}{% if not forloop.last %},{% endif %}
-                                {% endfor %}
-                            ],
-                            backgroundColor: "#34495E"
-                        },
-                    ]
-                }
-            });
             var cta = document.getElementById("myChart2").getContext('2d');
             var myChart2 = new Chart(cta, {
                 type: 'bar',

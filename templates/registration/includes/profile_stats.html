@@ -17,7 +17,7 @@
 
 {% for artist in artists.values %}
     {% if project.generated_revenue %}
-        <div class="profile-stats">
+        <div class="profile-container">
             {% if artist.total_earned %}
                 <p>{{ artist.name }}</p>
                 <p class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ artist.total_earned|floatformat:2|intcomma }}</p>
