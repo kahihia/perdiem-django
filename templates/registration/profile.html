@@ -59,12 +59,12 @@
                 datasets: [
                     {
                         label: 'INVESTED',
-                        data: [{{ total_investments|floatformat:2|intcomma }}],
+                        data: [{{ total_investments|floatformat:2 }}],
                         backgroundColor: "#85929E"
                     },
                     {
                         label: 'EARNED',
-                        data: [{{ total_earned|floatformat:2|intcomma }}],
+                        data: [{{ total_earned|floatformat:2 }}],
                         backgroundColor: "#4cbd7e"
                     }
                 ]
