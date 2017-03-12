@@ -18,8 +18,8 @@
     <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
 
     <script>
-        var ctx = document.getElementById("InvestorChart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        var InvestorLeaderboard = document.getElementById("InvestorChart").getContext('2d');
+        var InvestorChart = new Chart(InvestorLeaderboard, {
             type: 'bar',
             data: {
                 labels: [
@@ -49,8 +49,8 @@
                 }]
             }
         });
-        var ctx = document.getElementById("ArtistChart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        var ArtistLeaderboard = document.getElementById("ArtistChart").getContext('2d');
+        var ArtistChart = new Chart(ArtistLeaderboard, {
             type: 'bar',
             data: {
                 labels: [
