@@ -9,20 +9,26 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div id="home-page" class="home-page">
+            <style>
+                #home-page {
+                    position: relative;
+                    background-image: url("{% static "img/perdiem-home.svg" %}");
+                    background-size: 80% 50%;
+                    background-repeat: no-repeat;
+                    background-position: 50% 10%;
+                    background-color: black;
+                }
+            </style>
             <div class="home-description">
-                <h2 class="name-header white-color">Welcome, {% firstof user.get_full_name user.get_username %}</h2>
-                <h3 class="home-copy">Click the <a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a> to view your profile</h3>
-                <h3 class="home-copy">Select the <a class="home-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a> to browse through artists</h3>
-                <h3 class="home-copy">Select the <a class="home-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a> to browse through music</h3>
-                <br />
-                <h4 class="white-color">In your profile</h4>
-                <h3 class="home-copy">
-                    View updates <a class="home-icon" href="{% url 'profile' %}"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
-                    Track earnings <a class="home-icon" href="{% url 'profile' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-                    Watch artists <a class="home-icon" href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i></a>
-                    Get exclusives <a class="home-icon" href="{% url 'profile' %}"><i class="fa fa-music" aria-hidden="true"></i></a>
-                </h3>
-                <h3 class="home-copy">Update your <a class="home-icon" href="{% url 'settings' %}"><i class="fa fa-gears" aria-hidden="true"></i></a> to customize profile and <a class="home-icon" href="{% url 'settings' %}"><i class="fa fa-envelope" aria-hidden="true"></i></a> notifications</h3>
+                <div class="footer-position">
+                    <h4 class="white-color header-padding">Welcome, {% firstof user.get_full_name user.get_username %}</h4>
+                    <div class="discover">
+                        <h4 class="color-blue header-padding">Start discovering music</h4>
+                        <div class="center extra-padding">
+                            <a class="button sign-up uppercase" href="{% url 'profile' %}">Go to profile</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     {% else %}
@@ -39,25 +45,29 @@
             </style>
             <div class="footer-position">
                 <h1 class="white-color">PerDiem</h1>
+                <h5 class="white-color header-padding">Start your own record label and build your brand in music</h5>
                 <br />
-                <h5><a class="learn-more" href={% url 'home' %}#about>What is PerDiem?<br/>
+                <h5><a class="learn-more" href={% url 'home' %}#about>Learn More</a><br/>
                 <i class="fa fa-chevron-down fa-1x color-grey" aria-hidden="true"></i></a></h5>
             </div>
         </div>
         <div id="about" class="about">
             <div class="about-padding">
-                <h2 class="white-color title">Our Purpose</h2>
-                <br />
+                <h3 class="white-color title">Why use perdiem</h3>
                 <ul class="color-white">
-                    <li>PerDiem was created to remove the barriers that keep music from being heard. We believe that artists should not have to give up creative freedom to achieve success. We believe the decision on what music gets funded should be determined by the people who listen to it. </li>
-                    <br />
-                    <li>We are empowering the music community with a new platform for supporting art. One that is driven by creativity and innovation. One that gives Artists the tools they need to create their own success.</li>
-                    <br />
-                    <li>tldr; We are creating a better world for music.</li>
+                    <img class="home-logo-about" src="{% static "img/money.svg" %}">
+                    <li class="description-padding">Invest in artists and earn money based on the success of their music.</li>
+                    <li class="description-padding">Collect royalties globally from 2,500+ platforms.</li>
+                    <img class="home-logo-about" src="{% static "img/pie.svg" %}">
+                    <li class="description-padding">Automatically split payments between artists and investors.</li>
+                    <li class="description-padding">Get updates from your artists and insights on music earnings.</li>
+                    <img class="home-logo-about" src="{% static "img/graph.svg" %}">
+                    <li class="description-padding">Get daily stats on your artists and how their music is performing.</li>
+                    <li class="description-padding">Integrated with labels, publishers, managers, and brands.</li>
                 </ul>
             </div>
             <div class="discover extra-padding">
-                <h4 class="color-blue">Join the movement</h4>
+                <h4 class="color-blue">Want to build your portfolio?</h4>
                 <div class="center extra-padding">
                     <a class="button sign-up uppercase" href="{% url 'register' %}?next={{ request.get_full_path }}">Start Investing</a>
                 </div>

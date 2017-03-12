@@ -9,24 +9,87 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Investments</h2>
-    <div class="break">
-        <hr>
-    </div>
     <div class="center">
-        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_raised %}
-        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_invested %}
-    </div>
-    <h2>Earnings</h2>
-    <div class="break">
-        <hr>
-    </div>
-    <div class="center">
-        {% include "leaderboard/includes/list.html" with name='Artists' leaders=top_earned_artists %}
-        {% include "leaderboard/includes/list.html" with name='Investors' leaders=top_earned_investors %}
+        {% include "leaderboard/includes/list.html" with name='Investors' canvas_id='InvestorChart' %}
+        {% include "leaderboard/includes/list.html" with name='Artists' canvas_id='ArtistChart' %}
     </div>
 {% endblock %}
 
 {% block extrajs %}
     <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
+
+    <script>
+        var InvestorLeaderboard = document.getElementById("InvestorChart").getContext('2d');
+        var InvestorChart = new Chart(InvestorLeaderboard, {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% if top_earned_investors %}
+                        {% for top_earned_investors_context in top_earned_investors %}
+                            "{{ top_earned_investors_context.name }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                ],
+                datasets: [
+                    {
+                        label: 'Amount Invested',
+                        data: [
+                            {% if top_invested %}
+                                {% for top_invested_context in top_raised %}
+                                    {{ top_invested_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}],
+                        backgroundColor: "#85929E"
+                    },
+                    {
+                        label: 'Amount Earned',
+                        data: [
+                            {% if top_earned_investors %}
+                                {% for top_earned_investors_context in top_earned_investors %}
+                                    {{ top_earned_investors_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        ],
+                        backgroundColor: "#4cbd7e"
+                    }
+                ]
+            }
+        });
+        var ArtistLeaderboard = document.getElementById("ArtistChart").getContext('2d');
+        var ArtistChart = new Chart(ArtistLeaderboard, {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% if top_earned_artists %}
+                        {% for top_earned_artists_context in top_earned_artists %}
+                            "{{ top_earned_artists_context.name }}"{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                ],
+                datasets: [
+                    {
+                        label: 'Amount Raised',
+                        data: [
+                            {% if top_raised %}
+                                {% for top_raised_context in top_raised %}
+                                    {{ top_raised_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}],
+                        backgroundColor: "#85929E"
+                    },
+                    {
+                        label: 'Amount Earned',
+                        data: [
+                            {% if top_earned_artists %}
+                                {% for top_earned_artists_context in top_earned_artists %}
+                                    {{ top_earned_artists_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        ],
+                        backgroundColor: "#4cbd7e"
+                    }
+                ]
+            }
+        });
+    </script>
 {% endblock %}

@@ -11,7 +11,7 @@ h1 {
     text-align: center;
     text-transform: uppercase;
     color: #000;
-    font-size: 6em;
+    font-size: 5em;
     font-weight: 200;
 }
 
@@ -669,4 +669,9 @@ p.register-copy {
 
 .uppercase {
     text-transform: uppercase;
+}
+
+.chart-container {
+    width: 90%;
+    max-width: 800px;
 }
