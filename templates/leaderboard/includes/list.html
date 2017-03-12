@@ -3,20 +3,12 @@
 {% load perdiem %}
 
     <div class="leaderboard">
-        <h2>Investors</h2>
+        <h2>{{ name }}</h2>
         <h4>Top earnings and investments</h4>
         <div class="break">
             <hr>
         </div>
         <div class="chart-container">
-            <canvas id="InvestorChart"></canvas>
-        </div>
-        <h2>Artists</h2>
-        <h4>Top earnings and investments</h4>
-        <div class="break">
-            <hr>
-        </div>
-        <div class="chart-container">
-            <canvas id="ArtistChart"></canvas>
+            <canvas id="{{ canvas_id }}"></canvas>
         </div>
     </div>

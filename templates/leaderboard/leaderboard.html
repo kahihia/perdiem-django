@@ -10,7 +10,8 @@
 
 {% block content %}
     <div class="center">
-        {% include "leaderboard/includes/list.html" %}
+        {% include "leaderboard/includes/list.html" with name='Investors' canvas_id='InvestorChart' %}
+        {% include "leaderboard/includes/list.html" with name='Artists' canvas_id='ArtistChart' %}
     </div>
 {% endblock %}
 
