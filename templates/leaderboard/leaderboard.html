@@ -27,26 +27,30 @@
                         {% for top_earned_investors_context in top_earned_investors %}
                             "{{ top_earned_investors_context.name }}"{% if not forloop.last %},{% endif %}
                         {% endfor %}
-                    {% endif %}],
-                datasets: [{
-                    label: 'Amount Invested',
-                    data: [
-                        {% if top_invested %}
-                            {% for top_invested_context in top_raised %}
-                                {{ top_invested_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}],
-                    backgroundColor: "#85929E"
-                }, {
-                    label: 'Amount Earned',
-                    data: [
-                        {% if top_earned_investors %}
-                            {% for top_earned_investors_context in top_earned_investors %}
-                                {{ top_earned_investors_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}],
-                    backgroundColor: "#4cbd7e"
-                }]
+                    {% endif %}
+                ],
+                datasets: [
+                    {
+                        label: 'Amount Invested',
+                        data: [
+                            {% if top_invested %}
+                                {% for top_invested_context in top_raised %}
+                                    {{ top_invested_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}],
+                        backgroundColor: "#85929E"
+                    },
+                    {
+                        label: 'Amount Earned',
+                        data: [
+                            {% if top_earned_investors %}
+                                {% for top_earned_investors_context in top_earned_investors %}
+                                    {{ top_earned_investors_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}],
+                        backgroundColor: "#4cbd7e"
+                    }
+                ]
             }
         });
         var ArtistLeaderboard = document.getElementById("ArtistChart").getContext('2d');
