@@ -35,7 +35,7 @@
                         label: 'Amount Invested',
                         data: [
                             {% if top_invested %}
-                                {% for top_invested_context in top_raised %}
+                                {% for top_invested_context in top_invested %}
                                     {{ top_invested_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
                                 {% endfor %}
                             {% endif %}],
