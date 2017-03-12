@@ -48,7 +48,8 @@
                                 {% for top_earned_investors_context in top_earned_investors %}
                                     {{ top_earned_investors_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
                                 {% endfor %}
-                            {% endif %}],
+                            {% endif %}
+                        ],
                         backgroundColor: "#4cbd7e"
                     }
                 ]
@@ -63,26 +64,31 @@
                         {% for top_earned_artists_context in top_earned_artists %}
                             "{{ top_earned_artists_context.name }}"{% if not forloop.last %},{% endif %}
                         {% endfor %}
-                    {% endif %}],
-                datasets: [{
-                    label: 'Amount Raised',
-                    data: [
-                        {% if top_raised %}
-                            {% for top_raised_context in top_raised %}
-                                {{ top_raised_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}],
-                    backgroundColor: "#85929E"
-                }, {
-                    label: 'Amount Earned',
-                    data: [
-                        {% if top_earned_artists %}
-                            {% for top_earned_artists_context in top_earned_artists %}
-                                {{ top_earned_artists_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}],
-                    backgroundColor: "#4cbd7e"
-                }]
+                    {% endif %}
+                ],
+                datasets: [
+                    {
+                        label: 'Amount Raised',
+                        data: [
+                            {% if top_raised %}
+                                {% for top_raised_context in top_raised %}
+                                    {{ top_raised_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}],
+                        backgroundColor: "#85929E"
+                    },
+                    {
+                        label: 'Amount Earned',
+                        data: [
+                            {% if top_earned_artists %}
+                                {% for top_earned_artists_context in top_earned_artists %}
+                                    {{ top_earned_artists_context.amount|notrail_floatformat:2 }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        ],
+                        backgroundColor: "#4cbd7e"
+                    }
+                ]
             }
         });
     </script>
