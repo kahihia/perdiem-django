@@ -246,7 +246,3 @@ class BaseSettings(DjangoDefaults):
     # Analytics
     GA_TRACKING_CODE = ''  # Defined in prod.py
     JACO_API_KEY = ''  # Defined in prod.py
-
-    # Revenue estimatation
-    ESTIMATED_REVENUE_PER_DOWNLOAD = 0.7  # $0.70
-    ESTIMATED_REVENUE_PER_STREAM = 0.0072  # $0.0072
