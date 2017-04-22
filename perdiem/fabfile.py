@@ -18,10 +18,11 @@ def send_notification(commits):
     if not bot_token:
         return
 
+    text = '```\n{commits}\n```\nhas been deployed'.format(commits=commits) if commits else 'Services were restarted'
     data = {
         'token': bot_token,
         'channel': '#general',
-        'text': '```\n{commits}\n```\nhas been deployed'.format(commits=commits),
+        'text': text,
         'as_user': True,
     }
     requests.post('https://slack.com/api/chat.postMessage', data=data)
