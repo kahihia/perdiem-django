@@ -11,9 +11,6 @@ if len(sys.argv) >= 2 and sys.argv[1] == 'test':
     # Filter warnings that are a result of dependencies
     # They can be removed once the dependency fixes the issue
     django20warnings = [
-        # pinax-stripe: https://github.com/pinax/pinax-stripe/issues/255
-        'on_delete will be a required arg for .*',
-
         # python-social-auth: https://github.com/omab/python-social-auth/issues/953
         (
             'Old-style middleware using settings\.MIDDLEWARE_CLASSES is deprecated\. Update your middleware '
@@ -32,6 +29,9 @@ if len(sys.argv) >= 2 and sys.argv[1] == 'test':
         # python-social-auth: https://github.com/omab/python-social-auth/issues/1014
         'Usage of field\.rel has been deprecated\. Use field\.remote_field instead\.',
         'Usage of ForeignObjectRel\.to attribute has been deprecated\. Use the model attribute instead\.',
+
+        # python-social-auth: https://github.com/omab/python-social-auth/issues/1022
+        'on_delete will be a required arg for .*',
     ]
     for django20warning in django20warnings:
         warnings.filterwarnings('ignore', category=RemovedInDjango20Warning, message=django20warning)
