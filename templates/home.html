@@ -11,19 +11,13 @@
         <div id="home-page" class="home-page">
             <style>
                 #home-page {
-                    position: relative;
-                    background-image: url("{% static "img/perdiem-home.svg" %}");
-                    background-size: 80% 50%;
-                    background-repeat: no-repeat;
-                    background-position: 50% 10%;
                     background-color: black;
                 }
             </style>
             <div class="home-description">
-                <div class="footer-position">
+                <div class="footer-position auth">
                     <h4 class="white-color header-padding">Welcome, {% firstof user.get_full_name user.get_username %}</h4>
                     <div class="discover">
-                        <h4 class="color-blue header-padding">Start discovering music</h4>
                         <div class="center extra-padding">
                             <a class="button sign-up uppercase" href="{% url 'profile' %}">Go to profile</a>
                         </div>
@@ -35,39 +29,38 @@
         <div id="home-page" class="home-page">
             <style>
                 #home-page {
-                    position: relative;
-                    background-image: url("{% static "img/perdiem-home.svg" %}");
-                    background-size: 80% 50%;
+                    background: linear-gradient(
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)
+                        ), url("{% static "img/perdiem-background.jpg" %}");
+                    background-size: cover;
                     background-repeat: no-repeat;
-                    background-position: 50% 10%;
                     background-color: black;
                 }
             </style>
             <div class="footer-position">
-                <h1 class="white-color">PerDiem</h1>
-                <h5 class="white-color header-padding">Start your own record label and build your brand in music</h5>
+                <img class="header-logo" src="{% static "img/perdiem-home-stroke.svg" %}">
+                <h1 class="white-color header-text">PerDiem</h1>
+                <h4 class="white-color header-padding header-text">A new way to invest in music</h4>
+                <h5 class="white-color header-text">
+                    Earn money by discovering and investing in artists
+                </h5>
                 <br />
-                <h5><a class="learn-more" href={% url 'home' %}#about>Learn More</a><br/>
-                <i class="fa fa-chevron-down fa-1x color-grey" aria-hidden="true"></i></a></h5>
+                <h5>
+                    <a href={% url 'home' %}#about><i class="fa fa-chevron-down fa-1x color-grey" aria-hidden="true"></i></a>
+                </h5>
             </div>
         </div>
         <div id="about" class="about">
             <div class="about-padding">
-                <h3 class="white-color title">Why use perdiem</h3>
-                <ul class="color-white">
-                    <img class="home-logo-about" src="{% static "img/money.svg" %}">
-                    <li class="description-padding">Invest in artists and earn money based on the success of their music.</li>
-                    <li class="description-padding">Collect royalties globally from 2,500+ platforms.</li>
-                    <img class="home-logo-about" src="{% static "img/pie.svg" %}">
-                    <li class="description-padding">Automatically split payments between artists and investors.</li>
-                    <li class="description-padding">Get updates from your artists and insights on music earnings.</li>
-                    <img class="home-logo-about" src="{% static "img/graph.svg" %}">
-                    <li class="description-padding">Get daily stats on your artists and how their music is performing.</li>
-                    <li class="description-padding">Integrated with labels, publishers, managers, and brands.</li>
-                </ul>
+                <h3 class="white-color title">A new generation of music</h3>
+                <div class="videowrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/M78Ep_qcnpA" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
             <div class="discover extra-padding">
-                <h4 class="color-blue">Want to build your portfolio?</h4>
+                <h5 class="white-color">Perdiem is a new way for artists fund their music.</h5>
+                <h5 class="white-color">Artists can raise money by selling shares in their music projects.</h5>
                 <div class="center extra-padding">
                     <a class="button sign-up uppercase" href="{% url 'register' %}?next={{ request.get_full_path }}">Start Investing</a>
                 </div>
