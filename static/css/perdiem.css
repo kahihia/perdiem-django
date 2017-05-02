@@ -670,8 +670,3 @@ p.register-copy {
 .uppercase {
     text-transform: uppercase;
 }
-
-.chart-container {
-    width: 90%;
-    max-width: 800px;
-}
