@@ -6,7 +6,9 @@
 {% load music %}
 
 <div class="tabs-panel" id="projects">
-    {% include "artist/includes/artist_current_project.html" %}
+    {% if campaign %}
+        {% include "artist/includes/artist_current_project.html" %}
+    {% endif %}
     {% if latest_campaign and latest_campaign.project.generated_revenue %}
         <br/>
         <h5>
