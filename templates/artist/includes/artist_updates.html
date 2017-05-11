@@ -1,3 +1,5 @@
+{% load markdown_deux_tags %}
+
 <div class="update-container">
     <ul class="menu vertical nested is-active updates">
         {% for update in updates %}
@@ -16,7 +18,7 @@
                     </h4>
                     {% include "artist/includes/artist_update_media.html" with update=update embed=True %}
                     <p><small>[{{ update.created_datetime }}]</small></p>
-                    <p>{{ update.text }}</p>
+                    <p>{{ update.text|markdown }}</p>
                 </li>
         {% endfor %}
     </ul>

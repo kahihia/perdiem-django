@@ -215,7 +215,7 @@ class Update(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     created_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
     title = models.CharField(max_length=75)
-    text = models.TextField(help_text='The content of the update')
+    text = models.TextField(help_text='The content of the update. ' + markdown_allowed())
 
     def __unicode__(self):
         return self.title

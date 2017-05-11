@@ -6,6 +6,8 @@
 
 from django import forms
 
+from pagedown.widgets import PagedownWidget
+
 
 class ArtistApplyForm(forms.Form):
 
@@ -33,7 +35,7 @@ class ArtistApplyForm(forms.Form):
 class ArtistUpdateForm(forms.Form):
 
     title = forms.CharField(max_length=75)
-    text = forms.CharField(widget=forms.TextInput())
+    text = forms.CharField(widget=PagedownWidget())
     image = forms.ImageField(required=False)
     youtube_url = forms.URLField(required=False)
 

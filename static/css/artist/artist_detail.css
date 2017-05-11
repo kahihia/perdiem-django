@@ -205,3 +205,8 @@ p.days-remaining {
     padding-right: 10%;
     padding-left: 10%
 }
+
+.wmd-panel {
+    width: 100%;
+    margin: 0;
+}
