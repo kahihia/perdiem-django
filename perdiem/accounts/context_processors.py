@@ -17,6 +17,6 @@ def keys(request):
 
 def profile(request):
     user = request.user
-    if user.is_authenticated():
+    if user.is_authenticated:
         return user.userprofile.profile_context()
     return {}
