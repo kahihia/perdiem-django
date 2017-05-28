@@ -85,7 +85,7 @@ class UserAvatarImage(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ForeignKey(UserAvatar, null=True, blank=True)
+    avatar = models.ForeignKey(UserAvatar, on_delete=models.SET_NULL, null=True, blank=True)
     invest_anonymously = models.BooleanField(default=False)
 
     @staticmethod

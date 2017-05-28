@@ -24,7 +24,7 @@ from pigeon.url.utils import add_params_to_url
 
 class Album(models.Model):
 
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=40, db_index=True, help_text='A short label for an album (used in URLs)')
     release_date = models.DateField(null=True, blank=True)
@@ -105,7 +105,7 @@ class Track(models.Model):
 
 class Artwork(models.Model):
 
-    album = models.OneToOneField(Album)
+    album = models.OneToOneField(Album, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='artist/album')
 
     class Meta:
@@ -117,7 +117,7 @@ class Artwork(models.Model):
 
 class AlbumBio(models.Model):
 
-    album = models.OneToOneField(Album)
+    album = models.OneToOneField(Album, on_delete=models.CASCADE)
     bio = models.TextField(help_text='Tracklisting and other info about the album. ' + markdown_allowed())
 
     def __unicode__(self):
@@ -138,7 +138,7 @@ class MarketplaceURL(models.Model):
         ('youtube', 'YouTube',),
     )
 
-    album = models.ForeignKey(Album)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
     medium = models.CharField(choices=MARKETPLACE_CHOICES, max_length=10, help_text='The type of marketplace')
     url = models.URLField(unique=True, help_text='The URL to the album\'s page')
 
@@ -175,7 +175,7 @@ class S3PrivateFileField(models.FileField):
 
 class Audio(models.Model):
 
-    album = models.OneToOneField(Album)
+    album = models.OneToOneField(Album, on_delete=models.CASCADE)
     file = S3PrivateFileField(upload_to='artist/audio')
 
     class Meta:
