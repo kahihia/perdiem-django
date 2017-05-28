@@ -93,8 +93,8 @@ class AuthWebTestCase(PerDiemTestCase):
 
 class OAuth2TestCase(PerDiemTestCase):
 
-    @mock.patch('social.backends.google.BaseGoogleOAuth2API.user_data')
-    @mock.patch('social.backends.oauth.BaseOAuth2.request_access_token')
+    @mock.patch('social_core.backends.google.BaseGoogleOAuth2API.user_data')
+    @mock.patch('social_core.backends.oauth.BaseOAuth2.request_access_token')
     def testGoogleOAuth2Login(self, mock_request_access_token, mock_user_data):
         mock_request_access_token.return_value = {'access_token': 'abc123'}
         mock_user_data.return_value = {

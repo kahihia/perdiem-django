@@ -24,7 +24,7 @@ from music.views import MusicListView, AlbumDetailView
 urlpatterns = [
     url(r'^health-check/?$', lambda r: HttpResponse(""), name='health_check'),
 
-    url('', include(('social.apps.django_app.urls', 'social',))),
+    url('', include(('social_django.urls', 'social',))),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^api/', include('api.urls')),

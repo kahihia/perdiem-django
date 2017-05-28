@@ -56,7 +56,7 @@ class BaseSettings(DjangoDefaults):
         'sorl.thumbnail',
         'storages',
         'rest_framework',
-        'social.apps.django_app.default',
+        'social_django',
         'pinax.stripe',
         'markdown_deux',
         'pagedown',
@@ -67,7 +67,7 @@ class BaseSettings(DjangoDefaults):
         'emails.apps.EmailsConfig',
         'music.apps.MusicConfig',
     )
-    MIDDLEWARE_CLASSES = (
+    MIDDLEWARE = [
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,9 +76,9 @@ class BaseSettings(DjangoDefaults):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
-        'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+        'social_django.middleware.SocialAuthExceptionMiddleware',
         'accounts.middleware.LoginFormMiddleware',
-    )
+    ]
     ROOT_URLCONF = 'perdiem.urls'
     SITE_ID = 1
 
@@ -93,8 +93,8 @@ class BaseSettings(DjangoDefaults):
                     'django.template.context_processors.request',
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
-                    'social.apps.django_app.context_processors.backends',
-                    'social.apps.django_app.context_processors.login_redirect',
+                    'social_django.context_processors.backends',
+                    'social_django.context_processors.login_redirect',
                     'perdiem.context_processors.request',
                     'accounts.context_processors.keys',
                     'accounts.context_processors.profile',
@@ -186,20 +186,20 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.auth.backends.ModelBackend',
     )
     SOCIAL_AUTH_PIPELINE = (
-        'social.pipeline.social_auth.social_details',
-        'social.pipeline.social_auth.social_uid',
-        'social.pipeline.social_auth.auth_allowed',
-        'social.pipeline.social_auth.social_user',
-        'social.pipeline.user.get_username',
-        'social.pipeline.social_auth.associate_by_email',
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.auth_allowed',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.social_auth.associate_by_email',
         'accounts.pipeline.require_email',
         'accounts.pipeline.verify_auth_operation',
-        'social.pipeline.user.create_user',
+        'social_core.pipeline.user.create_user',
         'accounts.pipeline.mark_email_verified',
         'accounts.pipeline.save_avatar',
-        'social.pipeline.social_auth.associate_user',
-        'social.pipeline.social_auth.load_extra_data',
-        'social.pipeline.user.user_details',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
         'accounts.pipeline.send_welcome_email',
     )
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/'

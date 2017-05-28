@@ -9,7 +9,7 @@ python-memcached==1.58
 psycopg2==2.7.1
 whitenoise==3.3.0
 djangorestframework==3.6.3
-python-social-auth==0.2.21
+social-auth-app-django==1.2.0
 Pillow==4.1.1
 django-classbasedsettings==1.5.0
 raven==6.1.0
