@@ -1,4 +1,4 @@
-requests==2.16.5
+requests==2.18.1
 Fabric==1.13.2
 django-pigeon==0.2.0
 mock==2.0.0
@@ -10,11 +10,11 @@ psycopg2==2.7.1
 whitenoise==3.3.0
 djangorestframework==3.6.3
 social-auth-app-django==1.2.0
-Pillow==4.1.1
+Pillow==4.2.1
 django-classbasedsettings==1.5.0
 raven==6.1.0
-boto==2.47.0
-django-storages==1.5.2
+boto==2.48.0
+django-storages==1.6.3
 django-ses==0.8.2
 geopy==1.11.0
 pinax-stripe==3.4.1
