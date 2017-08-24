@@ -13,15 +13,13 @@
 
     {% if artists %}
         <ul class="tabs" data-tabs id="profile-tabs">
-            <li class="tabs-title is-active"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Activity</span></a></li>
-            <li class="tabs-title"><a href="#profile-stats"><i class="fa fa-bar-chart fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Earnings</span></a></li>
+            <li class="tabs-title is-active"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Updates</span></a></li>
             <li class="tabs-title"><a href="#portfolio"><i class="fa fa-user fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Artists</span></a></li>
             <li class="tabs-title"><a href="#music"><i class="fa fa-music fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Music</span></a></li>
         </ul>
 
         <div class="tabs-content" data-tabs-content="profile-tabs">
             <div class="tabs-panel is-active" id="updates">
-                <h2>Artist Updates</h2>
                 {% if updates %}
                     {% include "artist/includes/artist_updates.html" with updates=updates show_artist_name=True %}
                 {% else %}
@@ -45,30 +43,4 @@
             <a class="button text-center box-margin view-artists-box" href="{% url 'artists' %}">START INVESTING</a>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block extrajs %}
-    <script type="text/javascript" src="{% static "js/vendor/Chart.min.js" %}"></script>
-
-    <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-                data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'INVESTED',
-                        data: [{{ total_investments|floatformat:2 }}],
-                        backgroundColor: "#85929E"
-                    },
-                    {
-                        label: 'EARNED',
-                        data: [{{ total_earned|floatformat:2 }}],
-                        backgroundColor: "#4cbd7e"
-                    }
-                ]
-            }
-        });
-    </script>
 {% endblock %}
