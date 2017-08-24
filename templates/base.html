@@ -62,9 +62,10 @@
                 <div class="top-bar nav">
                     <div class="top-bar-left">
                         <ul class="dropdown menu nav" data-dropdown-menu>
-                            <li class="home-logo"><a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
+                            <li class="home-logo"><a class="small-home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-small.svg" %}"></a></li>
                             <li><a class="small-nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li><a class="small-nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li><a class="small-nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
                     <div class="top-bar-right">
@@ -91,9 +92,10 @@
                 <div class="top-bar nav">
                     <div class="top-bar-left">
                         <ul class="dropdown menu nav" data-dropdown-menu>
-                            <li class="home-logo"><a class="home-logo" href="{% url 'profile' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                            <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                            <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i></a></li>
+                            <li class="home-logo"><a class="home-logo" href="{% url 'profile' %}"><img class="home-logo" src="{% static "img/perdiem-small.svg" %}"></a></li>
+                            <li><a class="nav-icon" href="{% url 'artists' %}"><i class="fa fa-search" aria-hidden="true"></i>Artists</a></li>
+                            <li><a class="nav-icon" href="{% url 'music' %}"><i class="fa fa-music" aria-hidden="true"></i>Music</a></li>
+                            <li><a class="nav-icon" href="{% url 'leaderboard' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i>Investors</a></li>
                         </ul>
                     </div>
 
@@ -117,17 +119,38 @@
                 </div>
             </div>
         {% else %}
-            <div class="top-bar nav">
-                <div class="top-bar-left">
-                    <ul class="menu nav">
-                        <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-logo.svg" %}"></a></li>
-                    </ul>
+            <div class="show-for-small-only title-bar">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="menu nav">
+                            <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-small.svg" %}"></a></li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right login-item">
+                        <ul class="menu">
+                            <li class="nav"><a href={% url 'home' %}#about>About</a></li>
+                            <li class="nav"><a href="{% url 'resources' %}">FAQ</a></li>
+                            <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">Sign Up</a></li>
+                            <li class="nav"><a data-open="login-modal">Login</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="top-bar-right login-item">
-                    <ul class="menu">
-                        <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
-                        <li class="nav"><a data-open="login-modal">LOGIN</a></li>
-                    </ul>
+            </div>
+            <div class="hide-for-small-only">
+                <div class="top-bar nav">
+                    <div class="top-bar-left">
+                        <ul class="menu nav">
+                            <li class="home-logo"><a class="home-logo" href="{% url 'home' %}"><img class="home-logo" src="{% static "img/perdiem-white.svg" %}"></a></li>
+                        </ul>
+                    </div>
+                    <div class="top-bar-right login-item">
+                        <ul class="menu">
+                            <li class="nav"><a href={% url 'home' %}#about>About</a></li>
+                            <li class="nav"><a href="{% url 'resources' %}">FAQ</a></li>
+                            <li class="color-blue nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">Sign Up</a></li>
+                            <li class="nav"><a data-open="login-modal">Login</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         {% endif %}
