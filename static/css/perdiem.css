@@ -663,3 +663,8 @@ h5.button-font {
     padding: 0px;
     margin: 0px;
 }
+
+.logo-font {
+    font-size: 2em;
+    padding-left: 5px;
+}
