@@ -32,7 +32,7 @@ class LeaderboardView(TemplateView):
         user_profiles = UserProfile.objects.filter(invest_anonymously=False)
         top_earned_investors = [self.investor_context(user_profile, 'total_earned') for user_profile in user_profiles]
         top_earned_investors = filter(lambda context: context['amount'] > 0, top_earned_investors)
-        top_earned_investors = sorted(top_earned_investors, key=lambda context: context['amount'], reverse=True)[:100]
+        top_earned_investors = sorted(top_earned_investors, key=lambda context: context['amount'], reverse=True)[:20]
 
         return {
             'top_earned_investors': top_earned_investors,
