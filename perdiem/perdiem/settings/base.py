@@ -98,6 +98,7 @@ class BaseSettings(DjangoDefaults):
                     'perdiem.context_processors.request',
                     'accounts.context_processors.keys',
                     'accounts.context_processors.profile',
+                    'artist.context_processors.artist_settings',
                 ],
             },
         },

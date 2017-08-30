@@ -89,8 +89,8 @@ body {
 
 .nav {
     padding: 0px;
-    background-color: black;
-    color: #4d96ad;
+    background-color: #285e6f;
+    text-transform: uppercase;
 }
 
 .nav-small {
@@ -116,10 +116,7 @@ body {
     display: block;
     padding: 5px 5px;
     text-decoration: none;
-}
-
-.reveal {
-    background-color: #000;
+    color: white;
 }
 
 canvas {
@@ -213,7 +210,6 @@ a.nav-color {
 
 .register-box {
     padding: 2em;
-
     text-align: center;
 }
 
@@ -222,7 +218,7 @@ a.nav-color {
 }
 
 .green-color {
-    color: #4cbd7e;
+    color: #4cbd7e !important;
 }
 
 .profile-crop {
@@ -270,7 +266,6 @@ a.nav-color {
 }
 
 #login-modal label {
-    color: #fff;
     font-family: Dosis;
 }
 
@@ -423,6 +418,7 @@ li.home-logo {
 
 a.nav-icon {
     padding: 0px;
+    color: white;
  }
 
 li.home-logo {
@@ -469,18 +465,13 @@ h2.nav-name {
 #register-page {
     position: relative;
     height: 80vh;
-    background-color: black;
+    background-color: white;
     background-repeat: no-repeat;
     background-size: cover;
     }
 
 .signup-form {
     margin-top: 10%;
-}
-
-.register-copy {
-    padding: 20px;
-    color: #285e6f;
 }
 
 .extra-padding-wide {
@@ -510,6 +501,7 @@ h2.nav-name {
 .small-nav-icon {
     padding-right: 0px !important;
     padding-left: 0px !important;
+    color: white;
 }
 
 .small-home-logo {
@@ -637,10 +629,6 @@ h5.button-font {
     text-align: left;
 }
 
-p.register-copy {
-    color: white;
-}
-
 .videowrapper {
     float: none;
     clear: both;
@@ -669,4 +657,14 @@ p.register-copy {
 
 .uppercase {
     text-transform: uppercase;
+}
+
+.no-padding {
+    padding: 0px;
+    margin: 0px;
+}
+
+.logo-font {
+    font-size: 2em;
+    padding-left: 5px;
 }

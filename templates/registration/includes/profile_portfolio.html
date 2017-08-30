@@ -1,7 +1,9 @@
 {% load humanize %}
 
 <div class="investments">
-    <h2>My Artists</h2>
+    <h1 class="green-color">{{ percentage|floatformat:2|intcomma }}%</h1>
+    <h4 class="green-color"><i class="fa fa-arrow-up" aria-hidden="true"></i>${{ total_earned|floatformat:2|intcomma }} | <span style="color: #4d96ad">${{ total_investments|floatformat:2|intcomma }}</span></h4>
+    <h3 class="roi">Return on Investment</h3>
     <div class="break">
         <hr>
     </div>
