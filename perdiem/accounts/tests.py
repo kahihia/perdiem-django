@@ -6,6 +6,7 @@
 
 import re
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.test import override_settings
@@ -118,11 +119,13 @@ class OAuth2TestCase(PerDiemTestCase):
 
         # Click on "Sign in with Google" button
         self.client.logout()
-        self.assertResponseRedirects(
-            '/login/google-oauth2-login/',
-            'https://accounts.google.com/o/oauth2/auth',
-            status_code=404  # The actual page will fail since the client ID used in tests does not exist
-        )
+        allowed_hosts_w_google = settings.ALLOWED_HOSTS + ['accounts.google.com']
+        with override_settings(ALLOWED_HOSTS=allowed_hosts_w_google):
+            self.assertResponseRedirects(
+                '/login/google-oauth2-login/',
+                'https://accounts.google.com/o/oauth2/auth',
+                status_code=404  # The actual page will fail since the client ID used in tests does not exist
+            )
 
         # The user auths and consents
         # Google redirects to our redirect URI
