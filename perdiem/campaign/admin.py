@@ -8,7 +8,7 @@ from django import forms
 from django.contrib import admin
 
 from pinax.stripe.models import (
-    Charge, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
+    Charge, Coupon, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
 )
 
 from artist.models import ArtistAdmin
@@ -20,7 +20,7 @@ from campaign.models import (
 
 # Unregister Pinax Stripe models from admin
 for pinax_stripe_model in [
-    Charge, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
+    Charge, Coupon, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
 ]:
     admin.site.unregister(pinax_stripe_model)
 
