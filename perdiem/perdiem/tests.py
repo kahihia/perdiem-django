@@ -146,18 +146,6 @@ class HealthCheckWebTestCase(RenderTestCase):
         ]
 
 
-class AdminWebTestCase(PerDiemTestCase):
-
-    def get200s(self):
-        return [
-            '/admin/',
-        ]
-
-    def testAdminLoginPageRenders(self):
-        self.client.logout()
-        self.assertResponseRedirects('/admin/', '/admin/login/')
-
-
 class ExtrasWebTestCase(RenderTestCase):
 
     def get200s(self):
