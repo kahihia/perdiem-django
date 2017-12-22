@@ -357,7 +357,7 @@ class PerDiemTestCase(RenderTestCase):
         self.user_invests()
 
 
-class HealthCheckWebTestCase(PerDiemTestCase):
+class HealthCheckWebTestCase(RenderTestCase):
 
     def get200s(self):
         return [
@@ -377,7 +377,7 @@ class AdminWebTestCase(PerDiemTestCase):
         self.assertResponseRedirects('/admin/', '/admin/login/')
 
 
-class ExtrasWebTestCase(PerDiemTestCase):
+class ExtrasWebTestCase(RenderTestCase):
 
     def get200s(self):
         return [

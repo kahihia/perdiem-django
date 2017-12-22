@@ -6,6 +6,8 @@
 
 import datetime
 
+from pigeon.test import RenderTestCase
+
 from perdiem.tests import PerDiemTestCase
 
 
@@ -92,7 +94,7 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             )
 
 
-class CampaignWebTestCase(PerDiemTestCase):
+class CampaignWebTestCase(RenderTestCase):
 
     def get200s(self):
         return [
