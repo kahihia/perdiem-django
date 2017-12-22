@@ -46,88 +46,87 @@ class PerDiemTestCase(RenderTestCase):
     ALBUM_NAME = 'Moving Pictures'
     TRACK_NAMES = ('Tom Sawyer', 'Red Barchetta',)
 
-    def setup_users(self):
-        self.user = User.objects.create_user(
-            self.USER_USERNAME,
-            email=self.USER_EMAIL,
-            password=self.USER_PASSWORD
+    @classmethod
+    def setup_users(cls):
+        cls.user = User.objects.create_user(
+            cls.USER_USERNAME,
+            email=cls.USER_EMAIL,
+            password=cls.USER_PASSWORD
         )
-        self.user.is_staff = True
-        self.user.is_superuser = True
-        self.user.save()
-        self.client.login(
-            username=self.USER_USERNAME,
-            password=self.USER_PASSWORD
-        )
+        cls.user.is_staff = True
+        cls.user.is_superuser = True
+        cls.user.save()
+
         avatar = UserAvatar.objects.create(
-            user=self.user,
+            user=cls.user,
             provider=UserAvatar.PROVIDER_GOOGLE
         )
         UserAvatarURL.objects.create(avatar=avatar, url='')
 
-        self.ordinary_user = User.objects.create_user(
-            self.ORDINARY_USER_USERNAME,
-            email=self.ORDINARY_USER_EMAIL,
-            password=self.USER_PASSWORD
+        cls.ordinary_user = User.objects.create_user(
+            cls.ORDINARY_USER_USERNAME,
+            email=cls.ORDINARY_USER_EMAIL,
+            password=cls.USER_PASSWORD
         )
-        self.manager_user = User.objects.create_user(
-            self.MANAGER_USER_USERNAME,
-            email=self.MANAGER_USER_EMAIL,
-            password=self.USER_PASSWORD
+        cls.manager_user = User.objects.create_user(
+            cls.MANAGER_USER_USERNAME,
+            email=cls.MANAGER_USER_EMAIL,
+            password=cls.USER_PASSWORD
         )
 
-    def create_first_instances(self):
-        self.genre = Genre.objects.create(name=self.GENRE_NAME)
-        self.artist = Artist.objects.create(
-            name=self.ARTIST_NAME,
-            slug=slugify(self.ARTIST_NAME),
-            lat=self.ARTIST_LATITUDE,
-            lon=self.ARTIST_LONGITUDE,
-            location=self.ARTIST_LOCATION
+    @classmethod
+    def create_first_instances(cls):
+        cls.genre = Genre.objects.create(name=cls.GENRE_NAME)
+        cls.artist = Artist.objects.create(
+            name=cls.ARTIST_NAME,
+            slug=slugify(cls.ARTIST_NAME),
+            lat=cls.ARTIST_LATITUDE,
+            lon=cls.ARTIST_LONGITUDE,
+            location=cls.ARTIST_LOCATION
         )
-        self.artist.genres.add(self.genre)
-        ArtistAdmin.objects.create(artist=self.artist, user=self.manager_user, role=ArtistAdmin.ROLE_MANAGER)
-        self.update = Update.objects.create(artist=self.artist, text=self.ARTIST_UPDATE)
+        cls.artist.genres.add(cls.genre)
+        ArtistAdmin.objects.create(artist=cls.artist, user=cls.manager_user, role=ArtistAdmin.ROLE_MANAGER)
+        cls.update = Update.objects.create(artist=cls.artist, text=cls.ARTIST_UPDATE)
 
-        self.project = Project.objects.create(
-            artist=self.artist,
-            reason=self.PROJECT_REASON
+        cls.project = Project.objects.create(
+            artist=cls.artist,
+            reason=cls.PROJECT_REASON
         )
-        self.campaign = Campaign.objects.create(
-            project=self.project,
-            amount=self.CAMPAIGN_AMOUNT,
-            fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE,
+        cls.campaign = Campaign.objects.create(
+            project=cls.project,
+            amount=cls.CAMPAIGN_AMOUNT,
+            fans_percentage=cls.CAMPAIGN_FANS_PERCENTAGE,
             end_datetime=timezone.now() + datetime.timedelta(days=14)
         )
-        self.revenue_report = RevenueReport.objects.create(
-            project=self.project,
-            amount=self.PROJECT_REVENUE_REPORT_AMOUNT
+        cls.revenue_report = RevenueReport.objects.create(
+            project=cls.project,
+            amount=cls.PROJECT_REVENUE_REPORT_AMOUNT
         )
-        self.album = Album.objects.create(
-            project=self.project,
-            name=self.ALBUM_NAME,
-            slug=slugify(self.ALBUM_NAME)
+        cls.album = Album.objects.create(
+            project=cls.project,
+            name=cls.ALBUM_NAME,
+            slug=slugify(cls.ALBUM_NAME)
         )
-        for i, track_name in enumerate(self.TRACK_NAMES, 1):
+        for i, track_name in enumerate(cls.TRACK_NAMES, 1):
             Track.objects.create(
-                album=self.album,
+                album=cls.album,
                 track_number=i,
                 name=track_name,
                 duration=datetime.timedelta(minutes=2)
             )
-        self.activity_estimate = ActivityEstimate.objects.create(
+        cls.activity_estimate = ActivityEstimate.objects.create(
             activity_type='download',
             content_type=ContentType.objects.get_for_model(Album),
-            object_id=self.album.id,
+            object_id=cls.album.id,
             total=5
         )
 
-        self.artist_no_campaign = Artist.objects.create(
-            name=self.ARTIST_NO_CAMPAIGN_NAME,
-            slug=slugify(self.ARTIST_NO_CAMPAIGN_NAME),
-            lat=self.ARTIST_LATITUDE,
-            lon=self.ARTIST_LONGITUDE,
-            location=self.ARTIST_LOCATION
+        cls.artist_no_campaign = Artist.objects.create(
+            name=cls.ARTIST_NO_CAMPAIGN_NAME,
+            slug=slugify(cls.ARTIST_NO_CAMPAIGN_NAME),
+            lat=cls.ARTIST_LATITUDE,
+            lon=cls.ARTIST_LONGITUDE,
+            location=cls.ARTIST_LOCATION
         )
 
     @mock.patch('pinax.stripe.webhooks.Webhook.validate')
@@ -347,10 +346,14 @@ class PerDiemTestCase(RenderTestCase):
         # Then Stripe responds confirming that the payment succeeded
         self.assertResponseRenders('/payments/webhook/', method='POST')
 
+    @classmethod
+    def setUpTestData(cls):
+        super(PerDiemTestCase, cls).setUpTestData()
+        cls.setup_users()
+        cls.create_first_instances()
+
     def setUp(self):
-        super(PerDiemTestCase, self).setUp()
-        self.setup_users()
-        self.create_first_instances()
+        self.client.login(username=self.USER_USERNAME, password=self.USER_PASSWORD)
         self.user_invests()
 
 
