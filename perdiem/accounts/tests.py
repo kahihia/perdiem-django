@@ -177,9 +177,10 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testRedirectToProfile(self):
         # Redirect to artist details
+        artist_slug = self.artist.slug
         self.assertResponseRedirects(
-            '/{artist_slug}/'.format(artist_slug=self.artist.slug),
-            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+            '/{artist_slug}/'.format(artist_slug=artist_slug),
+            '/artist/{artist_slug}'.format(artist_slug=artist_slug)
         )
 
         # Redirect to user's public profile
@@ -188,15 +189,17 @@ class ProfileWebTestCase(PerDiemTestCase):
             '/profile/{username}'.format(username=self.user.username)
         )
 
-        # Change username to match artist slug
-        self.user.username = self.artist.slug
-        self.user.save()
+        # Create a new user that matches the artist slug
+        user_with_artist_username = User.objects.create_user(
+            artist_slug,
+            email='{username}@gmail.com'.format(username=artist_slug),
+            password=self.USER_PASSWORD
+        )
 
         # We still redirect to the artist details
-        self.user = User.objects.get(username=self.artist.slug)
         self.assertResponseRedirects(
-            '/{username}/'.format(username=self.user.username),
-            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+            '/{username}/'.format(username=user_with_artist_username.username),
+            '/artist/{artist_slug}'.format(artist_slug=artist_slug)
         )
 
     def testRedirectToProfileDoesNotExistReturns404(self):
