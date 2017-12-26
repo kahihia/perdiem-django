@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('artist', '0005_auto_20160522_2328'),
+        ('artist', '0006_updatetitles'),
     ]
 
     operations = [

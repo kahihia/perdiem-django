@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('artist', '0006_artistadmin'),
+        ('artist', '0007_artistadmin'),
         ('campaign', '0004_artistpercentagebreakdown'),
     ]
 

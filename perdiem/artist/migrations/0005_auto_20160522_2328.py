@@ -12,15 +12,6 @@ class Migration(migrations.Migration):
         ('artist', '0004_auto_20160522_2141'),
     ]
 
-    def set_initial_update_titles(apps, schema_editor):
-        Update = apps.get_model("artist", "Update")
-        for update in Update.objects.all():
-            update.title = "{artist} Update: {date}".format(
-                artist=update.artist.name,
-                date=update.created_datetime.strftime("%m/%d/%Y")
-            )
-            update.save()
-
     operations = [
         migrations.CreateModel(
             name='UpdateImage',
@@ -58,5 +49,4 @@ class Migration(migrations.Migration):
             name='update',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='artist.Update'),
         ),
-        migrations.RunPython(set_initial_update_titles),
     ]

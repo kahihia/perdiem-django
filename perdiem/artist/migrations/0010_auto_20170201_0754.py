@@ -4,19 +4,35 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
+from artist.models import Playlist as PlaylistConst
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('artist', '0009_auto_20170201_0754'),
+        ('artist', '0009_auto_20170201_0753'),
     ]
 
+    def copy_soundcloud_playlists_to_playlist(apps, schema_editor):
+        SoundCloudPlaylist = apps.get_model('artist', 'SoundCloudPlaylist')
+        Playlist = apps.get_model('artist', 'Playlist')
+
+        for scplaylist in SoundCloudPlaylist.objects.all():
+            Playlist.objects.get_or_create(
+                artist=scplaylist.artist,
+                provider=PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD,
+                uri=scplaylist.playlist
+            )
+
+    # Note: Running the reverse migration on a database that contains playlists
+    # from providers other than SoundCloud will result in data loss
+    def copy_playlists_to_soundcloud_playlist(apps, schema_editor):
+        SoundCloudPlaylist = apps.get_model('artist', 'SoundCloudPlaylist')
+        Playlist = apps.get_model('artist', 'Playlist')
+
+        for playlist in Playlist.objects.filter(provider=PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD):
+            SoundCloudPlaylist.objects.get_or_create(artist=playlist.artist, playlist=playlist.uri)
+
     operations = [
-        migrations.RemoveField(
-            model_name='soundcloudplaylist',
-            name='artist',
-        ),
-        migrations.DeleteModel(
-            name='SoundCloudPlaylist',
-        ),
+        migrations.RunPython(copy_soundcloud_playlists_to_playlist, copy_playlists_to_soundcloud_playlist),
     ]

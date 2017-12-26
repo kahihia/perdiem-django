@@ -15,12 +15,6 @@ class Migration(migrations.Migration):
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
-    def create_initial_userprofiles(apps, schema_editor):
-        User = apps.get_model(settings.AUTH_USER_MODEL)
-        UserProfile = apps.get_model("accounts", "UserProfile")
-        for user in User.objects.all():
-            UserProfile.objects.create(user=user)
-
     operations = [
         migrations.CreateModel(
             name='UserProfile',
@@ -30,5 +24,4 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
-        migrations.RunPython(create_initial_userprofiles),
     ]

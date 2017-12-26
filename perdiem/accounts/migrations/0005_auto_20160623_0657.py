@@ -9,7 +9,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_auto_20160522_2139'),
+        ('accounts', '0004_auto_20160522_2139'),
     ]
 
     def usernames_to_lowercase(apps, schema_editor):

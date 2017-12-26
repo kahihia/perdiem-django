@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('artist', '0006_artistadmin'),
+        ('artist', '0007_artistadmin'),
     ]
 
     operations = [
