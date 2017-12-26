@@ -8,6 +8,7 @@ import datetime
 
 from pigeon.test import RenderTestCase
 
+from campaign.factories import CampaignFactory, ProjectFactory
 from perdiem.tests import PerDiemTestCase
 
 
@@ -15,11 +16,12 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
 
     def setUp(self):
         super(CampaignAdminWebTestCase, self).setUp()
+        project = ProjectFactory()
         start_datetime = datetime.datetime(year=2017, month=2, day=1)
         end_datetime = datetime.datetime(year=2017, month=3, day=1)
         self.campaign_add_data = {
-            'project': self.project.id,
-            'amount': self.CAMPAIGN_AMOUNT,
+            'project': project.id,
+            'amount': 10000,
             'value_per_share': 1,
             'start_datetime_0': start_datetime.strftime('%Y-%m-%d'),
             'start_datetime_1': start_datetime.strftime('%H:%M:%S'),
@@ -32,9 +34,8 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
         }
 
     def testCampaignRaisingZeroIsAlreadyFunded(self):
-        self.campaign.amount = 0
-        self.campaign.save()
-        self.assertEquals(self.campaign.percentage_funded(), 100)
+        campaign = CampaignFactory(amount=0)
+        self.assertEquals(campaign.percentage_funded(), 100)
 
     def testAddCampaign(self):
         self.assertResponseRedirects(

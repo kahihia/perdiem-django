@@ -13,7 +13,8 @@ from django.test import override_settings
 
 import mock
 
-from accounts.models import UserAvatar
+from accounts.factories import UserAvatarFactory, UserFactory
+from artist.factories import ArtistFactory
 from emails.models import VerifiedEmail
 from perdiem.tests import PerDiemTestCase
 
@@ -40,7 +41,7 @@ class AuthWebTestCase(PerDiemTestCase):
         self.client.logout()
         login_data = {
             'login-username': self.USER_USERNAME,
-            'login-password': self.USER_PASSWORD,
+            'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
         self.assertIn('LOGOUT', response.content)
@@ -49,7 +50,7 @@ class AuthWebTestCase(PerDiemTestCase):
         self.client.logout()
         login_data = {
             'login-username': self.USER_USERNAME.upper(),
-            'login-password': self.USER_PASSWORD,
+            'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
         self.assertIn('LOGOUT', response.content)
@@ -63,8 +64,8 @@ class AuthWebTestCase(PerDiemTestCase):
             data={
                 'username': 'msmith',
                 'email': 'msmith@example.com',
-                'password1': self.USER_PASSWORD,
-                'password2': self.USER_PASSWORD,
+                'password1': UserFactory._PASSWORD,
+                'password2': UserFactory._PASSWORD,
             }
         )
 
@@ -76,8 +77,8 @@ class AuthWebTestCase(PerDiemTestCase):
             data={
                 'username': 'Msmith',
                 'email': 'msmith@example.com',
-                'password1': self.USER_PASSWORD,
-                'password2': self.USER_PASSWORD,
+                'password1': UserFactory._PASSWORD,
+                'password2': UserFactory._PASSWORD,
             },
             has_form_error=True
         )
@@ -145,9 +146,10 @@ class ProfileWebTestCase(PerDiemTestCase):
         ]
 
     def testInvalidProfilesAndAnonymousProfilesLookIdentical(self):
-        # Set a user to invest anonymously
-        self.ordinary_user.userprofile.invest_anonymously = True
-        self.ordinary_user.userprofile.save()
+        # Create a user that will invest anonymously
+        anonymous_user = UserFactory()
+        anonymous_user.userprofile.invest_anonymously = True
+        anonymous_user.userprofile.save()
 
         # Get HTML from an invalid profile
         invalid_profile_url = '/profile/does-not-exist/'
@@ -159,7 +161,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
         # Get HTML from an anonymous profile
         anonymous_profile_url = '/profile/{anonymous_username}/'.format(
-            anonymous_username=self.ordinary_user.username
+            anonymous_username=anonymous_user.username
         )
         anonymous_profile_response = self.assertResponseRenders(
             anonymous_profile_url,
@@ -177,10 +179,10 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testRedirectToProfile(self):
         # Redirect to artist details
-        artist_slug = self.artist.slug
+        artist = ArtistFactory()
         self.assertResponseRedirects(
-            '/{artist_slug}/'.format(artist_slug=artist_slug),
-            '/artist/{artist_slug}'.format(artist_slug=artist_slug)
+            '/{artist_slug}/'.format(artist_slug=artist.slug),
+            '/artist/{artist_slug}'.format(artist_slug=artist.slug)
         )
 
         # Redirect to user's public profile
@@ -190,16 +192,12 @@ class ProfileWebTestCase(PerDiemTestCase):
         )
 
         # Create a new user that matches the artist slug
-        user_with_artist_username = User.objects.create_user(
-            artist_slug,
-            email='{username}@gmail.com'.format(username=artist_slug),
-            password=self.USER_PASSWORD
-        )
+        user_with_artist_username = UserFactory(username=artist.slug)
 
         # We still redirect to the artist details
         self.assertResponseRedirects(
             '/{username}/'.format(username=user_with_artist_username.username),
-            '/artist/{artist_slug}'.format(artist_slug=artist_slug)
+            '/artist/{artist_slug}'.format(artist_slug=artist.slug)
         )
 
     def testRedirectToProfileDoesNotExistReturns404(self):
@@ -232,19 +230,20 @@ class SettingsWebTestCase(PerDiemTestCase):
             data={
                 'action': 'edit_name',
                 'username': self.USER_USERNAME,
-                'first_name': self.USER_FIRST_NAME,
-                'last_name': self.USER_LAST_NAME,
+                'first_name': self.user.first_name,
+                'last_name': self.user.last_name,
                 'invest_anonymously': False,
             }
         )
 
     def testEditAvatar(self):
+        user_avatar = UserAvatarFactory(user=self.user)
         self.assertResponseRenders(
             '/accounts/settings/',
             method='POST',
             data={
                 'action': 'edit_avatar',
-                'avatar': UserAvatar.objects.get(user=self.user).id,
+                'avatar': user_avatar.id,
             }
         )
 
@@ -254,7 +253,7 @@ class SettingsWebTestCase(PerDiemTestCase):
             method='POST',
             data={
                 'action': 'change_password',
-                'old_password': self.USER_PASSWORD,
+                'old_password': UserFactory._PASSWORD,
                 'new_password1': 'abc1234',
                 'new_password2': 'abc1234',
             }
@@ -302,12 +301,13 @@ class SettingsWebTestCase(PerDiemTestCase):
         self.assertFalse(VerifiedEmail.objects.is_current_email_verified(self.user))
 
     def testCannotChangeEmailToExistingAccount(self):
+        other_user = UserFactory()
         self.assertResponseRenders(
             '/accounts/settings/',
             method='POST',
             data={
                 'action': 'email_preferences',
-                'email': self.ordinary_user.email,
+                'email': other_user.email,
             },
             has_form_error=True
         )

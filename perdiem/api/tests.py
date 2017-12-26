@@ -9,7 +9,8 @@ import mock
 from geopy.exc import GeocoderTimedOut
 
 from perdiem.tests import PerDiemTestCase
-from artist.models import Update
+from accounts.factories import UserFactory
+from artist.factories import ArtistAdminFactory, UpdateFactory
 
 
 class CoordinatesFromAddressTestCase(PerDiemTestCase):
@@ -44,9 +45,10 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
         self.assertResponseRenders(self.valid_url, status_code=403)
 
         # Login as an ordinary user
+        ordinary_user = UserFactory()
         self.client.login(
-            username=self.ORDINARY_USER_USERNAME,
-            password=self.USER_PASSWORD
+            username=ordinary_user.username,
+            password=UserFactory._PASSWORD
         )
 
         # Coordinates from Address API requires permission
@@ -56,9 +58,11 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
 
 class DeleteUpdateTestCase(PerDiemTestCase):
 
+    url = '/api/update/{update_id}/'
+
     def setUp(self):
         super(DeleteUpdateTestCase, self).setUp()
-        self.url = '/api/update/{update_id}/'
+        self.update = UpdateFactory()
         self.valid_url = self.url.format(update_id=self.update.id)
 
     def testDeleteUpdate(self):
@@ -76,9 +80,10 @@ class DeleteUpdateTestCase(PerDiemTestCase):
         self.assertResponseRenders(self.valid_url, status_code=403, method='DELETE')
 
         # Login as ordinary user
+        ordinary_user = UserFactory()
         self.client.login(
-            username=self.ORDINARY_USER_USERNAME,
-            password=self.USER_PASSWORD
+            username=ordinary_user.username,
+            password=UserFactory._PASSWORD
         )
 
         # Delete Update API the user to be an ArtistAdmin (or superuser)
@@ -89,16 +94,17 @@ class DeleteUpdateTestCase(PerDiemTestCase):
         # Logout from being a superuser
         self.client.logout()
 
+        # Make the manager an ArtistAdmin
+        manager_username = 'manager'
+        ArtistAdminFactory(artist=self.update.artist, user__username=manager_username)
+
         # Login as manager
-        self.client.login(
-            username=self.MANAGER_USER_USERNAME,
-            password=self.USER_PASSWORD
-        )
+        self.client.login(username=manager_username, password=UserFactory._PASSWORD)
 
         # Delete Update API allows ArtistAdmins to update
         self.assertResponseRenders(self.valid_url, status_code=204, method='DELETE')
 
         # Delete Update API does not allow ArtistAdmins
         # to update artists they don't belong to
-        update = Update.objects.create(artist=self.artist_no_campaign, text=self.ARTIST_UPDATE)
+        update = UpdateFactory()
         self.assertResponseRenders(self.url.format(update_id=update.id), status_code=403, method='DELETE')

@@ -8,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
 from campaign.models import Campaign
+from music.factories import AlbumFactory
 from music.models import Album, ActivityEstimate
 from perdiem.tests import PerDiemTestCase
 
@@ -20,15 +21,15 @@ class MusicAdminWebTestCase(PerDiemTestCase):
         ]
 
     def testActivityEstimatesRequireCampaigns(self):
-        Campaign.objects.all().delete()
+        album = AlbumFactory()
         response = self.assertResponseRenders(
             '/admin/music/activityestimate/add/',
             method='POST',
             data={
                 'date': timezone.now().date(),
                 'activity_type': ActivityEstimate.ACTIVITY_STREAM,
-                'content_type': ContentType.objects.get_for_model(self.album).id,
-                'object_id': self.album.id,
+                'content_type': ContentType.objects.get_for_model(album).id,
+                'object_id': album.id,
                 'total': 10,
             },
             has_form_error=True
@@ -36,7 +37,7 @@ class MusicAdminWebTestCase(PerDiemTestCase):
         self.assertIn("You cannot create activity estimates without defining the revenue percentages", response.content)
 
     def testActivityEstimatesWhereAlbumDoesNotExist(self):
-        invalid_album_id = Album.objects.all().order_by('-id')[0].id + 1
+        invalid_album_id = Album.objects.count() + 1
         response = self.assertResponseRenders(
             '/admin/music/activityestimate/add/',
             method='POST',
@@ -56,6 +57,11 @@ class MusicAdminWebTestCase(PerDiemTestCase):
 
 
 class MusicWebTestCase(PerDiemTestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.album = AlbumFactory()
+        cls.artist = cls.album.project.artist
 
     def get200s(self):
         return [

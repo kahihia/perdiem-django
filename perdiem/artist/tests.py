@@ -8,10 +8,16 @@ import mock
 
 from geopy.exc import GeocoderTimedOut
 
+from artist.factories import ArtistFactory
 from perdiem.tests import PerDiemTestCase
 
 
 class ArtistWebTestCase(PerDiemTestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        super(ArtistWebTestCase, cls).setUpTestData()
+        cls.artist = ArtistFactory()
 
     def get200s(self):
         return [
@@ -26,7 +32,6 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artists/?sort=valuation',
             '/artist/apply/',
             '/artist/{slug}/'.format(slug=self.artist.slug),
-            '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
         ]
 
     def testArtistDetailPageUnauthenticated(self):

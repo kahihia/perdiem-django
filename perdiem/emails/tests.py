@@ -8,7 +8,7 @@ import mock
 
 from django.test import override_settings
 
-from emails.models import EmailSubscription
+from emails.factories import EmailSubscriptionFactory
 from emails.utils import create_unsubscribe_link
 from perdiem.tests import PerDiemTestCase
 
@@ -33,10 +33,7 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
 
     def setUp(self):
         super(UnsubscribeWebTestCase, self).setUp()
-        EmailSubscription.objects.create(
-            user=self.user,
-            subscription=EmailSubscription.SUBSCRIPTION_ARTUP
-        )
+        EmailSubscriptionFactory(user=self.user)
 
     def testUnsubscribe(self):
         unsubscribe_url = create_unsubscribe_link(self.user)
