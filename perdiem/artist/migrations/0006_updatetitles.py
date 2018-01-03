@@ -21,5 +21,5 @@ class Migration(migrations.Migration):
             update.save()
 
     operations = [
-        migrations.RunPython(set_initial_update_titles),
+        migrations.RunPython(set_initial_update_titles, migrations.RunPython.noop),
     ]

@@ -19,5 +19,5 @@ class Migration(migrations.Migration):
             user.save()
 
     operations = [
-        migrations.RunPython(usernames_to_lowercase),
+        migrations.RunPython(usernames_to_lowercase, migrations.RunPython.noop),
     ]

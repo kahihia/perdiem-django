@@ -20,5 +20,5 @@ class Migration(migrations.Migration):
             UserProfile.objects.create(user=user)
 
     operations = [
-        migrations.RunPython(create_initial_userprofiles),
+        migrations.RunPython(create_initial_userprofiles, migrations.RunPython.noop),
     ]
