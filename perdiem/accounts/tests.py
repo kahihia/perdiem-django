@@ -9,13 +9,15 @@ import re
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
+from django.core.cache import cache
 from django.test import override_settings
 
 import mock
 
 from accounts.factories import UserAvatarFactory, UserFactory, userfactory_factory
 from artist.factories import ArtistFactory
-from campaign.factories import InvestmentFactory
+from campaign.factories import InvestmentFactory, ProjectFactory
+from campaign.models import RevenueReport
 from emails.models import VerifiedEmail
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
@@ -177,6 +179,21 @@ class ProfileWebTestCase(PerDiemTestCase):
             '/profile/',
             '/profile/{username}/'.format(username=self.user.username),
         ]
+
+    def testUserProfileContextCaches(self):
+        # Request the profile context for a user
+        self.user.userprofile.profile_context()
+
+        # Verify that this user's profile context is in cache
+        self.assertIn('profile_context-{pk}'.format(pk=self.user.userprofile.pk), cache)
+
+        # Create a new RevenueReport
+        # We cannot use a factory to generate the RevenueReport here
+        # because we actually need the post_save signals to be made
+        RevenueReport.objects.create(project=ProjectFactory(), amount=100)
+
+        # Verify that the user profile context is no longer in cache
+        self.assertNotIn('profile_context-{pk}'.format(pk=self.user.userprofile.pk), cache)
 
     def testUserProfileContextContainsInvestments(self):
         investment = InvestmentFactory()
