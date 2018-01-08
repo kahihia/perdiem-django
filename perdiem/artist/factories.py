@@ -1,4 +1,4 @@
-from django.apps import apps
+from django.apps import apps as django_apps
 from django.utils.text import slugify
 
 import factory
@@ -6,31 +6,41 @@ import factory
 from accounts.factories import UserFactory
 
 
-class ArtistFactory(factory.DjangoModelFactory):
+def artistfactory_factory(apps):
+    class ArtistFactory(factory.DjangoModelFactory):
 
-    class Meta:
-        model = apps.get_model('artist', 'Artist')
+        class Meta:
+            model = apps.get_model('artist', 'Artist')
 
-    name = factory.Sequence(lambda n: 'Artist {n}'.format(n=n))
-    slug = factory.LazyAttribute(lambda artist: slugify(artist.name))
+        name = factory.Sequence(lambda n: 'Artist {n}'.format(n=n))
+        slug = factory.LazyAttribute(lambda artist: slugify(artist.name))
 
-    # Willowdale, Toronto, Ontario, Canada
-    lat = 43.7689
-    lon = -79.4138
+        # Willowdale, Toronto, Ontario, Canada
+        lat = 43.7689
+        lon = -79.4138
+
+    return ArtistFactory
+
+
+def updatefactory_factory(apps):
+    class UpdateFactory(factory.DjangoModelFactory):
+
+        class Meta:
+            model = apps.get_model('artist', 'Update')
+
+        artist = factory.SubFactory(artistfactory_factory(apps=apps))
+
+    return UpdateFactory
+
+
+ArtistFactory = artistfactory_factory(apps=django_apps)
+UpdateFactory = updatefactory_factory(apps=django_apps)
 
 
 class ArtistAdminFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = apps.get_model('artist', 'ArtistAdmin')
+        model = django_apps.get_model('artist', 'ArtistAdmin')
 
     artist = factory.SubFactory(ArtistFactory)
     user = factory.SubFactory(UserFactory)
-
-
-class UpdateFactory(factory.DjangoModelFactory):
-
-    class Meta:
-        model = apps.get_model('artist', 'Update')
-
-    artist = factory.SubFactory(ArtistFactory)

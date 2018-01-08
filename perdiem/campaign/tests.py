@@ -6,10 +6,65 @@
 
 import datetime
 
+import factory
 from pigeon.test import RenderTestCase
 
-from campaign.factories import CampaignFactory, ProjectFactory
-from perdiem.tests import PerDiemTestCase
+from artist.factories import ArtistFactory
+from campaign.factories import CampaignFactory, ProjectFactory, campaignfactory_factory
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
+
+
+class CreateInitialProjectsMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0005_auto_20160618_2310'
+    migrate_to = '0006_auto_20160618_2351'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a campaign
+        CampaignFactoryForMigrationTestCase = campaignfactory_factory(apps=apps, point_to_project=False)
+        self.campaign = CampaignFactoryForMigrationTestCase()
+
+    def testProjectsCreatedFromCampaigns(self):
+        Project = self.apps.get_model('campaign', 'Project')
+
+        # Verify that a project was created from the campaign
+        self.assertEquals(Project.objects.count(), 1)
+
+        # Verify that the project reason comes from the campaign reason
+        project = Project.objects.get()
+        self.assertEquals(project.reason, self.campaign.reason)
+
+
+class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0007_auto_20160618_2352'
+    migrate_to = '0008_auto_20160618_2352'
+
+    def setUpBeforeMigration(self, apps):
+        CampaignFactoryForMigrationTestCase = campaignfactory_factory(apps=apps)
+
+        class ArtistPercentageBreakdownFactoryForMigrationTestCase(factory.DjangoModelFactory):
+            class Meta:
+                model = apps.get_model('campaign', 'ArtistPercentageBreakdown')
+            campaign = factory.SubFactory(CampaignFactoryForMigrationTestCase)
+
+        class RevenueReportFactoryForMigrationTestCase(factory.DjangoModelFactory):
+            class Meta:
+                model = apps.get_model('campaign', 'RevenueReport')
+            campaign = factory.SubFactory(CampaignFactoryForMigrationTestCase)
+
+        # Create an ArtistPercentageBreakdown and RevenueReport
+        self.artistpercentagebreakdown = ArtistPercentageBreakdownFactoryForMigrationTestCase(percentage=50)
+        campaign = self.artistpercentagebreakdown.campaign
+        self.revenue_report = RevenueReportFactoryForMigrationTestCase(campaign=campaign, amount=1000)
+
+    def testArtistPercentageBreakdownAndRevenueReportPointsToProject(self):
+        Campaign = self.apps.get_model('campaign', 'Campaign')
+        campaign = Campaign.objects.get()
+        self.artistpercentagebreakdown.refresh_from_db()
+        self.assertEquals(self.artistpercentagebreakdown.project.id, campaign.project.id)
+        self.revenue_report.refresh_from_db()
+        self.assertEquals(self.revenue_report.project.id, campaign.project.id)
 
 
 class CampaignAdminWebTestCase(PerDiemTestCase):

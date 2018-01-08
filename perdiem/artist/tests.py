@@ -4,12 +4,53 @@
 
 """
 
+from django.core.management import call_command
+from django.utils import timezone
+
+import factory
+from geopy.exc import GeocoderTimedOut
 import mock
 
-from geopy.exc import GeocoderTimedOut
+from artist.factories import ArtistFactory, artistfactory_factory, updatefactory_factory
+from artist.models import Playlist as PlaylistConst
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
-from artist.factories import ArtistFactory
-from perdiem.tests import PerDiemTestCase
+
+class SetInitialUpdateTitlesMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0005_auto_20160522_2328'
+    migrate_to = '0006_updatetitles'
+
+    def setUpBeforeMigration(self, apps):
+        # Create an update
+        UpdateFactoryForMigrationTestCase = updatefactory_factory(apps=apps)
+        self.update = UpdateFactoryForMigrationTestCase()
+
+    def testUpdatesHaveInitialTitles(self):
+        today = timezone.now().strftime("%m/%d/%Y")
+        self.update.refresh_from_db()
+        self.assertEquals(self.update.title, "Artist 0 Update: {today}".format(today=today))
+
+
+class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0009_auto_20170201_0753'
+    migrate_to = '0010_auto_20170201_0754'
+
+    def setUpBeforeMigration(self, apps):
+        class SoundCloudPlaylistFactoryForMigrationTestCase(factory.DjangoModelFactory):
+            class Meta:
+                model = apps.get_model('artist', 'SoundCloudPlaylist')
+            artist = factory.SubFactory(artistfactory_factory(apps=apps))
+
+        # Create a SoundCloudPlaylist
+        self.soundcloudplaylist = SoundCloudPlaylistFactoryForMigrationTestCase()
+
+    def testPlaylistURIIsFromSoundCloudPlaylist(self):
+        Playlist = self.apps.get_model('artist', 'Playlist')
+        playlist = Playlist.objects.get()
+        self.assertEquals(playlist.provider, PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD)
+        self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
 
 
 class ArtistWebTestCase(PerDiemTestCase):

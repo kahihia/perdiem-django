@@ -13,10 +13,42 @@ from django.test import override_settings
 
 import mock
 
-from accounts.factories import UserAvatarFactory, UserFactory
+from accounts.factories import UserAvatarFactory, UserFactory, userfactory_factory
 from artist.factories import ArtistFactory
 from emails.models import VerifiedEmail
-from perdiem.tests import PerDiemTestCase
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
+
+
+class CreateInitialUserProfilesMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0001_initial'
+    migrate_to = '0002_userprofiles'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a user
+        UserFactoryForMigrationTestCase = userfactory_factory(apps=apps, has_password=False)
+        self.user = UserFactoryForMigrationTestCase()
+
+    def testUsersHaveUserProfiles(self):
+        UserProfile = self.apps.get_model('accounts', 'UserProfile')
+        self.assertEquals(UserProfile.objects.get().user.id, self.user.id)
+
+
+class UsernamesToLowercaseMigrationTestCase(MigrationTestCase):
+
+    USERNAME = 'JSmith'
+
+    migrate_from = '0004_auto_20160522_2139'
+    migrate_to = '0005_auto_20160623_0657'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a user with a username that has uppercase characters
+        UserFactoryForMigrationTestCase = userfactory_factory(apps=apps, has_password=False)
+        self.user = UserFactoryForMigrationTestCase(username=self.USERNAME)
+
+    def testUsernamesAreLowercase(self):
+        self.user.refresh_from_db()
+        self.assertEquals(self.user.username, self.USERNAME.lower())
 
 
 class AuthWebTestCase(PerDiemTestCase):
