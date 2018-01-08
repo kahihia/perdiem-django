@@ -1,15 +1,15 @@
+from django.apps import apps
 from django.utils.text import slugify
 
 import factory
 
 from accounts.factories import UserFactory
-from artist.models import Artist, ArtistAdmin, Update
 
 
 class ArtistFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Artist
+        model = apps.get_model('artist', 'Artist')
 
     name = factory.Sequence(lambda n: 'Artist {n}'.format(n=n))
     slug = factory.LazyAttribute(lambda artist: slugify(artist.name))
@@ -22,7 +22,7 @@ class ArtistFactory(factory.DjangoModelFactory):
 class ArtistAdminFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ArtistAdmin
+        model = apps.get_model('artist', 'ArtistAdmin')
 
     artist = factory.SubFactory(ArtistFactory)
     user = factory.SubFactory(UserFactory)
@@ -31,6 +31,6 @@ class ArtistAdminFactory(factory.DjangoModelFactory):
 class UpdateFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Update
+        model = apps.get_model('artist', 'Update')
 
     artist = factory.SubFactory(ArtistFactory)

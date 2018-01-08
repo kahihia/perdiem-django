@@ -1,13 +1,14 @@
+from django.apps import apps
+
 import factory
 
 from artist.factories import ArtistFactory
-from campaign.models import Campaign, Project
 
 
 class ProjectFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Project
+        model = apps.get_model('campaign', 'Project')
 
     artist = factory.SubFactory(ArtistFactory)
 
@@ -15,7 +16,7 @@ class ProjectFactory(factory.DjangoModelFactory):
 class CampaignFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Campaign
+        model = apps.get_model('campaign', 'Campaign')
 
     project = factory.SubFactory(ProjectFactory)
     amount = 10000

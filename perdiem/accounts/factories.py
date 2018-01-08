@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User
+from django.apps import apps
+from django.conf import settings
 
 import factory
-
-from accounts.models import UserAvatar
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -10,7 +9,7 @@ class UserFactory(factory.DjangoModelFactory):
     _PASSWORD = 'abc123'
 
     class Meta:
-        model = User
+        model = apps.get_model(settings.AUTH_USER_MODEL)
 
     username = factory.Sequence(lambda n: "user_{n}".format(n=n))
     password = factory.PostGenerationMethodCall('set_password', _PASSWORD)
@@ -20,6 +19,6 @@ class UserFactory(factory.DjangoModelFactory):
 class UserAvatarFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = UserAvatar
+        model = apps.get_model('accounts', 'UserAvatar')
 
     user = factory.SubFactory(UserFactory)

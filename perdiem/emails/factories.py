@@ -1,12 +1,13 @@
+from django.apps import apps
+
 import factory
 
 from accounts.factories import UserFactory
-from emails.models import EmailSubscription
 
 
 class EmailSubscriptionFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = EmailSubscription
+        model = apps.get_model('emails', 'EmailSubscription')
 
     user = factory.SubFactory(UserFactory)
