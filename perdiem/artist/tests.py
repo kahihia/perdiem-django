@@ -53,6 +53,12 @@ class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
         self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
 
 
+class ArtistAdminWebTestCase(PerDiemTestCase):
+
+    def testLocationWidgetRenders(self):
+        self.assertResponseRenders('/admin/artist/artist/add/')
+
+
 class ArtistWebTestCase(PerDiemTestCase):
 
     @classmethod
