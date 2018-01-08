@@ -8,7 +8,6 @@ omit =
     perdiem/settings/__init__.py
     perdiem/wsgi.py
 
-
 [report]
 exclude_lines =
     # Ignore pass (often used in abstract methods)
