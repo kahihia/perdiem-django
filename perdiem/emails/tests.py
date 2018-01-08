@@ -6,11 +6,35 @@
 
 import mock
 
-from django.test import override_settings
+from django.test import TestCase, override_settings
 
+from emails.factories import EmailSubscriptionFactory
 from emails.models import EmailSubscription
 from emails.utils import create_unsubscribe_link
 from perdiem.tests import PerDiemTestCase
+
+
+class UnsubscribeTestCase(TestCase):
+
+    def testUnsubscribeFromAllRemovesAllSubscriptions(self):
+        # Create an artist update subscription
+        email_subscription = EmailSubscriptionFactory(
+            subscription=EmailSubscription.SUBSCRIPTION_ARTUP,
+            subscribed=True
+        )
+
+        # Create an explicit unsubscribe from all emails
+        # We cannot use a factory to generate the EmailSubscription here
+        # because we actually need the pre_save signal to be made
+        EmailSubscription.objects.create(
+            user=email_subscription.user,
+            subscription=EmailSubscription.SUBSCRIPTION_ALL,
+            subscribed=False
+        )
+
+        # Verify that when the user unsubscribes from everything, this artist update subscription is turned off
+        email_subscription.refresh_from_db()
+        self.assertFalse(email_subscription.subscribed)
 
 
 class SubscribeTestCase(PerDiemTestCase):
@@ -31,12 +55,10 @@ class SubscribeTestCase(PerDiemTestCase):
 
 class UnsubscribeWebTestCase(PerDiemTestCase):
 
-    def setUp(self):
-        super(UnsubscribeWebTestCase, self).setUp()
-        EmailSubscription.objects.create(
-            user=self.user,
-            subscription=EmailSubscription.SUBSCRIPTION_ARTUP
-        )
+    @classmethod
+    def setUpTestData(cls):
+        super(UnsubscribeWebTestCase, cls).setUpTestData()
+        EmailSubscriptionFactory(user=cls.user)
 
     def testUnsubscribe(self):
         unsubscribe_url = create_unsubscribe_link(self.user)

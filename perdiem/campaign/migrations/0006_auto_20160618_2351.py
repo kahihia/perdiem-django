@@ -20,5 +20,5 @@ class Migration(migrations.Migration):
             campaign.save()
 
     operations = [
-        migrations.RunPython(create_initial_projects),
+        migrations.RunPython(create_initial_projects, migrations.RunPython.noop),
     ]

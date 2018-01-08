@@ -6,18 +6,97 @@
 
 import datetime
 
-from perdiem.tests import PerDiemTestCase
+from django.test import TestCase
+
+import factory
+from pigeon.test import RenderTestCase
+
+from artist.factories import ArtistFactory
+from campaign.factories import (
+    CampaignFactory, ProjectFactory, RevenueReportFactory, campaignfactory_factory, revenuereportfactory_factory
+)
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
+
+
+class CreateInitialProjectsMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0005_auto_20160618_2310'
+    migrate_to = '0006_auto_20160618_2351'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a campaign
+        CampaignFactoryForMigrationTestCase = campaignfactory_factory(apps=apps, point_to_project=False)
+        self.campaign = CampaignFactoryForMigrationTestCase()
+
+    def testProjectsCreatedFromCampaigns(self):
+        Project = self.apps.get_model('campaign', 'Project')
+
+        # Verify that a project was created from the campaign
+        self.assertEquals(Project.objects.count(), 1)
+
+        # Verify that the project reason comes from the campaign reason
+        project = Project.objects.get()
+        self.assertEquals(project.reason, self.campaign.reason)
+
+
+class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0007_auto_20160618_2352'
+    migrate_to = '0008_auto_20160618_2352'
+
+    def setUpBeforeMigration(self, apps):
+        CampaignFactoryForMigrationTestCase = campaignfactory_factory(apps=apps)
+        RevenueReportFactoryForMigrationTestCase = revenuereportfactory_factory(apps=apps, point_to_project=False)
+
+        class ArtistPercentageBreakdownFactoryForMigrationTestCase(factory.DjangoModelFactory):
+            class Meta:
+                model = apps.get_model('campaign', 'ArtistPercentageBreakdown')
+            campaign = factory.SubFactory(CampaignFactoryForMigrationTestCase)
+
+        # Create a RevenueReport and ArtistPercentageBreakdown
+        self.revenue_report = RevenueReportFactoryForMigrationTestCase(amount=1000)
+        campaign = self.revenue_report.campaign
+        self.artistpercentagebreakdown = ArtistPercentageBreakdownFactoryForMigrationTestCase(
+            campaign=campaign,
+            percentage=50
+        )
+
+    def testArtistPercentageBreakdownAndRevenueReportPointsToProject(self):
+        Campaign = self.apps.get_model('campaign', 'Campaign')
+        campaign = Campaign.objects.get()
+        self.artistpercentagebreakdown.refresh_from_db()
+        self.assertEquals(self.artistpercentagebreakdown.project.id, campaign.project.id)
+        self.revenue_report.refresh_from_db()
+        self.assertEquals(self.revenue_report.project.id, campaign.project.id)
+
+
+class CampaignModelTestCase(TestCase):
+
+    def testProjectGeneratedRevenue(self):
+        # Generate campaign and revenue report
+        campaign = CampaignFactory()
+        revenue_report = RevenueReportFactory(project=campaign.project, amount=100)
+
+        # Verify that the amount generated is considered revenue for the project
+        self.assertEquals(revenue_report.project.generated_revenue(), 100)
+        self.assertEquals(revenue_report.project.generated_revenue_fans(), 20)
+
+    def testCampaignRaisingZeroIsAlreadyFunded(self):
+        campaign = CampaignFactory(amount=0)
+        self.assertEquals(campaign.percentage_funded(), 100)
 
 
 class CampaignAdminWebTestCase(PerDiemTestCase):
 
-    def setUp(self):
-        super(CampaignAdminWebTestCase, self).setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super(CampaignAdminWebTestCase, cls).setUpTestData()
+        cls.project = ProjectFactory()
         start_datetime = datetime.datetime(year=2017, month=2, day=1)
         end_datetime = datetime.datetime(year=2017, month=3, day=1)
-        self.campaign_add_data = {
-            'project': self.project.id,
-            'amount': self.CAMPAIGN_AMOUNT,
+        cls.campaign_add_data = {
+            'project': cls.project.id,
+            'amount': 10000,
             'value_per_share': 1,
             'start_datetime_0': start_datetime.strftime('%Y-%m-%d'),
             'start_datetime_1': start_datetime.strftime('%H:%M:%S'),
@@ -29,27 +108,12 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             'expense_set-INITIAL_FORMS': 0,
         }
 
-    def get200s(self):
-        return [
-            '/admin/campaign/',
-            '/admin/campaign/project/',
-            '/admin/campaign/project/add/',
-            '/admin/campaign/project/{project_id}/change/'.format(project_id=self.project.id),
-            '/admin/campaign/campaign/',
-            '/admin/campaign/campaign/add/',
-            '/admin/campaign/campaign/{campaign_id}/change/'.format(campaign_id=self.campaign.id),
-            '/admin/campaign/investment/',
-            '/admin/campaign/revenuereport/',
-            '/admin/campaign/revenuereport/add/',
-            '/admin/campaign/revenuereport/{revenue_report_id}/change/'.format(
-                revenue_report_id=self.revenue_report.id
-            ),
-        ]
+    def testProjectAdminRenders(self):
+        # Create a campaign for the project
+        CampaignFactory(project=self.project)
 
-    def testCampaignRaisingZeroIsAlreadyFunded(self):
-        self.campaign.amount = 0
-        self.campaign.save()
-        self.assertEquals(self.campaign.percentage_funded(), 100)
+        # Verify that the change project page on admin renders
+        self.assertResponseRenders('/admin/campaign/project/{project_id}/change/'.format(project_id=self.project.id))
 
     def testAddCampaign(self):
         self.assertResponseRedirects(

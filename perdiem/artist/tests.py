@@ -4,28 +4,105 @@
 
 """
 
+from django.core.management import call_command
+from django.test import TestCase
+from django.utils import timezone
+
+import factory
+from geopy.exc import GeocoderTimedOut
 import mock
 
-from geopy.exc import GeocoderTimedOut
+from artist.factories import (
+    ArtistAdminFactory, ArtistFactory, GenreFactory, artistfactory_factory, updatefactory_factory
+)
+from artist.models import Artist, Playlist as PlaylistConst
+from campaign.factories import CampaignFactory, InvestmentFactory
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
-from perdiem.tests import PerDiemTestCase
+
+class SetInitialUpdateTitlesMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0005_auto_20160522_2328'
+    migrate_to = '0006_updatetitles'
+
+    def setUpBeforeMigration(self, apps):
+        # Create an update
+        UpdateFactoryForMigrationTestCase = updatefactory_factory(apps=apps)
+        self.update = UpdateFactoryForMigrationTestCase()
+
+    def testUpdatesHaveInitialTitles(self):
+        today = timezone.now().strftime("%m/%d/%Y")
+        self.update.refresh_from_db()
+        self.assertTrue(self.update.title.endswith("Update: {today}".format(today=today)))
+
+
+class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0009_auto_20170201_0753'
+    migrate_to = '0010_auto_20170201_0754'
+
+    def setUpBeforeMigration(self, apps):
+        class SoundCloudPlaylistFactoryForMigrationTestCase(factory.DjangoModelFactory):
+            class Meta:
+                model = apps.get_model('artist', 'SoundCloudPlaylist')
+            artist = factory.SubFactory(artistfactory_factory(apps=apps))
+
+        # Create a SoundCloudPlaylist
+        self.soundcloudplaylist = SoundCloudPlaylistFactoryForMigrationTestCase()
+
+    def testPlaylistURIIsFromSoundCloudPlaylist(self):
+        Playlist = self.apps.get_model('artist', 'Playlist')
+        playlist = Playlist.objects.get()
+        self.assertEquals(playlist.provider, PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD)
+        self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
+
+
+class ArtistModelsTestCase(TestCase):
+
+    def testUnicodeOfGenreIsGenreName(self):
+        genre = GenreFactory()
+        self.assertEquals(unicode(genre), genre.name)
+
+    def testUnicodeOfArtistIsArtistName(self):
+        artist = ArtistFactory()
+        self.assertEquals(unicode(artist), artist.name)
+
+    def testUnicodeOfArtistAdminIsUser(self):
+        artist_admin = ArtistAdminFactory()
+        self.assertEquals(unicode(artist_admin), unicode(artist_admin.user))
+
+
+class ArtistManagerTestCase(TestCase):
+
+    @mock.patch('campaign.models.Campaign.percentage_funded')
+    def testFilterByFunded(self, mock_percentage_funded):
+        mock_percentage_funded.return_value = 100
+
+        # Create two artists
+        # One with a campaign and one without
+        funded_campaign = CampaignFactory()
+        artist_without_campaign = ArtistFactory()
+        funded_artists = Artist.objects.filter_by_funded()
+
+        # Verify that the artist with the funded campaign is in the filtered queryset
+        # but that the artist without the campaign is not
+        self.assertIn(funded_campaign.project.artist, funded_artists)
+        self.assertNotIn(artist_without_campaign, funded_artists)
 
 
 class ArtistAdminWebTestCase(PerDiemTestCase):
 
-    def get200s(self):
-        return [
-            '/admin/artist/',
-            '/admin/artist/genre/',
-            '/admin/artist/genre/add/',
-            '/admin/artist/genre/{genre_id}/change/'.format(genre_id=self.genre.id),
-            '/admin/artist/artist/',
-            '/admin/artist/artist/add/',
-            '/admin/artist/artist/{artist_id}/change/'.format(artist_id=self.artist.id),
-        ]
+    def testLocationWidgetRenders(self):
+        self.assertResponseRenders('/admin/artist/artist/add/')
 
 
 class ArtistWebTestCase(PerDiemTestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        super(ArtistWebTestCase, cls).setUpTestData()
+        cls.campaign = CampaignFactory()
+        cls.artist = cls.campaign.project.artist
 
     def get200s(self):
         return [
@@ -40,12 +117,19 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artists/?sort=valuation',
             '/artist/apply/',
             '/artist/{slug}/'.format(slug=self.artist.slug),
-            '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
         ]
 
     def testArtistDetailPageUnauthenticated(self):
         self.client.logout()
         self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
+
+    def testArtistDetailPageWithInvestor(self):
+        # User invests in the campaign
+        InvestmentFactory(charge__customer__user=self.user, campaign=self.campaign)
+
+        # Verify that the user appears as an investor in the campaign
+        response = self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
+        self.assertIn('user_investor', response.context)
 
     @mock.patch('artist.views.Nominatim.geocode')
     def testGeocoderInArtistList(self, mock_geocode):

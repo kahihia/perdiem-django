@@ -9,13 +9,49 @@ import re
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
+from django.core.cache import cache
 from django.test import override_settings
 
 import mock
 
-from accounts.models import UserAvatar
+from accounts.factories import UserAvatarFactory, UserFactory, userfactory_factory
+from artist.factories import ArtistFactory
+from campaign.factories import InvestmentFactory, ProjectFactory
+from campaign.models import RevenueReport
 from emails.models import VerifiedEmail
-from perdiem.tests import PerDiemTestCase
+from perdiem.tests import MigrationTestCase, PerDiemTestCase
+
+
+class CreateInitialUserProfilesMigrationTestCase(MigrationTestCase):
+
+    migrate_from = '0001_initial'
+    migrate_to = '0002_userprofiles'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a user
+        UserFactoryForMigrationTestCase = userfactory_factory(apps=apps, has_password=False)
+        self.user = UserFactoryForMigrationTestCase()
+
+    def testUsersHaveUserProfiles(self):
+        UserProfile = self.apps.get_model('accounts', 'UserProfile')
+        self.assertEquals(UserProfile.objects.get().user.id, self.user.id)
+
+
+class UsernamesToLowercaseMigrationTestCase(MigrationTestCase):
+
+    USERNAME = 'JSmith'
+
+    migrate_from = '0004_auto_20160522_2139'
+    migrate_to = '0005_auto_20160623_0657'
+
+    def setUpBeforeMigration(self, apps):
+        # Create a user with a username that has uppercase characters
+        UserFactoryForMigrationTestCase = userfactory_factory(apps=apps, has_password=False)
+        self.user = UserFactoryForMigrationTestCase(username=self.USERNAME)
+
+    def testUsernamesAreLowercase(self):
+        self.user.refresh_from_db()
+        self.assertEquals(self.user.username, self.USERNAME.lower())
 
 
 class AuthWebTestCase(PerDiemTestCase):
@@ -40,7 +76,7 @@ class AuthWebTestCase(PerDiemTestCase):
         self.client.logout()
         login_data = {
             'login-username': self.USER_USERNAME,
-            'login-password': self.USER_PASSWORD,
+            'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
         self.assertIn('LOGOUT', response.content)
@@ -49,7 +85,7 @@ class AuthWebTestCase(PerDiemTestCase):
         self.client.logout()
         login_data = {
             'login-username': self.USER_USERNAME.upper(),
-            'login-password': self.USER_PASSWORD,
+            'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
         self.assertIn('LOGOUT', response.content)
@@ -63,8 +99,8 @@ class AuthWebTestCase(PerDiemTestCase):
             data={
                 'username': 'msmith',
                 'email': 'msmith@example.com',
-                'password1': self.USER_PASSWORD,
-                'password2': self.USER_PASSWORD,
+                'password1': UserFactory._PASSWORD,
+                'password2': UserFactory._PASSWORD,
             }
         )
 
@@ -76,8 +112,8 @@ class AuthWebTestCase(PerDiemTestCase):
             data={
                 'username': 'Msmith',
                 'email': 'msmith@example.com',
-                'password1': self.USER_PASSWORD,
-                'password2': self.USER_PASSWORD,
+                'password1': UserFactory._PASSWORD,
+                'password2': UserFactory._PASSWORD,
             },
             has_form_error=True
         )
@@ -144,10 +180,30 @@ class ProfileWebTestCase(PerDiemTestCase):
             '/profile/{username}/'.format(username=self.user.username),
         ]
 
+    def testUserProfileContextCaches(self):
+        # Request the profile context for a user
+        self.user.userprofile.profile_context()
+
+        # Verify that this user's profile context is in cache
+        self.assertIn('profile_context-{pk}'.format(pk=self.user.userprofile.pk), cache)
+
+        # Create a new RevenueReport
+        # We cannot use a factory to generate the RevenueReport here
+        # because we actually need the post_save signals to be made
+        RevenueReport.objects.create(project=ProjectFactory(), amount=100)
+
+        # Verify that the user profile context is no longer in cache
+        self.assertNotIn('profile_context-{pk}'.format(pk=self.user.userprofile.pk), cache)
+
+    def testUserProfileContextContainsInvestments(self):
+        investment = InvestmentFactory()
+        self.assertGreater(investment.charge.customer.user.userprofile.profile_context()['total_investments'], 0)
+
     def testInvalidProfilesAndAnonymousProfilesLookIdentical(self):
-        # Set a user to invest anonymously
-        self.ordinary_user.userprofile.invest_anonymously = True
-        self.ordinary_user.userprofile.save()
+        # Create a user that will invest anonymously
+        anonymous_user = UserFactory()
+        anonymous_user.userprofile.invest_anonymously = True
+        anonymous_user.userprofile.save()
 
         # Get HTML from an invalid profile
         invalid_profile_url = '/profile/does-not-exist/'
@@ -159,7 +215,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
         # Get HTML from an anonymous profile
         anonymous_profile_url = '/profile/{anonymous_username}/'.format(
-            anonymous_username=self.ordinary_user.username
+            anonymous_username=anonymous_user.username
         )
         anonymous_profile_response = self.assertResponseRenders(
             anonymous_profile_url,
@@ -177,9 +233,10 @@ class ProfileWebTestCase(PerDiemTestCase):
 
     def testRedirectToProfile(self):
         # Redirect to artist details
+        artist = ArtistFactory()
         self.assertResponseRedirects(
-            '/{artist_slug}/'.format(artist_slug=self.artist.slug),
-            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+            '/{artist_slug}/'.format(artist_slug=artist.slug),
+            '/artist/{artist_slug}'.format(artist_slug=artist.slug)
         )
 
         # Redirect to user's public profile
@@ -188,15 +245,13 @@ class ProfileWebTestCase(PerDiemTestCase):
             '/profile/{username}'.format(username=self.user.username)
         )
 
-        # Change username to match artist slug
-        self.user.username = self.artist.slug
-        self.user.save()
+        # Create a new user that matches the artist slug
+        user_with_artist_username = UserFactory(username=artist.slug)
 
         # We still redirect to the artist details
-        self.user = User.objects.get(username=self.artist.slug)
         self.assertResponseRedirects(
-            '/{username}/'.format(username=self.user.username),
-            '/artist/{artist_slug}'.format(artist_slug=self.artist.slug)
+            '/{username}/'.format(username=user_with_artist_username.username),
+            '/artist/{artist_slug}'.format(artist_slug=artist.slug)
         )
 
     def testRedirectToProfileDoesNotExistReturns404(self):
@@ -229,19 +284,20 @@ class SettingsWebTestCase(PerDiemTestCase):
             data={
                 'action': 'edit_name',
                 'username': self.USER_USERNAME,
-                'first_name': self.USER_FIRST_NAME,
-                'last_name': self.USER_LAST_NAME,
+                'first_name': self.user.first_name,
+                'last_name': self.user.last_name,
                 'invest_anonymously': False,
             }
         )
 
     def testEditAvatar(self):
+        user_avatar = UserAvatarFactory(user=self.user)
         self.assertResponseRenders(
             '/accounts/settings/',
             method='POST',
             data={
                 'action': 'edit_avatar',
-                'avatar': UserAvatar.objects.get(user=self.user).id,
+                'avatar': user_avatar.id,
             }
         )
 
@@ -251,7 +307,7 @@ class SettingsWebTestCase(PerDiemTestCase):
             method='POST',
             data={
                 'action': 'change_password',
-                'old_password': self.USER_PASSWORD,
+                'old_password': UserFactory._PASSWORD,
                 'new_password1': 'abc1234',
                 'new_password2': 'abc1234',
             }
@@ -299,12 +355,13 @@ class SettingsWebTestCase(PerDiemTestCase):
         self.assertFalse(VerifiedEmail.objects.is_current_email_verified(self.user))
 
     def testCannotChangeEmailToExistingAccount(self):
+        other_user = UserFactory()
         self.assertResponseRenders(
             '/accounts/settings/',
             method='POST',
             data={
                 'action': 'email_preferences',
-                'email': self.ordinary_user.email,
+                'email': other_user.email,
             },
             has_form_error=True
         )
