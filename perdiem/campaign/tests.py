@@ -88,13 +88,14 @@ class CampaignModelTestCase(TestCase):
 
 class CampaignAdminWebTestCase(PerDiemTestCase):
 
-    def setUp(self):
-        super(CampaignAdminWebTestCase, self).setUp()
-        self.project = ProjectFactory()
+    @classmethod
+    def setUpTestData(cls):
+        super(CampaignAdminWebTestCase, cls).setUpTestData()
+        cls.project = ProjectFactory()
         start_datetime = datetime.datetime(year=2017, month=2, day=1)
         end_datetime = datetime.datetime(year=2017, month=3, day=1)
-        self.campaign_add_data = {
-            'project': self.project.id,
+        cls.campaign_add_data = {
+            'project': cls.project.id,
             'amount': 10000,
             'value_per_share': 1,
             'start_datetime_0': start_datetime.strftime('%Y-%m-%d'),

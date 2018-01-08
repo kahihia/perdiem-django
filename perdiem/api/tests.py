@@ -284,10 +284,11 @@ class DeleteUpdateTestCase(PerDiemTestCase):
 
     url = '/api/update/{update_id}/'
 
-    def setUp(self):
-        super(DeleteUpdateTestCase, self).setUp()
-        self.update = UpdateFactory()
-        self.valid_url = self.url.format(update_id=self.update.id)
+    @classmethod
+    def setUpTestData(cls):
+        super(DeleteUpdateTestCase, cls).setUpTestData()
+        cls.update = UpdateFactory()
+        cls.valid_url = cls.url.format(update_id=cls.update.id)
 
     def testDeleteUpdate(self):
         self.assertAPIResponseRenders(self.valid_url, status_code=204, method='DELETE')

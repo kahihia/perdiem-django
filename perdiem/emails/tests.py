@@ -52,9 +52,10 @@ class SubscribeTestCase(PerDiemTestCase):
 
 class UnsubscribeWebTestCase(PerDiemTestCase):
 
-    def setUp(self):
-        super(UnsubscribeWebTestCase, self).setUp()
-        EmailSubscriptionFactory(user=self.user)
+    @classmethod
+    def setUpTestData(cls):
+        super(UnsubscribeWebTestCase, cls).setUpTestData()
+        EmailSubscriptionFactory(user=cls.user)
 
     def testUnsubscribe(self):
         unsubscribe_url = create_unsubscribe_link(self.user)
