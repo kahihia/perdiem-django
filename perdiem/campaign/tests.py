@@ -80,11 +80,11 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
 
     def setUp(self):
         super(CampaignAdminWebTestCase, self).setUp()
-        project = ProjectFactory()
+        self.project = ProjectFactory()
         start_datetime = datetime.datetime(year=2017, month=2, day=1)
         end_datetime = datetime.datetime(year=2017, month=3, day=1)
         self.campaign_add_data = {
-            'project': project.id,
+            'project': self.project.id,
             'amount': 10000,
             'value_per_share': 1,
             'start_datetime_0': start_datetime.strftime('%Y-%m-%d'),
@@ -96,6 +96,13 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             'expense_set-TOTAL_FORMS': 0,
             'expense_set-INITIAL_FORMS': 0,
         }
+
+    def testProjectAdminRenders(self):
+        # Create a campaign for the project
+        CampaignFactory(project=self.project)
+
+        # Verify that the change project page on admin renders
+        self.assertResponseRenders('/admin/campaign/project/{project_id}/change/'.format(project_id=self.project.id))
 
     def testAddCampaign(self):
         self.assertResponseRedirects(
