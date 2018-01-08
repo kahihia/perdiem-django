@@ -76,6 +76,13 @@ class UserProfileContextTestCase(TestCase):
         self.assertGreater(investment.charge.customer.user.userprofile.profile_context()['total_investments'], 0)
 
 
+class CampaignModelTestCase(TestCase):
+
+    def testCampaignRaisingZeroIsAlreadyFunded(self):
+        campaign = CampaignFactory(amount=0)
+        self.assertEquals(campaign.percentage_funded(), 100)
+
+
 class CampaignAdminWebTestCase(PerDiemTestCase):
 
     def setUp(self):
@@ -96,10 +103,6 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             'expense_set-TOTAL_FORMS': 0,
             'expense_set-INITIAL_FORMS': 0,
         }
-
-    def testCampaignRaisingZeroIsAlreadyFunded(self):
-        campaign = CampaignFactory(amount=0)
-        self.assertEquals(campaign.percentage_funded(), 100)
 
     def testAddCampaign(self):
         self.assertResponseRedirects(
