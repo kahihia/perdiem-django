@@ -17,10 +17,13 @@ from perdiem.tests import PerDiemTestCase
 class UnsubscribeTestCase(TestCase):
 
     def testUnsubscribeFromAllRemovesAllSubscriptions(self):
-        # Create a newsletter subscription
-        email_subscription = EmailSubscriptionFactory(subscription=EmailSubscription.SUBSCRIPTION_NEWS, subscribed=True)
+        # Create an artist update subscription
+        email_subscription = EmailSubscriptionFactory(
+            subscription=EmailSubscription.SUBSCRIPTION_ARTUP,
+            subscribed=True
+        )
 
-        # Create an explicit unsubscribe from all EmailSubscription
+        # Create an explicit unsubscribe from all emails
         # We cannot use a factory to generate the EmailSubscription here
         # because we actually need the pre_save signal to be made
         EmailSubscription.objects.create(
@@ -29,7 +32,7 @@ class UnsubscribeTestCase(TestCase):
             subscribed=False
         )
 
-        # Verify that when the user unsubscribes from everything, this newsletter subscription is turned off
+        # Verify that when the user unsubscribes from everything, this artist update subscription is turned off
         email_subscription.refresh_from_db()
         self.assertFalse(email_subscription.subscribed)
 
