@@ -29,7 +29,7 @@ class SetInitialUpdateTitlesMigrationTestCase(MigrationTestCase):
     def testUpdatesHaveInitialTitles(self):
         today = timezone.now().strftime("%m/%d/%Y")
         self.update.refresh_from_db()
-        self.assertEquals(self.update.title, "Artist 0 Update: {today}".format(today=today))
+        self.assertTrue(self.update.title.endswith("Update: {today}".format(today=today)))
 
 
 class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):

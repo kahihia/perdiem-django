@@ -12,7 +12,7 @@ def artistfactory_factory(apps):
         class Meta:
             model = apps.get_model('artist', 'Artist')
 
-        name = factory.Sequence(lambda n: 'Artist {n}'.format(n=n))
+        name = factory.Faker('user_name')
         slug = factory.LazyAttribute(lambda artist: slugify(artist.name))
 
         # Willowdale, Toronto, Ontario, Canada

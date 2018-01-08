@@ -12,7 +12,7 @@ def userfactory_factory(apps, has_password=True):
         class Meta:
             model = apps.get_model(settings.AUTH_USER_MODEL)
 
-        username = factory.Sequence(lambda n: "user_{n}".format(n=n))
+        username = factory.Faker('user_name')
         email = factory.LazyAttribute(lambda user: "{username}@gmail.com".format(username=user.username))
 
         if has_password:
