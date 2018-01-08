@@ -5,6 +5,7 @@
 """
 
 from django.core.management import call_command
+from django.test import TestCase
 from django.utils import timezone
 
 import factory
@@ -12,7 +13,8 @@ from geopy.exc import GeocoderTimedOut
 import mock
 
 from artist.factories import ArtistFactory, artistfactory_factory, updatefactory_factory
-from artist.models import Playlist as PlaylistConst
+from artist.models import Artist, Playlist as PlaylistConst
+from campaign.factories import CampaignFactory
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
 
@@ -51,6 +53,24 @@ class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
         playlist = Playlist.objects.get()
         self.assertEquals(playlist.provider, PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD)
         self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
+
+
+class ArtistManagerTestCase(TestCase):
+
+    @mock.patch('campaign.models.Campaign.percentage_funded')
+    def testFilterByFunded(self, mock_percentage_funded):
+        mock_percentage_funded.return_value = 100
+
+        # Create two artists
+        # One with a campaign and one without
+        funded_campaign = CampaignFactory()
+        artist_without_campaign = ArtistFactory()
+        funded_artists = Artist.objects.filter_by_funded()
+
+        # Verify that the artist with the funded campaign is in the filtered queryset
+        # but that the artist without the campaign is not
+        self.assertIn(funded_campaign.project.artist, funded_artists)
+        self.assertNotIn(artist_without_campaign, funded_artists)
 
 
 class ArtistAdminWebTestCase(PerDiemTestCase):
