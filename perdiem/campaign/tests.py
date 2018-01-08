@@ -155,7 +155,7 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             )
 
 
-class CampaignWebTestCase(RenderTestCase):
+class CampaignWebTestCase(PerDiemTestCase):
 
     def get200s(self):
         return [
