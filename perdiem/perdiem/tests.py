@@ -89,6 +89,11 @@ class ExtrasWebTestCase(RenderTestCase):
         ]
 
     def testContact(self):
+        # Login as user
+        user = UserFactory()
+        self.client.login(username=user.username, password=UserFactory._PASSWORD)
+
+        # Verify that contact form submits successfully
         self.assertResponseRedirects(
             '/contact/',
             '/contact/thanks',
