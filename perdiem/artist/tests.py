@@ -12,7 +12,9 @@ import factory
 from geopy.exc import GeocoderTimedOut
 import mock
 
-from artist.factories import ArtistFactory, artistfactory_factory, updatefactory_factory
+from artist.factories import (
+    ArtistAdminFactory, ArtistFactory, GenreFactory, artistfactory_factory, updatefactory_factory
+)
 from artist.models import Artist, Playlist as PlaylistConst
 from campaign.factories import CampaignFactory
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
@@ -55,6 +57,21 @@ class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
         self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
 
 
+class ArtistModelsTestCase(TestCase):
+
+    def testUnicodeOfGenreIsGenreName(self):
+        genre = GenreFactory()
+        self.assertEquals(unicode(genre), genre.name)
+
+    def testUnicodeOfArtistIsArtistName(self):
+        artist = ArtistFactory()
+        self.assertEquals(unicode(artist), artist.name)
+
+    def testUnicodeOfArtistAdminIsUser(self):
+        artist_admin = ArtistAdminFactory()
+        self.assertEquals(unicode(artist_admin), unicode(artist_admin.user))
+
+
 class ArtistManagerTestCase(TestCase):
 
     @mock.patch('campaign.models.Campaign.percentage_funded')
@@ -84,7 +101,8 @@ class ArtistWebTestCase(PerDiemTestCase):
     @classmethod
     def setUpTestData(cls):
         super(ArtistWebTestCase, cls).setUpTestData()
-        cls.artist = ArtistFactory()
+        campaign = CampaignFactory()
+        cls.artist = campaign.project.artist
 
     def get200s(self):
         return [

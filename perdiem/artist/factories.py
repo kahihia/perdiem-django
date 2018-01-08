@@ -37,6 +37,12 @@ ArtistFactory = artistfactory_factory(apps=django_apps)
 UpdateFactory = updatefactory_factory(apps=django_apps)
 
 
+class GenreFactory(factory.DjangoModelFactory):
+
+    class Meta:
+        model = django_apps.get_model('artist', 'Genre')
+
+
 class ArtistAdminFactory(factory.DjangoModelFactory):
 
     class Meta:
