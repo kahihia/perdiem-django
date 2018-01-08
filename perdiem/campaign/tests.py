@@ -12,7 +12,9 @@ import factory
 from pigeon.test import RenderTestCase
 
 from artist.factories import ArtistFactory
-from campaign.factories import CampaignFactory, ProjectFactory, campaignfactory_factory
+from campaign.factories import (
+    CampaignFactory, ProjectFactory, RevenueReportFactory, campaignfactory_factory, revenuereportfactory_factory
+)
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
 
@@ -44,21 +46,20 @@ class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCas
 
     def setUpBeforeMigration(self, apps):
         CampaignFactoryForMigrationTestCase = campaignfactory_factory(apps=apps)
+        RevenueReportFactoryForMigrationTestCase = revenuereportfactory_factory(apps=apps, point_to_project=False)
 
         class ArtistPercentageBreakdownFactoryForMigrationTestCase(factory.DjangoModelFactory):
             class Meta:
                 model = apps.get_model('campaign', 'ArtistPercentageBreakdown')
             campaign = factory.SubFactory(CampaignFactoryForMigrationTestCase)
 
-        class RevenueReportFactoryForMigrationTestCase(factory.DjangoModelFactory):
-            class Meta:
-                model = apps.get_model('campaign', 'RevenueReport')
-            campaign = factory.SubFactory(CampaignFactoryForMigrationTestCase)
-
-        # Create an ArtistPercentageBreakdown and RevenueReport
-        self.artistpercentagebreakdown = ArtistPercentageBreakdownFactoryForMigrationTestCase(percentage=50)
-        campaign = self.artistpercentagebreakdown.campaign
-        self.revenue_report = RevenueReportFactoryForMigrationTestCase(campaign=campaign, amount=1000)
+        # Create a RevenueReport and ArtistPercentageBreakdown
+        self.revenue_report = RevenueReportFactoryForMigrationTestCase(amount=1000)
+        campaign = self.revenue_report.campaign
+        self.artistpercentagebreakdown = ArtistPercentageBreakdownFactoryForMigrationTestCase(
+            campaign=campaign,
+            percentage=50
+        )
 
     def testArtistPercentageBreakdownAndRevenueReportPointsToProject(self):
         Campaign = self.apps.get_model('campaign', 'Campaign')
@@ -70,6 +71,15 @@ class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCas
 
 
 class CampaignModelTestCase(TestCase):
+
+    def testProjectGeneratedRevenue(self):
+        # Generate campaign and revenue report
+        campaign = CampaignFactory()
+        revenue_report = RevenueReportFactory(project=campaign.project, amount=100)
+
+        # Verify that the amount generated is considered revenue for the project
+        self.assertEquals(revenue_report.project.generated_revenue(), 100)
+        self.assertEquals(revenue_report.project.generated_revenue_fans(), 20)
 
     def testCampaignRaisingZeroIsAlreadyFunded(self):
         campaign = CampaignFactory(amount=0)

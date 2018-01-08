@@ -36,8 +36,25 @@ def campaignfactory_factory(apps, point_to_project=True):
     return CampaignFactory
 
 
+def revenuereportfactory_factory(apps, point_to_project=True):
+    class RevenueReportFactory(factory.DjangoModelFactory):
+
+        class Meta:
+            model = apps.get_model('campaign', 'RevenueReport')
+
+        # Allow the RevenueReportFactory to point to a campaign directly
+        # for migration test cases before the Project model was created
+        if point_to_project:
+            project = factory.SubFactory(projectfactory_factory(apps=apps))
+        else:
+            campaign = factory.SubFactory(campaignfactory_factory(apps=apps))
+
+    return RevenueReportFactory
+
+
 ProjectFactory = projectfactory_factory(apps=django_apps)
 CampaignFactory = campaignfactory_factory(apps=django_apps)
+RevenueReportFactory = revenuereportfactory_factory(apps=django_apps)
 
 
 class CustomerFactory(factory.DjangoModelFactory):
