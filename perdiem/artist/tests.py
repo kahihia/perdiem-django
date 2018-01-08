@@ -16,7 +16,7 @@ from artist.factories import (
     ArtistAdminFactory, ArtistFactory, GenreFactory, artistfactory_factory, updatefactory_factory
 )
 from artist.models import Artist, Playlist as PlaylistConst
-from campaign.factories import CampaignFactory
+from campaign.factories import CampaignFactory, InvestmentFactory
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
 
@@ -101,8 +101,8 @@ class ArtistWebTestCase(PerDiemTestCase):
     @classmethod
     def setUpTestData(cls):
         super(ArtistWebTestCase, cls).setUpTestData()
-        campaign = CampaignFactory()
-        cls.artist = campaign.project.artist
+        cls.campaign = CampaignFactory()
+        cls.artist = cls.campaign.project.artist
 
     def get200s(self):
         return [
@@ -122,6 +122,14 @@ class ArtistWebTestCase(PerDiemTestCase):
     def testArtistDetailPageUnauthenticated(self):
         self.client.logout()
         self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
+
+    def testArtistDetailPageWithInvestor(self):
+        # User invests in the campaign
+        InvestmentFactory(charge__customer__user=self.user, campaign=self.campaign)
+
+        # Verify that the user appears as an investor in the campaign
+        response = self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
+        self.assertIn('user_investor', response.context)
 
     @mock.patch('artist.views.Nominatim.geocode')
     def testGeocoderInArtistList(self, mock_geocode):
