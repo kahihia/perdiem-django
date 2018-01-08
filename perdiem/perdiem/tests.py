@@ -7,12 +7,13 @@
 from django.apps import apps
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from accounts.factories import UserFactory
 from pigeon.test import RenderTestCase
 
 
+@override_settings(PASSWORD_HASHERS=('django.contrib.auth.hashers.MD5PasswordHasher',))
 class PerDiemTestCase(RenderTestCase):
 
     USER_USERNAME = 'jsmith'
