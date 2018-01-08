@@ -5,12 +5,31 @@
 """
 
 from django.contrib.contenttypes.models import ContentType
+from django.test import TestCase
 from django.utils import timezone
 
 from campaign.models import Campaign
-from music.factories import AlbumFactory
+from music.factories import ActivityEstimateFactory, AlbumFactory, TrackFactory
 from music.models import Album, ActivityEstimate
 from perdiem.tests import PerDiemTestCase
+
+
+class MusicModelsTestCase(TestCase):
+
+    def testUnicodeOfAlbumIsAlbumName(self):
+        album = AlbumFactory()
+        self.assertEquals(unicode(album), album.name)
+
+    def testUnicodeOfTrack(self):
+        track = TrackFactory()
+        self.assertEquals(
+            unicode(track),
+            "{album_name} #1: {track_name}".format(album_name=track.album.name, track_name=track.name)
+        )
+
+    def testUnicodeOfActivityEstimateIsContentObject(self):
+        activity_estimate = ActivityEstimateFactory()
+        self.assertEquals(unicode(activity_estimate), unicode(activity_estimate.content_object))
 
 
 class MusicAdminWebTestCase(PerDiemTestCase):
