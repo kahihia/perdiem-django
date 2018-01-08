@@ -6,11 +6,13 @@
 
 import datetime
 
+from django.test import TestCase
+
 import factory
 from pigeon.test import RenderTestCase
 
 from artist.factories import ArtistFactory
-from campaign.factories import CampaignFactory, ProjectFactory, campaignfactory_factory
+from campaign.factories import CampaignFactory, InvestmentFactory, ProjectFactory, campaignfactory_factory
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
 
@@ -65,6 +67,13 @@ class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCas
         self.assertEquals(self.artistpercentagebreakdown.project.id, campaign.project.id)
         self.revenue_report.refresh_from_db()
         self.assertEquals(self.revenue_report.project.id, campaign.project.id)
+
+
+class UserProfileContextTestCase(TestCase):
+
+    def testUserProfileContextContainsInvestments(self):
+        investment = InvestmentFactory()
+        self.assertGreater(investment.charge.customer.user.userprofile.profile_context()['total_investments'], 0)
 
 
 class CampaignAdminWebTestCase(PerDiemTestCase):

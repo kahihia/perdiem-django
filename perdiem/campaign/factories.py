@@ -2,6 +2,7 @@ from django.apps import apps as django_apps
 
 import factory
 
+from accounts.factories import UserFactory
 from artist.factories import artistfactory_factory
 
 
@@ -37,3 +38,30 @@ def campaignfactory_factory(apps, point_to_project=True):
 
 ProjectFactory = projectfactory_factory(apps=django_apps)
 CampaignFactory = campaignfactory_factory(apps=django_apps)
+
+
+class CustomerFactory(factory.DjangoModelFactory):
+
+    class Meta:
+        model = django_apps.get_model('pinax_stripe', 'Customer')
+
+    user = factory.SubFactory(UserFactory)
+
+
+class ChargeFactory(factory.DjangoModelFactory):
+
+    class Meta:
+        model = django_apps.get_model('pinax_stripe', 'Charge')
+
+    customer = factory.SubFactory(CustomerFactory)
+    paid = True
+    refunded = False
+
+
+class InvestmentFactory(factory.DjangoModelFactory):
+
+    class Meta:
+        model = django_apps.get_model('campaign', 'Investment')
+
+    charge = factory.SubFactory(ChargeFactory)
+    campaign = factory.SubFactory(CampaignFactory)
