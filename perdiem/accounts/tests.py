@@ -15,6 +15,7 @@ import mock
 
 from accounts.factories import UserAvatarFactory, UserFactory, userfactory_factory
 from artist.factories import ArtistFactory
+from campaign.factories import InvestmentFactory
 from emails.models import VerifiedEmail
 from perdiem.tests import MigrationTestCase, PerDiemTestCase
 
@@ -176,6 +177,10 @@ class ProfileWebTestCase(PerDiemTestCase):
             '/profile/',
             '/profile/{username}/'.format(username=self.user.username),
         ]
+
+    def testUserProfileContextContainsInvestments(self):
+        investment = InvestmentFactory()
+        self.assertGreater(investment.charge.customer.user.userprofile.profile_context()['total_investments'], 0)
 
     def testInvalidProfilesAndAnonymousProfilesLookIdentical(self):
         # Create a user that will invest anonymously
