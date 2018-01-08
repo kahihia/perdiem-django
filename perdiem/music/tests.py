@@ -20,12 +20,38 @@ class MusicModelsTestCase(TestCase):
         album = AlbumFactory()
         self.assertEquals(unicode(album), album.name)
 
+    def testAlbumTotalActivity(self):
+        # Create an album
+        album = AlbumFactory()
+
+        # Verify that an album without any tracks cannot have any activity
+        self.assertEquals(album.total_downloads(), 0)
+        self.assertEquals(album.total_streams(), 0)
+
+        # Create 3 tracks for the album and create an activity estimate for one stream of the album
+        for _ in range(3):
+            TrackFactory(album=album)
+        ActivityEstimateFactory(content_object=album, total=1)
+
+        # Verify that the one stream of the album is considered 3 events
+        self.assertEquals(album.total_streams(), 3)
+
     def testUnicodeOfTrack(self):
         track = TrackFactory()
         self.assertEquals(
             unicode(track),
             "{album_name} #1: {track_name}".format(album_name=track.album.name, track_name=track.name)
         )
+
+    def testTrackTotalActivity(self):
+        # Create ActivityEstimates
+        download_activity_estimate = ActivityEstimateFactory(activity_type=ActivityEstimate.ACTIVITY_DOWNLOAD, total=1)
+        track = download_activity_estimate.content_object
+        ActivityEstimateFactory(activity_type=ActivityEstimate.ACTIVITY_STREAM, content_object=track, total=1)
+
+        # Verify that the track has one download and one stream
+        self.assertEquals(track.total_downloads(), 1)
+        self.assertEquals(track.total_streams(), 1)
 
     def testUnicodeOfActivityEstimateIsContentObject(self):
         activity_estimate = ActivityEstimateFactory()
