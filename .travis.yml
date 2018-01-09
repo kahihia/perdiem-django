@@ -3,6 +3,10 @@ language: python
 python:
   - 2.7
 
+env:
+  global:
+    - BOTO_CONFIG=/dev/null  # Workaround for https://github.com/travis-ci/travis-ci/issues/7940
+
 services: postgresql
 
 install:
