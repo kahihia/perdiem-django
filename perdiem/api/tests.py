@@ -59,17 +59,9 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
 
 class PaymentChargeTestCase(PerDiemTestCase):
 
-    @mock.patch('pinax.stripe.webhooks.Webhook.validate')
-    @mock.patch('pinax.stripe.views.Webhook.extract_json')
     @mock.patch('stripe.Charge.create')
     @mock.patch('stripe.Customer.create')
-    def testUserInvests(
-        self,
-        mock_stripe_customer_create,
-        mock_stripe_charge_create,
-        mock_pinax_stripe_webhook_extract_json,
-        mock_pinax_stripe_webhook_validate
-    ):
+    def testUserInvests(self, mock_stripe_customer_create, mock_stripe_charge_create):
         # Mock responses from Stripe
         mock_stripe_customer_create.return_value = {
             'account_balance': 0,
@@ -189,80 +181,6 @@ class PaymentChargeTestCase(PerDiemTestCase):
             'statement_descriptor': None,
             'status': 'succeeded',
         }
-        mock_pinax_stripe_webhook_extract_json.return_value = {
-            'id': 'evt_t00Xx8V4jXhLUbUGPbpUkJlk',
-            'object': 'event',
-            'api_version': '2015-09-08',
-            'created': 1462665020,
-            'livemode': False,
-            'pending_webhooks': 1,
-            'request': 'req_x74Pcl1YdSdR67',
-            'type': 'charge.succeeded',
-            'data': {
-                'object': {
-                    'application_fee': None,
-                    'livemode': False,
-                    'currency': 'usd',
-                    'invoice': None,
-                    'fraud_details': {},
-                    'id': 'ch_Upra88VQlJJPd0JxeTM0ZvHv',
-                    'captured': True,
-                    'receipt_number': None,
-                    'destination': None,
-                    'statement_descriptor': None,
-                    'source': {
-                        'address_state': None,
-                        'last4': '4242',
-                        'dynamic_last4': None,
-                        'address_zip_check': None,
-                        'address_country': None,
-                        'id': 'card_2CXngrrA798I5wA01wQ74iTR',
-                        'address_line2': None,
-                        'address_line1': None,
-                        'funding': 'credit',
-                        'metadata': {},
-                        'cvc_check': 'pass',
-                        'exp_month': 5,
-                        'tokenization_method': None,
-                        'address_line1_check': None,
-                        'brand': 'Visa',
-                        'object': 'card',
-                        'fingerprint': 'Lq9DFkUmxf7xWHkn',
-                        'exp_year': 2019,
-                        'address_zip': None,
-                        'customer': 'cus_2Pc8xEoaTAnVKr',
-                        'address_city': None,
-                        'name': self.USER_EMAIL,
-                        'country': 'US',
-                    },
-                    'balance_transaction': 'txn_Sazj9jMCau62PxJhOLzBXM3p',
-                    'source_transfer': None,
-                    'receipt_email': None,
-                    'metadata': {},
-                    'status': 'succeeded',
-                    'amount_refunded': 0,
-                    'description': None,
-                    'refunded': False,
-                    'object': 'charge',
-                    'paid': True,
-                    'failure_code': None,
-                    'customer': 'cus_2Pc8xEoaTAnVKr',
-                    'refunds': {
-                        'has_more': False,
-                        'total_count': 0,
-                        'object': 'list',
-                        'data': [],
-                        'url': '/v1/charges/ch_Upra88VQlJJPd0JxeTM0ZvHv/refunds',
-                    },
-                    'created': 1462665020,
-                    'failure_message': None,
-                    'shipping': None,
-                    'amount': 235,
-                    'dispute': None,
-                    'order': None,
-                },
-            },
-        }
 
         # Create campaign
         campaign = CampaignFactory()
@@ -275,9 +193,6 @@ class PaymentChargeTestCase(PerDiemTestCase):
             method='POST',
             data={'card': 'tok_6WqQnRecbRRrqvrdT1XXGP1d', 'num_shares': 1}
         )
-
-        # Then Stripe responds confirming that the payment succeeded
-        self.assertResponseRenders('/payments/webhook/', method='POST')
 
 
 class DeleteUpdateTestCase(PerDiemTestCase):
