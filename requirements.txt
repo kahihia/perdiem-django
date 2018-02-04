@@ -3,7 +3,7 @@ Fabric==1.14.0
 factory-boy==2.9.2
 django-pigeon==0.2.0
 mock==2.0.0
-coverage==4.4.2
+coverage==4.5
 gunicorn==19.7.1
 Django==1.11.9
 python-memcached==1.59
