@@ -5,7 +5,7 @@ django-pigeon==0.2.0
 mock==2.0.0
 coverage==4.5
 gunicorn==19.7.1
-Django==1.11.9
+Django==1.11.10
 python-memcached==1.59
 psycopg2==2.7.3.2
 whitenoise==3.3.1
