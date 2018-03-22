@@ -16,11 +16,13 @@ from artist.models import Genre, Artist, ArtistAdmin, Bio, Photo, Playlist, Soci
 
 class LocationWidget(AdminTextInputWidget):
 
-    template_name = 'widgets/coordinates.html'
+    # TODO: Use template_name and refactor widget to use Django 1.11's new get_context() method
+    # https://docs.djangoproject.com/en/1.11/ref/forms/widgets/#django.forms.Widget.get_context
+    template_name_dj110_to_dj111_compat = 'widgets/coordinates.html'
 
     def render(self, name, value, attrs=None):
         html = super(LocationWidget, self).render(name, value, attrs=attrs)
-        return html + render_to_string(self.template_name)
+        return html + render_to_string(self.template_name_dj110_to_dj111_compat)
 
 
 class ArtistAdminForm(forms.ModelForm):
