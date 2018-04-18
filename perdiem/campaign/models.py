@@ -4,7 +4,6 @@
 
 """
 
-from __future__ import unicode_literals
 import math
 
 from django.conf import settings
@@ -19,9 +18,9 @@ class Project(models.Model):
     artist = models.ForeignKey('artist.Artist', on_delete=models.CASCADE)
     reason = models.CharField(max_length=40, help_text='The reason why the artist is raising money, in a few words')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{artist} project {reason}'.format(
-            artist=unicode(self.artist),
+            artist=str(self.artist),
             reason=self.reason
         )
 
@@ -67,7 +66,7 @@ class Project(models.Model):
 
         # Calculate percentage ownership for each investor (if project is active)
         if self.active():
-            for investor_id, investor in investors.iteritems():
+            for investor_id, investor in investors.items():
                 percentage = (float(investor['num_shares']) / self.total_num_shares()) * self.total_fans_percentage()
                 investors[investor_id]['percentage'] = percentage
 
@@ -99,9 +98,9 @@ class Campaign(models.Model):
             return int(math.ceil(n))
         return int(math.floor(n))
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{artist}: ${amount} {reason}'.format(
-            artist=unicode(self.project.artist),
+            artist=str(self.project.artist),
             amount=self.amount,
             reason=self.project.reason
         )
@@ -186,9 +185,9 @@ class ArtistPercentageBreakdown(models.Model):
         help_text='The percentage of revenue that goes back to this group/individual (a value from 0-100)'
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{project}: {displays_publicly_as} - {percentage}%'.format(
-            project=unicode(self.project),
+            project=str(self.project),
             displays_publicly_as=self.displays_publicly_as,
             percentage=self.percentage
         )
@@ -204,9 +203,9 @@ class Expense(models.Model):
     class Meta:
         unique_together = (('campaign', 'expense',))
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{campaign} ({expense})'.format(
-            campaign=unicode(self.campaign),
+            campaign=str(self.campaign),
             expense=self.expense
         )
 
@@ -220,11 +219,11 @@ class Investment(models.Model):
         default=1, help_text='The number of shares an investor made in a transaction'
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{num_shares} shares in {campaign} to {investor}'.format(
             num_shares=self.num_shares,
-            campaign=unicode(self.campaign),
-            investor=unicode(self.investor())
+            campaign=str(self.campaign),
+            investor=str(self.investor())
         )
 
     def investor(self):
@@ -253,8 +252,8 @@ class RevenueReport(models.Model):
     )
     reported_datetime = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'${amount} for {project}'.format(
             amount=self.amount,
-            project=unicode(self.project)
+            project=str(self.project)
         )

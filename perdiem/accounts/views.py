@@ -164,8 +164,8 @@ class EmailPreferencesFormView(ConstituentFormView):
         d = form.cleaned_data
 
         # Update user's email subscriptions
-        email_subscriptions = {k: v for k, v in d.iteritems() if k.startswith('subscription_')}
-        for subscription_type, is_subscribed in email_subscriptions.iteritems():
+        email_subscriptions = {k: v for k, v in d.items() if k.startswith('subscription_')}
+        for subscription_type, is_subscribed in email_subscriptions.items():
             EmailSubscription.objects.update_or_create(
                 user=user,
                 subscription=getattr(EmailSubscription, subscription_type.upper()),

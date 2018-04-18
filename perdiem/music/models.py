@@ -4,8 +4,6 @@
 
 """
 
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -29,7 +27,7 @@ class Album(models.Model):
     slug = models.SlugField(max_length=40, db_index=True, help_text='A short label for an album (used in URLs)')
     release_date = models.DateField(null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def validate_unique(self, exclude=None):
@@ -82,9 +80,9 @@ class Track(models.Model):
     class Meta:
         unique_together = (('album', 'disc_number', 'track_number',),)
 
-    def __unicode__(self):
+    def __str__(self):
         return "{album} #{track_number}: {name}".format(
-            album=unicode(self.album),
+            album=str(self.album),
             track_number=self.track_number,
             name=self.name
         )
@@ -111,8 +109,8 @@ class Artwork(models.Model):
     class Meta:
         verbose_name_plural = 'Artwork'
 
-    def __unicode__(self):
-        return unicode(self.album)
+    def __str__(self):
+        return str(self.album)
 
 
 class AlbumBio(models.Model):
@@ -120,8 +118,8 @@ class AlbumBio(models.Model):
     album = models.OneToOneField(Album, on_delete=models.CASCADE)
     bio = models.TextField(help_text='Tracklisting and other info about the album. ' + markdown_allowed())
 
-    def __unicode__(self):
-        return unicode(self.album)
+    def __str__(self):
+        return str(self.album)
 
 
 class MarketplaceURL(models.Model):
@@ -145,9 +143,9 @@ class MarketplaceURL(models.Model):
     class Meta:
         unique_together = (('album', 'medium',),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{album}: {medium}'.format(
-            album=unicode(self.album),
+            album=str(self.album),
             medium=self.get_medium_display()
         )
 
@@ -181,8 +179,8 @@ class Audio(models.Model):
     class Meta:
         verbose_name_plural = 'Audio'
 
-    def __unicode__(self):
-        return unicode(self.album)
+    def __str__(self):
+        return str(self.album)
 
     def get_temporary_url(self, ttl=60):
         if hasattr(settings, 'AWS_STORAGE_BUCKET_NAME'):
@@ -222,5 +220,5 @@ class ActivityEstimate(models.Model):
     class Meta:
         unique_together = (('date', 'activity_type', 'content_type', 'object_id',),)
 
-    def __unicode__(self):
-        return unicode(self.content_object)
+    def __str__(self):
+        return str(self.content_object)

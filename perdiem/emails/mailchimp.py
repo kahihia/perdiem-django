@@ -29,7 +29,7 @@ def update_user_subscription(email, subscribed):
     url = 'https://{dc}.api.mailchimp.com/3.0/lists/{list_id}/members/{subscriber_hash}'.format(
         dc=mailchimp_data_center,
         list_id=settings.MAILCHIMP_LIST_ID,
-        subscriber_hash=hashlib.md5(email.lower()).hexdigest()
+        subscriber_hash=hashlib.md5(email.lower().encode('utf-8')).hexdigest()
     )
     status = 'subscribed' if subscribed else 'unsubscribed'
     data = {'email_address': email, 'status': status}

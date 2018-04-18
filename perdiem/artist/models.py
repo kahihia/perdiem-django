@@ -4,8 +4,6 @@
 
 """
 
-from __future__ import unicode_literals
-
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db import models
@@ -22,7 +20,7 @@ class Genre(models.Model):
 
     name = models.CharField(max_length=40, db_index=True, unique=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -39,7 +37,7 @@ class Artist(models.Model):
 
     objects = ArtistQuerySet.as_manager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def url(self):
@@ -122,8 +120,8 @@ class ArtistAdmin(models.Model):
         choices=ROLE_CHOICES, max_length=12, help_text='The relationship of this user to the artist'
     )
 
-    def __unicode__(self):
-        return unicode(self.user)
+    def __str__(self):
+        return str(self.user)
 
 
 class Bio(models.Model):
@@ -131,8 +129,8 @@ class Bio(models.Model):
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
     bio = models.TextField(help_text='Short biography of artist. ' + markdown_allowed())
 
-    def __unicode__(self):
-        return unicode(self.artist)
+    def __str__(self):
+        return str(self.artist)
 
 
 class Photo(models.Model):
@@ -140,8 +138,8 @@ class Photo(models.Model):
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='artist', help_text='Primary profile photo of artist')
 
-    def __unicode__(self):
-        return unicode(self.artist)
+    def __str__(self):
+        return str(self.artist)
 
 
 class Playlist(models.Model):
@@ -160,7 +158,7 @@ class Playlist(models.Model):
     class Meta:
         unique_together = (('provider', 'uri',),)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.uri
 
     def html(self):
@@ -198,9 +196,9 @@ class Social(models.Model):
     class Meta:
         unique_together = (('artist', 'medium',),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{artist}: {medium}'.format(
-            artist=unicode(self.artist),
+            artist=str(self.artist),
             medium=self.get_medium_display()
         )
 
@@ -217,7 +215,7 @@ class Update(models.Model):
     title = models.CharField(max_length=75)
     text = models.TextField(help_text='The content of the update. ' + markdown_allowed())
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -226,8 +224,8 @@ class UpdateImage(models.Model):
     update = models.ForeignKey(Update, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='/'.join(['artist', 'updates']))
 
-    def __unicode__(self):
-        return unicode(self.update)
+    def __str__(self):
+        return str(self.update)
 
 
 class UpdateMediaURL(models.Model):
@@ -241,8 +239,8 @@ class UpdateMediaURL(models.Model):
     media_type = models.CharField(choices=MEDIA_CHOICES, max_length=8)
     url = models.URLField()
 
-    def __unicode__(self):
-        return unicode(self.update)
+    def __str__(self):
+        return str(self.update)
 
     def clean_youtube_url(self):
         url = escape(self.url)

@@ -93,7 +93,7 @@ class MultipleFormView(TemplateView):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
 
         context['forms_with_errors'] = []
-        for form_name, form_view_class in self.constituent_form_views.iteritems():
+        for form_name, form_view_class in self.constituent_form_views.items():
             form_view = form_view_class(self.request)
             form_context_name = "{form_name}_form".format(form_name=form_name)
             if form_context_name not in context:

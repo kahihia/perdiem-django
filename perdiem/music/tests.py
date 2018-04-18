@@ -18,7 +18,7 @@ class MusicModelsTestCase(TestCase):
 
     def testUnicodeOfAlbumIsAlbumName(self):
         album = AlbumFactory()
-        self.assertEquals(unicode(album), album.name)
+        self.assertEquals(str(album), album.name)
 
     def testAlbumTotalActivity(self):
         # Create an album
@@ -39,7 +39,7 @@ class MusicModelsTestCase(TestCase):
     def testUnicodeOfTrack(self):
         track = TrackFactory()
         self.assertEquals(
-            unicode(track),
+            str(track),
             "{album_name} #1: {track_name}".format(album_name=track.album.name, track_name=track.name)
         )
 
@@ -55,7 +55,7 @@ class MusicModelsTestCase(TestCase):
 
     def testUnicodeOfActivityEstimateIsContentObject(self):
         activity_estimate = ActivityEstimateFactory()
-        self.assertEquals(unicode(activity_estimate), unicode(activity_estimate.content_object))
+        self.assertEquals(str(activity_estimate), str(activity_estimate.content_object))
 
 
 class MusicAdminWebTestCase(PerDiemTestCase):
@@ -79,7 +79,10 @@ class MusicAdminWebTestCase(PerDiemTestCase):
             },
             has_form_error=True
         )
-        self.assertIn("You cannot create activity estimates without defining the revenue percentages", response.content)
+        self.assertIn(
+            b"You cannot create activity estimates without defining the revenue percentages",
+            response.content
+        )
 
     def testActivityEstimatesWhereAlbumDoesNotExist(self):
         invalid_album_id = Album.objects.count() + 1
@@ -96,7 +99,9 @@ class MusicAdminWebTestCase(PerDiemTestCase):
             has_form_error=True
         )
         self.assertIn(
-            "The album with ID {invalid_album_id} does not exist.".format(invalid_album_id=invalid_album_id),
+            "The album with ID {invalid_album_id} does not exist.".format(
+                invalid_album_id=invalid_album_id
+            ).encode('utf-8'),
             response.content
         )
 

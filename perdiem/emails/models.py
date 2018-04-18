@@ -4,7 +4,6 @@
 
 """
 
-from __future__ import unicode_literals
 import uuid
 
 from django.contrib.auth.models import User
@@ -23,7 +22,7 @@ class VerifiedEmail(models.Model):
 
     objects = VerifiedEmailManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
     def url(self):
@@ -50,5 +49,5 @@ class EmailSubscription(models.Model):
     class Meta:
         unique_together = (('user', 'subscription',),)
 
-    def __unicode__(self):
-        return unicode(self.user)
+    def __str__(self):
+        return str(self.user)

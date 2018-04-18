@@ -111,7 +111,7 @@ class CampaignAdmin(admin.ModelAdmin):
 class InvestmentAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'campaign', 'investor', 'transaction_datetime', 'num_shares',)
-    readonly_fields = map(lambda f: f.name, Investment._meta.get_fields())
+    readonly_fields = list(map(lambda f: f.name, Investment._meta.get_fields()))
 
     def has_add_permission(self, request, obj=None):
         return False

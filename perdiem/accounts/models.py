@@ -4,8 +4,6 @@
 
 """
 
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -39,9 +37,9 @@ class UserAvatar(models.Model):
     def default_avatar_url():
         return "{static_url}img/perdiem-avatar.svg".format(static_url=settings.STATIC_URL)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{user}: {provider}'.format(
-            user=unicode(self.user),
+            user=str(self.user),
             provider=self.get_provider_display()
         )
 
@@ -60,8 +58,8 @@ class UserAvatarURL(models.Model):
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
     url = models.URLField(max_length=2000)
 
-    def __unicode__(self):
-        return unicode(self.avatar)
+    def __str__(self):
+        return str(self.avatar)
 
 
 def user_avatar_filename(instance, filename):
@@ -78,8 +76,8 @@ class UserAvatarImage(models.Model):
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=user_avatar_filename)
 
-    def __unicode__(self):
-        return unicode(self.avatar)
+    def __str__(self):
+        return str(self.avatar)
 
 
 class UserProfile(models.Model):
@@ -94,8 +92,8 @@ class UserProfile(models.Model):
         artist.total_earned = 0
         return artist.id, artist
 
-    def __unicode__(self):
-        return unicode(self.user)
+    def __str__(self):
+        return str(self.user)
 
     def get_display_name(self):
         if self.invest_anonymously:
