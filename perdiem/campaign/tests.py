@@ -139,7 +139,7 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             data=data,
             has_form_error=True
         )
-        self.assertIn("Campaign cannot end before it begins.", response.content)
+        self.assertIn(b"Campaign cannot end before it begins.", response.content)
 
     def testCannotAddCampaignWithoutTime(self):
         for dt in ['start', 'end']:

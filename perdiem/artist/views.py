@@ -72,7 +72,7 @@ class ArtistListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ArtistListView, self).get_context_data(**kwargs)
-        sort_options = [{'slug': s, 'name': n} for s, n in self.ORDER_BY_NAME.iteritems()]
+        sort_options = [{'slug': s, 'name': n} for s, n in self.ORDER_BY_NAME.items()]
         context.update({
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,

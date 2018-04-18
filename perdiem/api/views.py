@@ -85,7 +85,7 @@ class PaymentCharge(APIView):
                 )
         form = PaymentChargeForm(request.data, campaign=campaign)
         if not form.is_valid():
-            return Response(unicode(form.errors), status=status.HTTP_400_BAD_REQUEST)
+            return Response(str(form.errors), status=status.HTTP_400_BAD_REQUEST)
         d = form.cleaned_data
 
         # Get card and customer

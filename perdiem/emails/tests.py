@@ -76,7 +76,7 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
             invalid_token='abc123'
         )
         response = self.assertResponseRenders(unsubscribe_url)
-        self.assertIn("This link is invalid", response.content)
+        self.assertIn(b"This link is invalid", response.content)
 
     @mock.patch('emails.mailchimp.requests.put')
     @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')

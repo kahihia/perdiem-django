@@ -61,15 +61,15 @@ class ArtistModelsTestCase(TestCase):
 
     def testUnicodeOfGenreIsGenreName(self):
         genre = GenreFactory()
-        self.assertEquals(unicode(genre), genre.name)
+        self.assertEquals(str(genre), genre.name)
 
     def testUnicodeOfArtistIsArtistName(self):
         artist = ArtistFactory()
-        self.assertEquals(unicode(artist), artist.name)
+        self.assertEquals(str(artist), artist.name)
 
     def testUnicodeOfArtistAdminIsUser(self):
         artist_admin = ArtistAdminFactory()
-        self.assertEquals(unicode(artist_admin), unicode(artist_admin.user))
+        self.assertEquals(str(artist_admin), str(artist_admin.user))
 
 
 class ArtistManagerTestCase(TestCase):
@@ -138,13 +138,13 @@ class ArtistWebTestCase(PerDiemTestCase):
         # First the Geocoder service fails and so we display warning to user
         mock_geocode.side_effect = GeocoderTimedOut
         response = self.assertResponseRenders(url)
-        self.assertIn('Geocoding failed.', response.content)
+        self.assertIn(b'Geocoding failed.', response.content)
 
         # Then the Geocoder service kicks back online and we succeed
         mock_geocode.side_effect = None
         mock_geocode.return_value = mock.Mock(latitude=43.653226, longitude=-79.383184)
         response = self.assertResponseRenders(url)
-        self.assertNotIn('Geocoding failed.', response.content)
+        self.assertNotIn(b'Geocoding failed.', response.content)
 
     def testArtistDoesNotExistReturns404(self):
         self.assertResponseRenders('/artist/does-not-exist/', status_code=404)

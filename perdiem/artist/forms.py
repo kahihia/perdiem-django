@@ -43,7 +43,7 @@ class ArtistUpdateForm(forms.Form):
         cleaned_data = super(ArtistUpdateForm, self).clean()
         image = cleaned_data['image']
         youtube_url = cleaned_data['youtube_url']
-        provided = filter(lambda x: x, [image, youtube_url])
+        provided = list(filter(lambda x: x, [image, youtube_url]))
         if len(provided) > 1:
             raise forms.ValidationError("Please only provide one image or video.")
         return cleaned_data

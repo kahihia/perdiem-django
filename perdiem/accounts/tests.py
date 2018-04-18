@@ -79,7 +79,7 @@ class AuthWebTestCase(PerDiemTestCase):
             'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
-        self.assertIn('LOGOUT', response.content)
+        self.assertIn(b'LOGOUT', response.content)
 
     def testLoginWithUppercaseUsername(self):
         self.client.logout()
@@ -88,7 +88,7 @@ class AuthWebTestCase(PerDiemTestCase):
             'login-password': UserFactory._PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
-        self.assertIn('LOGOUT', response.content)
+        self.assertIn(b'LOGOUT', response.content)
 
     def testRegister(self):
         self.client.logout()
@@ -211,7 +211,7 @@ class ProfileWebTestCase(PerDiemTestCase):
             invalid_profile_url,
             status_code=404
         )
-        invalid_profile_html = invalid_profile_response.content.replace(invalid_profile_url, '')
+        invalid_profile_html = invalid_profile_response.content.decode('utf-8').replace(invalid_profile_url, '')
 
         # Get HTML from an anonymous profile
         anonymous_profile_url = '/profile/{anonymous_username}/'.format(
@@ -221,7 +221,7 @@ class ProfileWebTestCase(PerDiemTestCase):
             anonymous_profile_url,
             status_code=404
         )
-        anonymous_profile_html = anonymous_profile_response.content.replace(anonymous_profile_url, '')
+        anonymous_profile_html = anonymous_profile_response.content.decode('utf-8').replace(anonymous_profile_url, '')
 
         # Remove CSRF tokens from profiles
         csrf_regex = r'<input[^>]+csrfmiddlewaretoken[^>]+>'
