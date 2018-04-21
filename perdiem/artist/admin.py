@@ -20,8 +20,8 @@ class LocationWidget(AdminTextInputWidget):
     # https://docs.djangoproject.com/en/1.11/ref/forms/widgets/#django.forms.Widget.get_context
     template_name_dj110_to_dj111_compat = 'widgets/coordinates.html'
 
-    def render(self, name, value, attrs=None):
-        html = super(LocationWidget, self).render(name, value, attrs=attrs)
+    def render(self, name, value, attrs=None, renderer=None):
+        html = super(LocationWidget, self).render(name, value, attrs=attrs, renderer=renderer)
         return html + render_to_string(self.template_name_dj110_to_dj111_compat)
 
 
