@@ -6,7 +6,7 @@
 
 from django.conf.urls import url
 from django.contrib.auth.views import (
-    logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+    LogoutView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetDoneView, PasswordResetView
 )
 from django.views.generic import TemplateView
 
@@ -14,18 +14,18 @@ from accounts.views import RegisterAccountView, SettingsView
 
 
 urlpatterns = [
-    url(r'^logout/?$', logout, {'next_page': '/'}, name='logout'),
+    url(r'^logout/?$', LogoutView.as_view(next_page='/'), name='logout'),
     url(r'^register/?$', RegisterAccountView.as_view(), name='register'),
     url(r'^settings/?$', SettingsView.as_view(), name='settings'),
 
-    url(r'^password/reset/sent/?$', password_reset_done, name='password_reset_done'),
-    url(r'^password/reset/complete/?$', password_reset_complete, name='password_reset_complete'),
+    url(r'^password/reset/sent/?$', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    url(r'^password/reset/complete/?$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(
         r'^password/reset/(?P<uidb64>[0-9A-Za-z_-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/?$',
-        password_reset_confirm,
+        PasswordResetConfirmView.as_view(),
         name='password_reset_confirm'
     ),
-    url(r'^password/reset/?$', password_reset, name='password_reset'),
+    url(r'^password/reset/?$', PasswordResetView.as_view(), name='password_reset'),
 
     url(
         r'^error/email-required/?$',
