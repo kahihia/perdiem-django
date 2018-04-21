@@ -53,23 +53,23 @@ class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
     def testPlaylistURIIsFromSoundCloudPlaylist(self):
         Playlist = self.apps.get_model('artist', 'Playlist')
         playlist = Playlist.objects.get()
-        self.assertEquals(playlist.provider, PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD)
-        self.assertEquals(playlist.uri, self.soundcloudplaylist.playlist)
+        self.assertEqual(playlist.provider, PlaylistConst.PLAYLIST_PROVIDER_SOUNDCLOUD)
+        self.assertEqual(playlist.uri, self.soundcloudplaylist.playlist)
 
 
 class ArtistModelsTestCase(TestCase):
 
     def testUnicodeOfGenreIsGenreName(self):
         genre = GenreFactory()
-        self.assertEquals(str(genre), genre.name)
+        self.assertEqual(str(genre), genre.name)
 
     def testUnicodeOfArtistIsArtistName(self):
         artist = ArtistFactory()
-        self.assertEquals(str(artist), artist.name)
+        self.assertEqual(str(artist), artist.name)
 
     def testUnicodeOfArtistAdminIsUser(self):
         artist_admin = ArtistAdminFactory()
-        self.assertEquals(str(artist_admin), str(artist_admin.user))
+        self.assertEqual(str(artist_admin), str(artist_admin.user))
 
 
 class ArtistManagerTestCase(TestCase):

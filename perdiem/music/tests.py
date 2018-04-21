@@ -18,15 +18,15 @@ class MusicModelsTestCase(TestCase):
 
     def testUnicodeOfAlbumIsAlbumName(self):
         album = AlbumFactory()
-        self.assertEquals(str(album), album.name)
+        self.assertEqual(str(album), album.name)
 
     def testAlbumTotalActivity(self):
         # Create an album
         album = AlbumFactory()
 
         # Verify that an album without any tracks cannot have any activity
-        self.assertEquals(album.total_downloads(), 0)
-        self.assertEquals(album.total_streams(), 0)
+        self.assertEqual(album.total_downloads(), 0)
+        self.assertEqual(album.total_streams(), 0)
 
         # Create 3 tracks for the album and create an activity estimate for one stream of the album
         for _ in range(3):
@@ -34,11 +34,11 @@ class MusicModelsTestCase(TestCase):
         ActivityEstimateFactory(content_object=album, total=1)
 
         # Verify that the one stream of the album is considered 3 events
-        self.assertEquals(album.total_streams(), 3)
+        self.assertEqual(album.total_streams(), 3)
 
     def testUnicodeOfTrack(self):
         track = TrackFactory()
-        self.assertEquals(
+        self.assertEqual(
             str(track),
             "{album_name} #1: {track_name}".format(album_name=track.album.name, track_name=track.name)
         )
@@ -50,12 +50,12 @@ class MusicModelsTestCase(TestCase):
         ActivityEstimateFactory(activity_type=ActivityEstimate.ACTIVITY_STREAM, content_object=track, total=1)
 
         # Verify that the track has one download and one stream
-        self.assertEquals(track.total_downloads(), 1)
-        self.assertEquals(track.total_streams(), 1)
+        self.assertEqual(track.total_downloads(), 1)
+        self.assertEqual(track.total_streams(), 1)
 
     def testUnicodeOfActivityEstimateIsContentObject(self):
         activity_estimate = ActivityEstimateFactory()
-        self.assertEquals(str(activity_estimate), str(activity_estimate.content_object))
+        self.assertEqual(str(activity_estimate), str(activity_estimate.content_object))
 
 
 class MusicAdminWebTestCase(PerDiemTestCase):

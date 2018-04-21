@@ -30,8 +30,8 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
         mock_geocode.return_value = mock.Mock(latitude=43.766751, longitude=-79.410332)
         response = self.assertAPIResponseRenders(self.valid_url)
         lat, lon = response['latitude'], response['longitude']
-        self.assertEquals(lat, 43.7668)
-        self.assertEquals(lon, -79.4103)
+        self.assertEqual(lat, 43.7668)
+        self.assertEqual(lon, -79.4103)
 
     def testCoordinatesFromAddressRequiresAddress(self):
         for url in ['/api/coordinates/', self.url.format(address='')]:

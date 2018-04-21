@@ -32,11 +32,11 @@ class CreateInitialProjectsMigrationTestCase(MigrationTestCase):
         Project = self.apps.get_model('campaign', 'Project')
 
         # Verify that a project was created from the campaign
-        self.assertEquals(Project.objects.count(), 1)
+        self.assertEqual(Project.objects.count(), 1)
 
         # Verify that the project reason comes from the campaign reason
         project = Project.objects.get()
-        self.assertEquals(project.reason, self.campaign.reason)
+        self.assertEqual(project.reason, self.campaign.reason)
 
 
 class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCase(MigrationTestCase):
@@ -65,9 +65,9 @@ class PointArtistPercentageBreakdownsAndRevenueReportsToProjectsMigrationTestCas
         Campaign = self.apps.get_model('campaign', 'Campaign')
         campaign = Campaign.objects.get()
         self.artistpercentagebreakdown.refresh_from_db()
-        self.assertEquals(self.artistpercentagebreakdown.project.id, campaign.project.id)
+        self.assertEqual(self.artistpercentagebreakdown.project.id, campaign.project.id)
         self.revenue_report.refresh_from_db()
-        self.assertEquals(self.revenue_report.project.id, campaign.project.id)
+        self.assertEqual(self.revenue_report.project.id, campaign.project.id)
 
 
 class CampaignModelTestCase(TestCase):
@@ -78,12 +78,12 @@ class CampaignModelTestCase(TestCase):
         revenue_report = RevenueReportFactory(project=campaign.project, amount=100)
 
         # Verify that the amount generated is considered revenue for the project
-        self.assertEquals(revenue_report.project.generated_revenue(), 100)
-        self.assertEquals(revenue_report.project.generated_revenue_fans(), 20)
+        self.assertEqual(revenue_report.project.generated_revenue(), 100)
+        self.assertEqual(revenue_report.project.generated_revenue_fans(), 20)
 
     def testCampaignRaisingZeroIsAlreadyFunded(self):
         campaign = CampaignFactory(amount=0)
-        self.assertEquals(campaign.percentage_funded(), 100)
+        self.assertEqual(campaign.percentage_funded(), 100)
 
 
 class CampaignAdminWebTestCase(PerDiemTestCase):

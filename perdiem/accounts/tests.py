@@ -34,7 +34,7 @@ class CreateInitialUserProfilesMigrationTestCase(MigrationTestCase):
 
     def testUsersHaveUserProfiles(self):
         UserProfile = self.apps.get_model('accounts', 'UserProfile')
-        self.assertEquals(UserProfile.objects.get().user.id, self.user.id)
+        self.assertEqual(UserProfile.objects.get().user.id, self.user.id)
 
 
 class UsernamesToLowercaseMigrationTestCase(MigrationTestCase):
@@ -51,7 +51,7 @@ class UsernamesToLowercaseMigrationTestCase(MigrationTestCase):
 
     def testUsernamesAreLowercase(self):
         self.user.refresh_from_db()
-        self.assertEquals(self.user.username, self.USERNAME.lower())
+        self.assertEqual(self.user.username, self.USERNAME.lower())
 
 
 class AuthWebTestCase(PerDiemTestCase):
