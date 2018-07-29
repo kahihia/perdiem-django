@@ -13,9 +13,9 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from geopy.exc import GeocoderTimedOut
-from geopy.geocoders import Nominatim
 
 from artist.forms import ArtistApplyForm, ArtistUpdateForm
+from artist.geolocator import geolocator
 from artist.models import Genre, Artist, Update, UpdateImage, UpdateMediaURL
 from emails.messages import ArtistApplyEmail, ArtistUpdateEmail
 
@@ -62,7 +62,6 @@ class ArtistListView(ListView):
         self.location_coordinates = None
         self.geocoder_failed = False
         if self.location:
-            geolocator = Nominatim()
             try:
                 self.location_coordinates = geolocator.geocode(self.location)
             except GeocoderTimedOut:

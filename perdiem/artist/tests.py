@@ -131,7 +131,7 @@ class ArtistWebTestCase(PerDiemTestCase):
         response = self.assertResponseRenders('/artist/{slug}/'.format(slug=self.artist.slug))
         self.assertIn('user_investor', response.context)
 
-    @mock.patch('artist.views.Nominatim.geocode')
+    @mock.patch('artist.views.geolocator.geocode')
     def testGeocoderInArtistList(self, mock_geocode):
         url = '/artists/?distance=50&location=Toronto,%20ON'
 

@@ -7,7 +7,6 @@
 import decimal
 
 from geopy.exc import GeocoderTimedOut
-from geopy.geocoders import Nominatim
 from pinax.stripe.actions import charges, customers, sources
 from pinax.stripe.models import Card
 from rest_framework import permissions, status
@@ -16,6 +15,7 @@ from rest_framework.views import APIView
 import stripe
 
 from api.forms import CoordinatesFromAddressForm
+from artist.geolocator import geolocator
 from artist.models import Artist, Update
 from campaign.forms import PaymentChargeForm
 from campaign.models import Campaign, Investment
@@ -50,7 +50,6 @@ class CoordinatesFromAddress(APIView):
         address = form.cleaned_data['address']
 
         # Return lat/lon for address
-        geolocator = Nominatim()
         try:
             location = geolocator.geocode(address)
         except GeocoderTimedOut:

@@ -19,7 +19,7 @@ class CoordinatesFromAddressTestCase(PerDiemTestCase):
     url = '/api/coordinates/?address={address}'
     valid_url = url.format(address='Willowdale%2C+Toronto%2C+Ontario%2C+Canada')
 
-    @mock.patch('api.views.Nominatim.geocode')
+    @mock.patch('api.views.geolocator.geocode')
     def testCoordinatesFromAddress(self, mock_geocode):
         # First the Geocoder service fails and so we return 503
         mock_geocode.side_effect = GeocoderTimedOut
