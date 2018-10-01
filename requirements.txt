@@ -17,7 +17,7 @@ raven==6.9.0
 boto3==1.9.14
 django-s3-storage==0.12.4
 django-ses==0.8.6
-geopy==1.16.0
+geopy==1.17.0
 pinax-stripe==4.4.0
 django-templated-email==2.2
 django-markdown-deux==1.0.5
