@@ -11,6 +11,13 @@ import raven
 import requests
 
 
+def aws_s3_bucket_url(settings_class, bucket_name_settings):
+    bucket_name = getattr(settings_class, bucket_name_settings, '')
+    if bucket_name:
+        return 'https://{bucket}.s3.amazonaws.com'.format(bucket=bucket_name)
+    return ''
+
+
 class BaseSettings(DjangoDefaults):
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -54,7 +61,7 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.humanize',
         'raven.contrib.django.raven_compat',
         'sorl.thumbnail',
-        'storages',
+        'django_s3_storage',
         'rest_framework',
         'social_django',
         'pinax.stripe',
@@ -135,31 +142,24 @@ class BaseSettings(DjangoDefaults):
     STATICFILES_DIRS = (
         os.path.join(TOP_DIR, 'static'),
     )
-    MEDIAFILES_LOCATION = 'media'
-    STATICFILES_LOCATION = 'static'
-    AWS_HEADERS = {
-        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
-        'Cache-Control': 'max-age=94608000',
-    }
-    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_KEY_PREFIX = 'media'
+    AWS_S3_KEY_PREFIX_STATIC = 'static'
+    AWS_S3_BUCKET_AUTH = False
+    AWS_S3_MAX_AGE_SECONDS = 60 * 60 * 24 * 365  # 1 year
     MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024  # 2MB
 
     @property
     def MEDIA_URL(self):
-        if not hasattr(self, 'AWS_S3_CUSTOM_URL'):
-            return '/media/'
         return '{aws_s3}/{media}/'.format(
-            aws_s3=self.AWS_S3_CUSTOM_URL,
-            media=self.MEDIAFILES_LOCATION
+            aws_s3=aws_s3_bucket_url(self, 'AWS_S3_BUCKET_NAME'),
+            media=self.AWS_S3_KEY_PREFIX
         )
 
     @property
     def STATIC_URL(self):
-        if not hasattr(self, 'AWS_S3_CUSTOM_URL'):
-            return '/static/'
         return '{aws_s3}/{static}/'.format(
-            aws_s3=self.AWS_S3_CUSTOM_URL,
-            static=self.STATICFILES_LOCATION
+            aws_s3=aws_s3_bucket_url(self, 'AWS_S3_BUCKET_NAME_STATIC'),
+            static=self.AWS_S3_KEY_PREFIX_STATIC
         )
 
     # Markdown

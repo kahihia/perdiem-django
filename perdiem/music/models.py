@@ -12,7 +12,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-from boto.s3.connection import S3Connection
+import boto3
 from gfklookupwidget.fields import GfkLookupField
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
@@ -183,10 +183,18 @@ class Audio(models.Model):
         return str(self.album)
 
     def get_temporary_url(self, ttl=60):
-        if hasattr(settings, 'AWS_STORAGE_BUCKET_NAME'):
-            s3 = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY, is_secure=True)
-            key = "{media}/{filename}".format(media=settings.MEDIAFILES_LOCATION, filename=self.file.name)
-            return s3.generate_url(ttl, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME, key=key)
+        if hasattr(settings, 'AWS_S3_BUCKET_NAME'):
+            s3 = boto3.client(
+                's3',
+                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+            )
+            key = "{media}/{filename}".format(media=settings.AWS_S3_KEY_PREFIX, filename=self.file.name)
+            return s3.generate_presigned_url(
+                'get_object',
+                Params={'Bucket': settings.AWS_S3_BUCKET_NAME, 'Key': key},
+                ExpiresIn=ttl
+            )
         return self.file.url
 
 

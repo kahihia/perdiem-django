@@ -78,10 +78,10 @@ In the production environment, you'll need to create a different dev settings co
         RAVEN_PUBLIC_KEY = 'xyz'
         RAVEN_SECRET_KEY = 'abc123'
         RAVEN_PROJECT_ID = '1234'
-        DEFAULT_FILE_STORAGE = 'perdiem.custom_storages.MediaStorage'
-        STATICFILES_STORAGE = 'perdiem.custom_storages.StaticStorage'
-        AWS_STORAGE_BUCKET_NAME = 'perdiem-xyz'
-        AWS_S3_CUSTOM_URL = 'https://{bucket}.s3.amazonaws.com'.format(bucket=AWS_STORAGE_BUCKET_NAME)
+        DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+        STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+        AWS_S3_BUCKET_NAME = 'perdiem-xyz'
+        AWS_S3_BUCKET_NAME_STATIC = AWS_S3_BUCKET_NAME
         AWS_ACCESS_KEY_ID = '1234'
         AWS_SECRET_ACCESS_KEY = 'abc123'
         AWS_SES_ACCESS_KEY_ID = '1234'
