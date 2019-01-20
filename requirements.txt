@@ -16,7 +16,7 @@ Pillow==5.4.1
 sorl-thumbnail==12.5.0
 django-classbasedsettings==1.5.0
 raven==6.10.0
-boto3==1.9.47
+boto3==1.9.82
 django-s3-storage==0.12.4
 django-ses==0.8.7
 geopy==1.18.1
