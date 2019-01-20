@@ -135,22 +135,25 @@ class OAuth2TestCase(PerDiemTestCase):
     def testGoogleOAuth2Login(self, mock_request_access_token, mock_user_data):
         mock_request_access_token.return_value = {'access_token': 'abc123'}
         mock_user_data.return_value = {
-            u'id_token': u'abc123',
-            u'image': {
-                u'url': u'https://lh4.googleusercontent.com/abc123/photo.jpg?sz=50',
-                u'isDefault': False,
-            },
-            u'token_type': u'Bearer',
-            u'birthday': u'0000-01-01',
-            u'verified': False,
-            u'id': u'1234',
-            u'displayName': u'John Smith',
-            u'name': {u'givenName': u'John', u'familyName': u'Smith'},
-            u'language': u'en',
             u'access_token': u'ya29.abc123',
-            u'gender': u'male',
             u'expires_in': 3600,
-            u'emails': [{u'type': u'account', u'value': u'jsmith@example.com'}],
+            u'scope': u' '.join([
+                u'https://www.googleapis.com/auth/plus.me',
+                u'https://www.googleapis.com/auth/userinfo.profile',
+                u'https://www.googleapis.com/auth/userinfo.email',
+            ]),
+            u'token_type': u'Bearer',
+            u'id_token': u'abc123',
+            u'sub': u'1234',
+            u'name': u'John Smith',
+            u'given_name': u'John',
+            u'family_name': u'Smith',
+            u'profile': u'https://plus.google.com/+JohnSmith',
+            u'picture': u'https://lh4.googleusercontent.com/abc123/photo.jpg?sz=50',
+            u'email': u'jsmith@example.com',
+            u'email_verified': True,
+            u'gender': u'male',
+            u'locale': u'en',
         }
 
         # Click on "Sign in with Google" button
