@@ -5,9 +5,9 @@ django-pigeon==0.3.0
 mock==2.0.0
 coverage==4.5.2
 gunicorn==19.9.0
-Django==2.1.5
+Django==2.1.7
 python-memcached==1.59
-psycopg2==2.7.6.1
+psycopg2==2.7.7
 whitenoise==4.1.2
 djangorestframework==3.9.1
 social-auth-core==3.0.0
@@ -16,7 +16,7 @@ Pillow==5.4.1
 sorl-thumbnail==12.5.0
 django-classbasedsettings==1.5.0
 raven==6.10.0
-boto3==1.9.82
+boto3==1.9.96
 django-s3-storage==0.12.4
 django-ses==0.8.9
 geopy==1.18.1
