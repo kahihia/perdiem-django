@@ -7,6 +7,7 @@
 import os
 
 from fabric.api import env, prefix, run, sudo
+from fabric.context_managers import cd
 import requests
 
 
@@ -29,15 +30,15 @@ def send_notification(commits):
 
 
 def deploy():
-    with prefix(". /usr/local/bin/virtualenvwrapper.sh; workon perdiem"):
+    with cd('~/perdiem-django/perdiem'):
         previous_commit_hash = run("git log -1 --format=\"%H\" --no-color", pty=False)
         run("git pull")
         cmd_changes_deployed = "git log {previous_hash}.. --reverse --format=\"%h : %an : %s\" --no-color".format(
             previous_hash=previous_commit_hash
         )
         changes_deployed = run(cmd_changes_deployed, pty=False)
-        run("pip install -r ../requirements.txt")
-        run("python manage.py migrate")
-        run("python manage.py collectstatic --no-input")
+        run("poetry install --no-dev")
+        run("poetry run python manage.py migrate")
+        run("poetry run python manage.py collectstatic --no-input")
         sudo("sv restart perdiem")
     send_notification(changes_deployed)
