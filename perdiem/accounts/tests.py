@@ -5,14 +5,13 @@
 """
 
 import re
+from unittest import mock
 
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.core.cache import cache
 from django.test import override_settings
-
-import mock
 
 from accounts.factories import UserAvatarFactory, UserFactory, userfactory_factory
 from artist.factories import ArtistFactory

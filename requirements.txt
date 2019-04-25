@@ -2,7 +2,6 @@ requests==2.21.0
 Fabric3==1.14.post1
 factory-boy==2.11.1
 django-pigeon==0.3.0
-mock==2.0.0
 coverage==4.5.3
 gunicorn==19.9.0
 Django==2.1.7

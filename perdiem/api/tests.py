@@ -4,7 +4,7 @@
 
 """
 
-import mock
+from unittest import mock
 
 from geopy.exc import GeocoderTimedOut
 

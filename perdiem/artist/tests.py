@@ -4,13 +4,14 @@
 
 """
 
+from unittest import mock
+
 from django.core.management import call_command
 from django.test import TestCase
 from django.utils import timezone
 
 import factory
 from geopy.exc import GeocoderTimedOut
-import mock
 
 from artist.factories import (
     ArtistAdminFactory, ArtistFactory, GenreFactory, artistfactory_factory, updatefactory_factory

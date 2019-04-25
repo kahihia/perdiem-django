@@ -4,7 +4,7 @@
 
 """
 
-import mock
+from unittest import mock
 
 from django.test import TestCase, override_settings
 
