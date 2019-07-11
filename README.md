@@ -9,9 +9,7 @@
 
 ### Prerequisites
 
-PerDiem requires [memcached](http://memcached.org/), [PostgreSQL](http://www.postgresql.org/), libjpeg-dev, and Python header files, which you can install on debian with:
-
-    $ sudo apt-get install memcached postgresql postgresql-contrib python3-dev libssl-dev libpq-dev libjpeg-dev
+PerDiem requires [PostgreSQL](https://www.postgresql.org/) and [memcached](http://memcached.org/) to be installed.
 
 ### Installation
 
@@ -83,6 +81,8 @@ For reference, the format of the Sentry DSN is as follows:
      {PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}/{PATH}{PROJECT_ID}
 
 Alternatively, you may choose to merge your production `dev.py` file into `prod.py`. In that case, be sure to subclass `BaseSettings` instead of `DevSettings` and make sure all definitions from `dev.py` are in `prod.py`.
+
+###### Note: The remainder of this section assumes that PerDiem is deployed in a Debian Linux environment.
 
 PerDiem uses Gunicorn with [runit](http://smarden.org/runit/) and [Nginx](http://nginx.org/). You can install them with the following:
 
