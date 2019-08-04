@@ -30,6 +30,7 @@ django-templated-email = "^2.3.0"
 django-markdown-deux = "^1.0.5"
 django-pagedown = "^1.0.6"
 django-gfklookupwidget = "^1.0.7"
+python-dotenv = "^0.10.3"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"

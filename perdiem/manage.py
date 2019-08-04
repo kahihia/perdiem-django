@@ -3,9 +3,12 @@ import os
 import sys
 
 import cbsettings
+from dotenv import load_dotenv
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "perdiem.settings")
     cbsettings.configure('perdiem.settings.switcher')
 

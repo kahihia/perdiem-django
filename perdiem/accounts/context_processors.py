@@ -9,7 +9,7 @@ from django.conf import settings
 
 def keys(request):
     return {
-        'FB_APP_ID': settings.FACEBOOK_APP_ID,
+        'FB_APP_ID': settings.SOCIAL_AUTH_FACEBOOK_KEY,
         'GA_TRACKING_CODE': settings.GA_TRACKING_CODE,
         'JACO_API_KEY': settings.JACO_API_KEY,
     }

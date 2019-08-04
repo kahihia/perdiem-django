@@ -7,7 +7,6 @@
 import os
 
 from cbsettings import DjangoDefaults
-import raven
 import requests
 
 
@@ -23,8 +22,9 @@ class BaseSettings(DjangoDefaults):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     TOP_DIR = os.path.dirname(BASE_DIR)
 
+    SECRET_KEY = os.environ["PERDIEM_SECRET_KEY"]
     DEBUG = True
-    ACCEPTABLE_HOSTS = ['localhost', '127.0.0.1']
+    ACCEPTABLE_HOSTS = ['localhost', '127.0.0.1', '.investperdiem.com']
 
     @property
     def ALLOWED_HOSTS(self):
@@ -122,11 +122,11 @@ class BaseSettings(DjangoDefaults):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'perdiem',
-            'USER': 'postgres',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '',
+            'NAME': os.environ["PERDIEM_DB_NAME"],
+            'USER': os.environ["PERDIEM_DB_USER"],
+            'PASSWORD': os.environ["PERDIEM_DB_PASSWORD"],
+            'HOST': os.environ["PERDIEM_DB_HOST"],
+            'PORT': '5432',
         }
     }
 
@@ -204,32 +204,16 @@ class BaseSettings(DjangoDefaults):
         'accounts.pipeline.send_welcome_email',
     )
     SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ["PERDIEM_GOOGLE_OAUTH2_KEY"]
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ["PERDIEM_GOOGLE_OAUTH2_SECRET"]
+    SOCIAL_AUTH_FACEBOOK_KEY = os.environ["PERDIEM_FACEBOOK_KEY"]
+    SOCIAL_AUTH_FACEBOOK_SECRET = os.environ["PERDIEM_FACEBOOK_SECRET"]
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
     SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
         'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)']),
     }
     LOGIN_URL = '/'
     LOGIN_REDIRECT_URL = '/profile/'
-
-    @property
-    def FACEBOOK_APP_ID(self):
-        if not hasattr(self, 'SOCIAL_AUTH_FACEBOOK_KEY'):
-            return ''
-        return self.SOCIAL_AUTH_FACEBOOK_KEY
-
-    # Sentry
-    @property
-    def RAVEN_CONFIG(self):
-        if not hasattr(self, 'RAVEN_SECRET_KEY'):
-            return {}
-        return {
-            'dsn': 'https://{public_key}:{secret_key}@app.getsentry.com/{project_id}'.format(
-                public_key=self.RAVEN_PUBLIC_KEY,
-                secret_key=self.RAVEN_SECRET_KEY,
-                project_id=self.RAVEN_PROJECT_ID
-            ),
-            'release': raven.fetch_git_sha(self.TOP_DIR),
-        }
 
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
@@ -238,12 +222,19 @@ class BaseSettings(DjangoDefaults):
     DEFAULT_FROM_EMAIL = 'PerDiem <noreply@investperdiem.com>'
 
     # Stripe
+    PINAX_STRIPE_PUBLIC_KEY = os.environ["PERDIEM_STRIPE_PUBLIC_KEY"]
+    PINAX_STRIPE_SECRET_KEY = os.environ["PERDIEM_STRIPE_SECRET_KEY"]
+    PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
     PERDIEM_FEE = 1  # $1
     STRIPE_PERCENTAGE = 0.029  # 2.9%
     STRIPE_FLAT_FEE = 0.3  # $0.30
     DEFAULT_MIN_PURCHASE = 1  # $1
-    PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False
+
+    # MailChimp
+    MAILCHIMP_API_KEY = os.environ["PERDIEM_MAILCHIMP_API_KEY"]
+    MAILCHIMP_LIST_ID = os.environ["PERDIEM_MAILCHIMP_LIST_ID"]
 
     # Analytics
-    GA_TRACKING_CODE = ''  # Defined in prod.py
-    JACO_API_KEY = ''  # Defined in prod.py
+    GA_TRACKING_CODE = os.environ.get("PERDIEM_GA_TRACKING_CODE")
+    JACO_API_KEY = os.environ.get("PERDIEM_JACO_API_KEY")
+    ITUNES_AFFILIATE_TOKEN = os.environ.get("PERDIEM_ITUNES_AFFILIATE_TOKEN")
