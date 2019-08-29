@@ -30,7 +30,7 @@ def send_notification(commits):
 
 
 def deploy():
-    with cd('~/perdiem-django/perdiem'):
+    with cd('~/perdiem-django'):
         previous_commit_hash = run("git log -1 --format=\"%H\" --no-color", pty=False)
         run("git pull")
         cmd_changes_deployed = "git log {previous_hash}.. --reverse --format=\"%h : %an : %s\" --no-color".format(

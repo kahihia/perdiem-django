@@ -17,7 +17,6 @@ before_script:
   - cp .env-sample .env
 
 script:
-  - cd perdiem
   - poetry run python manage.py migrate
   - poetry run python manage.py collectstatic --no-input
   - poetry run coverage run ./manage.py test

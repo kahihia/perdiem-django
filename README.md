@@ -41,7 +41,7 @@ The rest of the README assumes that the PerDiem repo was checked out in `/home/p
 We need to copy the Nginx configuration:
 
     $ cd /etc/nginx/sites-enabled
-    $ sudo ln -s /home/perdiem/perdiem-django/perdiem/perdiem/nginx/investperdiem.com investperdiem.com
+    $ sudo ln -s /home/perdiem/perdiem-django/perdiem/nginx/investperdiem.com investperdiem.com
 
 Then we need to create a script to run PerDiem on boot with runit:
 
@@ -54,7 +54,7 @@ In this file, create a script similar to the following:
     #!/bin/sh
 
     GUNICORN=/home/perdiem/.cache/pypoetry/virtualenvs/perdiem-django-py3.6/bin/gunicorn
-    ROOT=/home/perdiem/perdiem-django/perdiem
+    ROOT=/home/perdiem/perdiem-django
     PID=/var/run/gunicorn.pid
 
     APP=perdiem.wsgi:application
