@@ -18,7 +18,7 @@ class ProdSettings(BaseSettings):
                 secret_key=os.environ["PERDIEM_SENTRY_SECRET_KEY"],
                 project_id=os.environ["PERDIEM_SENTRY_PROJECT_ID"]
             ),
-            'release': raven.fetch_git_sha(self.TOP_DIR),
+            'release': raven.fetch_git_sha(self.BASE_DIR),
         }
 
     # Static files (CSS, JavaScript, Images)
