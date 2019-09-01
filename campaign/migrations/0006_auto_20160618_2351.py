@@ -5,18 +5,18 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('campaign', '0005_auto_20160618_2310'),
-    ]
+    dependencies = [("campaign", "0005_auto_20160618_2310")]
 
     def create_initial_projects(apps, schema_editor):
         Project = apps.get_model("campaign", "Project")
         Campaign = apps.get_model("campaign", "Campaign")
         for campaign in Campaign.objects.all():
-            project = Project.objects.create(artist=campaign.artist, reason=campaign.reason)
+            project = Project.objects.create(
+                artist=campaign.artist, reason=campaign.reason
+            )
             campaign.project = project
             campaign.save()
 
     operations = [
-        migrations.RunPython(create_initial_projects, migrations.RunPython.noop),
+        migrations.RunPython(create_initial_projects, migrations.RunPython.noop)
     ]

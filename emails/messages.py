@@ -23,9 +23,9 @@ class BaseEmail(object):
 
     @staticmethod
     def get_host():
-        return '{proto}://{domain}'.format(
-            proto='http' if settings.DEBUG else 'https',
-            domain=Site.objects.get_current().domain
+        return "{proto}://{domain}".format(
+            proto="http" if settings.DEBUG else "https",
+            domain=Site.objects.get_current().domain,
         )
 
     def unsubscribe_message(self, user):
@@ -36,16 +36,16 @@ class BaseEmail(object):
         else:
             message = "To unsubscribe from these emails"
         return {
-            'plain': "{message}, go to: {host}{url}.".format(message=message, host=host, url=unsubscribe_url),
-            'html': "{message}, click <a href=\"{host}{url}\">here</a>.".format(
-                message=message,
-                host=host,
-                url=unsubscribe_url
+            "plain": "{message}, go to: {host}{url}.".format(
+                message=message, host=host, url=unsubscribe_url
+            ),
+            "html": '{message}, click <a href="{host}{url}">here</a>.'.format(
+                message=message, host=host, url=unsubscribe_url
             ),
         }
 
     def get_template_name(self):
-        if not hasattr(self, 'template_name'):
+        if not hasattr(self, "template_name"):
             raise NoTemplateProvided("No template was provided for the email message.")
         return self.template_name
 
@@ -53,12 +53,9 @@ class BaseEmail(object):
         return self.from_email
 
     def get_context_data(self, user, **kwargs):
-        context = {
-            'host': self.get_host(),
-            'user': user,
-        }
+        context = {"host": self.get_host(), "user": user}
         if not self.ignore_unsubscribed:
-            context['unsubscribe_message'] = self.unsubscribe_message(user)
+            context["unsubscribe_message"] = self.unsubscribe_message(user)
         return context
 
     def send_to_email(self, email, context=None, **kwargs):
@@ -72,59 +69,66 @@ class BaseEmail(object):
             template_name=self.get_template_name(),
             from_email=self.get_from_email_address(**kwargs),
             recipient_list=[email],
-            context=context
+            context=context,
         )
 
     def send(self, user, context=None, **kwargs):
         context = context or {}
         context.update(self.get_context_data(user, **kwargs))
-        user_is_subscribed = EmailSubscription.objects.is_subscribed(user, subscription_type=self.subscription_type)
+        user_is_subscribed = EmailSubscription.objects.is_subscribed(
+            user, subscription_type=self.subscription_type
+        )
         user_subscription_okay = self.ignore_unsubscribed or user_is_subscribed
-        email_is_verified = self.send_to_unverified_emails or VerifiedEmail.objects.is_current_email_verified(user)
+        email_is_verified = (
+            self.send_to_unverified_emails
+            or VerifiedEmail.objects.is_current_email_verified(user)
+        )
         if user_subscription_okay and email_is_verified:
             self.send_to_email(user.email, context, **kwargs)
 
 
 class EmailVerificationEmail(BaseEmail):
 
-    template_name = 'email_verification'
+    template_name = "email_verification"
     send_to_unverified_emails = True
 
     def get_context_data(self, user, **kwargs):
         context = super(EmailVerificationEmail, self).get_context_data(user, **kwargs)
-        context['verify_email_url'] = VerifiedEmail.objects.get_current_email(user).url()
+        context["verify_email_url"] = VerifiedEmail.objects.get_current_email(
+            user
+        ).url()
         return context
 
 
 class WelcomeEmail(EmailVerificationEmail):
 
-    template_name = 'welcome'
+    template_name = "welcome"
 
     def get_context_data(self, user, **kwargs):
         context = super(WelcomeEmail, self).get_context_data(user, **kwargs)
         verified_email = VerifiedEmail.objects.get_current_email(user)
         if verified_email.verified:
-            del context['verify_email_url']
+            del context["verify_email_url"]
         return context
 
 
 class ContactEmail(BaseEmail):
 
-    template_name = 'contact'
+    template_name = "contact"
 
 
 class ArtistApplyEmail(BaseEmail):
 
-    template_name = 'artist_apply'
+    template_name = "artist_apply"
 
 
 class ArtistUpdateEmail(BaseEmail):
 
-    template_name = 'artist_update'
+    template_name = "artist_update"
     subscription_type = EmailSubscription.SUBSCRIPTION_ARTUP
 
     def get_from_email_address(self, **kwargs):
-        update = kwargs['update']
+        update = kwargs["update"]
         return "{artist_name} <noreply@investperdiem.com>".format(
             artist_name=update.artist.name
         )
@@ -132,27 +136,26 @@ class ArtistUpdateEmail(BaseEmail):
     def get_context_data(self, user, **kwargs):
         context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
 
-        update = kwargs['update']
-        context.update({
-            'artist': update.artist,
-            'update': update,
-        })
+        update = kwargs["update"]
+        context.update({"artist": update.artist, "update": update})
 
         return context
 
 
 class InvestSuccessEmail(BaseEmail):
 
-    template_name = 'invest_success'
+    template_name = "invest_success"
 
     def get_context_data(self, user, **kwargs):
         context = super(InvestSuccessEmail, self).get_context_data(user, **kwargs)
 
-        investment = kwargs['investment']
-        context.update({
-            'artist': investment.campaign.project.artist,
-            'campaign': investment.campaign,
-            'num_shares': investment.num_shares,
-        })
+        investment = kwargs["investment"]
+        context.update(
+            {
+                "artist": investment.campaign.project.artist,
+                "campaign": investment.campaign,
+                "num_shares": investment.num_shares,
+            }
+        )
 
         return context

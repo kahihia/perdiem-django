@@ -18,29 +18,30 @@ from campaign.models import Campaign, Investment
 
 class UserAvatar(models.Model):
 
-    PROVIDER_PERDIEM = 'perdiem'
-    PROVIDER_GOOGLE = 'google-oauth2'
-    PROVIDER_FACEBOOK = 'facebook'
+    PROVIDER_PERDIEM = "perdiem"
+    PROVIDER_GOOGLE = "google-oauth2"
+    PROVIDER_FACEBOOK = "facebook"
     PROVIDER_CHOICES = (
-        (PROVIDER_PERDIEM, 'Custom'),
-        (PROVIDER_GOOGLE, 'Google'),
-        (PROVIDER_FACEBOOK, 'Facebook'),
+        (PROVIDER_PERDIEM, "Custom"),
+        (PROVIDER_GOOGLE, "Google"),
+        (PROVIDER_FACEBOOK, "Facebook"),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     provider = models.CharField(choices=PROVIDER_CHOICES, max_length=15)
 
     class Meta:
-        unique_together = (('user', 'provider',),)
+        unique_together = (("user", "provider"),)
 
     @staticmethod
     def default_avatar_url():
-        return "{static_url}img/perdiem-avatar.svg".format(static_url=settings.STATIC_URL)
+        return "{static_url}img/perdiem-avatar.svg".format(
+            static_url=settings.STATIC_URL
+        )
 
     def __str__(self):
-        return u'{user}: {provider}'.format(
-            user=str(self.user),
-            provider=self.get_provider_display()
+        return u"{user}: {provider}".format(
+            user=str(self.user), provider=self.get_provider_display()
         )
 
     def avatar_url(self):
@@ -48,7 +49,7 @@ class UserAvatar(models.Model):
             return self.useravatarurl.url
         elif self.provider == self.PROVIDER_PERDIEM:
             original = self.useravatarimage.img
-            return get_thumbnail(original, '150x150', crop='center').url
+            return get_thumbnail(original, "150x150", crop="center").url
         else:
             return self.default_avatar_url()
 
@@ -63,12 +64,11 @@ class UserAvatarURL(models.Model):
 
 
 def user_avatar_filename(instance, filename):
-    extension = filename.split('.')[-1]
-    new_filename = '{user_id}.{extension}'.format(
-        user_id=instance.avatar.user.id,
-        extension=extension
+    extension = filename.split(".")[-1]
+    new_filename = "{user_id}.{extension}".format(
+        user_id=instance.avatar.user.id, extension=extension
     )
-    return '/'.join(['avatars', new_filename])
+    return "/".join(["avatars", new_filename])
 
 
 class UserAvatarImage(models.Model):
@@ -83,7 +83,9 @@ class UserAvatarImage(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ForeignKey(UserAvatar, on_delete=models.SET_NULL, null=True, blank=True)
+    avatar = models.ForeignKey(
+        UserAvatar, on_delete=models.SET_NULL, null=True, blank=True
+    )
     invest_anonymously = models.BooleanField(default=False)
 
     @staticmethod
@@ -97,7 +99,7 @@ class UserProfile(models.Model):
 
     def get_display_name(self):
         if self.invest_anonymously:
-            return 'Anonymous'
+            return "Anonymous"
         else:
             return self.user.get_full_name() or self.user.username
 
@@ -113,7 +115,7 @@ class UserProfile(models.Model):
 
     def public_profile_url(self):
         if not self.invest_anonymously:
-            return reverse('public_profile', args=(self.user.username,))
+            return reverse("public_profile", args=(self.user.username,))
 
     @cache_using_pk
     def profile_context(self):
@@ -121,22 +123,22 @@ class UserProfile(models.Model):
 
         # Get artists the user has invested in
         investments = Investment.objects.filter(
-            charge__customer__user=self.user,
-            charge__paid=True,
-            charge__refunded=False
+            charge__customer__user=self.user, charge__paid=True, charge__refunded=False
         )
-        campaign_ids = investments.values_list('campaign', flat=True).distinct()
-        campaigns = Campaign.objects.filter(id__in=campaign_ids).select_related('project')
-        context['campaigns'] = campaigns
-        artist_ids = campaigns.values_list('project__artist', flat=True).distinct()
+        campaign_ids = investments.values_list("campaign", flat=True).distinct()
+        campaigns = Campaign.objects.filter(id__in=campaign_ids).select_related(
+            "project"
+        )
+        context["campaigns"] = campaigns
+        artist_ids = campaigns.values_list("project__artist", flat=True).distinct()
         artists = Artist.objects.filter(id__in=artist_ids)
-        context['artists'] = dict(map(self.prepare_artist_for_profile_context, artists))
+        context["artists"] = dict(map(self.prepare_artist_for_profile_context, artists))
 
         # Update context with total investments
         aggregate_context = investments.aggregate(
             total_investments=models.Sum(
-                models.F('campaign__value_per_share') * models.F('num_shares'),
-                output_field=models.FloatField()
+                models.F("campaign__value_per_share") * models.F("num_shares"),
+                output_field=models.FloatField(),
             )
         )
         context.update(aggregate_context)
@@ -148,23 +150,27 @@ class UserProfile(models.Model):
 
             # Total invested
             investments_this_campaign = investments.filter(campaign=campaign)
-            num_shares_this_campaign = investments_this_campaign.aggregate(ns=models.Sum('num_shares'))['ns']
-            context['artists'][artist.id].total_invested += num_shares_this_campaign * campaign.value_per_share
+            num_shares_this_campaign = investments_this_campaign.aggregate(
+                ns=models.Sum("num_shares")
+            )["ns"]
+            context["artists"][artist.id].total_invested += (
+                num_shares_this_campaign * campaign.value_per_share
+            )
 
             # Total earned
             generated_revenue_user = 0
             for investment in investments_this_campaign:
                 generated_revenue_user += investment.generated_revenue()
-            context['artists'][artist.id].total_earned += generated_revenue_user
+            context["artists"][artist.id].total_earned += generated_revenue_user
             total_earned += generated_revenue_user
-        context['total_earned'] = total_earned
+        context["total_earned"] = total_earned
 
         # Add percentage of return to context
-        total_investments = aggregate_context['total_investments'] or 0
+        total_investments = aggregate_context["total_investments"] or 0
         try:
             percentage = total_earned / total_investments * 100
         except ZeroDivisionError:
             percentage = 0
-        context['percentage'] = percentage
+        context["percentage"] = percentage
 
         return context

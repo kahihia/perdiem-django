@@ -7,23 +7,47 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('artist', '0007_artistadmin'),
-        ('campaign', '0004_artistpercentagebreakdown'),
+        ("artist", "0007_artistadmin"),
+        ("campaign", "0004_artistpercentagebreakdown"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Project',
+            name="Project",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reason', models.CharField(help_text='The reason why the artist is raising money, in a few words', max_length=40)),
-                ('artist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='artist.Artist')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "reason",
+                    models.CharField(
+                        help_text="The reason why the artist is raising money, in a few words",
+                        max_length=40,
+                    ),
+                ),
+                (
+                    "artist",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="artist.Artist"
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='campaign',
-            name='project',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='campaign.Project'),
+            model_name="campaign",
+            name="project",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="campaign.Project",
+            ),
             preserve_default=False,
         ),
     ]

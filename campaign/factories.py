@@ -8,9 +8,8 @@ from artist.factories import artistfactory_factory
 
 def projectfactory_factory(apps):
     class ProjectFactory(factory.DjangoModelFactory):
-
         class Meta:
-            model = apps.get_model('campaign', 'Project')
+            model = apps.get_model("campaign", "Project")
 
         artist = factory.SubFactory(artistfactory_factory(apps=apps))
 
@@ -19,9 +18,8 @@ def projectfactory_factory(apps):
 
 def campaignfactory_factory(apps, point_to_project=True):
     class CampaignFactory(factory.DjangoModelFactory):
-
         class Meta:
-            model = apps.get_model('campaign', 'Campaign')
+            model = apps.get_model("campaign", "Campaign")
 
         amount = 10000
         fans_percentage = 20
@@ -38,9 +36,8 @@ def campaignfactory_factory(apps, point_to_project=True):
 
 def revenuereportfactory_factory(apps, point_to_project=True):
     class RevenueReportFactory(factory.DjangoModelFactory):
-
         class Meta:
-            model = apps.get_model('campaign', 'RevenueReport')
+            model = apps.get_model("campaign", "RevenueReport")
 
         # Allow the RevenueReportFactory to point to a campaign directly
         # for migration test cases before the Project model was created
@@ -58,17 +55,15 @@ RevenueReportFactory = revenuereportfactory_factory(apps=django_apps)
 
 
 class CustomerFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = django_apps.get_model('pinax_stripe', 'Customer')
+        model = django_apps.get_model("pinax_stripe", "Customer")
 
     user = factory.SubFactory(UserFactory)
 
 
 class ChargeFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = django_apps.get_model('pinax_stripe', 'Charge')
+        model = django_apps.get_model("pinax_stripe", "Charge")
 
     customer = factory.SubFactory(CustomerFactory)
     paid = True
@@ -76,9 +71,8 @@ class ChargeFactory(factory.DjangoModelFactory):
 
 
 class InvestmentFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = django_apps.get_model('campaign', 'Investment')
+        model = django_apps.get_model("campaign", "Investment")
 
     charge = factory.SubFactory(ChargeFactory)
     campaign = factory.SubFactory(CampaignFactory)

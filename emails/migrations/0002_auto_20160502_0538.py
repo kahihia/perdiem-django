@@ -5,18 +5,19 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('emails', '0001_initial'),
-    ]
+    dependencies = [("emails", "0001_initial")]
 
     operations = [
         migrations.AddField(
-            model_name='emailsubscription',
-            name='subscription',
-            field=models.CharField(choices=[('ALL', 'General'), ('NEWS', 'Newsletter')], default='ALL', max_length=6),
+            model_name="emailsubscription",
+            name="subscription",
+            field=models.CharField(
+                choices=[("ALL", "General"), ("NEWS", "Newsletter")],
+                default="ALL",
+                max_length=6,
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='emailsubscription',
-            unique_together=set([('user', 'subscription')]),
+            name="emailsubscription", unique_together=set([("user", "subscription")])
         ),
     ]

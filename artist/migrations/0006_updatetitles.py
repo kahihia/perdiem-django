@@ -5,19 +5,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0005_auto_20160522_2328'),
-    ]
+    dependencies = [("artist", "0005_auto_20160522_2328")]
 
     def set_initial_update_titles(apps, schema_editor):
         Update = apps.get_model("artist", "Update")
         for update in Update.objects.all():
             update.title = "{artist} Update: {date}".format(
                 artist=update.artist.name,
-                date=update.created_datetime.strftime("%m/%d/%Y")
+                date=update.created_datetime.strftime("%m/%d/%Y"),
             )
             update.save()
 
     operations = [
-        migrations.RunPython(set_initial_update_titles, migrations.RunPython.noop),
+        migrations.RunPython(set_initial_update_titles, migrations.RunPython.noop)
     ]

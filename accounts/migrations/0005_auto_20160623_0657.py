@@ -6,9 +6,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0004_auto_20160522_2139'),
-    ]
+    dependencies = [("accounts", "0004_auto_20160522_2139")]
 
     def usernames_to_lowercase(apps, schema_editor):
         User = apps.get_model(settings.AUTH_USER_MODEL)
@@ -17,5 +15,5 @@ class Migration(migrations.Migration):
             user.save()
 
     operations = [
-        migrations.RunPython(usernames_to_lowercase, migrations.RunPython.noop),
+        migrations.RunPython(usernames_to_lowercase, migrations.RunPython.noop)
     ]

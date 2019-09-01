@@ -15,12 +15,10 @@ from perdiem.tests import PerDiemTestCase
 
 
 class UnsubscribeTestCase(TestCase):
-
     def testUnsubscribeFromAllRemovesAllSubscriptions(self):
         # Create an artist update subscription
         email_subscription = EmailSubscriptionFactory(
-            subscription=EmailSubscription.SUBSCRIPTION_ARTUP,
-            subscribed=True
+            subscription=EmailSubscription.SUBSCRIPTION_ARTUP, subscribed=True
         )
 
         # Create an explicit unsubscribe from all emails
@@ -29,7 +27,7 @@ class UnsubscribeTestCase(TestCase):
         EmailSubscription.objects.create(
             user=email_subscription.user,
             subscription=EmailSubscription.SUBSCRIPTION_ALL,
-            subscribed=False
+            subscribed=False,
         )
 
         # Verify that when the user unsubscribes from everything, this artist update subscription is turned off
@@ -38,23 +36,21 @@ class UnsubscribeTestCase(TestCase):
 
 
 class SubscribeTestCase(PerDiemTestCase):
-
     def testSubscribeToNewsletterSuccess(self):
         self.assertResponseRenders(
-            '/accounts/settings/',
-            method='POST',
+            "/accounts/settings/",
+            method="POST",
             data={
-                'action': 'email_preferences',
-                'email': self.user.email,
-                'subscription_all': True,
-                'subscription_news': True,
-                'subscription_artist_update': False,
-            }
+                "action": "email_preferences",
+                "email": self.user.email,
+                "subscription_all": True,
+                "subscription_news": True,
+                "subscription_artist_update": False,
+            },
         )
 
 
 class UnsubscribeWebTestCase(PerDiemTestCase):
-
     @classmethod
     def setUpTestData(cls):
         super(UnsubscribeWebTestCase, cls).setUpTestData()
@@ -71,15 +67,16 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
 
     def testUnsubscribeInvalidLink(self):
         self.client.logout()
-        unsubscribe_url = '/unsubscribe/{user_id}/ALL/{invalid_token}/'.format(
-            user_id=self.user.id,
-            invalid_token='abc123'
+        unsubscribe_url = "/unsubscribe/{user_id}/ALL/{invalid_token}/".format(
+            user_id=self.user.id, invalid_token="abc123"
         )
         response = self.assertResponseRenders(unsubscribe_url)
         self.assertIn(b"This link is invalid", response.content)
 
-    @mock.patch('emails.mailchimp.requests.put')
-    @override_settings(MAILCHIMP_API_KEY='FAKE_API_KEY', MAILCHIMP_LIST_ID='FAKE_LIST_ID')
+    @mock.patch("emails.mailchimp.requests.put")
+    @override_settings(
+        MAILCHIMP_API_KEY="FAKE_API_KEY", MAILCHIMP_LIST_ID="FAKE_LIST_ID"
+    )
     def testUnsubscribeFromMailChimp(self, mock_mailchimp_request):
         mock_mailchimp_request.return_value = mock.Mock(status_code=200)
 
@@ -87,10 +84,7 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
 
         # Simulate POST request received from MailChimp
         self.assertResponseRenders(
-            '/unsubscribe/from-mailchimp/',
-            method='POST',
-            data={
-                'data[list_id]': 'FAKE_LIST_ID',
-                'data[email]': self.user.email,
-            }
+            "/unsubscribe/from-mailchimp/",
+            method="POST",
+            data={"data[list_id]": "FAKE_LIST_ID", "data[email]": self.user.email},
         )

@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0011_auto_20170201_0754'),
-    ]
+    dependencies = [("artist", "0011_auto_20170201_0754")]
 
     operations = [
         migrations.AlterField(
-            model_name='updatemediaurl',
-            name='media_type',
-            field=models.CharField(choices=[('youtube', 'YouTube')], max_length=8),
-        ),
+            model_name="updatemediaurl",
+            name="media_type",
+            field=models.CharField(choices=[("youtube", "YouTube")], max_length=8),
+        )
     ]

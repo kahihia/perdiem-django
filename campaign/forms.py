@@ -13,11 +13,13 @@ class PaymentChargeForm(forms.Form):
     num_shares = forms.IntegerField(min_value=1)
 
     def __init__(self, *args, **kwargs):
-        self.campaign = kwargs.pop('campaign')
+        self.campaign = kwargs.pop("campaign")
         super(PaymentChargeForm, self).__init__(*args, **kwargs)
 
     def clean_num_shares(self):
-        num_shares = self.cleaned_data['num_shares']
+        num_shares = self.cleaned_data["num_shares"]
         if num_shares > self.campaign.num_shares_remaining():
-            raise forms.ValidationError("The number of shares requested exceeds the number of shares available.")
+            raise forms.ValidationError(
+                "The number of shares requested exceeds the number of shares available."
+            )
         return num_shares

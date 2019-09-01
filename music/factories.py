@@ -8,28 +8,27 @@ from music.models import ActivityEstimate as ActivityEstimateConst
 
 
 class AlbumFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = apps.get_model('music', 'Album')
+        model = apps.get_model("music", "Album")
 
     project = factory.SubFactory(ProjectFactory)
-    name = factory.Sequence(lambda n: 'Album #{n}'.format(n=n))
+    name = factory.Sequence(lambda n: "Album #{n}".format(n=n))
     slug = factory.LazyAttribute(lambda album: slugify(album.name))
 
 
 class TrackFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = apps.get_model('music', 'Track')
+        model = apps.get_model("music", "Track")
 
     album = factory.SubFactory(AlbumFactory)
-    track_number = factory.LazyAttribute(lambda track: track.album.track_set.count() + 1)
+    track_number = factory.LazyAttribute(
+        lambda track: track.album.track_set.count() + 1
+    )
 
 
 class ActivityEstimateFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = apps.get_model('music', 'ActivityEstimate')
+        model = apps.get_model("music", "ActivityEstimate")
 
     activity_type = ActivityEstimateConst.ACTIVITY_STREAM
     content_object = factory.SubFactory(TrackFactory)

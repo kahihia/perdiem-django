@@ -5,14 +5,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0012_auto_20170201_0820'),
-    ]
+    dependencies = [("artist", "0012_auto_20170201_0820")]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='text',
-            field=models.TextField(help_text='The content of the update. <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a> allowed, but no raw HTML. Examples: **bold**, *italic*, indent 4 spaces for a code block.'),
-        ),
+            model_name="update",
+            name="text",
+            field=models.TextField(
+                help_text='The content of the update. <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a> allowed, but no raw HTML. Examples: **bold**, *italic*, indent 4 spaces for a code block.'
+            ),
+        )
     ]

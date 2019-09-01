@@ -8,6 +8,4 @@ from django.conf import settings
 
 
 def artist_settings(request):
-    return {
-        'PERDIEM_FEE': settings.PERDIEM_FEE,
-    }
+    return {"PERDIEM_FEE": settings.PERDIEM_FEE}

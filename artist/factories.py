@@ -8,11 +8,10 @@ from accounts.factories import UserFactory
 
 def artistfactory_factory(apps):
     class ArtistFactory(factory.DjangoModelFactory):
-
         class Meta:
-            model = apps.get_model('artist', 'Artist')
+            model = apps.get_model("artist", "Artist")
 
-        name = factory.Faker('user_name')
+        name = factory.Faker("user_name")
         slug = factory.LazyAttribute(lambda artist: slugify(artist.name))
 
         # Willowdale, Toronto, Ontario, Canada
@@ -24,9 +23,8 @@ def artistfactory_factory(apps):
 
 def updatefactory_factory(apps):
     class UpdateFactory(factory.DjangoModelFactory):
-
         class Meta:
-            model = apps.get_model('artist', 'Update')
+            model = apps.get_model("artist", "Update")
 
         artist = factory.SubFactory(artistfactory_factory(apps=apps))
 
@@ -38,15 +36,13 @@ UpdateFactory = updatefactory_factory(apps=django_apps)
 
 
 class GenreFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = django_apps.get_model('artist', 'Genre')
+        model = django_apps.get_model("artist", "Genre")
 
 
 class ArtistAdminFactory(factory.DjangoModelFactory):
-
     class Meta:
-        model = django_apps.get_model('artist', 'ArtistAdmin')
+        model = django_apps.get_model("artist", "ArtistAdmin")
 
     artist = factory.SubFactory(ArtistFactory)
     user = factory.SubFactory(UserFactory)

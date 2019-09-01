@@ -6,7 +6,11 @@
 
 from django.core.exceptions import ImproperlyConfigured
 from django.forms import formset_factory
-from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import (
+    HttpResponseRedirect,
+    HttpResponseBadRequest,
+    HttpResponseNotAllowed,
+)
 from django.views.generic import TemplateView
 
 
@@ -15,7 +19,6 @@ class Http405(Exception):
 
 
 class FormsetView(TemplateView):
-
     def get_success_url(self):
         try:
             return self.success_url
@@ -39,16 +42,18 @@ class FormsetView(TemplateView):
         return []
 
     def get_context_data(self, **kwargs):
-        view_formset = formset_factory(self.get_form_class(), **self.get_formset_factory_kwargs())
+        view_formset = formset_factory(
+            self.get_form_class(), **self.get_formset_factory_kwargs()
+        )
 
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             formset = view_formset(initial=self.get_initial())
-        elif self.request.method == 'POST':
+        elif self.request.method == "POST":
             formset = view_formset(self.request.POST, initial=self.get_initial())
         else:
             raise Http405
 
-        context = {'formset': formset}
+        context = {"formset": formset}
         return context
 
     def formset_valid(self, formset):
@@ -58,12 +63,12 @@ class FormsetView(TemplateView):
         try:
             return super(FormsetView, self).dispatch(request, *args, **kwargs)
         except Http405:
-            return HttpResponseNotAllowed(['GET', 'POST'])
+            return HttpResponseNotAllowed(["GET", "POST"])
 
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
 
-        formset = context['formset']
+        formset = context["formset"]
         if formset.is_valid():
             return self.formset_valid(formset)
 
@@ -92,26 +97,26 @@ class MultipleFormView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
 
-        context['forms_with_errors'] = []
+        context["forms_with_errors"] = []
         for form_name, form_view_class in self.constituent_form_views.items():
             form_view = form_view_class(self.request)
             form_context_name = "{form_name}_form".format(form_name=form_name)
             if form_context_name not in context:
                 form_args = []
-                form_kwargs = {
-                    'initial': form_view.get_initial(),
-                }
+                form_kwargs = {"initial": form_view.get_initial()}
                 if form_view.provide_user:
                     form_args.append(self.request.user)
-                context[form_context_name] = form_view.form_class(*form_args, **form_kwargs)
+                context[form_context_name] = form_view.form_class(
+                    *form_args, **form_kwargs
+                )
             elif context[form_context_name].errors:
-                context['forms_with_errors'].append(form_name)
+                context["forms_with_errors"].append(form_name)
 
         return context
 
     def post(self, request, *args, **kwargs):
         try:
-            form_name = request.POST['action']
+            form_name = request.POST["action"]
             form_view_class = self.constituent_form_views[form_name]
         except KeyError:
             return HttpResponseBadRequest("Form action unrecognized or unspecified.")

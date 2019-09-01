@@ -6,14 +6,17 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0006_auto_20161115_0635'),
-    ]
+    dependencies = [("accounts", "0006_auto_20161115_0635")]
 
     operations = [
         migrations.AlterField(
-            model_name='userprofile',
-            name='avatar',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.UserAvatar'),
-        ),
+            model_name="userprofile",
+            name="avatar",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="accounts.UserAvatar",
+            ),
+        )
     ]

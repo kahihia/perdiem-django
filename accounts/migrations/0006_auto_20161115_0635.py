@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0005_auto_20160623_0657'),
-    ]
+    dependencies = [("accounts", "0005_auto_20160623_0657")]
 
     operations = [
         migrations.AlterField(
-            model_name='useravatarurl',
-            name='url',
+            model_name="useravatarurl",
+            name="url",
             field=models.URLField(max_length=2000),
-        ),
+        )
     ]

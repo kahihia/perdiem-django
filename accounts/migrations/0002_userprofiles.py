@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('accounts', '0001_initial'),
+        ("accounts", "0001_initial"),
     ]
 
     def create_initial_userprofiles(apps, schema_editor):
@@ -18,5 +18,5 @@ class Migration(migrations.Migration):
             UserProfile.objects.create(user=user)
 
     operations = [
-        migrations.RunPython(create_initial_userprofiles, migrations.RunPython.noop),
+        migrations.RunPython(create_initial_userprofiles, migrations.RunPython.noop)
     ]

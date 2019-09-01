@@ -41,19 +41,29 @@ class AudioInline(admin.TabularInline):
 
 class AlbumAdmin(admin.ModelAdmin):
 
-    raw_id_fields = ('project',)
-    prepopulated_fields = {'slug': ('name',)}
-    inlines = (TrackInline, ArtworkInline, AlbumBioInline, MarketplaceURLInline, AudioInline,)
+    raw_id_fields = ("project",)
+    prepopulated_fields = {"slug": ("name",)}
+    inlines = (
+        TrackInline,
+        ArtworkInline,
+        AlbumBioInline,
+        MarketplaceURLInline,
+        AudioInline,
+    )
 
 
 class ActivityEstimateAdmin(admin.ModelAdmin):
 
-    list_display = ('content_object', 'date', 'activity_type',)
+    list_display = ("content_object", "date", "activity_type")
     form = ActivityEstimateAdminForm
 
     def get_urls(self):
         urls = super(ActivityEstimateAdmin, self).get_urls()
         custom_urls = [
-            url(r'^daily-report/?$', admin.site.admin_view(DailyReportAdminView.as_view()), name='daily_report'),
+            url(
+                r"^daily-report/?$",
+                admin.site.admin_view(DailyReportAdminView.as_view()),
+                name="daily_report",
+            )
         ]
         return custom_urls + urls

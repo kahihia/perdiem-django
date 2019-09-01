@@ -5,14 +5,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0007_artistadmin'),
-    ]
+    dependencies = [("artist", "0007_artistadmin")]
 
     operations = [
         migrations.AlterField(
-            model_name='artistadmin',
-            name='role',
-            field=models.CharField(choices=[('musician', 'Musician'), ('manager', 'Manager'), ('producer', 'Producer'), ('songwriter', 'Songwriter')], help_text='The relationship of this user to the artist', max_length=12),
-        ),
+            model_name="artistadmin",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("musician", "Musician"),
+                    ("manager", "Manager"),
+                    ("producer", "Producer"),
+                    ("songwriter", "Songwriter"),
+                ],
+                help_text="The relationship of this user to the artist",
+                max_length=12,
+            ),
+        )
     ]

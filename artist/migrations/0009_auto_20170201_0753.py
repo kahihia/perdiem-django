@@ -6,22 +6,44 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0008_auto_20160625_0134'),
-    ]
+    dependencies = [("artist", "0008_auto_20160625_0134")]
 
     operations = [
         migrations.CreateModel(
-            name='Playlist',
+            name="Playlist",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('provider', models.CharField(choices=[('spotify', 'Spotify'), ('soundcloud', 'SoundCloud')], help_text='Provider of the playlist', max_length=10)),
-                ('uri', models.TextField(help_text='URI that with the provider uniquely identifies a playlist')),
-                ('artist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='artist.Artist')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "provider",
+                    models.CharField(
+                        choices=[("spotify", "Spotify"), ("soundcloud", "SoundCloud")],
+                        help_text="Provider of the playlist",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "uri",
+                    models.TextField(
+                        help_text="URI that with the provider uniquely identifies a playlist"
+                    ),
+                ),
+                (
+                    "artist",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="artist.Artist"
+                    ),
+                ),
             ],
         ),
         migrations.AlterUniqueTogether(
-            name='playlist',
-            unique_together=set([('provider', 'uri')]),
+            name="playlist", unique_together=set([("provider", "uri")])
         ),
     ]

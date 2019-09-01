@@ -5,16 +5,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('artist', '0010_auto_20170201_0754'),
-    ]
+    dependencies = [("artist", "0010_auto_20170201_0754")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='soundcloudplaylist',
-            name='artist',
-        ),
-        migrations.DeleteModel(
-            name='SoundCloudPlaylist',
-        ),
+        migrations.RemoveField(model_name="soundcloudplaylist", name="artist"),
+        migrations.DeleteModel(name="SoundCloudPlaylist"),
     ]

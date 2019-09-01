@@ -6,19 +6,24 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0003_auto_20160514_0528'),
-    ]
+    dependencies = [("accounts", "0003_auto_20160514_0528")]
 
     operations = [
         migrations.AlterField(
-            model_name='useravatar',
-            name='provider',
-            field=models.CharField(choices=[('perdiem', 'Custom'), ('google-oauth2', 'Google'), ('facebook', 'Facebook')], max_length=15),
+            model_name="useravatar",
+            name="provider",
+            field=models.CharField(
+                choices=[
+                    ("perdiem", "Custom"),
+                    ("google-oauth2", "Google"),
+                    ("facebook", "Facebook"),
+                ],
+                max_length=15,
+            ),
         ),
         migrations.AlterField(
-            model_name='useravatarimage',
-            name='img',
+            model_name="useravatarimage",
+            name="img",
             field=models.ImageField(upload_to=accounts.models.user_avatar_filename),
         ),
     ]

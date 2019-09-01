@@ -10,35 +10,43 @@ from social_core.backends.google import GoogleOAuth2
 
 class GoogleOAuth2Login(GoogleOAuth2):
 
-    name = 'google-oauth2-login'
-    auth_operation = 'login'
+    name = "google-oauth2-login"
+    auth_operation = "login"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(name, default=default, backend=super(GoogleOAuth2Login, self))
+        return self.strategy.setting(
+            name, default=default, backend=super(GoogleOAuth2Login, self)
+        )
 
 
 class GoogleOAuth2Register(GoogleOAuth2):
 
-    name = 'google-oauth2-register'
-    auth_operation = 'register'
+    name = "google-oauth2-register"
+    auth_operation = "register"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(name, default=default, backend=super(GoogleOAuth2Register, self))
+        return self.strategy.setting(
+            name, default=default, backend=super(GoogleOAuth2Register, self)
+        )
 
 
 class FacebookOAuth2Login(FacebookOAuth2):
 
-    name = 'facebook-login'
-    auth_operation = 'login'
+    name = "facebook-login"
+    auth_operation = "login"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(name, default=default, backend=super(FacebookOAuth2Login, self))
+        return self.strategy.setting(
+            name, default=default, backend=super(FacebookOAuth2Login, self)
+        )
 
 
 class FacebookOAuth2Register(FacebookOAuth2):
 
-    name = 'facebook-register'
-    auth_operation = 'register'
+    name = "facebook-register"
+    auth_operation = "register"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(name, default=default, backend=super(FacebookOAuth2Register, self))
+        return self.strategy.setting(
+            name, default=default, backend=super(FacebookOAuth2Register, self)
+        )

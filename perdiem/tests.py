@@ -13,16 +13,21 @@ from accounts.factories import UserFactory
 from pigeon.test import RenderTestCase
 
 
-@override_settings(PASSWORD_HASHERS=('django.contrib.auth.hashers.MD5PasswordHasher',))
+@override_settings(PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",))
 class PerDiemTestCase(RenderTestCase):
 
-    USER_USERNAME = 'jsmith'
-    USER_EMAIL = 'jsmith@example.com'
+    USER_USERNAME = "jsmith"
+    USER_EMAIL = "jsmith@example.com"
 
     @classmethod
     def setUpTestData(cls):
         super(PerDiemTestCase, cls).setUpTestData()
-        cls.user = UserFactory(username=cls.USER_USERNAME, email=cls.USER_EMAIL, is_staff=True, is_superuser=True)
+        cls.user = UserFactory(
+            username=cls.USER_USERNAME,
+            email=cls.USER_EMAIL,
+            is_staff=True,
+            is_superuser=True,
+        )
 
     def setUp(self):
         self.client.login(username=self.USER_USERNAME, password=UserFactory._PASSWORD)
@@ -70,24 +75,13 @@ class MigrationTestCase(TestCase):
 
 
 class HealthCheckWebTestCase(RenderTestCase):
-
     def get200s(self):
-        return [
-            '/health-check/',
-        ]
+        return ["/health-check/"]
 
 
 class ExtrasWebTestCase(RenderTestCase):
-
     def get200s(self):
-        return [
-            '/faq/',
-            '/trust/',
-            '/terms/',
-            '/privacy/',
-            '/contact/',
-            '/resources/',
-        ]
+        return ["/faq/", "/trust/", "/terms/", "/privacy/", "/contact/", "/resources/"]
 
     def testContact(self):
         # Login as user
@@ -96,8 +90,12 @@ class ExtrasWebTestCase(RenderTestCase):
 
         # Verify that contact form submits successfully
         self.assertResponseRedirects(
-            '/contact/',
-            '/contact/thanks',
-            method='POST',
-            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!'}
+            "/contact/",
+            "/contact/thanks",
+            method="POST",
+            data={
+                "inquiry": "General Inquiry",
+                "email": "msmith@example.com",
+                "message": "Hello World!",
+            },
         )

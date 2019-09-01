@@ -17,18 +17,18 @@ def make_token(user):
 def create_unsubscribe_link(user, subscription_type=EmailSubscription.SUBSCRIPTION_ALL):
     user_id, token = make_token(user).split(":", 1)
     return reverse(
-        'unsubscribe',
+        "unsubscribe",
         kwargs={
-            'user_id': user_id,
-            'subscription_type': subscription_type,
-            'token': token,
-        }
+            "user_id": user_id,
+            "subscription_type": subscription_type,
+            "token": token,
+        },
     )
 
 
 def check_token(user_id, token):
     try:
-        key = '%s:%s' % (user_id, token)
+        key = "%s:%s" % (user_id, token)
         TimestampSigner().unsign(key, max_age=60 * 60 * 48)  # Valid for 2 days
     except (BadSignature, SignatureExpired):
         return False

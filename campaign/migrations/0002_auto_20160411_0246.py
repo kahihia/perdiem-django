@@ -7,19 +7,20 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pinax_stripe', '0003_make_cvc_check_blankable'),
-        ('campaign', '0001_initial'),
+        ("pinax_stripe", "0003_make_cvc_check_blankable"),
+        ("campaign", "0001_initial"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='investment',
-            name='user',
-        ),
+        migrations.RemoveField(model_name="investment", name="user"),
         migrations.AddField(
-            model_name='investment',
-            name='charge',
-            field=models.OneToOneField(default=None, on_delete=django.db.models.deletion.CASCADE, to='pinax_stripe.Charge'),
+            model_name="investment",
+            name="charge",
+            field=models.OneToOneField(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="pinax_stripe.Charge",
+            ),
             preserve_default=False,
         ),
     ]

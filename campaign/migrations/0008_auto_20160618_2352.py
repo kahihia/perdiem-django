@@ -5,20 +5,26 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('campaign', '0007_auto_20160618_2352'),
-    ]
+    dependencies = [("campaign", "0007_auto_20160618_2352")]
 
     def point_artistpercentagebreakdown_to_project(apps, schema_editor):
-        ArtistPercentageBreakdown = apps.get_model("campaign", "ArtistPercentageBreakdown")
+        ArtistPercentageBreakdown = apps.get_model(
+            "campaign", "ArtistPercentageBreakdown"
+        )
         for artistpercentagebreakdown in ArtistPercentageBreakdown.objects.all():
-            artistpercentagebreakdown.project = artistpercentagebreakdown.campaign.project
+            artistpercentagebreakdown.project = (
+                artistpercentagebreakdown.campaign.project
+            )
             artistpercentagebreakdown.save()
 
     def point_artistpercentagebreakdown_to_campaign(apps, schema_editor):
-        ArtistPercentageBreakdown = apps.get_model("campaign", "ArtistPercentageBreakdown")
+        ArtistPercentageBreakdown = apps.get_model(
+            "campaign", "ArtistPercentageBreakdown"
+        )
         for artistpercentagebreakdown in ArtistPercentageBreakdown.objects.all():
-            artistpercentagebreakdown.campaign = artistpercentagebreakdown.project.campaign_set.first()
+            artistpercentagebreakdown.campaign = (
+                artistpercentagebreakdown.project.campaign_set.first()
+            )
             artistpercentagebreakdown.save()
 
     def point_revenuereport_to_project(apps, schema_editor):
@@ -34,6 +40,11 @@ class Migration(migrations.Migration):
             revenuereport.save()
 
     operations = [
-        migrations.RunPython(point_artistpercentagebreakdown_to_project, point_artistpercentagebreakdown_to_campaign),
-        migrations.RunPython(point_revenuereport_to_project, point_revenuereport_to_campaign),
+        migrations.RunPython(
+            point_artistpercentagebreakdown_to_project,
+            point_artistpercentagebreakdown_to_campaign,
+        ),
+        migrations.RunPython(
+            point_revenuereport_to_project, point_revenuereport_to_campaign
+        ),
     ]

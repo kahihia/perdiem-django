@@ -12,10 +12,9 @@ from geopy.distance import distance as calc_distance
 
 
 class ArtistQuerySet(models.QuerySet):
-
     @staticmethod
     def bounding_coordinates(distance, lat, lon):
-        origin = geopy.Point((lat, lon,))
+        origin = geopy.Point((lat, lon))
         geopy_distance = calc_distance(miles=distance)
         min_lat = geopy_distance.destination(origin, 180).latitude
         max_lat = geopy_distance.destination(origin, 0).latitude
@@ -40,7 +39,7 @@ class ArtistQuerySet(models.QuerySet):
             return valuation
 
     def filter_by_genre(self, genre):
-        if genre != 'All Genres':
+        if genre != "All Genres":
             return self.filter(genres__name=genre)
         return self.all()
 
@@ -55,17 +54,16 @@ class ArtistQuerySet(models.QuerySet):
         return self.filter(id__in=funded_artist_ids)
 
     def filter_by_location(self, distance, lat, lon):
-        min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(distance, lat, lon)
+        min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(
+            distance, lat, lon
+        )
         artists_within_bounds = self.filter(
-            lat__gte=min_lat,
-            lat__lte=max_lat,
-            lon__gte=min_lon,
-            lon__lte=max_lon
+            lat__gte=min_lat, lat__lte=max_lat, lon__gte=min_lon, lon__lte=max_lon
         )
 
         nearby_artist_ids = []
         for artist in artists_within_bounds:
-            if calc_distance((lat, lon,), (artist.lat, artist.lon,)).miles <= distance:
+            if calc_distance((lat, lon), (artist.lat, artist.lon)).miles <= distance:
                 nearby_artist_ids.append(artist.id)
         return self.filter(id__in=nearby_artist_ids)
 
@@ -83,21 +81,24 @@ class ArtistQuerySet(models.QuerySet):
         return sorted(self, key=self.percentage_funded, reverse=True)
 
     def order_by_time_remaining(self):
-        artists = self.annotate(campaign_end_datetime=models.Max('project__campaign__end_datetime'))
+        artists = self.annotate(
+            campaign_end_datetime=models.Max("project__campaign__end_datetime")
+        )
         artists_current_campaign = artists.filter(
             campaign_end_datetime__gte=timezone.now()
-        ).order_by('campaign_end_datetime')
+        ).order_by("campaign_end_datetime")
         artists_current_campaign_no_end = artists.filter(
-            project__campaign__isnull=False,
-            campaign_end_datetime__isnull=True
+            project__campaign__isnull=False, campaign_end_datetime__isnull=True
         )
         artists_past_campaign = artists.filter(
             campaign_end_datetime__lt=timezone.now()
-        ).order_by('-campaign_end_datetime')
+        ).order_by("-campaign_end_datetime")
         artists_no_campaign = artists.filter(project__campaign__isnull=True)
         return (
-            list(artists_current_campaign) + list(artists_current_campaign_no_end)
-            + list(artists_past_campaign) + list(artists_no_campaign)
+            list(artists_current_campaign)
+            + list(artists_current_campaign_no_end)
+            + list(artists_past_campaign)
+            + list(artists_no_campaign)
         )
 
     def order_by_num_investors(self):
@@ -107,12 +108,12 @@ class ArtistQuerySet(models.QuerySet):
                     models.When(
                         project__campaign__investment__charge__paid=True,
                         project__campaign__investment__charge__refunded=False,
-                        then='project__campaign__investment__charge__customer__user'
+                        then="project__campaign__investment__charge__customer__user",
                     )
                 ),
-                distinct=True
+                distinct=True,
             )
-        ).order_by('-num_investors')
+        ).order_by("-num_investors")
 
     def order_by_amount_raised(self):
         return self.annotate(
@@ -122,15 +123,15 @@ class ArtistQuerySet(models.QuerySet):
                         project__campaign__investment__charge__paid=True,
                         project__campaign__investment__charge__refunded=False,
                         then=(
-                            models.F('project__campaign__investment__num_shares')
-                            * models.F('project__campaign__value_per_share')
+                            models.F("project__campaign__investment__num_shares")
+                            * models.F("project__campaign__value_per_share")
                         ),
                     ),
                     default=0,
-                    output_field=models.IntegerField()
+                    output_field=models.IntegerField(),
                 )
             )
-        ).order_by('-amount_raised')
+        ).order_by("-amount_raised")
 
     def order_by_valuation(self):
         return sorted(self, key=self.valuation, reverse=True)

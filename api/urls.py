@@ -10,7 +10,11 @@ from api.views import CoordinatesFromAddress, PaymentCharge, DeleteUpdate
 
 
 urlpatterns = [
-    url(r'^coordinates/?$', CoordinatesFromAddress.as_view()),
-    url(r'^payments/charge/(?P<campaign_id>\d+)/?$', PaymentCharge.as_view(), name='pinax_stripe_charge'),
-    url(r'^update/(?P<update_id>\d+)/?$', DeleteUpdate.as_view()),
+    url(r"^coordinates/?$", CoordinatesFromAddress.as_view()),
+    url(
+        r"^payments/charge/(?P<campaign_id>\d+)/?$",
+        PaymentCharge.as_view(),
+        name="pinax_stripe_charge",
+    ),
+    url(r"^update/(?P<update_id>\d+)/?$", DeleteUpdate.as_view()),
 ]
