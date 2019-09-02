@@ -1,25 +1,20 @@
 import os
 
-import raven
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from perdiem.settings.base import BaseSettings
 
 
 class ProdSettings(BaseSettings):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        sentry_sdk.init(
+            dsn=os.environ["PERDIEM_SENTRY_DSN"], integrations=[DjangoIntegration()]
+        )
 
     DEBUG = False
-
-    # Sentry
-    @property
-    def RAVEN_CONFIG(self):
-        return {
-            "dsn": "https://{public_key}:{secret_key}@app.getsentry.com/{project_id}".format(
-                public_key=os.environ["PERDIEM_SENTRY_PUBLIC_KEY"],
-                secret_key=os.environ["PERDIEM_SENTRY_SECRET_KEY"],
-                project_id=os.environ["PERDIEM_SENTRY_PROJECT_ID"],
-            ),
-            "release": raven.fetch_git_sha(self.BASE_DIR),
-        }
 
     # Static files (CSS, JavaScript, Images)
     DEFAULT_FILE_STORAGE = "django_s3_storage.storage.S3Storage"

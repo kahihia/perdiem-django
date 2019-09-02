@@ -62,7 +62,6 @@ class BaseSettings(DjangoDefaults):
         "django.contrib.staticfiles",
         "django.contrib.sites",
         "django.contrib.humanize",
-        "raven.contrib.django.raven_compat",
         "sorl.thumbnail",
         "django_s3_storage",
         "rest_framework",
