@@ -61,7 +61,7 @@ class FormsetView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         try:
-            return super(FormsetView, self).dispatch(request, *args, **kwargs)
+            return super().dispatch(request, *args, **kwargs)
         except Http405:
             return HttpResponseNotAllowed(["GET", "POST"])
 
@@ -75,7 +75,7 @@ class FormsetView(TemplateView):
         return self.render_to_response(context)
 
 
-class ConstituentFormView(object):
+class ConstituentFormView:
 
     provide_user = False
     includes_files = False
@@ -95,12 +95,12 @@ class MultipleFormView(TemplateView):
     constituent_form_views = {}
 
     def get_context_data(self, **kwargs):
-        context = super(MultipleFormView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         context["forms_with_errors"] = []
         for form_name, form_view_class in self.constituent_form_views.items():
             form_view = form_view_class(self.request)
-            form_context_name = "{form_name}_form".format(form_name=form_name)
+            form_context_name = f"{form_name}_form"
             if form_context_name not in context:
                 form_args = []
                 form_kwargs = {"initial": form_view.get_initial()}
@@ -131,6 +131,6 @@ class MultipleFormView(TemplateView):
         if form.is_valid():
             form_view.form_valid(form)
         else:
-            form_context_name = "{form_name}_form".format(form_name=form_name)
+            form_context_name = f"{form_name}_form"
             kwargs.update({form_context_name: form})
         return self.render_to_response(self.get_context_data(**kwargs))

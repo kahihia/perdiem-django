@@ -21,10 +21,10 @@ class UnsubscribeView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.user = get_object_or_404(User, id=kwargs["user_id"])
-        return super(UnsubscribeView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(UnsubscribeView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         user_is_logged_in = (
             self.request.user.is_authenticated and self.request.user == self.user

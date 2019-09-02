@@ -57,7 +57,7 @@ class RegisterAccountForm(UserCreationForm):
         return email
 
     def save(self, commit=True):
-        user = super(RegisterAccountForm, self).save(commit=False)
+        user = super().save(commit=False)
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
@@ -84,7 +84,7 @@ class EditNameForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
-        super(EditNameForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_username(self):
         username = self.cleaned_data["username"]
@@ -98,7 +98,7 @@ class EditAvatarForm(forms.Form):
     custom_avatar = forms.ImageField(required=False)
 
     def __init__(self, user, *args, **kwargs):
-        super(EditAvatarForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields["avatar"] = forms.ChoiceField(
             choices=self.get_avatar_choices(user),
             required=False,
@@ -138,7 +138,7 @@ class EmailPreferencesForm(forms.Form):
     )
 
     def __init__(self, user, *args, **kwargs):
-        super(EmailPreferencesForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.user = user
 
     def clean_email(self):

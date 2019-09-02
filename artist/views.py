@@ -67,10 +67,10 @@ class ArtistListView(ListView):
             except GeocoderTimedOut:
                 self.geocoder_failed = True
 
-        return super(ArtistListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ArtistListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         sort_options = [{"slug": s, "name": n} for s, n in self.ORDER_BY_NAME.items()]
         context.update(
             {
@@ -133,10 +133,10 @@ class ArtistDetailView(FormView):
     def dispatch(self, request, *args, **kwargs):
         self.slug = kwargs["slug"]
         self.artist = get_object_or_404(Artist, slug=self.slug)
-        return super(ArtistDetailView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
 
         user_has_permission_to_submit_update = self.artist.has_permission_to_submit_update(
             self.request.user
@@ -221,7 +221,7 @@ class ArtistDetailView(FormView):
         for investor in investors:
             ArtistUpdateEmail().send(user=investor, update=update)
 
-        return super(ArtistDetailView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class ArtistApplyFormView(FormView):
@@ -233,7 +233,7 @@ class ArtistApplyFormView(FormView):
         return reverse("artist_application_thanks")
 
     def get_initial(self):
-        initial = super(ArtistApplyFormView, self).get_initial()
+        initial = super().get_initial()
         user = self.request.user
         if user.is_authenticated:
             initial["email"] = user.email
@@ -251,4 +251,4 @@ class ArtistApplyFormView(FormView):
             email="info@investperdiem.com", context=context
         )
 
-        return super(ArtistApplyFormView, self).form_valid(form)
+        return super().form_valid(form)

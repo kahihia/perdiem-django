@@ -68,7 +68,7 @@ class CampaignAdminForm(forms.ModelForm):
         )
 
     def clean(self):
-        cleaned_data = super(CampaignAdminForm, self).clean()
+        cleaned_data = super().clean()
         start_datetime = cleaned_data.get("start_datetime")
         end_datetime = cleaned_data.get("end_datetime")
         if start_datetime and end_datetime and end_datetime < start_datetime:
@@ -78,7 +78,7 @@ class CampaignAdminForm(forms.ModelForm):
 
 class ArtistPercentageBreakdownFormset(forms.models.BaseInlineFormSet):
     def clean(self):
-        super(ArtistPercentageBreakdownFormset, self).clean()
+        super().clean()
         total_artist_percentage = self.instance.total_artist_percentage()
         artist_percentage_so_far = 0
         num_forms = 0
@@ -107,9 +107,7 @@ class ArtistPercentageBreakdownInline(admin.StackedInline):
     formset = ArtistPercentageBreakdownFormset
 
     def get_formset(self, request, obj=None, **kwargs):
-        formset = super(ArtistPercentageBreakdownInline, self).get_formset(
-            request, obj, **kwargs
-        )
+        formset = super().get_formset(request, obj, **kwargs)
         # Limit ArtistAdmins to the ArtistAdmins for the artist in this campaign
         formset.form.base_fields["artist_admin"].queryset = ArtistAdmin.objects.filter(
             artist=obj.artist

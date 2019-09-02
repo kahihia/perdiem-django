@@ -53,7 +53,7 @@ class SubscribeTestCase(PerDiemTestCase):
 class UnsubscribeWebTestCase(PerDiemTestCase):
     @classmethod
     def setUpTestData(cls):
-        super(UnsubscribeWebTestCase, cls).setUpTestData()
+        super().setUpTestData()
         EmailSubscriptionFactory(user=cls.user)
 
     def testUnsubscribe(self):

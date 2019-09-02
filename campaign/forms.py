@@ -14,7 +14,7 @@ class PaymentChargeForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.campaign = kwargs.pop("campaign")
-        super(PaymentChargeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_num_shares(self):
         num_shares = self.cleaned_data["num_shares"]

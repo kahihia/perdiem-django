@@ -100,7 +100,7 @@ class CampaignModelTestCase(TestCase):
 class CampaignAdminWebTestCase(PerDiemTestCase):
     @classmethod
     def setUpTestData(cls):
-        super(CampaignAdminWebTestCase, cls).setUpTestData()
+        super().setUpTestData()
         cls.project = ProjectFactory()
         start_datetime = datetime.datetime(year=2017, month=2, day=1)
         end_datetime = datetime.datetime(year=2017, month=3, day=1)
@@ -161,7 +161,7 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
         for dt in ["start", "end"]:
             # Erase the time from campaign add POST data
             data = self.campaign_add_data.copy()
-            del data["{dt}_datetime_1".format(dt=dt)]
+            del data[f"{dt}_datetime_1"]
 
             # Fail to create a campaign without the time component
             self.assertResponseRenders(

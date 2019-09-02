@@ -38,9 +38,7 @@ class SetInitialUpdateTitlesMigrationTestCase(MigrationTestCase):
     def testUpdatesHaveInitialTitles(self):
         today = timezone.now().strftime("%m/%d/%Y")
         self.update.refresh_from_db()
-        self.assertTrue(
-            self.update.title.endswith("Update: {today}".format(today=today))
-        )
+        self.assertTrue(self.update.title.endswith(f"Update: {today}"))
 
 
 class SoundCloudPlaylistToPlaylistMigrationTestCase(MigrationTestCase):
@@ -104,7 +102,7 @@ class ArtistAdminWebTestCase(PerDiemTestCase):
 class ArtistWebTestCase(PerDiemTestCase):
     @classmethod
     def setUpTestData(cls):
-        super(ArtistWebTestCase, cls).setUpTestData()
+        super().setUpTestData()
         cls.campaign = CampaignFactory()
         cls.artist = cls.campaign.project.artist
 
@@ -120,21 +118,19 @@ class ArtistWebTestCase(PerDiemTestCase):
             "/artists/?sort=raised",
             "/artists/?sort=valuation",
             "/artist/apply/",
-            "/artist/{slug}/".format(slug=self.artist.slug),
+            f"/artist/{self.artist.slug}/",
         ]
 
     def testArtistDetailPageUnauthenticated(self):
         self.client.logout()
-        self.assertResponseRenders("/artist/{slug}/".format(slug=self.artist.slug))
+        self.assertResponseRenders(f"/artist/{self.artist.slug}/")
 
     def testArtistDetailPageWithInvestor(self):
         # User invests in the campaign
         InvestmentFactory(charge__customer__user=self.user, campaign=self.campaign)
 
         # Verify that the user appears as an investor in the campaign
-        response = self.assertResponseRenders(
-            "/artist/{slug}/".format(slug=self.artist.slug)
-        )
+        response = self.assertResponseRenders(f"/artist/{self.artist.slug}/")
         self.assertIn("user_investor", response.context)
 
     @mock.patch("artist.views.geolocator.geocode")

@@ -16,7 +16,7 @@ class MailChimpException(Exception):
         message = "{status_code} {title}: {detail}\nMore information: {type}".format(
             status_code=status_code, title=title, detail=detail, type=type
         )
-        super(MailChimpException, self).__init__(message)
+        super().__init__(message)
 
 
 def update_user_subscription(email, subscribed):

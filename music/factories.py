@@ -12,7 +12,7 @@ class AlbumFactory(factory.DjangoModelFactory):
         model = apps.get_model("music", "Album")
 
     project = factory.SubFactory(ProjectFactory)
-    name = factory.Sequence(lambda n: "Album #{n}".format(n=n))
+    name = factory.Sequence(lambda n: f"Album #{n}")
     slug = factory.LazyAttribute(lambda album: slugify(album.name))
 
 

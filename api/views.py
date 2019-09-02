@@ -59,8 +59,8 @@ class CoordinatesFromAddress(APIView):
             )
         return Response(
             {
-                "latitude": float("{0:.4f}".format(location.latitude)),
-                "longitude": float("{0:.4f}".format(location.longitude)),
+                "latitude": float(f"{location.latitude:.4f}"),
+                "longitude": float(f"{location.longitude:.4f}"),
             }
         )
 

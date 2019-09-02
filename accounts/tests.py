@@ -182,14 +182,14 @@ class OAuth2TestCase(PerDiemTestCase):
 
 class ProfileWebTestCase(PerDiemTestCase):
     def get200s(self):
-        return ["/profile/", "/profile/{username}/".format(username=self.user.username)]
+        return ["/profile/", f"/profile/{self.user.username}/"]
 
     def testUserProfileContextCaches(self):
         # Request the profile context for a user
         self.user.userprofile.profile_context()
 
         # Verify that this user's profile context is in cache
-        self.assertIn("profile_context-{pk}".format(pk=self.user.userprofile.pk), cache)
+        self.assertIn(f"profile_context-{self.user.userprofile.pk}", cache)
 
         # Create a new RevenueReport
         # We cannot use a factory to generate the RevenueReport here
@@ -197,9 +197,7 @@ class ProfileWebTestCase(PerDiemTestCase):
         RevenueReport.objects.create(project=ProjectFactory(), amount=100)
 
         # Verify that the user profile context is no longer in cache
-        self.assertNotIn(
-            "profile_context-{pk}".format(pk=self.user.userprofile.pk), cache
-        )
+        self.assertNotIn(f"profile_context-{self.user.userprofile.pk}", cache)
 
     def testUserProfileContextContainsInvestments(self):
         investment = InvestmentFactory()
@@ -247,15 +245,11 @@ class ProfileWebTestCase(PerDiemTestCase):
     def testRedirectToProfile(self):
         # Redirect to artist details
         artist = ArtistFactory()
-        self.assertResponseRedirects(
-            "/{artist_slug}/".format(artist_slug=artist.slug),
-            "/artist/{artist_slug}".format(artist_slug=artist.slug),
-        )
+        self.assertResponseRedirects(f"/{artist.slug}/", f"/artist/{artist.slug}")
 
         # Redirect to user's public profile
         self.assertResponseRedirects(
-            "/{username}/".format(username=self.user.username),
-            "/profile/{username}".format(username=self.user.username),
+            f"/{self.user.username}/", f"/profile/{self.user.username}"
         )
 
         # Create a new user that matches the artist slug
@@ -263,8 +257,7 @@ class ProfileWebTestCase(PerDiemTestCase):
 
         # We still redirect to the artist details
         self.assertResponseRedirects(
-            "/{username}/".format(username=user_with_artist_username.username),
-            "/artist/{artist_slug}".format(artist_slug=artist.slug),
+            f"/{user_with_artist_username.username}/", f"/artist/{artist.slug}"
         )
 
     def testRedirectToProfileDoesNotExistReturns404(self):

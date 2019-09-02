@@ -20,7 +20,7 @@ def send_notification(commits):
         return
 
     text = (
-        "```\n{commits}\n```\nhas been deployed".format(commits=commits)
+        f"```\n{commits}\n```\nhas been deployed"
         if commits
         else "Services were restarted"
     )

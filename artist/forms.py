@@ -59,7 +59,7 @@ class ArtistUpdateForm(forms.Form):
     youtube_url = forms.URLField(required=False)
 
     def clean(self):
-        cleaned_data = super(ArtistUpdateForm, self).clean()
+        cleaned_data = super().clean()
         image = cleaned_data["image"]
         youtube_url = cleaned_data["youtube_url"]
         provided = list(filter(lambda x: x, [image, youtube_url]))

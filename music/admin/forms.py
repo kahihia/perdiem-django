@@ -29,7 +29,7 @@ class ActivityEstimateAdminForm(forms.ModelForm):
         fields = ("date", "activity_type", "content_type", "object_id", "total")
 
     def clean(self):
-        cleaned_data = super(ActivityEstimateAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         if not self.errors:
             # Get the object associated with this ActivityEstimate

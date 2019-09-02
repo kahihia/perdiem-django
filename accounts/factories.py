@@ -13,9 +13,7 @@ def userfactory_factory(apps, has_password=True):
             model = apps.get_model(settings.AUTH_USER_MODEL)
 
         username = factory.Faker("user_name")
-        email = factory.LazyAttribute(
-            lambda user: "{username}@gmail.com".format(username=user.username)
-        )
+        email = factory.LazyAttribute(lambda user: f"{user.username}@gmail.com")
 
         if has_password:
             password = factory.PostGenerationMethodCall("set_password", _PASSWORD)

@@ -33,7 +33,7 @@ def clear_leaderboard_cache_handler(sender, instance, **kwargs):
 )
 def clear_profile_context(sender, instance, **kwargs):
     pk = instance.investor().userprofile.pk
-    cache.delete("profile_context-{pk}".format(pk=pk))
+    cache.delete(f"profile_context-{pk}")
 
 
 @receiver(
@@ -45,7 +45,5 @@ def clear_all_profile_contexts(sender, instance, **kwargs):
     # TODO(lucas): Review to improve performance
     # Instead of clearing out all of the profile contexts, we could just clear out
     # the profile contexts associated with the investors related to this revenue report
-    cache_keys = [
-        "profile_context-{pk}".format(pk=up.pk) for up in UserProfile.objects.all()
-    ]
+    cache_keys = [f"profile_context-{up.pk}" for up in UserProfile.objects.all()]
     cache.delete_many(cache_keys)

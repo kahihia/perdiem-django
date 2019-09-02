@@ -14,7 +14,7 @@ from emails.models import VerifiedEmail, EmailSubscription
 from emails.utils import create_unsubscribe_link
 
 
-class BaseEmail(object):
+class BaseEmail:
 
     from_email = settings.DEFAULT_FROM_EMAIL
     ignore_unsubscribed = False
@@ -93,7 +93,7 @@ class EmailVerificationEmail(BaseEmail):
     send_to_unverified_emails = True
 
     def get_context_data(self, user, **kwargs):
-        context = super(EmailVerificationEmail, self).get_context_data(user, **kwargs)
+        context = super().get_context_data(user, **kwargs)
         context["verify_email_url"] = VerifiedEmail.objects.get_current_email(
             user
         ).url()
@@ -105,7 +105,7 @@ class WelcomeEmail(EmailVerificationEmail):
     template_name = "welcome"
 
     def get_context_data(self, user, **kwargs):
-        context = super(WelcomeEmail, self).get_context_data(user, **kwargs)
+        context = super().get_context_data(user, **kwargs)
         verified_email = VerifiedEmail.objects.get_current_email(user)
         if verified_email.verified:
             del context["verify_email_url"]
@@ -134,7 +134,7 @@ class ArtistUpdateEmail(BaseEmail):
         )
 
     def get_context_data(self, user, **kwargs):
-        context = super(ArtistUpdateEmail, self).get_context_data(user, **kwargs)
+        context = super().get_context_data(user, **kwargs)
 
         update = kwargs["update"]
         context.update({"artist": update.artist, "update": update})
@@ -147,7 +147,7 @@ class InvestSuccessEmail(BaseEmail):
     template_name = "invest_success"
 
     def get_context_data(self, user, **kwargs):
-        context = super(InvestSuccessEmail, self).get_context_data(user, **kwargs)
+        context = super().get_context_data(user, **kwargs)
 
         investment = kwargs["investment"]
         context.update(

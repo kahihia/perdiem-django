@@ -10,7 +10,7 @@ def cache_using_pk(func):
 
     @functools.wraps(func)
     def wrapper(instance, *args, **kwargs):
-        cache_key = "{func_name}-{pk}".format(func_name=func.__name__, pk=instance.pk)
+        cache_key = f"{func.__name__}-{instance.pk}"
         return cache.get_or_set(
             cache_key, functools.partial(func, instance, *args, **kwargs)
         )

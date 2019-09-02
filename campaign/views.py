@@ -46,7 +46,7 @@ class LeaderboardView(TemplateView):
         return {"top_earned_investors": top_earned_investors}
 
     def get_context_data(self, **kwargs):
-        context = super(LeaderboardView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         leaderboard = cache.get_or_set("leaderboard", self.calculate_leaderboard)
         context.update(leaderboard)
         return context

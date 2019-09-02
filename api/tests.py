@@ -184,11 +184,9 @@ class PaymentChargeTestCase(PerDiemTestCase):
         campaign = CampaignFactory()
 
         # User sends payment to Stripe
-        self.assertResponseRenders(
-            "/artist/{slug}/".format(slug=campaign.project.artist.slug)
-        )
+        self.assertResponseRenders(f"/artist/{campaign.project.artist.slug}/")
         self.assertAPIResponseRenders(
-            "/api/payments/charge/{campaign_id}/".format(campaign_id=campaign.id),
+            f"/api/payments/charge/{campaign.id}/",
             status_code=205,
             method="POST",
             data={"card": "tok_6WqQnRecbRRrqvrdT1XXGP1d", "num_shares": 1},
@@ -201,7 +199,7 @@ class DeleteUpdateTestCase(PerDiemTestCase):
 
     @classmethod
     def setUpTestData(cls):
-        super(DeleteUpdateTestCase, cls).setUpTestData()
+        super().setUpTestData()
         cls.update = UpdateFactory()
         cls.valid_url = cls.url.format(update_id=cls.update.id)
 

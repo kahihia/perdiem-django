@@ -44,7 +44,7 @@ class Album(models.Model):
 
     def save(self, *args, **kwargs):
         self.validate_unique()
-        super(Album, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def url(self):
         return reverse(
@@ -198,7 +198,7 @@ class S3PrivateFileField(models.FileField):
     def __init__(
         self, verbose_name=None, name=None, upload_to="", storage=None, **kwargs
     ):
-        super(S3PrivateFileField, self).__init__(
+        super().__init__(
             verbose_name=verbose_name,
             name=name,
             upload_to=upload_to,

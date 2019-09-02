@@ -14,9 +14,7 @@ class GoogleOAuth2Login(GoogleOAuth2):
     auth_operation = "login"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(
-            name, default=default, backend=super(GoogleOAuth2Login, self)
-        )
+        return self.strategy.setting(name, default=default, backend=super())
 
 
 class GoogleOAuth2Register(GoogleOAuth2):
@@ -25,9 +23,7 @@ class GoogleOAuth2Register(GoogleOAuth2):
     auth_operation = "register"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(
-            name, default=default, backend=super(GoogleOAuth2Register, self)
-        )
+        return self.strategy.setting(name, default=default, backend=super())
 
 
 class FacebookOAuth2Login(FacebookOAuth2):
@@ -36,9 +32,7 @@ class FacebookOAuth2Login(FacebookOAuth2):
     auth_operation = "login"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(
-            name, default=default, backend=super(FacebookOAuth2Login, self)
-        )
+        return self.strategy.setting(name, default=default, backend=super())
 
 
 class FacebookOAuth2Register(FacebookOAuth2):
@@ -47,6 +41,4 @@ class FacebookOAuth2Register(FacebookOAuth2):
     auth_operation = "register"
 
     def setting(self, name, default=None):
-        return self.strategy.setting(
-            name, default=default, backend=super(FacebookOAuth2Register, self)
-        )
+        return self.strategy.setting(name, default=default, backend=super())

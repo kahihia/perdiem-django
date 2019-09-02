@@ -38,7 +38,7 @@ class RegisterAccountView(CreateView):
         return self.request.GET.get("next") or reverse("profile")
 
     def form_valid(self, form):
-        valid = super(RegisterAccountView, self).form_valid(form)
+        valid = super().form_valid(form)
 
         # Login the newly-registered user
         d = form.cleaned_data
@@ -65,7 +65,7 @@ class VerifyEmailView(TemplateView):
     template_name = "registration/verify_email.html"
 
     def get_context_data(self, **kwargs):
-        context = super(VerifyEmailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         verified_email = get_object_or_404(
             VerifiedEmail, user__id=kwargs["user_id"], code=kwargs["code"]
@@ -201,7 +201,7 @@ class SettingsView(LoginRequiredMixin, MultipleFormView):
     }
 
     def get_context_data(self, **kwargs):
-        context = super(SettingsView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # Update context with available avatars
         user_avatars = UserAvatar.objects.filter(user=self.request.user)
@@ -222,7 +222,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "registration/profile.html"
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # Update context with profile information
         context.update(self.request.user.userprofile.profile_context())
@@ -241,7 +241,7 @@ class PublicProfileView(TemplateView):
     template_name = "registration/public_profile.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PublicProfileView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         profile_user = get_object_or_404(User, username=kwargs["username"])
         if profile_user.userprofile.invest_anonymously:
             raise Http404("No User matches the given query.")
@@ -263,7 +263,7 @@ class ContactFormView(FormView):
         return reverse("contact_thanks")
 
     def get_initial(self):
-        initial = super(ContactFormView, self).get_initial()
+        initial = super().get_initial()
         user = self.request.user
         if user.is_authenticated:
             initial["email"] = user.email
@@ -281,7 +281,7 @@ class ContactFormView(FormView):
         # Send contact email
         ContactEmail().send_to_email(email="support@investperdiem.com", context=context)
 
-        return super(ContactFormView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 def redirect_to_profile(request, slug):

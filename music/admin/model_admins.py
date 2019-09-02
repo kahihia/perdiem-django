@@ -58,7 +58,7 @@ class ActivityEstimateAdmin(admin.ModelAdmin):
     form = ActivityEstimateAdminForm
 
     def get_urls(self):
-        urls = super(ActivityEstimateAdmin, self).get_urls()
+        urls = super().get_urls()
         custom_urls = [
             url(
                 r"^daily-report/?$",

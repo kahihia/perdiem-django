@@ -21,7 +21,7 @@ class PerDiemTestCase(RenderTestCase):
 
     @classmethod
     def setUpTestData(cls):
-        super(PerDiemTestCase, cls).setUpTestData()
+        super().setUpTestData()
         cls.user = UserFactory(
             username=cls.USER_USERNAME,
             email=cls.USER_EMAIL,

@@ -24,7 +24,7 @@ class AlbumDetailView(TemplateView):
     template_name = "music/album_detail.html"
 
     def get_context_data(self, **kwargs):
-        context = super(AlbumDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         album = get_object_or_404(
             Album,

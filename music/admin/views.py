@@ -21,7 +21,7 @@ class DailyReportAdminView(FormsetView):
         return reverse("admin:music_activityestimate_changelist")
 
     def get_context_data(self, **kwargs):
-        context = super(DailyReportAdminView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context.update(
             {
                 "title": "Enter Daily Report",
@@ -64,4 +64,4 @@ class DailyReportAdminView(FormsetView):
                 )
 
         messages.success(self.request, "Daily Report was submitted successfully")
-        return super(DailyReportAdminView, self).formset_valid(formset)
+        return super().formset_valid(formset)
