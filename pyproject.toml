@@ -35,7 +35,7 @@ python-dotenv = "^0.10.3"
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"
 coverage = "^4.5.4"
-black = {version = "^18.3-alpha.0",allows-prereleases = true}
+black = {version = "^19.3b0",allows-prereleases = true}
 
 [tool.black]
 line-length = 88

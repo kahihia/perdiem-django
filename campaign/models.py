@@ -22,7 +22,7 @@ class Project(models.Model):
     )
 
     def __str__(self):
-        return u"{artist} project {reason}".format(
+        return "{artist} project {reason}".format(
             artist=str(self.artist), reason=self.reason
         )
 
@@ -125,7 +125,7 @@ class Campaign(models.Model):
         return int(math.floor(n))
 
     def __str__(self):
-        return u"{artist}: ${amount} {reason}".format(
+        return "{artist}: ${amount} {reason}".format(
             artist=str(self.project.artist),
             amount=self.amount,
             reason=self.project.reason,
@@ -221,7 +221,7 @@ class ArtistPercentageBreakdown(models.Model):
     )
 
     def __str__(self):
-        return u"{project}: {displays_publicly_as} - {percentage}%".format(
+        return "{project}: {displays_publicly_as} - {percentage}%".format(
             project=str(self.project),
             displays_publicly_as=self.displays_publicly_as,
             percentage=self.percentage,
@@ -240,7 +240,7 @@ class Expense(models.Model):
         unique_together = ("campaign", "expense")
 
     def __str__(self):
-        return u"{campaign} ({expense})".format(
+        return "{campaign} ({expense})".format(
             campaign=str(self.campaign), expense=self.expense
         )
 
@@ -255,7 +255,7 @@ class Investment(models.Model):
     )
 
     def __str__(self):
-        return u"{num_shares} shares in {campaign} to {investor}".format(
+        return "{num_shares} shares in {campaign} to {investor}".format(
             num_shares=self.num_shares,
             campaign=str(self.campaign),
             investor=str(self.investor()),
@@ -294,6 +294,6 @@ class RevenueReport(models.Model):
     reported_datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return u"${amount} for {project}".format(
+        return "${amount} for {project}".format(
             amount=self.amount, project=str(self.project)
         )

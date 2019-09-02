@@ -236,7 +236,7 @@ class Social(models.Model):
         unique_together = (("artist", "medium"),)
 
     def __str__(self):
-        return u"{artist}: {medium}".format(
+        return "{artist}: {medium}".format(
             artist=str(self.artist), medium=self.get_medium_display()
         )
 
@@ -295,14 +295,14 @@ class UpdateMediaURL(models.Model):
             thumbnail_url = "{base}/hqdefault.jpg".format(
                 base=url.replace("youtube.com/watch?v=", "img.youtube.com/vi/")
             )
-            return u'<a href="{url}"><img src="{thumbnail_url}" /></a>'.format(
+            return '<a href="{url}"><img src="{thumbnail_url}" /></a>'.format(
                 url=url, thumbnail_url=thumbnail_url
             )
 
     def embed_html(self):
         if self.media_type == self.MEDIA_YOUTUBE:
             url = self.clean_youtube_url().replace("/watch?v=", "/embed/")
-            return u"""
+            return """
                 <div class="videowrapper">
                     <iframe width="560" height="315" src="{url}" frameborder="0" allowfullscreen></iframe>
                 </div>

@@ -179,7 +179,7 @@ class MarketplaceURL(models.Model):
         unique_together = (("album", "medium"),)
 
     def __str__(self):
-        return u"{album}: {medium}".format(
+        return "{album}: {medium}".format(
             album=str(self.album), medium=self.get_medium_display()
         )
 
@@ -203,7 +203,7 @@ class S3PrivateFileField(models.FileField):
             name=name,
             upload_to=upload_to,
             storage=storage,
-            **kwargs
+            **kwargs,
         )
         self.storage.default_acl = "private"
 

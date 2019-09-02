@@ -40,7 +40,7 @@ class UserAvatar(models.Model):
         )
 
     def __str__(self):
-        return u"{user}: {provider}".format(
+        return "{user}: {provider}".format(
             user=str(self.user), provider=self.get_provider_display()
         )
 
