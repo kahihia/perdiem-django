@@ -605,7 +605,7 @@ description = "Python client for Sentry (https://getsentry.com)"
 name = "sentry-sdk"
 optional = false
 python-versions = "*"
-version = "0.12.2"
+version = "0.12.3"
 
 [package.dependencies]
 certifi = "*"
@@ -724,7 +724,7 @@ python-versions = "*"
 version = "4.1.4"
 
 [metadata]
-content-hash = "cab733fe86eab7b5e266df26b7895aee15779f884b82d38f79a98d2b21aee752"
+content-hash = "5bf5329369e4fc7d529f555034b917c19c9b8e6ba7a275509b149f834122dd23"
 python-versions = "^3.6"
 
 [metadata.hashes]
@@ -786,7 +786,7 @@ pyupgrade = ["4911c7de221294ecd2ee5acea8d2d9a95422789bea927ab41e3cf982612d3e46",
 requests = ["11e007a8a2aa0323f5a921e9e6a2d7e4e67d9877e85773fba9ba6419025cbeb4", "9cf5292fcd0f598c671cfc1e0d7d1a7f13bb8085e9a590f48c010551dc6c4b31"]
 requests-oauthlib = ["bd6533330e8748e94bf0b214775fed487d309b8b8fe823dc45641ebcd9a32f57", "d3ed0c8f2e3bbc6b344fa63d6f933745ab394469da38db16bdddb461c7e25140", "dd5a0499abfefd087c6dd96693cbd5bfd28aa009719a7f85ab3fabe3956ef19a"]
 s3transfer = ["7b9ad3213bff7d357f888e0fab5101b56fa1a0548ee77d121c3a3dbfbef4cb2e", "f23d5cb7d862b104401d9021fc82e5fa0e0cf57b7660a1331425aab0c691d021"]
-sentry-sdk = ["2529ab6f93914d01bcd80b1b16c15a025902350ab19af2033aa5ff797c1600ad", "ab16b539c40cc18e3dcfec99d0d3fff16337a050eaf79d4503ef2b73af9a7d9e"]
+sentry-sdk = ["15e51e74b924180c98bcd636cb4634945b0a99a124d50b433c3a9dc6a582e8db", "1d6a2ee908ec6d8f96c27d78bc39e203df4d586d287c233140af7d8d1aca108a"]
 six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
 social-auth-app-django = ["6d0dd18c2d9e71ca545097d57b44d26f59e624a12833078e8e52f91baf849778", "9237e3d7b6f6f59494c3b02e0cce6efc69c9d33ad9d1a064e3b2318bcbe89ae3", "f151396e5b16e2eee12cd2e211004257826ece24fc4ae97a147df386c1cd7082"]
 social-auth-core = ["47cd2458c8fefd02466b0c514643e02ad8b61d8b4b69f7573e80882e3a97b0f0", "8320666548a532eb158968eda542bbe1863682357c432d8c4e28034a7f1e3b58", "d81ed681e3c0722300b61a0792c5db5d21206793f95ca810f010c1cc931c8d89"]
