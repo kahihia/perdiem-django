@@ -12,6 +12,8 @@ from django.utils import timezone
 
 from pinax.stripe.models import Charge
 
+from campaign.managers import InvestmentManager
+
 
 class Project(models.Model):
 
@@ -253,6 +255,8 @@ class Investment(models.Model):
     num_shares = models.PositiveSmallIntegerField(
         default=1, help_text="The number of shares an investor made in a transaction"
     )
+
+    objects = InvestmentManager()
 
     def __str__(self):
         return "{num_shares} shares in {campaign} to {investor}".format(

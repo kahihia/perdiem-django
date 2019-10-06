@@ -117,6 +117,11 @@ class UserProfile(models.Model):
         if not self.invest_anonymously:
             return reverse("public_profile", args=(self.user.username,))
 
+    def get_total_earned(self):
+        investments = Investment.objects.filter_user_investments(user=self.user)
+        total_earned = sum(investment.generated_revenue() for investment in investments)
+        return total_earned
+
     @cache_using_pk
     def profile_context(self):
         context = {}
@@ -163,6 +168,8 @@ class UserProfile(models.Model):
                 generated_revenue_user += investment.generated_revenue()
             context["artists"][artist.id].total_earned += generated_revenue_user
             total_earned += generated_revenue_user
+
+        # TODO(lucas): Could refactor to use get_total_earned() instead
         context["total_earned"] = total_earned
 
         # Add percentage of return to context
