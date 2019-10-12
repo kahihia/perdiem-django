@@ -16,6 +16,7 @@
             <li class="tabs-title is-active"><a href="#updates"><i class="fa fa-newspaper-o fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Updates</span></a></li>
             <li class="tabs-title"><a href="#portfolio"><i class="fa fa-user fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Artists</span></a></li>
             <li class="tabs-title"><a href="#music"><i class="fa fa-music fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Music</span></a></li>
+            <li class="tabs-title"><a href="#earnings"><i class="fa fa-dollar fa-2x tab-icon" aria-hidden="true"></i><span class="profile-name">Earnings</span></a></li>
         </ul>
 
         <div class="tabs-content" data-tabs-content="profile-tabs">
@@ -32,6 +33,9 @@
             </div>
             <div class="tabs-panel" id="music">
                 {% include "registration/includes/profile_music.html" %}
+            </div>
+            <div class="tabs-panel" id="earnings">
+                {% include "registration/includes/profile_earnings.html" %}
             </div>
         </div>
     {% else %}

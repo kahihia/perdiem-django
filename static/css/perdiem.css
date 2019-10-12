@@ -276,10 +276,6 @@ a.nav-color {
     text-align: center;
 }
 
-#signup-modal label {
-    color: #fff;
-}
-
 form > input[type=submit] {
     display: block;
     margin: 0 auto;
@@ -325,6 +321,10 @@ ul.tabs li {
     height: 50px;
     margin: 2px;
     background-color: #333333;
+}
+
+.tabs-content {
+    border: none;
 }
 
 .project-image {

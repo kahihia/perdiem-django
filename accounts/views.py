@@ -264,11 +264,17 @@ class ContactFormView(FormView):
 
     def get_initial(self):
         initial = super().get_initial()
+
         user = self.request.user
         if user.is_authenticated:
             initial["email"] = user.email
             initial["first_name"] = user.first_name
             initial["last_name"] = user.last_name
+
+        inquiry = self.request.GET.get("inquiry")
+        if inquiry:
+            initial["inquiry"] = inquiry
+
         return initial
 
     def form_valid(self, form):

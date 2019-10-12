@@ -167,14 +167,19 @@ class EmailPreferencesForm(forms.Form):
 
 class ContactForm(forms.Form):
 
-    INQUIRY_CHOICES = (
-        ("Support", "Support"),
-        ("Feedback", "Feedback"),
-        ("General Inquiry", "General Inquiry"),
-    )
+    INQUIRY_INTERNAL_TO_DISPLAY = {
+        "support": "Support",
+        "feedback": "Feedback",
+        "general_inquiry": "General Inquiry",
+        "cash_out": "Cash Out",
+    }
 
-    inquiry = forms.ChoiceField(choices=INQUIRY_CHOICES)
+    inquiry = forms.ChoiceField(choices=INQUIRY_INTERNAL_TO_DISPLAY.items())
     email = forms.EmailField()
     first_name = forms.CharField(required=False)
     last_name = forms.CharField(required=False)
     message = forms.CharField(widget=forms.Textarea)
+
+    def clean_inquiry(self):
+        inquiry = self.cleaned_data["inquiry"]
+        return self.INQUIRY_INTERNAL_TO_DISPLAY[inquiry]

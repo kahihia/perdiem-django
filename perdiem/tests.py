@@ -94,7 +94,7 @@ class ExtrasWebTestCase(RenderTestCase):
             "/contact/thanks",
             method="POST",
             data={
-                "inquiry": "General Inquiry",
+                "inquiry": "general_inquiry",
                 "email": "msmith@example.com",
                 "message": "Hello World!",
             },
