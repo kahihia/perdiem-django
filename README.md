@@ -3,7 +3,6 @@
 
 [![Build Status](https://travis-ci.org/RevolutionTech/perdiem-django.svg?branch=master)](https://travis-ci.org/RevolutionTech/perdiem-django)
 [![codecov](https://codecov.io/gh/RevolutionTech/perdiem-django/branch/master/graph/badge.svg)](https://codecov.io/gh/RevolutionTech/perdiem-django)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c43b3c95059492cad6af7d297428760)](https://www.codacy.com/app/RevolutionTech/perdiem-django)
 
 ## Setup
 
