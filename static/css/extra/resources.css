@@ -1,18 +1,6 @@
-.content-header {
-    font-size: 1.2em;
-    padding: 0;
-    margin: 0;
-    text-align: left;
-}
-
-.content-sub {
-    font-size: .8em;
-    padding: 0;
-    margin: 0;
-    text-align: left;
-}
-
-.content-box {
-    min-width: 125px;
-    display: inline-block;
+.resources-container {
+    padding-left: 10%;
+    padding-right: 10%;
+    max-width: 1000px;
+    margin: 0 auto;
 }

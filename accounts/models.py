@@ -35,7 +35,7 @@ class UserAvatar(models.Model):
 
     @staticmethod
     def default_avatar_url():
-        return "{static_url}img/perdiem-avatar.svg".format(
+        return "{static_url}img/perdiem-default-avatar.png".format(
             static_url=settings.STATIC_URL
         )
 

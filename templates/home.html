@@ -14,76 +14,17 @@
                     background: linear-gradient(
                         rgba(0, 0, 0, 0.5),
                         rgba(0, 0, 0, 0.5)
-                        ), url("{% static "img/perdiem-background.jpg" %}");
+                        ), url("{% static "img/perdiem-background-profile.jpg" %}");
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-color: black;
                 }
             </style>
             <div class="header-position">
-                <h2 class="white-color header-text">Welcome, {% firstof user.get_full_name user.get_username %}</h2>
+                <h2 class="white-color header-text">Welcome, {% firstof user.get_full_name user.get_username %}!</h2>
                 <h4 class="white-color header-padding">See how your artists are doing</h4>
                 <div class="center extra-padding">
                     <a class="button sign-up uppercase" href="{% url 'profile' %}"><h4 class="white-color">View Profile</h4></a>
-                </div>
-            </div>
-            <div class="footer-position">
-                <a href="{% url 'home' %}#about">
-                    <h5>Learn More</h5>
-                    <i class="fa fa-chevron-down fa-1x color-grey" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
-        <div id="about" class="about">
-            <div id="column-wrapper">
-                <div id="leftcolumn">
-                    <img class="img-phone" src="{% static "img/perdiem-invest.png" %}">
-                </div>
-                <div id="rightcolumn">
-                    <h3 class="title">Buy and sell shares in music</h3>
-                    <p>
-                        <strong>We make it easy for anyone to invest in music.</strong> Never worry about contracts or legal fees. Artists can raise money by selling shares in their music projects. This gives people an incentive to fund the artists music as they can earn a return on their investment based on amount of sales.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div id="how-page" class="about">
-            <div id="column-wrapper">
-                <div id="leftcolumn">
-                    <h3 class="title">Track your earnings</h3>
-                    <p>
-                        <strong>We take care of everything.</strong> Investors can track all of their earnings from all of their artists in one place. Never worry about distribution, payments, and registration. All you have to do invest, promote your artists, and watch your money grow.
-                    </p>
-                </div>
-                <div id="rightcolumn">
-                    <img class="img-phone" src="{% static "img/perdiem-earnings.png" %}">
-                </div>
-            </div>
-        </div>
-        <div id="stats-page" class="about">
-            <img class="img-phone" src="{% static "img/perdiem-all-devices.png" %}">
-            <h3 class="title">Be your own record label</h3>
-            <p>
-                <strong>The best way to invest in music.</strong> Record Labels take a lot of work. They require huge teams of people all dedicated to the success of an album. With PerDiem, Artists can raise money from multiple labels and investors, allowing many teams all pushing for their success.
-            </p>
-            <h5><a href="{% url 'resources' %}">Learn More</a></h5>
-        </div>
-        <div id="invest-page" class="about">
-            <div class="break">
-                <hr>
-            </div>
-            <div id="column-wrapper">
-                <h3 class="title">Free for artists</h3>
-                <h5 class="">Distribution, Funding, Payment Splits, and everything else you'll ever need</h5>
-                <div class="center extra-padding">
-                    <a class="button sign-up uppercase" href="{% url 'artist_application' %}">Apply Now</a>
-                </div>
-            </div>
-            <div>
-                <h3 class="title">${{ PERDIEM_FEE }} per trade</h3>
-                <h5 class="">Buy shares in music projects with just one click</h5>
-                <div class="center extra-padding">
-                    <a class="button sign-up uppercase" href="{% url 'register' %}?next={{ request.get_full_path }}">Start Investing</a>
                 </div>
             </div>
         </div>
@@ -101,8 +42,8 @@
                 }
             </style>
             <div class="header-position">
-                <h2 class="white-color header-text">Investment Platform for Creatives</h2>
-                <h4 class="white-color header-padding">Start your own record label and build your brand in music</h4>
+                <h2 class="white-color header-text">The future of the music industry</h2>
+                <h4 class="white-color header-padding">Invest in music from emerging artists</h4>
             </div>
             <div class="footer-position">
                 <a href="{% url 'home' %}#about">
@@ -139,9 +80,9 @@
         </div>
         <div id="stats-page" class="about">
             <img class="img-phone" src="{% static "img/perdiem-all-devices.png" %}">
-            <h3 class="title">Be your own record label</h3>
+            <h3 class="title">Build your music portfolio</h3>
             <p>
-                <strong>The best way to invest in music.</strong> Record Labels take a lot of work. They require huge teams of people all dedicated to the success of an album. With PerDiem, Artists can raise money from multiple labels and investors, allowing many teams all pushing for their success.
+                <strong>Feel good about your investments.</strong> The public now has the opportunity to invest in music and progress the careers of artists and their music. Be part of the new music economy and start investing in music today.
             </p>
             <h5><a href="{% url 'resources' %}">Learn More</a></h5>
         </div>
@@ -150,17 +91,17 @@
                 <hr>
             </div>
             <div id="column-wrapper">
-                <h3 class="title">Free for artists</h3>
-                <h5 class="">Distribution, Funding, Payment Splits, and everything else you'll ever need</h5>
+                <h3 class="title">Start Investing</h3>
+                <h5>Buy shares in music. Create your music portfolio. Earn Money</h5>
                 <div class="center extra-padding">
-                    <a class="button sign-up uppercase" href="{% url 'artist_application' %}">Apply Now</a>
+                    <a class="button sign-up uppercase" href="{% url 'register' %}?next={{ request.get_full_path }}">Sign Up</a>
                 </div>
             </div>
             <div>
-                <h3 class="title">$1 per trade</h3>
-                <h5>Buy shares in music projects with just one click</h5>
+                <h3 class="title">For Artists</h3>
+                <h5>Funding, Distribution, Payments, and everything else you'll ever need</h5>
                 <div class="center extra-padding">
-                    <a class="button sign-up uppercase" href="{% url 'register' %}?next={{ request.get_full_path }}">Start Investing</a>
+                    <a class="button sign-up uppercase" href="{% url 'artist_application' %}">Apply Now</a>
                 </div>
             </div>
         </div>
