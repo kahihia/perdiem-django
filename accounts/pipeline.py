@@ -3,12 +3,17 @@
 :Author: Lucas Connors
 
 """
+import os
+from urllib.parse import urlparse
 
+import requests
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django.core.files.base import ContentFile
+from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
-from accounts.models import UserAvatar, UserAvatarURL
+from accounts.models import UserAvatar, UserAvatarURL, UserAvatarImage
 from emails.messages import WelcomeEmail
 from emails.models import VerifiedEmail
 
@@ -68,18 +73,33 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     if provider == "google-oauth2":
         avatar_url = avatar_url.replace("?sz=50", "?sz=150")
 
-    # Save avatar URL
-    user_avatar, created = UserAvatar.objects.get_or_create(
-        user=user, provider=provider
-    )
-    user_avatar_url, _ = UserAvatarURL.objects.update_or_create(
-        avatar=user_avatar, defaults={"url": avatar_url}
-    )
+    # For Facebook, download the avatar
+    img = None
+    if provider == "facebook":
+        response = requests.get(avatar_url)
+        if not response.ok:
+            return
+        avatar_filename = os.path.basename(urlparse(avatar_url).path)
+        img = ContentFile(content=response.content, name=avatar_filename)
 
-    # Update user's current avatar if none was ever set
-    if created and not user.userprofile.avatar:
-        user.userprofile.avatar = user_avatar
-        user.userprofile.save()
+    # Save avatar from URL
+    with transaction.atomic():
+        user_avatar, created = UserAvatar.objects.get_or_create(
+            user=user, provider=provider
+        )
+        if img:
+            UserAvatarImage.objects.update_or_create(
+                avatar=user_avatar, defaults={"img": img}
+            )
+        else:
+            UserAvatarURL.objects.update_or_create(
+                avatar=user_avatar, defaults={"url": avatar_url}
+            )
+
+        # Update user's current avatar if none was ever set
+        if created and not user.userprofile.avatar:
+            user.userprofile.avatar = user_avatar
+            user.userprofile.save()
 
 
 def send_welcome_email(strategy, details, user=None, is_new=False, *args, **kwargs):

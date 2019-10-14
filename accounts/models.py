@@ -45,9 +45,9 @@ class UserAvatar(models.Model):
         )
 
     def avatar_url(self):
-        if self.provider in [self.PROVIDER_GOOGLE, self.PROVIDER_FACEBOOK]:
+        if self.provider == self.PROVIDER_GOOGLE:
             return self.useravatarurl.url
-        elif self.provider == self.PROVIDER_PERDIEM:
+        elif self.provider in [self.PROVIDER_FACEBOOK, self.PROVIDER_PERDIEM]:
             original = self.useravatarimage.img
             return get_thumbnail(original, "150x150", crop="center").url
         else:
