@@ -79,7 +79,7 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
         response = requests.get(avatar_url)
         if not response.ok:
             return
-        avatar_filename = os.path.basename(urlparse(avatar_url).path)
+        avatar_filename = os.path.basename(urlparse(avatar_url).path) or "avatar"
         img = ContentFile(content=response.content, name=avatar_filename)
 
     # Save avatar from URL
