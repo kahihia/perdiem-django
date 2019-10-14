@@ -13,6 +13,13 @@ from emails.messages import WelcomeEmail
 from emails.models import VerifiedEmail
 
 
+# https://stackoverflow.com/a/43843633/3241924
+GOOGLE_OAUTH2_DEFAULT_AVATAR_URL = (
+    "https://lh3.googleusercontent.com/"
+    "-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+)
+
+
 def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
     if not details.get("email"):
         return HttpResponseRedirect(reverse("error_email_required"))
@@ -42,10 +49,11 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     provider = kwargs["backend"].name.replace("-login", "").replace("-register", "")
     try:
         if provider == "google-oauth2":
-            avatar = kwargs["response"]["image"]
-            is_default_avatar = avatar["isDefault"]
+            avatar_url = kwargs["response"]["picture"]
+            is_default_avatar = avatar_url == GOOGLE_OAUTH2_DEFAULT_AVATAR_URL
         elif provider == "facebook":
             avatar = kwargs["response"]["picture"]["data"]
+            avatar_url = avatar["url"]
             is_default_avatar = avatar["is_silhouette"]
         else:
             return
@@ -54,12 +62,6 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
 
     # Skip if the user just has the default avatar
     if is_default_avatar:
-        return
-
-    # Get avatar URL from provider
-    try:
-        avatar_url = avatar["url"]
-    except KeyError:
         return
 
     # For Google, use larger image than default
