@@ -118,7 +118,7 @@ class EditAvatarForm(forms.Form):
 
     def clean_custom_avatar(self):
         custom_avatar = self.cleaned_data["custom_avatar"]
-        if custom_avatar and custom_avatar._size > settings.MAXIMUM_AVATAR_SIZE:
+        if custom_avatar and custom_avatar.size > settings.MAXIMUM_AVATAR_SIZE:
             raise forms.ValidationError("Image file too large (2MB maximum).")
         return custom_avatar
 
