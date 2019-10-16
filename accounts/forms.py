@@ -120,16 +120,17 @@ class EditAvatarForm(forms.Form):
 
     def clean_custom_avatar(self):
         custom_avatar = self.cleaned_data["custom_avatar"]
-        if custom_avatar and custom_avatar.size > settings.MAXIMUM_AVATAR_SIZE:
-            raise forms.ValidationError("Image file too large (2MB maximum).")
+        if custom_avatar:
+            if custom_avatar.size > settings.MAXIMUM_AVATAR_SIZE:
+                raise forms.ValidationError("Image file too large (2MB maximum).")
 
-        # Perform an EXIF transpose on the uploaded file, if necessary
-        pillow_image = Image.open(custom_avatar)
-        transposed_image = ImageOps.exif_transpose(pillow_image)
-        with io.BytesIO() as buf:
-            transposed_image.save(buf, format=pillow_image.format)
-            img = ContentFile(content=buf.getvalue(), name=custom_avatar.name)
-        return img
+            # Perform an EXIF transpose on the uploaded file, if necessary
+            pillow_image = Image.open(custom_avatar)
+            transposed_image = ImageOps.exif_transpose(pillow_image)
+            with io.BytesIO() as buf:
+                transposed_image.save(buf, format=pillow_image.format)
+                img = ContentFile(content=buf.getvalue(), name=custom_avatar.name)
+            return img
 
 
 class EmailPreferencesForm(forms.Form):
