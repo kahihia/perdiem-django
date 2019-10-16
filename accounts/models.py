@@ -4,11 +4,12 @@
 
 """
 
+from urllib.parse import quote
+
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.db import models
-
+from django.urls import reverse
 from sorl.thumbnail import get_thumbnail
 
 from accounts.cache import cache_using_pk
@@ -34,8 +35,8 @@ class UserAvatar(models.Model):
         unique_together = (("user", "provider"),)
 
     @staticmethod
-    def default_avatar_url():
-        return "{static_url}img/perdiem-default-avatar.png".format(
+    def anonymous_avatar_url():
+        return "{static_url}img/perdiem-anonymous-avatar.png".format(
             static_url=settings.STATIC_URL
         )
 
@@ -50,8 +51,6 @@ class UserAvatar(models.Model):
         elif self.provider in [self.PROVIDER_FACEBOOK, self.PROVIDER_PERDIEM]:
             original = self.useravatarimage.img
             return get_thumbnail(original, "150x150", crop="center").url
-        else:
-            return self.default_avatar_url()
 
 
 class UserAvatarURL(models.Model):
@@ -103,15 +102,21 @@ class UserProfile(models.Model):
         else:
             return self.user.get_full_name() or self.user.username
 
+    def default_avatar_url(self):
+        name = self.get_display_name()
+        return f"https://ui-avatars.com/api/?name={quote(name)}&size=150"
+
     def avatar_url(self):
-        if not self.avatar:
-            return UserAvatar.default_avatar_url()
-        return self.avatar.avatar_url()
+        if self.avatar:
+            return self.avatar.avatar_url()
+        else:
+            return self.default_avatar_url()
 
     def display_avatar_url(self):
         if self.invest_anonymously:
-            return UserAvatar.default_avatar_url()
-        return self.avatar_url()
+            return UserAvatar.anonymous_avatar_url()
+        else:
+            return self.avatar_url()
 
     def public_profile_url(self):
         if not self.invest_anonymously:

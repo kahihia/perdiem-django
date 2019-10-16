@@ -204,8 +204,9 @@ class SettingsView(LoginRequiredMixin, MultipleFormView):
         context = super().get_context_data(**kwargs)
 
         # Update context with available avatars
-        user_avatars = UserAvatar.objects.filter(user=self.request.user)
-        avatars = {"Default": UserAvatar.default_avatar_url()}
+        user = self.request.user
+        user_avatars = UserAvatar.objects.filter(user=user)
+        avatars = {"Default": user.userprofile.default_avatar_url()}
         avatars.update(
             {
                 avatar.get_provider_display(): avatar.avatar_url()
