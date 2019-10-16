@@ -3,12 +3,14 @@
 :Author: Lucas Connors
 
 """
-
+import io
+from PIL import Image, ImageOps
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.core import validators
+from django.core.files.base import ContentFile
 
 from accounts.models import UserAvatar
 
@@ -120,7 +122,14 @@ class EditAvatarForm(forms.Form):
         custom_avatar = self.cleaned_data["custom_avatar"]
         if custom_avatar and custom_avatar.size > settings.MAXIMUM_AVATAR_SIZE:
             raise forms.ValidationError("Image file too large (2MB maximum).")
-        return custom_avatar
+
+        # Perform an EXIF transpose on the uploaded file, if necessary
+        pillow_image = Image.open(custom_avatar)
+        transposed_image = ImageOps.exif_transpose(pillow_image)
+        with io.BytesIO() as buf:
+            transposed_image.save(buf, format=pillow_image.format)
+            img = ContentFile(content=buf.getvalue(), name=custom_avatar.name)
+        return img
 
 
 class EmailPreferencesForm(forms.Form):
