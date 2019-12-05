@@ -42,14 +42,25 @@
                 }
             </style>
             <div class="header-position">
-                <h2 class="white-color header-text">The future of the music industry</h2>
+                <h2 class="white-color header-text">The best way to fund music</h2>
                 <h4 class="white-color header-padding">Invest in music from emerging artists</h4>
             </div>
             <div class="footer-position">
-                <a href="{% url 'home' %}#about">
+                <a href="{% url 'home' %}#video-page">
                     <h5>Learn More</h5>
                     <i class="fa fa-chevron-down fa-1x color-grey" aria-hidden="true"></i>
                 </a>
+            </div>
+        </div>
+        <div id="video-page" class="about">
+            <h3 class="title">What is PerDiem?</h3>
+            <div class="youtube-responsive-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/M78Ep_qcnpA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="description-padding">
+                <p>
+                    <strong>PerDiem is a platform that allows anyone to invest in music.</strong> Artists can raise money by selling shares in their music and building a following of investors that literally have a vested interest in their success. Anyone can now invest in music and earn money based on the artist's success.
+                </p>
             </div>
         </div>
         <div id="about" class="about">
@@ -81,7 +92,7 @@
         <div id="stats-page" class="about">
             <img class="img-phone" src="{% static "img/perdiem-all-devices.png" %}">
             <h3 class="title">Build your music portfolio</h3>
-            <p>
+            <p class="portfolio-padding">
                 <strong>Feel good about your investments.</strong> The public now has the opportunity to invest in music and progress the careers of artists and their music. Be part of the new music economy and start investing in music today.
             </p>
             <h5><a href="{% url 'resources' %}">Learn More</a></h5>

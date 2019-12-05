@@ -88,6 +88,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="extra/privacy.html"),
         name="privacy",
     ),
+    url(
+        r"^funding/?$",
+        TemplateView.as_view(template_name="extra/funding.html"),
+        name="funding",
+    ),
     url(r"^faq/?$", TemplateView.as_view(template_name="extra/faq.html"), name="faq"),
     url(
         r"^contact/thanks/?$",
