@@ -81,7 +81,15 @@ class HealthCheckWebTestCase(RenderTestCase):
 
 class ExtrasWebTestCase(RenderTestCase):
     def get200s(self):
-        return ["/faq/", "/trust/", "/terms/", "/privacy/", "/contact/", "/resources/"]
+        return [
+            "/faq/",
+            "/trust/",
+            "/terms/",
+            "/privacy/",
+            "/contact/",
+            "/artist-resources/",
+            "/investor-resources/",
+        ]
 
     def testContact(self):
         # Login as user

@@ -129,7 +129,7 @@
                     <div class="top-bar-right login-item">
                         <ul class="menu">
                             <li class="nav"><a href="{% url 'home' %}#about">About</a></li>
-                            <li class="nav"><a href="{% url 'resources' %}">FAQ</a></li>
+                            <li class="nav"><a href="{% url 'artist-resources' %}">FAQ</a></li>
                             <li class="nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">Sign Up</a></li>
                             <li class="nav"><a data-open="login-modal">Login</a></li>
                         </ul>
@@ -146,7 +146,7 @@
                     <div class="top-bar-right login-item">
                         <ul class="menu">
                             <li class="nav"><a href="{% url 'home' %}#about">About</a></li>
-                            <li class="nav"><a href="{% url 'resources' %}">FAQ</a></li>
+                            <li class="nav"><a href="{% url 'artist-resources' %}">FAQ</a></li>
                             <li class="color-blue nav"><a href="{% url 'register' %}?next={{ request.get_full_path }}">Sign Up</a></li>
                             <li class="nav"><a data-open="login-modal">Login</a></li>
                         </ul>
@@ -166,7 +166,7 @@
             <ul class="footer-items">
                 <li><a href="{% url 'privacy' %}">Privacy</a></li>
                 <li><a href="{% url 'terms' %}">Terms of Use</a></li>
-                <li><a href="{% url 'resources' %}">For Artists</a></li>
+                <li><a href="{% url 'artist-resources' %}">For Artists</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
             </ul>
             <ul class="social-icons">

@@ -69,9 +69,9 @@ urlpatterns = [
     ),
     url(r"^stats/?$", LeaderboardView.as_view(), name="leaderboard"),
     url(
-        r"^resources/?$",
-        TemplateView.as_view(template_name="extra/resources.html"),
-        name="resources",
+        r"^artist-resources/?$",
+        TemplateView.as_view(template_name="extra/artist-resources.html"),
+        name="artist-resources",
     ),
     url(
         r"^terms/?$",
@@ -87,6 +87,11 @@ urlpatterns = [
         r"^privacy/?$",
         TemplateView.as_view(template_name="extra/privacy.html"),
         name="privacy",
+    ),
+    url(
+        r"^investor-resources/?$",
+        TemplateView.as_view(template_name="extra/investor-resources.html"),
+        name="investor-resources",
     ),
     url(
         r"^funding/?$",
