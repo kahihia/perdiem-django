@@ -463,8 +463,6 @@ h2.nav-name {
 }
 
 #register-page {
-    position: relative;
-    height: 80vh;
     background-color: white;
     background-repeat: no-repeat;
     background-size: cover;

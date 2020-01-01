@@ -39,7 +39,7 @@ class RegisterAccountForm(UserCreationForm):
     subscribe_news = forms.BooleanField(
         required=False,
         initial=True,
-        label="Get exclusive updates before they're public",
+        label="Get exclusive updates on new artists and projects",
     )
 
     class Meta(UserCreationForm.Meta):
