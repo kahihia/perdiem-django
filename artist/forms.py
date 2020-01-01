@@ -12,8 +12,12 @@ from pagedown.widgets import PagedownWidget
 class ArtistApplyForm(forms.Form):
 
     artist_name = forms.CharField(label="Artist / Band Name")
+    photo_link = forms.URLField(
+        label="Artist Profile Photo (Download URL)",
+        widget=forms.TextInput(attrs={"placeholder": "http://"}),
+    )
     genre = forms.CharField()
-    hometown = forms.CharField()
+    location = forms.CharField()
     email = forms.EmailField()
     phone_number = forms.CharField()
     bio = forms.CharField(
@@ -22,16 +26,37 @@ class ArtistApplyForm(forms.Form):
         )
     )
     campaign_reason = forms.CharField(
-        label="Why are you raising money?",
+        label="What are you raising money for?",
         widget=forms.Textarea(
-            attrs={"placeholder": "We are trying to record our album..."}
+            attrs={"placeholder": "We are raising money to promote our album..."}
         ),
     )
-    campaign_expenses = forms.CharField(
-        label="What do you need the money for?",
-        widget=forms.Textarea(
-            attrs={"placeholder": "Mixing, mastering, studio time, etc..."}
-        ),
+    amount_raising = forms.CharField(
+        label="Amount Raising", widget=forms.TextInput(attrs={"placeholder": "$1,000"})
+    )
+    giving_back = forms.CharField(
+        label="% Back To Investors",
+        widget=forms.TextInput(attrs={"placeholder": "50%"}),
+    )
+    campaign_start = forms.DateField(
+        label="Campaign Start Date",
+        widget=forms.TextInput(attrs={"placeholder": "MM/DD/YYYY"}),
+    )
+    campaign_end = forms.DateField(
+        label="Campaign End Date",
+        widget=forms.TextInput(attrs={"placeholder": "MM/DD/YYYY"}),
+    )
+    payback_period = forms.CharField(
+        label="How long you want to pay back investors",
+        widget=forms.TextInput(attrs={"placeholder": "5 years, 10 years, 20 years..."}),
+    )
+    soundcloud = forms.URLField(
+        label="SoundCloud", widget=forms.TextInput(attrs={"placeholder": "http://"})
+    )
+    spotify = forms.URLField(
+        required=False,
+        label="Spotify",
+        widget=forms.TextInput(attrs={"placeholder": "http://"}),
     )
     facebook = forms.URLField(
         required=False, widget=forms.TextInput(attrs={"placeholder": "http://"})
@@ -41,9 +66,6 @@ class ArtistApplyForm(forms.Form):
     )
     instagram = forms.CharField(
         required=False, widget=forms.TextInput(attrs={"placeholder": "@"})
-    )
-    music_link = forms.URLField(
-        label="Link to music", widget=forms.TextInput(attrs={"placeholder": "http://"})
     )
     terms = forms.BooleanField(
         label="Terms & Conditions",

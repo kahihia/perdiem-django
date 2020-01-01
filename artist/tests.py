@@ -3,7 +3,7 @@
 :Author: Lucas Connors
 
 """
-
+import datetime
 from unittest import mock
 
 from django.core.management import call_command
@@ -158,8 +158,9 @@ class ArtistWebTestCase(PerDiemTestCase):
             method="POST",
             data={
                 "artist_name": "Segmentation Fault",
+                "photo_link": "https://segmentationfault.com/sf-logo2.jpg",
                 "genre": "Heavy Metal",
-                "hometown": "Waterloo, ON, Canada",
+                "location": "Waterloo, ON, Canada",
                 "email": self.user.email,
                 "phone_number": "(226) 123-4567",
                 "bio": (
@@ -167,8 +168,12 @@ class ArtistWebTestCase(PerDiemTestCase):
                     "create an album, and we're hoping PerDiem can help us do that."
                 ),
                 "campaign_reason": "We want to record our next album: Access Granted.",
-                "campaign_expenses": "Studio time, mastering, mixing, etc.",
-                "music_link": "https://www.spotify.com/",
+                "amount_raising": "$1000",
+                "giving_back": "50%",
+                "campaign_start": datetime.date(2020, 1, 1),
+                "campaign_end": datetime.date(2020, 2, 1),
+                "payback_period": "10 years",
+                "soundcloud": "https://soundcloud.com/segmentationfault",
                 "terms": True,
             },
         )
