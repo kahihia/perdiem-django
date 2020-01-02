@@ -297,7 +297,10 @@ description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
 python-versions = ">=3.5"
-version = "3.10.3"
+version = "3.11.0"
+
+[package.dependencies]
+django = ">=1.11"
 
 [[package]]
 category = "main"
@@ -754,7 +757,7 @@ python-versions = "*"
 version = "4.1.4"
 
 [metadata]
-content-hash = "0c88788d83010885c6dcb42785500e4e89c2b7c98cfc607a8896fadcf23196aa"
+content-hash = "18403646a82e95e7e6590222e7c3b58db3d3941cd3944681a08a97ce7ca927d5"
 python-versions = "^3.6"
 
 [metadata.hashes]
@@ -785,7 +788,7 @@ django-render-block = ["0eab0c4ef1b99ad307e1bd1bdd0daa6ee4252bc39363b1b30b29cf67
 django-s3-storage = ["14b8670a0d32b364f76174675904deffedb10332ad3aa2df84e98a7f6479fae9"]
 django-ses = ["d3721a2068ce0cf5f86ad31af1a1a8e256e8dbf0f5e0d1c71129f36f20191e18", "f723f5c93ac38278c9a3f390b8df485953486d2c2011670fe0860f99200b9103"]
 django-templated-email = ["536c4e5ae099eabfb9aab36087d4d7799948c654e73da55a744213d086d5bb33"]
-djangorestframework = ["5488aed8f8df5ec1d70f04b2114abc52ae6729748a176c453313834a9ee179c8", "dc81cbf9775c6898a580f6f1f387c4777d12bd87abf0f5406018d32ccae71090"]
+djangorestframework = ["05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4", "e782087823c47a26826ee5b6fa0c542968219263fb3976ec3c31edab23a4001f"]
 docutils = ["02aec4bd92ab067f6ff27a38a38a41173bf01bed8f89157768c1573f53e474a6", "51e64ef2ebfb29cae1faa133b3710143496eca21c530f3f71424d77687764274", "7a4bd47eaf6596e1295ecb11361139febe29b084a87bf005bf899f9a42edc3c6"]
 fabric3 = ["647e485ec83f30b587862f92374d6affc217f3d79819d1d7f512e42e7ae51e81", "7c5a5f2eb3079eb6bd2a69931f1ca298844c730ce3fdc68111db16e8857a0408"]
 factory-boy = ["728df59b372c9588b83153facf26d3d28947fc750e8e3c95cefa9bed0e6394ee", "faf48d608a1735f0d0a3c9cbf536d64f9132b547dae7ba452c4d99a79e84a370"]
