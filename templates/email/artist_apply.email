@@ -3,22 +3,31 @@
 {% block email_subject %}Artist Application: {{ artist_name }}{% endblock %}
 
 {% block plain_body %}
-    Contact:
+    Artist Info:
     {% if user_id %}
         User ID: {{ user_id }}
     {% endif %}
     Artist / Band Name: {{ artist_name }}
+    Photo Link: {{ photo_link }}
     Genre: {{ genre }}
-    Hometown: {{ hometown }}
+    Location: {{ location }}
+    Bio: {{ bio }}
     Email: {{ email }}
     Phone number: {{ phone_number }}
 
-    About:
-    Bio: {{ bio }}
-    Why are they raising money?: {{ campaign_reason }}
-    What do they need the money for?: {{ campaign_expenses }}
+    Campaign Details:
+    Reason: {{ campaign_reason }}
+    Amount Raising: {{ amount_raising }}
+    Giving Back: {{ giving_back }}
+    Start Date: {{ campaign_start }}
+    End Date: {{ campaign_end }}
+    Payback Period: {{ payback_period }}
 
     Social:
+    SoundCloud: {{ soundcloud }}
+    {% if spotify %}
+        Spotify: {{ spotify }}
+    {% endif %}
     {% if facebook %}
         Facebook: {{ facebook }}
     {% endif %}
@@ -28,31 +37,39 @@
     {% if instagram %}
         Instagram: {{ instagram }}
     {% endif %}
-    Link to music: {{ music_link }}
 {% endblock %}
 
 {% block html_body %}
-    <strong>Contact:</strong>
+    <strong>Artist Info</strong>
     <ul>
         {% if user_id %}
             <li>User ID: {{ user_id }}</li>
         {% endif %}
         <li>Artist / Band Name: {{ artist_name }}</li>
+        <li>Photo Link: {{ photo_link }}</li>
         <li>Genre: {{ genre }}</li>
-        <li>Hometown: {{ hometown }}</li>
+        <li>Location: {{ location }}</li>
+        <li>Bio: {{ bio }}</li>
         <li>Email: {{ email }}</li>
         <li>Phone number: {{ phone_number }}</li>
     </ul>
 
-    <strong>About:</strong>
+    <strong>Campaign Details</strong>
     <ul>
-        <li>Bio: {{ bio }}</li>
-        <li>Why are they raising money?: {{ campaign_reason }}</li>
-        <li>What do they need the money for?: {{ campaign_expenses }}</li>
+        <li>Reason: {{ campaign_reason }}</li>
+        <li>Amount Raising: {{ amount_raising }}</li>
+        <li>Giving Back: {{ giving_back }}</li>
+        <li>Start Date: {{ campaign_start }}</li>
+        <li>End Date: {{ campaign_end }}</li>
+        <li>Payback Period: {{ payback_period }}</li>
     </ul>
 
     <strong>Social:</strong>
     <ul>
+        <li>SoundCloud <a href="{{ soundcloud }}">{{ soundcloud }}</a></li>
+        {% if spotify %}
+            <li>Spotify: {{ spotify }}</li>
+        {% endif %}
         {% if facebook %}
             <li>Facebook: <a href="{{ facebook }}">{{ facebook }}</a></li>
         {% endif %}
@@ -62,6 +79,5 @@
         {% if instagram %}
             <li>Instagram: <a href="https://www.instagram.com/{{ instagram }}/">{{ instagram }}</a></li>
         {% endif %}
-        <li>Link to music: <a href="{{ music_link }}">{{ music_link }}</a></li>
     </ul>
 {% endblock %}
